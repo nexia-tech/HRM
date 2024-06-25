@@ -906,7 +906,7 @@ def thumbAttendance(request, id):
 
 
 def applicants(request):
-    applicant_records = ApplicantDetails.objects.all()
+    applicant_records = ApplicantDetails.objects.filter(is_employee=False)
     params = {
         'applicant_records': applicant_records
     }
@@ -925,3 +925,10 @@ def get_csrf_token(request):
     # Return the CSRF token as a JSON response
     token = get_token(request)
     return JsonResponse({'csrfToken': token})
+
+
+def mark_as_employee(request,id):
+    record = ApplicantDetails.objects.get(id=id)
+    record.is_employee = True
+    record.save()
+    return redirect('applicants')

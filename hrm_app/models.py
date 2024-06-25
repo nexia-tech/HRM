@@ -91,6 +91,7 @@ class ApplicantDetails(models.Model):
     upload_profile = models.FileField(upload_to='profile-picture',null=True,blank=True)
     resume = models.FileField(upload_to='resume',null=True,blank=True)
     declaration = models.BooleanField(default=False) 
+    is_employee = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     
     

@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function
+from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, mark_as_employee
 
 
 urlpatterns = [
@@ -15,7 +15,8 @@ urlpatterns = [
     path('stop-timer-thread/', StopThreadView.as_view(), name='stop_thread'),
     path("employees-report/<int:id>/", employees_report, name='employees-report'),
     path('api/applicant/', ApplicantDetailsAPI.as_view(), name='applicant-api'),
-    path('api/applicant-form/', applicant_detail_form_function, name='applicant-form'),
+    path('api/applicant-form/', applicant_detail_form_function,
+         name='applicant-form'),
 
     path('api/shift-start-time/', ShiftStartTime.as_view(), name='shift-start-time'),
     path('api/shift-end-time/', ShiftEndTime.as_view(), name='shift-end-time'),
@@ -24,5 +25,6 @@ urlpatterns = [
     path('applicants/', applicants, name='applicants'),
     path('applicant/<int:id>/', applicant_detail, name='applicant'),
     path('api/get-csrf-token/', get_csrf_token, name='get-csrf-token'),
+    path('mark-as-employee/<int:id>/', mark_as_employee, name='mark-as-employee'),
 
 ]

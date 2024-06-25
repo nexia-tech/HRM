@@ -23,26 +23,21 @@
             {% for applicant_record in applicant_records %}
               <tr class="bg-white border-b 800 700">
                 <td class="px-6 py-4 flex justify-center items-center">
-                    {% if applicant_record.upload_profile %}
-                    <img
-                    class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto"
-                    src="{{applicant_record.upload_profile.url}}"
-                    alt="image of myself"
-                    />
-                    {% else %}
+                  {% if applicant_record.upload_profile %}
+                    <img class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto" src="{{ applicant_record.upload_profile.url }}" alt="image of applicant" />
+                  {% else %}
                     <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
-                    
-                    {% endif %}
-                  </td>
+                  {% endif %}
+                </td>
                 <td class="px-6 py-4">{{ applicant_record.name }}</td>
                 <td class="px-6 py-4">{{ applicant_record.position_applied_for }}</td>
                 <td class="px-6 py-4">{{ applicant_record.father_name }}</td>
                 <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.marital_status }}</td>
                 <td>
-                    {% comment %} <a href="#" class="text-blue-700">Edit</a> | {% endcomment %}
-                    <a href="{% url "applicant" applicant_record.id %}" class="text-blue-700">View</a>
-                  </td>
+                  <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
+                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark as Employee</button>
+                </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -50,6 +45,30 @@
       </div>
     </div>
   </section>
+
+  <!-- Modal (Single instance outside of the loop) -->
+  <div id="mark-as-employee-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex justify-center items-center">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Add as an Employee</h3>
+          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeModal()">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <div class="p-4 md:p-5 capitalize space-y-4">
+          <div class="mb-5">
+            <label for="Phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Are you sure to mark as an employee?</label>
+          </div>
+          <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
+          <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block script %}
@@ -65,5 +84,20 @@
         ] //
       })
     })
+    function openModal(applicantId) {
+      const modal = document.getElementById('mark-as-employee-modal')
+      const markAsEmployeeLink = document.getElementById('markAsEmployeeLink')
+    
+      // Set the href of the "Yes" button with the correct URL for marking as employee
+      markAsEmployeeLink.href = `{% url 'mark-as-employee' 0 %}`.replace('0', applicantId)
+    
+      // Show the modal
+      modal.classList.remove('hidden')
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById('mark-as-employee-modal')
+      modal.classList.add('hidden')
+    }
   </script>
 {% endblock %}
