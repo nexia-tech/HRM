@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'users',
     'tailwind',
     'django_browser_reload',
+    'rest_framework',
 
 ]
 

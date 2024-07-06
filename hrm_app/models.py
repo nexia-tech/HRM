@@ -1,16 +1,17 @@
 from django.db import models
 from users.models import User
+from django.utils import timezone
 
 
 class AttendanceModel(models.Model):
-    employee = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True)
+    employee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     shift_date = models.DateField()
-    shift_time = models.TimeField()
-    working_hours = models.IntegerField(default=8)
-    remainig_hours = models.IntegerField(default=8)
-    break_hours = models.IntegerField(default=0)
-    total_hours_completed = models.IntegerField(default=8)
-    created_at = models.DateTimeField(auto_now_add=True)    
+    shift_time = models.TimeField(null=True)
+    working_hours = models.DurationField(default=timezone.timedelta(0))
+    remaining_hours = models.DurationField(default=timezone.timedelta(hours=8))
+    break_hours = models.DurationField(default=timezone.timedelta(0))
+    total_hours_completed = models.DurationField(default=timezone.timedelta(0))
+    created_at = models.DateTimeField(auto_now_add=True)   
     
     def __str__(self):
         return self.employee.email
