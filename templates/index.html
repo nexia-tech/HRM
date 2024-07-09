@@ -4,24 +4,24 @@
 
     <section class="text-gray-400 bg-gray-900 body-font relative">
         <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
-          <div class="lg:w-1/3 md:w-1/2 bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
+          <div class="lg:w-1/2 md:w-1/2 bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
             <div class="h-full text-center">
                 {% if attendance_obj.employee.profile_picture %}
-                <img alt="profile-pic" class="w-30 h-30 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="{{attendance_obj.employee.profile_picture.url}}">
+                <img alt="profile-pic" class="w-48 h-48 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="{{attendance_obj.employee.profile_picture.url}}">
                 {% else %}
-                <img alt="profile-pic" class="w-30 h-30 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="https://api.dicebear.com/9.x/bottts-neutral/svg?eyes=robocop">
+                <img alt="profile-pic" class="w-48 h-48 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="https://api.dicebear.com/9.x/bottts-neutral/svg?eyes=robocop">
                 
                 {% endif %}
-                <p class="leading-relaxed">{{attendance_obj.employee.bio}}</p>
+                <p class="leading-relaxed text-base">{{attendance_obj.employee.bio}}</p>
                 <span class="inline-block h-1 w-10 rounded bg-blue-500 mt-6 mb-4"></span>
-                <p class="text-gray-500">{{attendance_obj.employee.department.name}}</p>
-                <h2 class="text-white font-medium title-font tracking-wider text-sm">{{attendance_obj.employee.name}}</h2>
-                <p class="text-gray-500">{{attendance_obj.employee.designation}}</p>
+                <p class="text-gray-500 text-base">{{attendance_obj.employee.department.name}}</p>
+                <h2 class="text-white font-medium title-font tracking-wider text-xl">{{attendance_obj.employee.name}}</h2>
+                <p class="text-gray-500 text-lg">{{attendance_obj.employee.designation}}</p>
               </div>
           </div>
           <div class="flex flex-col w-full">
-          <div class="lg:w-2/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-              <h1 class="text-4xl font-bold mb-4">Shift Timing</h1>
+          <div class="lg:w-1/2 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
+              <h1 class="text-5xl font-bold mb-4">Shift Timing</h1>
               <div id="timer" class="text-6xl font-bold mb-4">{{attendance_obj.remaining_hours}}</div>
               <div class="space-x-4">
                   <button id="startTimerBtn" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
@@ -35,7 +35,7 @@
           
           </div>
 
-          <div class="lg:w-2/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
+          {% comment %} <div class="lg:w-2/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
             <h1 class="text-4xl font-bold mb-4">Over Timing</h1>
             <div id="timer" class="text-6xl font-bold mb-4">{{attendance_obj.remaining_hours}}</div>
             <div class="space-x-4">
@@ -46,7 +46,7 @@
                     Stop Timer
                 </button>
             </div>
-          </div>
+          </div> {% endcomment %}
         </div>
         
          
@@ -66,11 +66,25 @@
   let shiftDurationHours = "{{ attendance_obj.remaining_hours }}";
   
   let timerInterval = null;
-  shiftDurationHours = parseInt(shiftDurationHours.split(':')[0])
+  let [hours,minutes, seconds] = shiftDurationHours.split(':').map(Number)
   
-  let remainingTime = parseInt(shiftDurationHours) * 60 * 60 * 1000; // Convert hours to milliseconds
+  // Convert hours to milliseconds
+  let remainingTime = ((hours * 3600) + (minutes * 60) + seconds) * 1000; 
 
 
+  // Function to get the CSRF token from the meta tag
+function getCSRFToken() {
+    let csrfToken = null;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith('csrftoken=')) {
+            csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+            break;
+        }
+    }
+    return csrfToken;
+}
 
   function updateTimer() {
       if (remainingTime <= 0) {
@@ -82,11 +96,34 @@
       const hours = Math.floor(remainingTime / (1000 * 60 * 60));
       const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-      
+      const csrfToken = getCSRFToken(); // Fetch the CSRF token
+
       const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       
       document.getElementById('timer').textContent = formattedTime;
       remainingTime -= 1000; // Decrease remaining time by 1 second (1000 milliseconds)
+       // Make the POST request to update the time record
+      // Perform the fetch request
+        fetch('http://127.0.0.1:8000/update-time-record/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            },
+            body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
   }
   
   document.getElementById('startTimerBtn').addEventListener('click', function() {
