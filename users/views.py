@@ -75,6 +75,23 @@ def logout_view(request):
     logout(request)
     return redirect('index')
 
+@login_required(login_url='login')
+def edit_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        user.phone = phone
+        user.name = name
+        user.save()
+        messages.success(request,'Profile has been updated')
+        return redirect('index')
+    else:
+        context = {
+            'user':user
+        }
+        return render(request,'edit-profile.html',context)
+
 
 class UpdateTimeRecords(APIView):
     
@@ -92,19 +109,16 @@ class UpdateTimeRecords(APIView):
        
   
         remaining_hours_str = str(attendance_obj.remaining_hours)
-        print(remaining_hours_str)        
         
                 # Split the string into hours, minutes, and seconds
         hours, minutes, seconds = map(int, remaining_hours_str.split(':'))
 
         # Create a timedelta object representing the duration
         time_duration = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        print(time_duration)
 
         # Convert timedelta to total milliseconds
         remaining_time_in_miliseconds = time_duration.total_seconds() * 1000
         
-        print("remaining_time_in_miliseconds: ",remaining_time_in_miliseconds)
 
         remaining_time_in_miliseconds -= 1000
 
@@ -113,7 +127,6 @@ class UpdateTimeRecords(APIView):
         seconds = floor((remaining_time_in_miliseconds % (1000 * 60)) / 1000)
         
         remaining_time = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        print(remaining_time)
         
         working_time_in_miliseconds = (attendance_obj.working_hours.total_seconds() * 1000)
         working_time_in_miliseconds += 1000
@@ -123,7 +136,6 @@ class UpdateTimeRecords(APIView):
         seconds = floor((working_time_in_miliseconds % (1000 * 60)) / 1000)
         
         working_hours = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        print(working_hours)
         
       
         # Update the attendance object with new calculations
