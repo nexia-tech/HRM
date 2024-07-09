@@ -104,7 +104,7 @@ function getCSRFToken() {
       remainingTime -= 1000; // Decrease remaining time by 1 second (1000 milliseconds)
        // Make the POST request to update the time record
       // Perform the fetch request
-        fetch('http://127.0.0.1:8000/update-time-record/', {
+        fetch('http://127.0.0.1:8000/hrm/update-time-record/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
