@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<section class="bg-gray-50 900 container mx-auto ">
+    <div class="md:h-[80vh] px-6 mx-auto lg:py-0">
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
+            <tr>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    shift date
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    shift time
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    Working hours
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    break hours
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    remaining hours
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    total hours completed
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attendance in attendances %}
+            <tr class="bg-white border-b 800 700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                    {{attendance.shift_date}}
+                </th>
+                <td class="px-6 py-4">
+                    {{attendance.shift_time}}
+                </td>
+                <td class="px-6 py-4">
+                    {{attendance.working_hours}}
+                </td>
+                <td class="px-6 py-4">
+                    {{attendance.break_hours}}
+                </td>
+                <td class="px-6 py-4">
+                    {{attendance.remaining_hours}}
+                </td>
+                <td class="px-6 py-4">
+                    {{attendance.total_hours_completed}}
+                </td>
+            </tr>
+            {% endfor %}
+            
+          
+        </tbody>
+    </table>
+</div>
+</div>
+</section>
+
+
+{% endblock body %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            responsive: false   
+        });
+    });
+</script>
+{% endblock script %}

@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from hrm_app.models import AttendanceModel
 from django.utils import timezone
 from datetime import datetime
-from math import floor    
     
 @login_required(login_url='login')
 def index(request):

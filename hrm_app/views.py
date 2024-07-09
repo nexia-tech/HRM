@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from datetime import timedelta,datetime
 from rest_framework.response import Response
 from math import floor    
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -62,4 +63,12 @@ class UpdateTimeRecords(APIView):
         # Return remaining time to frontend
         return Response({'meesage': "Updated"})
     
+@login_required(login_url='login')
+def my_attendance(request):
+    user = request.user
+    attendances = AttendanceModel.objects.filter(employee=user)
+    context = {
+        'attendances':attendances
+    }
     
+    return render(request,'attendance-report.html',context)
