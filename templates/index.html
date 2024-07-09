@@ -24,10 +24,10 @@
               <h1 class="text-5xl font-bold mb-4">Shift Timing</h1>
               <div id="timer" class="text-6xl font-bold mb-4">{{attendance_obj.remaining_hours}}</div>
               <div class="space-x-4">
-                  <button id="startTimerBtn" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                  <button id="startTimerBtn" onclick="startTimer()" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
                       Start Timer
                   </button>
-                  <button id="stopTimerBtn" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">
+                  <button id="stopTimerBtn" onclick="stopTimer()" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">
                       Stop Timer
                   </button>
               </div>
@@ -63,79 +63,113 @@
 
 
 <script>
-  let shiftDurationHours = "{{ attendance_obj.remaining_hours }}";
+    let shiftDurationHours = "{{ attendance_obj.remaining_hours }}";
+    let timerInterval = null;
+    let remainingTime = calculateRemainingTime(shiftDurationHours); // Calculate initial remaining time
   
-  let timerInterval = null;
-  let [hours,minutes, seconds] = shiftDurationHours.split(':').map(Number)
+    // Function to calculate remaining time in milliseconds from hours:minutes:seconds format
+    function calculateRemainingTime(timeString) {
+      let [hours, minutes, seconds] = timeString.split(':').map(Number);
+      return ((hours * 3600) + (minutes * 60) + seconds) * 1000;
+    }
   
-  // Convert hours to milliseconds
-  let remainingTime = ((hours * 3600) + (minutes * 60) + seconds) * 1000; 
-
-
-  // Function to get the CSRF token from the meta tag
-function getCSRFToken() {
-    let csrfToken = null;
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
+    // Function to get the CSRF token from the meta tag
+    function getCSRFToken() {
+      let csrfToken = null;
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
         const cookie = cookies[i].trim();
         if (cookie.startsWith('csrftoken=')) {
-            csrfToken = cookie.substring('csrftoken='.length, cookie.length);
-            break;
+          csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+          break;
         }
-    }
-    return csrfToken;
-}
-
-  function updateTimer() {
-      if (remainingTime <= 0) {
-          clearInterval(timerInterval);
-          document.getElementById('timer').textContent = '00:00:00';
-          return;
       }
-      
+      return csrfToken;
+    }
+  
+    // Function to update the timer and make the API call
+    function updateTimer() {
+      if (remainingTime <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('timer').textContent = '00:00:00';
+        return;
+      }
+  
       const hours = Math.floor(remainingTime / (1000 * 60 * 60));
       const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
       const csrfToken = getCSRFToken(); // Fetch the CSRF token
-
+  
       const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      
       document.getElementById('timer').textContent = formattedTime;
       remainingTime -= 1000; // Decrease remaining time by 1 second (1000 milliseconds)
-       // Make the POST request to update the time record
-      // Perform the fetch request
-        fetch('http://127.0.0.1:8000/hrm/update-time-record/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-            },
-            body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-  }
   
-  document.getElementById('startTimerBtn').addEventListener('click', function() {
+      // Make the POST request to update the time record
+      fetch('http://127.0.0.1:8000/hrm/update-time-record/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+        },
+        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  
+    // Function to start the timer
+    function startTimer() {
+        console.log(!timerInterval)
       if (!timerInterval) {
-          timerInterval = setInterval(updateTimer, 1000);
+        console.log('dsfdsf');
+        timerInterval = setInterval(updateTimer, 1000);
       }
-  });
-
-  document.getElementById('stopTimerBtn').addEventListener('click', function() {
-    clearInterval(timerInterval);
-    timerInterval = null;
-});
+    }
+  
+    // Function to stop the timer
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+  
+    // Event listeners to reset timer on mousemove or keydown events
+    let idleTime = 0;
+    const idleTimeout = 60000; // 1 minute in milliseconds
+  
+    function resetIdleTimer() {
+      idleTime = 0;
+    }
+  
+    document.addEventListener('mousemove', resetIdleTimer);
+    document.addEventListener('keydown', resetIdleTimer);
+  
+    // Check idle time every second and stop timer if idle time exceeds idleTimeout
+    setInterval(function() {
+      idleTime += 1000;
+      if (idleTime >= idleTimeout && timerInterval) {
+        stopTimer();
+      }
+      else{
+        startTimer();
+      }
+    }, 1000);
+    
+    
+   
+    // Initial start of timer (you might want to call this function based on user interaction)
+    startTimer();
+  
 </script>
+  
 
 {% endblock script %}
