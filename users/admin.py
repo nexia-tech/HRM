@@ -5,9 +5,10 @@ from django.contrib.auth.models import Group
 admin.site.unregister(Group)
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username','email','phone']
+    list_display = ['username','email','phone','shift_duration_hours']
     autocomplete_fields = ['department']
     filter_horizontal = ['user_permissions']
+    list_filter = ['department']
 
 admin.site.register(User,UserAdmin)
 

@@ -28,9 +28,9 @@
                   <button id="startTimerBtn" onclick="startTimer()" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
                       Start Timer
                   </button>
-                  <button id="stopTimerBtn" onclick="stopTimer()" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">
+                  {% comment %} <button id="stopTimerBtn" onclick="stopTimer()" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">
                       Stop Timer
-                  </button>
+                  </button> {% endcomment %}
               </div>
           
           
@@ -65,8 +65,8 @@
 
 
 <script>
-    let shiftDurationHours = "{{ attendance_obj.remaining_hours }}";
     let timerInterval = null;
+    let shiftDurationHours = "{{ attendance_obj.remaining_hours }}";
     let remainingTime = calculateRemainingTime(shiftDurationHours); // Calculate initial remaining time
   
     // Function to calculate remaining time in milliseconds from hours:minutes:seconds format
@@ -128,20 +128,50 @@
         console.error('Error:', error);
       });
     }
+
+
+    // Function to update the timer and make the API call
+    function updateBreakTimer() {
+       
+        const csrfToken = getCSRFToken(); // Fetch the CSRF token
+    
+        // Make the POST request to update the time record
+        fetch('http://127.0.0.1:8000/hrm/break-time-record/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+          },
+          body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' })
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+             // Update remaining time after break based on response from server
+             remainingTime = calculateRemainingTime(data.remaining_hours); // Assuming server sends remaining hours in format 'HH:MM:SS'
+          console.log('Success:', data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
   
     // Function to start the timer
     function startTimer() {
-        console.log(!timerInterval)
       if (!timerInterval) {
-        console.log('dsfdsf');
         timerInterval = setInterval(updateTimer, 1000);
       }
     }
   
     // Function to stop the timer
     function stopTimer() {
-      clearInterval(timerInterval);
+        clearInterval(timerInterval);
       timerInterval = null;
+        updateBreakTimer();
     }
   
     // Event listeners to reset timer on mousemove or keydown events
@@ -168,7 +198,6 @@
     
     
    
-    // Initial start of timer (you might want to call this function based on user interaction)
     startTimer();
   
 </script>
