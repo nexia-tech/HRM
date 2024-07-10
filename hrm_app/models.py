@@ -14,7 +14,7 @@ class AttendanceModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)   
     
     def __str__(self):
-        return self.employee.email
+        return str(self.id)
     
     
 class LeavesModel(models.Model):

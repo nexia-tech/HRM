@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock title %}
 
 {% block body %}
 <section class="bg-gray-50 dark:bg-gray-900 ">
@@ -9,7 +10,7 @@
                 <h1 class="capitalize text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Edit your profile
                 </h1>
-                <form class="space-y-4 md:space-y-6" action="{% url "edit-profile" %}" method="POST"> {% csrf_token %}
+                <form class="space-y-4 md:space-y-6" action="{% url "edit-profile" %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
                     <div class="grid grid-cols-2 gap-20">
 
                         <div>
@@ -17,23 +18,53 @@
                             <input disabled value="{{user.username}}" type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
                         </div>
                         <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
-                            <input type="text" value="{{user.name}}" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                            <input disabled value="{{user.email}}" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
+                       
                         
                     </div>
 
                     <div class="grid grid-cols-2 gap-20">
 
+                        
                         <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                            <input disabled value="{{user.email}}" type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
+                            <input type="text" value="{{user.name}}" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
+                        {% if user.phone %}
                         <div>
                             <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
                             <input type="tel" pattern="\+[0-9]{9,30}" value="{{ user.phone }}" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" title="Phone number must start with a + and be followed by 9 to 30 digits">
+                            
+                        </div>
+                        {% else %}
+                        <div>
+                            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                            <input type="tel" pattern="\+[0-9]{9,30}" placeholder="+9232343322" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" title="Phone number must start with a + and be followed by 9 to 30 digits">
+                            
+                        </div>
+                        
+                        {% endif %}
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-20">
+
+                        
+                        <div>
+                            <label for="bio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bio</label>
+                            <textarea type="text"  name="bio" id="bio" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{user.bio}}</textarea>
+                        </div>
+                        {% if not user.profile_picture %}
+                       
+
+                        <div>
+                            <label for="profile_picture" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Change Profile Picture</label>
+                            <input type="file" accept=".jpeg,.jpg,.png" name="profile_picture" id="profile_picture" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" title="Phone number must start with a + and be followed by 9 to 30 digits">
 
                         </div>
+                        {% endif %}
+
                         
                     </div>
                    

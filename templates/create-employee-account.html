@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}Create an Employee Account{% endblock title %}
+
+{% block body %}
+<section class="bg-gray-50 dark:bg-gray-900 ">
+    <div class="flex flex-col items-center justify-center md:h-[80vh] px-6 mx-auto lg:py-0">
+        
+        <div class="bg-white rounded-lg shadow dark:border md:mt-0 w-1/2 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8 ">
+                <h1 class="capitalize text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Create Account
+                </h1>
+                <form class="space-y-4 md:space-y-6" action="{% url "create-employee-account" %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="grid grid-cols-2 gap-20">
+
+                        <div>
+                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username <span class='text-red-700 font-bold text-base' >*</span> </label>
+                            <input required type="text" name="username" pattern="^\S+$"  title="Username should not contain spaces" placeholder="johndoe" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
+                        </div>
+                        <div>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email <span class='text-red-700 font-bold text-base' >*</span></label>
+                            <input required type="email" name="email" placeholder="john@example.com" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                       
+                        
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-20">
+
+                        
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name <span class='text-red-700 font-bold text-base' >*</span></label>
+                            <input required name="name" id="name" placeholder="John Doe" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password <span class='text-red-700 font-bold text-base' >*</span></label>
+                            <input type="password"  name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" title="Phone number must start with a + and be followed by 9 to 30 digits">
+
+                        </div>
+                      
+                        
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-20">
+                        
+                        <div>
+                            <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department <span class='text-red-700 font-bold text-base' >*</span> </label>
+                                <select id="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="department">
+                                <option value="" disabled selected>Select Department</option>
+                                {% for department in departments %}
+                                <option value="{{department.name}}">{{department.name}}</option>
+                                
+                                {% endfor %}
+                            </select>
+                        </div>
+                       
+
+                        <div>
+                            <label for="designation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Designation <span class='text-red-700 font-bold text-base' >*</span> </label>
+                            <input required type="text" name="designation" id="designation" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Senior Developer">
+
+                        </div>
+
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-20">
+
+                        
+                        <div>
+                            <label for="working_hours" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Working Hours <span class='text-red-700 font-bold text-base' >*</span> </label>
+                            <input type="number" required pattern="[1-9]" name="working_hours" id="working_hours" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                       
+                        <div>
+                            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
+                            <input type="tel" pattern="\+[0-9]{9,30}" placeholder="+9232343322" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" title="Phone number must start with a + and be followed by 9 to 30 digits">
+                            
+                        </div>
+                      
+
+                        
+                    </div>
+
+
+                
+
+                    <div class="grid grid-cols-2 gap-20">
+                        <div>
+                            <label for="bio" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bio</label>
+                            <textarea  name="bio" id="bio" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="I'm Batman"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="profile_picture" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Profile Picture</label>
+                            <input type="file" accept=".jpeg,.jpg,.png" name="profile_picture" id="profile_picture" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" title="Phone number must start with a + and be followed by 9 to 30 digits">
+
+                        </div>
+
+                        
+                    </div>
+                   
+                    <button type="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+  
+
+
+{% endblock body %}
+
