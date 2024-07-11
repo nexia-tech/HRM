@@ -107,7 +107,7 @@
       remainingTime -= 1000; // Decrease remaining time by 1 second (1000 milliseconds)
   
       // Make the POST request to update the time record
-      fetch('http://127.0.0.1:8000/hrm/update-time-record/', {
+      fetch('{{BASE_URL}}hrm/update-time-record/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +136,7 @@
         const csrfToken = getCSRFToken(); // Fetch the CSRF token
     
         // Make the POST request to update the time record
-        fetch('http://127.0.0.1:8000/hrm/break-time-record/', {
+        fetch('{{BASE_URL}}hrm/break-time-record/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
