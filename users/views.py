@@ -8,16 +8,11 @@ from hrm_app.models import AttendanceModel
 from django.utils import timezone
 from datetime import datetime,timedelta
 import pytz
-import environ
-
-env = environ.Env()
-env.read_env()
-
+from django.conf import settings
     
 @login_required(login_url='login')
 def index(request):
     user = request.user
-    BASE_URL = env('BASE_URL')
 
    # Get the current time in UTC
     utc_now = datetime.utcnow()
@@ -58,7 +53,7 @@ def index(request):
     context ={
         'user':user,
         'attendance_obj':attendance_obj,
-        'BASE_URL':BASE_URL
+        'BASE_URL':settings.BASE_URL
     }
     return render(request,'index.html',context)
 
