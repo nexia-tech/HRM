@@ -78,6 +78,7 @@ class BreakTimeCalculate(APIView):
     
     def post(self,request):
         email = request.data.get('email')
+        break_type = request.data.get('break_type')
         
         if not email:
             return Response({'error': 'Email is required'}, status=400)

@@ -9,6 +9,8 @@ class AttendanceModel(models.Model):
     shift_time = models.TimeField(null=True)
     working_hours = models.DurationField(default=timezone.timedelta(0))
     remaining_hours = models.DurationField(default=timezone.timedelta(hours=8))
+    break_type = models.CharField(max_length=200,null=True,blank=True,default='System Generated')
+    break_comments = models.TextField(null=True,blank=True)
     break_hours = models.DurationField(default=timezone.timedelta(0))
     total_hours_completed = models.DurationField(default=timezone.timedelta(0))
     created_at = models.DateTimeField(auto_now_add=True)   
