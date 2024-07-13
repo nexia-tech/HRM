@@ -9,6 +9,27 @@ from django.contrib.auth.decorators import login_required
 import pytz
 from users.models import User
 
+@login_required(login_url='login')
+def my_attendance(request):
+    user = request.user
+    attendances = AttendanceModel.objects.filter(employee=user)
+    context = {
+        'attendances':attendances
+    }
+    
+    return render(request,'attendance-report.html',context)
+
+@login_required(login_url='login')
+def break_time_stamp(request,id):
+    attendance = AttendanceModel.objects.get(id=id)
+    context = {
+        'attendance':attendance
+    }
+    
+    return render(request,'break-time-stamp.html',context)
+
+
+
 class UpdateTimeRecords(APIView):
     
     def post(self, request):
@@ -84,17 +105,7 @@ class UpdateTimeRecords(APIView):
         # Return remaining time to frontend
         return Response({'meesage': "Updated","remaining_hours":str(remaining_time)})
     
-@login_required(login_url='login')
-def my_attendance(request):
-    user = request.user
-    attendances = AttendanceModel.objects.filter(employee=user)
-    context = {
-        'attendances':attendances
-    }
     
-    return render(request,'attendance-report.html',context)
-
-
 class BreakTimeCalculate(APIView):
     
     def post(self,request):
