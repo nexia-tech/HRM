@@ -10,6 +10,7 @@ class UserAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     autocomplete_fields = ['department']
     filter_horizontal = ['user_permissions']
     list_filter = ['department']
+    search_fields = ['email','username','phone']
 
 admin.site.register(User,UserAdmin)
 

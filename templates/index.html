@@ -5,7 +5,7 @@
 
 {% block body %}
   <section class="text-gray-400 bg-gray-900 body-font relative">
-    <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
+    <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap md:h-screen">
       <div class="lg:w-1/2 md:w-1/2 bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
         <div class="h-full text-center">
           {% if attendance_obj.employee.profile_picture %}
@@ -28,13 +28,15 @@
             <button id="startTimerBtn" onclick="startTimer()" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Time in</button>
 
             <button id="breakTimeBtn" data-modal-target="default-modal" data-modal-toggle="default-modal" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded" type="button">Add Break</button>
-            <button  data-modal-target="time-out" data-modal-toggle="time-out" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded" type="button">Time Out</button>
+            
+            <button id="timeOut"  data-modal-target="time-out" data-modal-toggle="time-out" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded" type="button">Time Out</button>
+          
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- Main modal -->
+  <!-- Time Out modal -->
   <div id="time-out" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
       <!-- Modal content -->
@@ -58,9 +60,9 @@
             </div>
 
            
-            <input type="button"  value="Yes" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656]  hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" data-modal-hide="time-out">
+            <input type="button" id="TimeOutConfirmBtn"  value="Yes" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" data-modal-hide="time-out">
 
-            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC]  hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" data-modal-hide="time-out">
+            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" data-modal-hide="time-out">
 
         </div>
        
@@ -68,7 +70,7 @@
     </div>
   </div>
 
-  <!-- Main modal -->
+  <!-- Break modal -->
   <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
       <!-- Modal content -->
@@ -85,9 +87,9 @@
         </div>
         <!-- Modal body -->
         <div class="p-4 md:p-5 space-y-4">
-          <form class="">
+          <form > 
             <label for="break" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option <span class="text-red-600">*</span></label>
-            <select required id="break" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <select name="break_type" required id="break_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               <option selected>Choose break type</option>
               <option value="Breakfast Break">Breakfast Break</option>
               <option value="Lunch Break">Lunch Break</option>
@@ -97,17 +99,21 @@
               <option value="Official Break">Official Break</option>
             </select>
 
-            <textarea id="message" rows="4" class="my-7 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+            <textarea id="comments" rows="4" class="my-7 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..." name="comments"></textarea>
+
           </form>
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button data-modal-hide="default-modal" id="AddBreak" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Break</button>
+          
           <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Close</button>
         </div>
       </div>
     </div>
   </div>
+
+
 {% endblock %}
 
 {% block script %}
@@ -117,7 +123,11 @@
     let shiftDurationHours = "{{ attendance_obj.remaining_hours }}";
     let remainingTime = calculateRemainingTime(shiftDurationHours); // Calculate initial remaining time
     let startBtn = document.getElementById('startTimerBtn')
-    let addBreakBtn = document.getElementById('AddBreak')
+    let addBreakBtnConfirm = document.getElementById('AddBreak')
+    let TimeOutConfirmBtn = document.getElementById('TimeOutConfirmBtn')
+    let timeOut = document.getElementById('timeOut')
+    let breakTimeBtn = document.getElementById('breakTimeBtn')
+    
   
     // Function to calculate remaining time in milliseconds from hours:minutes:seconds format
     function calculateRemainingTime(timeString) {
@@ -184,7 +194,8 @@
     function updateBreakTimer() {
        
         const csrfToken = getCSRFToken(); // Fetch the CSRF token
-    
+        let comments =  document.getElementById('comments').value
+        let break_type = document.getElementById('break_type').value
         // Make the POST request to update the time record
         fetch('{{BASE_URL}}hrm/break-time-record/', {
           method: 'POST',
@@ -192,7 +203,7 @@
             'Content-Type': 'application/json',
             'X-CSRFToken': csrfToken // Include the CSRF token in the headers
           },
-          body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' })
+          body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' ,break_type:break_type,comments:comments})
         })
         .then(response => {
           if (!response.ok) {
@@ -221,8 +232,11 @@
 
       startBtn.setAttribute('disabled','disabled')
       startBtn.classList.add('cursor-not-allowed');
-      addBreakBtn.removeAttribute('disabled')
-      addBreakBtn.classList.remove('cursor-not-allowed')
+      startBtn.innerText = "Resume Work"
+      breakTimeBtn.removeAttribute('disabled')
+      breakTimeBtn.classList.remove('cursor-not-allowed')
+      timeOut.removeAttribute('disabled')
+      timeOut.classList.remove('cursor-not-allowed')
     }
   
     // Function to stop the timer
@@ -233,8 +247,10 @@
       {
         dusraTimerInterval = setInterval(updateBreakTimer, 1000);
       }
-      addBreakBtn.setAttribute('disabled','disabled')
-      addBreakBtn.classList.add('cursor-not-allowed');
+      breakTimeBtn.setAttribute('disabled','disabled')
+      breakTimeBtn.classList.add('cursor-not-allowed');
+      timeOut.setAttribute('disabled','disabled')
+      timeOut.classList.add('cursor-not-allowed');
       startBtn.removeAttribute('disabled')
       startBtn.classList.remove('cursor-not-allowed')
     }
@@ -272,8 +288,15 @@ startBtn.addEventListener('click', function() {
 });
 
 // Event listener for stop timer button
-addBreakBtn.addEventListener('click', function() {
+addBreakBtnConfirm.addEventListener('click', function() {
   stopTimer();
 });
+
+timeOut.setAttribute('disabled','disabled')
+timeOut.classList.add('cursor-not-allowed')
+breakTimeBtn.setAttribute('disabled','disabled')
+breakTimeBtn.classList.add('cursor-not-allowed')
+
+
 </script>
 {% endblock %}
