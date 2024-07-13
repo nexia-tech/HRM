@@ -43,7 +43,7 @@
                     {{attendance.working_hours}}
                 </td>
                 <td class="px-6 py-4">
-                   <a href="{% url "break-time-stamp" attendance.id %}"> {{attendance.break_hours}}</a>
+                   <a href="{% url "break-time-stamp" attendance.id %}" class="text-blue-700 cursor-pointer"> {{attendance.break_hours}}</a>
                 </td>
                 <td class="px-6 py-4">
                     {{attendance.remaining_hours}}
