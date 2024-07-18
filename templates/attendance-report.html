@@ -28,6 +28,11 @@
                 <th scope="col" class="px-6 py-3 capitalize">
                     total hours completed
                 </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    Time out
+                </th>
+               
+                
             </tr>
         </thead>
         <tbody>
@@ -51,6 +56,10 @@
                 <td class="px-6 py-4">
                     {{attendance.total_hours_completed}}
                 </td>
+                <td class="px-6 py-4">
+                    {{attendance.time_out_time}}
+                </td>
+                
             </tr>
             {% endfor %}
             

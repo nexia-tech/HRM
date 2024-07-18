@@ -30,6 +30,8 @@ def break_time_stamp(request,id):
 
 
 
+
+
 class UpdateTimeRecords(APIView):
     
     def post(self, request):
@@ -39,10 +41,10 @@ class UpdateTimeRecords(APIView):
         
         user = User.objects.get(email=email)
         current_date = timezone.now().date()
-        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date).first()
+        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date,is_time_out_marked=False).first()
         
         if not attendance_obj:
-            return Response({'message': "Attendance not found"}, status=404)
+            return Response({'message': "Attendance not found","status":False}, status=404)
        
         exist_record = EmployeeBreakRecords.objects.filter(employee=user,record_date=current_date,is_break_end=False).first()
         
@@ -103,7 +105,7 @@ class UpdateTimeRecords(APIView):
         attendance_obj.save()
         
         # Return remaining time to frontend
-        return Response({'meesage': "Updated","remaining_hours":str(remaining_time)})
+        return Response({'meesage': "Updated","remaining_hours":str(remaining_time),"status":True})
     
     
 class BreakTimeCalculate(APIView):
@@ -117,7 +119,7 @@ class BreakTimeCalculate(APIView):
             return Response({'error': 'Email is required'}, status=400)
         
         current_date = timezone.now().date()
-        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date).first()
+        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date,is_time_out_marked=False).first()
         
         if not attendance_obj:
             return Response({'message': "Attendance not found"}, status=404)
@@ -205,3 +207,36 @@ class BreakTimeCalculate(APIView):
         # Return remaining time to frontend
         return Response({'meesage': "Break Time Updated","remaining_hours":str(remaining_time)})
         
+        
+class TimeOut(APIView):
+    
+    def post(self,request):
+        # Get the current time in UTC
+        utc_now = datetime.utcnow()
+
+        # Specify the timezone you want to convert to
+        tz = pytz.timezone('Asia/Karachi')
+
+        # Convert UTC time to the specified timezone
+        karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
+
+        # Format the time as HH:MM:SS string
+        karachi_time_str = karachi_time.strftime("%H:%M:%S")
+        
+        # Convert string to datetime object
+        time_out_time = datetime.strptime(karachi_time_str, "%H:%M:%S").time()
+        
+        
+        email = request.data.get('email')
+        
+        
+        current_date = timezone.now().date()
+        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date,is_time_out_marked=False).first()
+        if attendance_obj is None:
+            return Response({"message":"No Attendance Found","status":False})
+
+        attendance_obj.is_time_out_marked = True
+        attendance_obj.time_out_time = time_out_time
+        attendance_obj.save()
+        
+        return Response({"message":"Time Out Successfully","status":True})

@@ -166,7 +166,7 @@
           <form > 
             <label for="break" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option <span class="text-red-600">*</span></label>
             <select name="break_type" required id="break_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option selected>Choose break type</option>
+              <option selected disabled value="Choose break type">Choose break type</option>
               <option value="Breakfast Break">Breakfast Break</option>
               <option value="Lunch Break">Lunch Break</option>
               <option value="Dinner Break">Dinner Break</option>
@@ -203,6 +203,7 @@
     let TimeOutConfirmBtn = document.getElementById('TimeOutConfirmBtn')
     let timeOut = document.getElementById('timeOut')
     let breakTimeBtn = document.getElementById('breakTimeBtn')
+    let isTimeOut = true;
     
   
     // Function to calculate remaining time in milliseconds from hours:minutes:seconds format
@@ -258,7 +259,14 @@
         return response.json();
       })
       .then(data => {
-        console.log('Success:', data);
+        if(data.status)
+        {
+          console.log('Success:', data);
+        }
+        else {
+          console.log('API call unsuccessful, stopping timer.');
+          clearInterval(timerInterval); // Stop the timer
+        }
       })
       .catch(error => {
         console.error('Error:', error);
@@ -272,6 +280,10 @@
         const csrfToken = getCSRFToken(); // Fetch the CSRF token
         let comments =  document.getElementById('comments').value
         let break_type = document.getElementById('break_type').value
+        if(break_type == 'Choose break type')
+        {
+          break_type = 'System Generated'
+        }
         // Make the POST request to update the time record
         fetch('{{BASE_URL}}hrm/break-time-record/', {
           method: 'POST',
@@ -325,6 +337,8 @@
       }
       breakTimeBtn.setAttribute('disabled','disabled')
       breakTimeBtn.classList.add('cursor-not-allowed');
+
+      
       timeOut.setAttribute('disabled','disabled')
       timeOut.classList.add('cursor-not-allowed');
       startBtn.removeAttribute('disabled')
@@ -341,21 +355,57 @@
   
     document.addEventListener('mousemove', resetIdleTimer);
     document.addEventListener('keydown', resetIdleTimer);
+
   
     // Check idle time every second and stop timer if idle time exceeds idleTimeout
-    {% comment %}
+
      setInterval(function() {
       idleTime += 1000;
       if (idleTime >= idleTimeout && (timerInterval || dusraTimerInterval)) {
-        stopTimer();
+        if(isTimeOut) {stopTimer();}
+
       }
-      else{
-        startTimer();
-      }
+    
     }, 1000); 
-    {% endcomment %}
     
     
+
+    function timeOutApi()
+    {
+      const csrfToken = getCSRFToken(); // Fetch the CSRF token
+
+       // Make the POST request to update the time record
+       fetch('{{BASE_URL}}hrm/time-out/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+        },
+        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      clearInterval(timerInterval);
+      clearInterval(dusraTimerInterval);
+      isTimeOut = false
+      startBtn.setAttribute('disabled','disabled')
+      startBtn.classList.add('cursor-not-allowed');
+      startBtn.innerText = "Shift Ended"
+      timeOut.setAttribute('disabled','disabled')
+      timeOut.classList.add('cursor-not-allowed')
+      breakTimeBtn.setAttribute('disabled','disabled')
+      breakTimeBtn.classList.add('cursor-not-allowed')
+    }
    
   
     // Event listener for start timer button
@@ -367,6 +417,11 @@ startBtn.addEventListener('click', function() {
 addBreakBtnConfirm.addEventListener('click', function() {
   stopTimer();
 });
+
+TimeOutConfirmBtn.addEventListener('click',function()
+{
+  timeOutApi();
+})
 
 timeOut.setAttribute('disabled','disabled')
 timeOut.classList.add('cursor-not-allowed')

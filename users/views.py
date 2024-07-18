@@ -30,7 +30,7 @@ def index(request):
     datetime_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
 
     # Extract time part and convert to 12-hour format
-    current_time_12hr = datetime_obj.strftime("%I:%M:%S")
+    # current_time_12hr = datetime_obj.strftime("%I:%M:%S")
 
     # Create timedelta object representing shift duration (8 hours in this example)
     shift_duration_timedelta = timedelta(hours=user.shift_duration_hours)
@@ -38,14 +38,14 @@ def index(request):
     
     
     current_date = timezone.now().date()
-    attendance_obj= AttendanceModel.objects.filter(employee=user,shift_date=current_date).first()
+    attendance_obj= AttendanceModel.objects.filter(employee=user,shift_date=current_date,is_time_out_marked=False).first()
 
     
     if attendance_obj is None:
         attendance_object = AttendanceModel()
         attendance_object.employee = user
         attendance_object.shift_date = current_date
-        attendance_object.shift_time = current_time_12hr
+        attendance_object.shift_time = datetime_obj
         attendance_object.remaining_hours = shift_duration_timedelta
         attendance_object.save()
     
@@ -85,20 +85,20 @@ def loginView(request):
                 datetime_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
 
                 # Extract time part and convert to 12-hour format
-                current_time_12hr = datetime_obj.strftime("%I:%M:%S")
+                # current_time_12hr = datetime_obj.strftime("%I:%M:%S")
     
                 # Create timedelta object representing shift duration (8 hours in this example)
                 shift_duration_timedelta = timedelta(hours=user.shift_duration_hours)
                 
 
-                attendance_obj= AttendanceModel.objects.filter(employee=user,shift_date=current_date).first()
+                attendance_obj= AttendanceModel.objects.filter(employee=user,shift_date=current_date,is_time_out_marked=False).first()
 
                
                 if attendance_obj is None:
                     attendance_object = AttendanceModel()
                     attendance_object.employee = user
                     attendance_object.shift_date = current_date
-                    attendance_object.shift_time = current_time_12hr
+                    attendance_object.shift_time = datetime_obj
                     attendance_object.remaining_hours = shift_duration_timedelta
                     attendance_object.save()
                     
