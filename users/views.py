@@ -184,3 +184,21 @@ def create_employee_account(request):
         return render(request,'create-employee-account.html',context)
     else:
         return redirect('index')
+    
+    
+@login_required(login_url='login')
+def employees(request):
+    employees = User.objects.all()
+    context = {
+        'employees':employees
+    }
+    return render(request,'employees.html',context)
+
+
+@login_required(login_url='login')
+def employee_delete(request,id):
+    user = User.objects.get(id=id)
+    user.delete()
+    messages.success(request,'Record has been deleted')
+    
+    return redirect('employees')

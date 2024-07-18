@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Employee Records{% endblock title %}
+
+
+{% block body %}
+
+
+ {% if messages %}
+  {% for message in messages %}
+  {% if message.tags == 'success' %}
+      <div id="alert-{{forloop.counter}}" class="flex items-center p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800" role="alert">
+        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+        </svg>
+        <div class="ms-3 text-sm font-medium">
+          {{message}}
+        </div>
+        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-{{forloop.counter}}" aria-label="Close">
+          <span class="sr-only">Dismiss</span>
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+        </button>
+    </div>
+    {% else %}
+    <div id="alert-{{forloop.counter}}" class="flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800" role="alert">
+      <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+      </svg>
+      <div class="ms-3 text-sm font-medium">
+        {{message}}
+      </div>
+      <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"  data-dismiss-target="#alert-{{forloop.counter}}" aria-label="Close">
+        <span class="sr-only">Dismiss</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+      </button>
+  </div>
+  {% endif %}
+
+  {% endfor %}
+{% endif %}
+
+
+<section class="bg-gray-50 900 container mx-auto ">
+    <div class="md:h-screen px-6 mx-auto lg:py-0">
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
+            <tr>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    username
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    name
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    email
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                     employee id
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    shift duration hours
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    gender
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    designation
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    Actions
+                </th>
+               
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr class="bg-white border-b 800 700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                    <a href="" class="text-blue-700">{{employee.username}}</a>
+                </th>
+                <td class="px-6 py-4">
+                    {{employee.name}}
+                </td>
+                <td class="px-6 py-4">
+                    {{employee.email}}
+                </td>
+                <td class="px-6 py-4">
+                    {{employee.employee_id}}
+                </td>
+                <td class="px-6 py-4">
+                    {{employee.shift_duration_hours}}
+                </td>
+                <td class="px-6 py-4">
+                    {{employee.gender}}
+                </td>
+                <td class="px-6 py-4">
+                    {{employee.designation}}
+                </td>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    <a href="" class="text-blue-700">Edit</a> |
+                    <a class="text-blue-700 cursor-pointer" data-modal-target="delete-employee-{{forloop.counter}}" data-modal-toggle="delete-employee-{{forloop.counter}}">Delete</a>
+                </th>
+                
+            </tr>
+
+             <!-- Time Out modal -->
+  <div id="delete-employee-{{forloop.counter}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Time Out</h3>
+          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-employee-{{forloop.counter}}">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5 capitalize space-y-4">
+
+                     
+            <div class="mb-5">
+              <label for="Phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Are you sure delete this record?</label>
+            </div>
+
+           
+            <a href="{% url "employee-delete" employee.id %}" type="button" id="TimeOutConfirmBtn"  value="Yes" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" data-modal-hide="delete-employee-{{forloop.counter}}">Delete</a>
+
+            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" data-modal-hide="delete-employee-{{forloop.counter}}">
+
+        </div>
+       
+      </div>
+    </div>
+  </div>
+            {% endfor %}
+            
+          
+        </tbody>
+    </table>
+</div>
+</div>
+</section>
+
+
+{% endblock body %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            responsive: false   
+        });
+    });
+</script>
+{% endblock script %}

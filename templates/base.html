@@ -12,7 +12,7 @@
 
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<title>{% block title %}{% endblock title %}</title>
+<title>{% block title %}{% endblock title %} | Nexia HRM</title>
 </head>
 
 {% block style %}{% endblock style %}
@@ -28,8 +28,9 @@
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             {% if user.is_superuser %}
             <a href="{% url "create-employee-account" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Create Employee Account</a>
-            <a href="{% url "edit-profile" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Edit Profile</a>
+            <a href="{% url "employees" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Employees</a>
             {% endif %}
+            <a href="{% url "edit-profile" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Edit Profile</a>
             <a href="{% url "my-attendance" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Attendance Report</a>
           </nav>
           
