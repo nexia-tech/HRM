@@ -313,6 +313,9 @@
   
     // Function to start the timer
     function startTimer() {
+      document.getElementById('break_type').value= "Choose break type"
+      document.getElementById('break_type').value = ""
+
       clearInterval(dusraTimerInterval);
       dusraTimerInterval = null;
 
@@ -356,7 +359,16 @@
     }
   
     document.addEventListener('mousemove', resetIdleTimer);
+    document.addEventListener('mouseup', resetIdleTimer);
+    document.addEventListener('mouseenter', resetIdleTimer);
+    document.addEventListener('mouseleave', resetIdleTimer);
+    document.addEventListener('mousedown', resetIdleTimer);
+    document.addEventListener('mousedown', resetIdleTimer);
+    document.addEventListener('mouseout', resetIdleTimer);
+    document.addEventListener('mouseover', resetIdleTimer);
     document.addEventListener('keydown', resetIdleTimer);
+    document.addEventListener('keypress', resetIdleTimer);
+    document.addEventListener('keyup', resetIdleTimer);
 
   
     // Check idle time every second and stop timer if idle time exceeds idleTimeout
