@@ -206,6 +206,8 @@
     let timeOut = document.getElementById('timeOut')
     let breakTimeBtn = document.getElementById('breakTimeBtn')
     let isTimeOut = true;
+    var audio = new Audio('{{configuration.audio_file.url}}');
+
     
   
     // Function to calculate remaining time in milliseconds from hours:minutes:seconds format
@@ -313,6 +315,7 @@
   
     // Function to start the timer
     function startTimer() {
+      audio.pause()
       document.getElementById('break_type').value= "Choose break type"
       document.getElementById('break_type').value = ""
 
@@ -346,8 +349,11 @@
       
       timeOut.setAttribute('disabled','disabled')
       timeOut.classList.add('cursor-not-allowed');
-      startBtn.removeAttribute('disabled')
-      startBtn.classList.remove('cursor-not-allowed')
+      startBtn.removeAttribute('disabled');
+      startBtn.classList.remove('cursor-not-allowed');
+
+      // Play sound
+      audio.play();
     }
   
     // Event listeners to reset timer on mousemove or keydown events

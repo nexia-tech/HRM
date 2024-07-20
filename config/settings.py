@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'rest_framework',
     'corsheaders',
+    'core',
     
 
 ]
@@ -125,8 +126,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_URL = "/config/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "config/media")
 
-if DEBUG:
-    STATIC_URL = "/static/"
+STATIC_URL = "/static/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
