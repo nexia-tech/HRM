@@ -8,6 +8,15 @@ from math import floor
 from django.contrib.auth.decorators import login_required
 import pytz
 from users.models import User
+from rest_framework import status
+import threading
+import time, requests
+from pynput import mouse, keyboard
+from django.conf import settings
+
+BASE_URL = settings.BASE_URL
+
+
 
 @login_required(login_url='login')
 def my_attendance(request):
@@ -128,7 +137,6 @@ class BreakTimeCalculate(APIView):
         
         # add break records time stamp
         exist_record = EmployeeBreakRecords.objects.filter(employee=user,record_date=current_date,break_type=break_type,is_break_end=False).first()
-        
          # Get the current time in UTC
         utc_now = datetime.utcnow()
 
@@ -194,7 +202,6 @@ class BreakTimeCalculate(APIView):
         seconds = floor((break_time_in_miliseconds % (1000 * 60)) / 1000)
         
         breaking_hours = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        
         # Update the attendance object with new calculations
         attendance_obj.break_hours = breaking_hours
         attendance_obj.remaining_hours = remaining_time
@@ -240,3 +247,98 @@ class TimeOut(APIView):
         attendance_obj.save()
         
         return Response({"message":"Time Out Successfully","status":True})
+    
+
+# Global variables
+stop_thread = False
+idle_time = 0
+idle_threshold = 5  # 60 seconds for demonstration
+idle_check_thread = None
+mouse_listener = None
+keyboard_listener = None
+result = None
+# Create an event object
+done_event = threading.Event()
+
+def reset_idle_time():
+    global idle_time
+    idle_time = 0
+
+def on_move(x, y):
+    reset_idle_time()
+
+def on_click(x, y, button, pressed):
+    reset_idle_time()
+
+def on_scroll(x, y, dx, dy):
+    reset_idle_time()
+
+def on_press(key):
+    reset_idle_time()
+
+def on_release(key):
+    reset_idle_time()
+
+# Idle check function
+def check_idle(email):
+    global idle_time, stop_thread, result
+    while not stop_thread:
+        time.sleep(1)
+        idle_time += 1
+        if idle_time >= idle_threshold:
+            data = {
+                "email":email
+            }
+            r = requests.post(f"{BASE_URL}hrm/break-time-record/",json=data)
+            print(r.status_code)
+            result = True
+        else:
+            print("Working")
+            result = False
+
+# API View for starting the thread
+class StartThreadView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        global stop_thread, idle_check_thread, mouse_listener, keyboard_listener, result
+        print(result)
+        if idle_check_thread is None or not idle_check_thread.is_alive():
+            stop_thread = False
+            mouse_listener = mouse.Listener(
+                on_move=on_move,
+                on_click=on_click,
+                on_scroll=on_scroll
+            )
+            keyboard_listener = keyboard.Listener(
+                on_press=on_press,
+                on_release=on_release
+            )
+            mouse_listener.start()
+            keyboard_listener.start()
+            idle_check_thread = threading.Thread(target=check_idle,args=(email,))
+            idle_check_thread.start()
+            print(result)
+            
+            return Response({'status': 'Thread started',"success":True}, status=status.HTTP_200_OK)
+        else:
+            return Response({'status': 'Thread already running',"success":False}, status=status.HTTP_200_OK)
+
+# API View for stopping the thread
+class StopThreadView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        global stop_thread, idle_check_thread, mouse_listener, keyboard_listener
+        if idle_check_thread is not None and idle_check_thread.is_alive():
+        
+            stop_thread = True
+            idle_check_thread.join()
+            idle_check_thread = None
+            if mouse_listener is not None:
+                mouse_listener.stop()
+                mouse_listener = None
+            if keyboard_listener is not None:
+                keyboard_listener.stop()
+                keyboard_listener = None
+            return Response({'status': 'Thread stopped'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'status': 'Thread is not running'}, status=status.HTTP_400_BAD_REQUEST)

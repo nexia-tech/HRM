@@ -105,7 +105,7 @@
           <div class="space-x-4">
             <button id="startTimerBtn" onclick="startTimer()" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Time in</button>
 
-            <button id="breakTimeBtn" data-modal-target="default-modal" data-modal-toggle="default-modal" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded" type="button">Add Break</button>
+            <button id="breakTimeBtn" data-modal-target="break-modal" data-modal-toggle="break-modal" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded" type="button">Add Break</button>
             
             <button id="timeOut"  data-modal-target="time-out" data-modal-toggle="time-out" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded" type="button">Time Out</button>
           
@@ -149,14 +149,14 @@
   </div>
 
   <!-- Break modal -->
-  <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+  <div id="break-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-2xl max-h-full">
       <!-- Modal content -->
       <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <!-- Modal header -->
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Mark Your Break</h3>
-          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="break-modal">
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
             </svg>
@@ -183,9 +183,9 @@
         </div>
         <!-- Modal footer -->
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-          <button data-modal-hide="default-modal" id="AddBreak" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Break</button>
+          <button data-modal-hide="break-modal" id="AddBreak" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Break</button>
           
-          <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Close</button>
+          <button data-modal-hide="break-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Close</button>
         </div>
       </div>
     </div>
@@ -208,7 +208,6 @@
     let isTimeOut = true;
     var audio = new Audio('{{configuration.audio_file.url}}');
 
-    
   
     // Function to calculate remaining time in milliseconds from hours:minutes:seconds format
     function calculateRemainingTime(timeString) {
@@ -230,6 +229,9 @@
       return csrfToken;
     }
   
+
+    const csrfToken = getCSRFToken(); // Fetch the CSRF token
+
     // Function to update the timer and make the API call
     function updateTimer() {
       if (remainingTime <= 0) {
@@ -237,11 +239,13 @@
         document.getElementById('timer').textContent = '00:00:00';
         return;
       }
+
+
   
       const hours = Math.floor(remainingTime / (1000 * 60 * 60));
       const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-      const csrfToken = getCSRFToken(); // Fetch the CSRF token
+      
   
       const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       document.getElementById('timer').textContent = formattedTime;
@@ -275,13 +279,44 @@
       .catch(error => {
         console.error('Error:', error);
       });
+
+
+    // Make the POST request to update the time record
+    fetch('{{BASE_URL}}hrm/start-timer-thread/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+      },
+      body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+         // Update remaining time after break based on response from server
+         console.log("data.success: ",data.success);
+         if(data.success){
+          stopTimer();
+         }
+      console.log('Success:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
     }
 
 
     // Function to update the timer and make the API call
     function updateBreakTimer() {
        
-        const csrfToken = getCSRFToken(); // Fetch the CSRF token
+        // Play sound
+        audio.play();
+        console.log("play");
+        
         let comments =  document.getElementById('comments').value
         let break_type = document.getElementById('break_type').value
         if(break_type == 'Choose break type')
@@ -311,13 +346,14 @@
         .catch(error => {
           console.error('Error:', error);
         });
+
+        
+
       }
   
     // Function to start the timer
     function startTimer() {
-      audio.pause()
-      document.getElementById('break_type').value= "Choose break type"
-      document.getElementById('break_type').value = ""
+        audio.pause()
 
       clearInterval(dusraTimerInterval);
       dusraTimerInterval = null;
@@ -337,6 +373,30 @@
   
     // Function to stop the timer
     function stopTimer() {
+      
+      // Make the POST request to stop the timer thread
+      fetch('{{BASE_URL}}hrm/stop-timer-thread/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+        },
+        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+           // Update remaining time after break based on response from server
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
       clearInterval(timerInterval);
       timerInterval = null;
       if(!dusraTimerInterval)
@@ -352,13 +412,11 @@
       startBtn.removeAttribute('disabled');
       startBtn.classList.remove('cursor-not-allowed');
 
-      // Play sound
-      audio.play();
     }
   
     // Event listeners to reset timer on mousemove or keydown events
-    let idleTime = 0;
-    const idleTimeout = 300000; // 5 minute in milliseconds
+    {% comment %} let idleTime = 0;
+    const idleTimeout = 3000; // 5 minute in milliseconds
   
     function resetIdleTimer() {
       idleTime = 0;
@@ -374,27 +432,26 @@
     document.addEventListener('mouseover', resetIdleTimer);
     document.addEventListener('keydown', resetIdleTimer);
     document.addEventListener('keypress', resetIdleTimer);
-    document.addEventListener('keyup', resetIdleTimer);
+    document.addEventListener('keyup', resetIdleTimer); {% endcomment %}
 
   
     // Check idle time every second and stop timer if idle time exceeds idleTimeout
 
-     setInterval(function() {
+     {% comment %} setInterval(function() {
       idleTime += 1000;
       if (idleTime >= idleTimeout && (timerInterval || dusraTimerInterval)) {
         if(isTimeOut) {stopTimer();}
 
       }
     
-    }, 1000); 
-    
+    }, 1000);  {% endcomment %}
     
 
     function timeOutApi()
     {
-      const csrfToken = getCSRFToken(); // Fetch the CSRF token
+      
 
-       // Make the POST request to update the time record
+       // Make the POST request to end the shift 
        fetch('{{BASE_URL}}hrm/time-out/', {
         method: 'POST',
         headers: {
@@ -415,6 +472,32 @@
       .catch(error => {
         console.error('Error:', error);
       });
+
+
+
+      // Make the POST request to stop the timer thread
+      fetch('{{BASE_URL}}hrm/stop-timer-thread/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+        },
+        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+           // Update remaining time after break based on response from server
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      
       clearInterval(timerInterval);
       clearInterval(dusraTimerInterval);
       isTimeOut = false
