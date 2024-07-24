@@ -1,4 +1,6 @@
 
+# nohup xvfb-run -a gunicorn config.wsgi -t 36000 -w 3 > gunicorn.log 2>&1 &
+
 import os
 from pathlib import Path
 import environ
