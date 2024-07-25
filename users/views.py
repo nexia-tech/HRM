@@ -56,7 +56,7 @@ def index(request):
         'user':user,
         'attendance_obj':attendance_obj,
         'BASE_URL':settings.BASE_URL,
-        "configuration":configuration
+        "configuration":configuration,
     }
     return render(request,'index.html',context)
 

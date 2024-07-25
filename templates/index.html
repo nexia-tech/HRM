@@ -281,32 +281,7 @@
       });
 
 
-    // Make the POST request to update the time record
-    fetch('{{BASE_URL}}hrm/start-timer-thread/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-      },
-      body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(data => {
-         // Update remaining time after break based on response from server
-         console.log("data.success: ",data.success);
-         if(data.success){
-          stopTimer();
-         }
-      console.log('Success:', data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    
     }
 
 
@@ -354,7 +329,28 @@
     // Function to start the timer
     function startTimer() {
         audio.pause()
-
+      // Make the POST request to update the time record
+    fetch('{{BASE_URL}}hrm/start-timer-thread/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+      },
+      body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+         // Update remaining time after break based on response from server
+      console.log('Success:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
       clearInterval(dusraTimerInterval);
       dusraTimerInterval = null;
 
@@ -414,38 +410,7 @@
 
     }
   
-    // Event listeners to reset timer on mousemove or keydown events
-    {% comment %} let idleTime = 0;
-    const idleTimeout = 3000; // 5 minute in milliseconds
-  
-    function resetIdleTimer() {
-      idleTime = 0;
-    }
-  
-    document.addEventListener('mousemove', resetIdleTimer);
-    document.addEventListener('mouseup', resetIdleTimer);
-    document.addEventListener('mouseenter', resetIdleTimer);
-    document.addEventListener('mouseleave', resetIdleTimer);
-    document.addEventListener('mousedown', resetIdleTimer);
-    document.addEventListener('mousedown', resetIdleTimer);
-    document.addEventListener('mouseout', resetIdleTimer);
-    document.addEventListener('mouseover', resetIdleTimer);
-    document.addEventListener('keydown', resetIdleTimer);
-    document.addEventListener('keypress', resetIdleTimer);
-    document.addEventListener('keyup', resetIdleTimer); {% endcomment %}
-
-  
-    // Check idle time every second and stop timer if idle time exceeds idleTimeout
-
-     {% comment %} setInterval(function() {
-      idleTime += 1000;
-      if (idleTime >= idleTimeout && (timerInterval || dusraTimerInterval)) {
-        if(isTimeOut) {stopTimer();}
-
-      }
-    
-    }, 1000);  {% endcomment %}
-    
+ 
 
     function timeOutApi()
     {
@@ -525,6 +490,7 @@ TimeOutConfirmBtn.addEventListener('click',function()
 {
   timeOutApi();
 })
+
 
 timeOut.setAttribute('disabled','disabled')
 timeOut.classList.add('cursor-not-allowed')

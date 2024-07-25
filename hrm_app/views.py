@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponseRedirect,redirect
+from django.urls import reverse
 from hrm_app.models import AttendanceModel, EmployeeBreakRecords
 from django.utils import timezone
 from rest_framework.views import APIView
@@ -128,7 +129,8 @@ class BreakTimeCalculate(APIView):
             return Response({'error': 'Email is required'}, status=400)
         
         current_date = timezone.now().date()
-        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date,is_time_out_marked=False).first()
+        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date, is_time_out_marked=False).first()
+        print(attendance_obj)
         
         if not attendance_obj:
             return Response({'message': "Attendance not found"}, status=404)
@@ -136,6 +138,9 @@ class BreakTimeCalculate(APIView):
         user = User.objects.get(email=email)
         
         # add break records time stamp
+        print(user)
+        print(current_date)
+        print(break_type)
         exist_record = EmployeeBreakRecords.objects.filter(employee=user,record_date=current_date,break_type=break_type,is_break_end=False).first()
          # Get the current time in UTC
         utc_now = datetime.utcnow()
@@ -150,19 +155,19 @@ class BreakTimeCalculate(APIView):
         karachi_time_str = karachi_time.strftime("%H:%M:%S")
 
         if exist_record is None:
-            break_records = EmployeeBreakRecords()
-            break_records.employee = user
+            exist_record = EmployeeBreakRecords()
+            exist_record.employee = user
             
            
             # Convert string to datetime object (24-hour format)
             break_start_time_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
             
             
-            break_records.start_time = break_start_time_obj
-            break_records.break_comments = comments
-            break_records.break_type = break_type
-            break_records.record_date = current_date
-            break_records.save()
+            exist_record.start_time = break_start_time_obj
+            exist_record.break_comments = comments
+            exist_record.break_type = break_type
+            exist_record.record_date = current_date
+            exist_record.save()
         
         
         remaining_hours_str = str(attendance_obj.remaining_hours)
@@ -206,9 +211,12 @@ class BreakTimeCalculate(APIView):
         attendance_obj.break_hours = breaking_hours
         attendance_obj.remaining_hours = remaining_time
         attendance_obj.total_hours_completed = attendance_obj.working_hours + attendance_obj.break_hours
+        print("exist_record: ",exist_record)
         if exist_record is not None:
             attendance_obj.break_time_stamp.add(exist_record)
         attendance_obj.save()
+
+        print(remaining_time)
         
         
         # Return remaining time to frontend
@@ -279,29 +287,34 @@ def on_press(key):
 def on_release(key):
     reset_idle_time()
 
+
 # Idle check function
 def check_idle(email):
-    global idle_time, stop_thread, result
+    global idle_time, stop_thread
     while not stop_thread:
         time.sleep(1)
+        print(idle_time)
         idle_time += 1
         if idle_time >= idle_threshold:
             data = {
                 "email":email
             }
+            print("Redirecting.....")
+           
+        
             r = requests.post(f"{BASE_URL}hrm/break-time-record/",json=data)
+            
             print(r.status_code)
-            result = True
+      
+
         else:
             print("Working")
-            result = False
 
 # API View for starting the thread
 class StartThreadView(APIView):
     def post(self, request):
         email = request.data.get('email')
-        global stop_thread, idle_check_thread, mouse_listener, keyboard_listener, result
-        print(result)
+        global stop_thread, idle_check_thread, mouse_listener, keyboard_listener
         if idle_check_thread is None or not idle_check_thread.is_alive():
             stop_thread = False
             mouse_listener = mouse.Listener(
@@ -317,7 +330,6 @@ class StartThreadView(APIView):
             keyboard_listener.start()
             idle_check_thread = threading.Thread(target=check_idle,args=(email,))
             idle_check_thread.start()
-            print(result)
             
             return Response({'status': 'Thread started',"success":True}, status=status.HTTP_200_OK)
         else:
