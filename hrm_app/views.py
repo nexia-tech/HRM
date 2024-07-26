@@ -14,7 +14,8 @@ import threading
 import time, requests
 from pynput import mouse, keyboard
 from django.conf import settings
-from playsound import playsound
+# from playsound import playsound
+
 
 
 
@@ -131,7 +132,7 @@ class BreakTimeCalculate(APIView):
     def post(self,request):
         
         
-        threading.Thread(target=playMusic()).start()
+        # threading.Thread(target=playMusic()).start()
 
        
         email = request.data.get('email')
