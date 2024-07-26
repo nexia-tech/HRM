@@ -251,34 +251,7 @@
       document.getElementById('timer').textContent = formattedTime;
       remainingTime -= 1000; // Decrease remaining time by 1 second (1000 milliseconds)
   
-      // Make the POST request to update the time record
-      fetch('{{BASE_URL}}hrm/update-time-record/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-        },
-        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-        if(data.status)
-        {
-          console.log('Success:', data);
-        }
-        else {
-          console.log('API call unsuccessful, stopping timer.');
-          clearInterval(timerInterval); // Stop the timer
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    
 
 
     

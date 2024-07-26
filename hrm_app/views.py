@@ -14,6 +14,9 @@ import threading
 import time, requests
 from pynput import mouse, keyboard
 from django.conf import settings
+from playsound import playsound
+
+
 
 BASE_URL = settings.BASE_URL
 
@@ -118,9 +121,19 @@ class UpdateTimeRecords(APIView):
         return Response({'meesage': "Updated","remaining_hours":str(remaining_time),"status":True})
     
     
+    
+def playMusic():
+     # for playing note.mp3 file
+    playsound('break-tone.mp3')
+    
 class BreakTimeCalculate(APIView):
     
     def post(self,request):
+        
+        
+        threading.Thread(target=playMusic()).start()
+
+       
         email = request.data.get('email')
         break_type = request.data.get('break_type','System Generated')
         comments = request.data.get('comments',None)
@@ -254,13 +267,14 @@ class TimeOut(APIView):
         attendance_obj.time_out_time = time_out_time
         attendance_obj.save()
         
+        
         return Response({"message":"Time Out Successfully","status":True})
     
 
 # Global variables
 stop_thread = False
 idle_time = 0
-idle_threshold = 5  # 60 seconds for demonstration
+idle_threshold = 3  # 60 seconds for demonstration
 idle_check_thread = None
 mouse_listener = None
 keyboard_listener = None
@@ -292,14 +306,15 @@ def on_release(key):
 def check_idle(email):
     global idle_time, stop_thread
     while not stop_thread:
+        data = {
+            "email":email
+        }
         time.sleep(1)
         print(idle_time)
         idle_time += 1
         if idle_time >= idle_threshold:
-            data = {
-                "email":email
-            }
-            print("Redirecting.....")
+            
+            print("Break Timer Start")
            
         
             r = requests.post(f"{BASE_URL}hrm/break-time-record/",json=data)
@@ -308,7 +323,9 @@ def check_idle(email):
       
 
         else:
-            print("Working")
+            print("Employee is working")
+            r2 = requests.post(f"{BASE_URL}hrm/update-time-record/",json=data)
+            print(f"r2: {r2.status_code}")
 
 # API View for starting the thread
 class StartThreadView(APIView):
