@@ -32,7 +32,7 @@
             <a href="{% url "create-employee-account" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Create Employee Account</a>
             <a href="{% url "employees" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Employees</a>
             {% endif %}
-            <a href="{% url "edit-profile" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Edit Profile</a>
+            {% comment %} <a href="{% url "edit-profile" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Edit Profile</a> {% endcomment %}
             <a href="{% url "my-attendance" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Attendance Report</a>
           </nav>
           
