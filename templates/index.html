@@ -445,7 +445,11 @@
       timeOut.setAttribute('disabled','disabled')
       timeOut.classList.add('cursor-not-allowed')
       breakTimeBtn.setAttribute('disabled','disabled')
-      breakTimeBtn.classList.add('cursor-not-allowed')
+      breakTimeBtn.classList.add('cursor-not-allowed');
+      setTimeout(()=>{
+      window.close()
+
+      },3000)
     }
    
   

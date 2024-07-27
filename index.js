@@ -1,7 +1,5 @@
-const { app, BrowserWindow,ipcMain } = require("electron");
-const path = require('path');
+const { app, BrowserWindow } = require("electron");
 
-const ip = ipcMain
 
 function ElectronMainMethod() {
   const launchWindow = new BrowserWindow({
@@ -16,9 +14,7 @@ function ElectronMainMethod() {
     frame: false, // Remove the default window frame
     webPreferences: {
       nodeIntegration: true, // Enable Node integration if needed
-      contextIsolation: true, // Disable context isolation if Node integration is enabled
-      devTools: true,
-      preload: path.join(__dirname,'preload.js')
+      contextIsolation: false, // Disable context isolation if Node integration is enabled
     },
     
   });
@@ -28,15 +24,6 @@ function ElectronMainMethod() {
 
   launchWindow.loadURL(appUrl);
 
-  ip.on('minimizeApp',()=>{
-    console.log("workign 1");
-    launchWindow.minimize()
-  })
-  
-  ip.on('maximizeApp',()=>{
-    console.log("workign 2");
-    launchWindow.maximize()
-  })
 
 }
 
