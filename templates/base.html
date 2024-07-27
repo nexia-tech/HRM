@@ -1,3 +1,4 @@
+{% load static %}
 <!Doctype html>
 <html data-theme="light" en='us'>
 <head>
@@ -25,7 +26,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-blue-500 rounded-full" viewBox="0 0 24 24">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
             </svg>
-            <span class="ml-3 text-xl text-black">Nexia HRM</span>
+            <span class="ml-3 text-xl text-black">Nexia Tech HRM</span>
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             {% if user.is_superuser %}
@@ -40,11 +41,16 @@
           <a href="{% url "logout" %}" class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0 ">Logout
             <i class="fa-solid fa-right-from-bracket mx-3"></i>
           </a>
-          {% else %}
+          {% comment %} {% else %}
           <button class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0">Login
             <i class="fa-solid fa-arrow-right-to-bracket mx-3"></i>
-          </button>
+          </button> {% endcomment %}
+          
           {% endif %}
+          <button id="minWindowBtn" class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0">min
+          </button>
+          <button id="maxWindowBtn" class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0">max
+          </button>
         </div>
       </header>
       {% if messages %}
@@ -87,7 +93,7 @@
   
       {% block body %}{% endblock body %}
 
-      {% comment %} <footer class="text-gray-400 bg-gray-900 body-font">
+      <footer class="text-gray-400 bg-gray-900 body-font">
         <div class="container px-5 py-12 mx-auto flex items-center sm:flex-row flex-col">
           <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-blue-500 rounded-full" viewBox="0 0 24 24">
@@ -123,9 +129,9 @@
             </a>
           </span>
         </div>
-      </footer> {% endcomment %}
+      </footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-
+{% comment %} <script src="{% static 'js/appFunction.js' %}"></script> {% endcomment %}
 {% block script %}{% endblock script %}
 </html>

@@ -1,3 +1,24 @@
+(node:118163) electron: Failed to load URL: http://127.0.0.1:8000/login/?next=/ with error: ERR_BLOCKED_BY_RESPONSE
+(node:118163) electron: Failed to load URL: http://127.0.0.1:8000/login/?next=/ with error: ERR_BLOCKED_BY_RESPONSE
+(node:118163) electron: Failed to load URL: http://127.0.0.1:8000/login/?next=/ with error: ERR_BLOCKED_BY_RESPONSE
+(node:118163) electron: Failed to load URL: http://127.0.0.1:8000/login/?next=/ with error: ERR_BLOCKED_BY_RESPONSE
+(node:118163) electron: Failed to load URL: http://127.0.0.1:8000/login/?next=/ with error: ERR_BLOCKED_BY_RESPONSE
+(node:118163) electron: Failed to load URL: http://127.0.0.1:8000/login/?next=/ with error: ERR_BLOCKED_BY_RESPONSE
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
 Watching for file changes with StatReloader
 System check identified some issues:
 
@@ -64,3 +85,278 @@ System check identified 1 issue (0 silenced).
 
 MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
 
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+[121567:0727/202811.287315:ERROR:interface_endpoint_client.cc(722)] Message 7 rejected by interface blink.mojom.WidgetHost
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+(node:122068) UnhandledPromiseRejectionWarning: TypeError: launchWindow.closable is not a function
+    at ElectronMainMethod (/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/index.js:21:16)
+(Use `electron --trace-warnings ...` to show where the warning was created)
+(node:122068) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+[123423:0727/203635.152268:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[123423:0727/203635.152895:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[123423:0727/203653.504561:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[123423:0727/203653.505484:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+[125537:0727/204504.817492:ERROR:atom_cache.cc(229)] Add chromium/from-privileged to kAtomsToCache
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+[126377:0727/204610.707366:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[126377:0727/204610.707753:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[126377:0727/204622.923452:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[126377:0727/204622.924492:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+[27/Jul/2024 20:49:01] "GET /create-employee-account/ HTTP/1.1" 200 37464
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+(node:128622) electron: Failed to load URL: http://127.0.0.1:8000/ with error: ERR_CONNECTION_REFUSED
+(Use `electron --trace-warnings ...` to show where the warning was created)
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+[128942:0727/205237.974978:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[128942:0727/205237.975456:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[128942:0727/205312.874675:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[128942:0727/205312.875088:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+[133542:0727/211026.459373:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[133542:0727/211026.459940:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[133542:0727/211104.380687:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[133542:0727/211104.380995:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+[134035:0727/211127.169155:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[134035:0727/211127.170098:ERROR:CONSOLE(1)] "Request Autofill.setAddresses failed. {"code":-32601,"message":"'Autofill.setAddresses' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
