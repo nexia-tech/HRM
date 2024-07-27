@@ -275,7 +275,7 @@ class TimeOut(APIView):
 # Global variables
 stop_thread = False
 idle_time = 0
-idle_threshold = 3  # 60 seconds for demonstration
+idle_threshold = 10  # 60 seconds for demonstration
 idle_check_thread = None
 mouse_listener = None
 keyboard_listener = None

@@ -102,7 +102,7 @@
         <div class="lg:w-1/2 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
           <h1 class="text-5xl font-bold mb-4">Shift Timing</h1>
           <div id="timer" class="text-6xl font-bold mb-4">{{ attendance_obj.remaining_hours }}</div>
-          <div class="space-x-4">
+          <div class="space-x-4 flex flex-wrap gap-y-5 justify-start">
             <button id="startTimerBtn" onclick="startTimer()" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Time in</button>
 
             <button id="breakTimeBtn" data-modal-target="break-modal" data-modal-toggle="break-modal" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded" type="button">Add Break</button>
