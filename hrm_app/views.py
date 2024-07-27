@@ -144,7 +144,6 @@ class BreakTimeCalculate(APIView):
         
         current_date = timezone.now().date()
         attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date, is_time_out_marked=False).first()
-        print(attendance_obj)
         
         if not attendance_obj:
             return Response({'message': "Attendance not found"}, status=404)
@@ -152,9 +151,6 @@ class BreakTimeCalculate(APIView):
         user = User.objects.get(email=email)
         
         # add break records time stamp
-        print(user)
-        print(current_date)
-        print(break_type)
         exist_record = EmployeeBreakRecords.objects.filter(employee=user,record_date=current_date,break_type=break_type,is_break_end=False).first()
          # Get the current time in UTC
         utc_now = datetime.utcnow()
@@ -225,12 +221,10 @@ class BreakTimeCalculate(APIView):
         attendance_obj.break_hours = breaking_hours
         attendance_obj.remaining_hours = remaining_time
         attendance_obj.total_hours_completed = attendance_obj.working_hours + attendance_obj.break_hours
-        print("exist_record: ",exist_record)
         if exist_record is not None:
             attendance_obj.break_time_stamp.add(exist_record)
         attendance_obj.save()
 
-        print(remaining_time)
         
         
         # Return remaining time to frontend
@@ -311,22 +305,13 @@ def check_idle(email):
             "email":email
         }
         time.sleep(1)
-        print(idle_time)
         idle_time += 1
         if idle_time >= idle_threshold:
-            
-            print("Break Timer Start")
-           
         
             r = requests.post(f"{BASE_URL}hrm/break-time-record/",json=data)
             
-            print(r.status_code)
-      
-
         else:
-            print("Employee is working")
             r2 = requests.post(f"{BASE_URL}hrm/update-time-record/",json=data)
-            print(f"r2: {r2.status_code}")
 
 # API View for starting the thread
 class StartThreadView(APIView):

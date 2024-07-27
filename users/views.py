@@ -10,6 +10,12 @@ from datetime import datetime,timedelta
 import pytz
 from django.conf import settings
 from core.models import ConfigurationModel
+import requests
+
+
+BASE_URL = settings.BASE_URL
+    
+
     
 @login_required(login_url='login')
 def index(request):
@@ -117,6 +123,11 @@ def loginView(request):
 
 @login_required(login_url='login')
 def logout_view(request):
+    data = {
+        "email":request.user.email
+    }
+    break_request = requests.post(f"{BASE_URL}hrm/break-time-record/",json=data)
+    time_out_request = requests.post(f"{BASE_URL}hrm/time-out/",json=data)
     logout(request)
     return redirect('index')
 

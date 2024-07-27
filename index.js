@@ -9,13 +9,12 @@ function ElectronMainMethod() {
     minWidth: 1000,
     minHeight:560,
     autoHideMenuBar: true,
-    fullscreenable:false,
 
-    frame: false, // Remove the default window frame
-    webPreferences: {
-      nodeIntegration: true, // Enable Node integration if needed
-      contextIsolation: false, // Disable context isolation if Node integration is enabled
-    },
+    // frame: true, // Remove the default window frame
+    // webPreferences: {
+    //   nodeIntegration: true, // Enable Node integration if needed
+    //   contextIsolation: false, // Disable context isolation if Node integration is enabled
+    // },
     
   });
 

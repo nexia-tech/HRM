@@ -34,7 +34,7 @@
         </nav>
         
         {% if user.is_authenticated %}
-        <a href="{% url "logout" %}" class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0 ">Logout
+        <a href="{% url "logout" %}" id="logout-btn" class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0 ">Logout
           <i class="fa-solid fa-right-from-bracket mx-3"></i>
         </a>
         {% else %}
@@ -206,6 +206,7 @@
     let timeOut = document.getElementById('timeOut')
     let breakTimeBtn = document.getElementById('breakTimeBtn')
     let isTimeOut = true;
+    let logout_btn = document.getElementById('logout-btn') 
     var audio = new Audio('{{configuration.audio_file.url}}');
 
   
@@ -333,11 +334,18 @@
 
       startBtn.setAttribute('disabled','disabled')
       startBtn.classList.add('cursor-not-allowed');
-      startBtn.innerText = "Resume Work"
+      startBtn.innerText = "Runing..."
+
       breakTimeBtn.removeAttribute('disabled')
       breakTimeBtn.classList.remove('cursor-not-allowed')
+
       timeOut.removeAttribute('disabled')
       timeOut.classList.remove('cursor-not-allowed')
+
+      logout_btn.removeAttribute('disabled')
+      logout_btn.classList.remove('cursor-not-allowed')
+      logout_btn.setAttribute('href',"{% url 'logout' %}")
+
     }
   
     // Function to stop the timer
@@ -380,6 +388,8 @@
       timeOut.classList.add('cursor-not-allowed');
       startBtn.removeAttribute('disabled');
       startBtn.classList.remove('cursor-not-allowed');
+      startBtn.innerText = "Resume Work"
+
 
     }
   
@@ -446,10 +456,32 @@
       timeOut.classList.add('cursor-not-allowed')
       breakTimeBtn.setAttribute('disabled','disabled')
       breakTimeBtn.classList.add('cursor-not-allowed');
+       // Make the POST request to stop the timer thread
+       fetch('{{BASE_URL}}logout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+        },
+        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+           // Update remaining time after break based on response from server
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
       setTimeout(()=>{
       window.close()
 
-      },3000)
+      },5000)
     }
    
   
@@ -473,7 +505,9 @@ timeOut.setAttribute('disabled','disabled')
 timeOut.classList.add('cursor-not-allowed')
 breakTimeBtn.setAttribute('disabled','disabled')
 breakTimeBtn.classList.add('cursor-not-allowed')
-
+logout_btn.classList.add('cursor-not-allowed')
+logout_btn.setAttribute('disabled','disabled')
+logout_btn.setAttribute('href','#')
 
 </script>
 
