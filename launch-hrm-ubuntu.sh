@@ -1,5 +1,5 @@
 @ECHO off
 
-start /min python manage.py runserver
+nohup python manage.py runserver
 
-start /min npm run hrm
+nohup npm run hrm

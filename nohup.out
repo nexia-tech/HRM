@@ -1,0 +1,40 @@
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
+/home/muhammadsameer/Desktop/Office/Nexia Tech/HRM/node_modules/electron/dist/electron exited with signal SIGINT
+Watching for file changes with StatReloader
+System check identified some issues:
+
+WARNINGS:
+hrm_app.AttendanceModel.break_time_stamp: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+
+> hrm@1.0.0 hrm
+> electron .
+
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+
