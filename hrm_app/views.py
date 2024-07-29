@@ -61,28 +61,36 @@ class UpdateTimeRecords(APIView):
             return Response({'message': "Attendance not found","status":False}, status=404)
        
         exist_record = EmployeeBreakRecords.objects.filter(employee=user,record_date=current_date,is_break_end=False).first()
+        # Get the current time in UTC
+        utc_now = datetime.utcnow()
+
+        # Specify the timezone you want to convert to
+        tz = pytz.timezone('Asia/Karachi')
+
+        # Convert UTC time to the specified timezone
+        karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
+
+        # Format the time as HH:MM:SS string
+        karachi_time_str = karachi_time.strftime("%H:%M:%S")
         
+            # Convert string to datetime object
+        break_end_time_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
+            
         if exist_record is not None:
-            # Get the current time in UTC
-            utc_now = datetime.utcnow()
-
-            # Specify the timezone you want to convert to
-            tz = pytz.timezone('Asia/Karachi')
-
-            # Convert UTC time to the specified timezone
-            karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
-
-            # Format the time as HH:MM:SS string
-            karachi_time_str = karachi_time.strftime("%H:%M:%S")
-            
-                # Convert string to datetime object
-            break_end_time_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
-            
+           
             exist_record.end_time = break_end_time_obj
             exist_record.is_break_end = True
             exist_record.save()
   
         remaining_hours_str = str(attendance_obj.remaining_hours)
+        
+        time_out_time = datetime.strptime(karachi_time_str, "%H:%M:%S")
+        
+        if remaining_hours_str == "0:00:00":
+            attendance_obj.time_out_time = time_out_time
+            attendance_obj.is_time_out_marked = True
+            attendance_obj.save()
+            return Response({"message":"Your Shift has been ended"})
         
         # Split the string into hours, minutes, and seconds
         hours, minutes, seconds = map(int, remaining_hours_str.split(':'))
@@ -269,7 +277,7 @@ class TimeOut(APIView):
 # Global variables
 stop_thread = False
 idle_time = 0
-idle_threshold = 10  # 60 seconds for demonstration
+idle_threshold = 180  # 60 seconds for demonstration
 idle_check_thread = None
 mouse_listener = None
 keyboard_listener = None
