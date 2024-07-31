@@ -263,7 +263,7 @@
     function updateBreakTimer() {
        
         // Play sound
-        audio.play();
+        {% comment %} audio.play(); {% endcomment %}
         console.log("play");
         
         let comments =  document.getElementById('comments').value
@@ -285,12 +285,16 @@
           if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
           }
+          
           return response.json();
         })
         .then(data => {
              // Update remaining time after break based on response from server
              remainingTime = calculateRemainingTime(data.remaining_hours); // Assuming server sends remaining hours in format 'HH:MM:SS'
           console.log('Success:', data);
+          document.getElementById('break_type').value = "Choose break type"
+          document.getElementById('comments').value = ""
+          
         })
         .catch(error => {
           console.error('Error:', error);
@@ -302,7 +306,7 @@
   
     // Function to start the timer
     function startTimer() {
-        audio.pause()
+        {% comment %} audio.pause() {% endcomment %}
       // Make the POST request to update the time record
     fetch('{{BASE_URL}}hrm/start-timer-thread/', {
       method: 'POST',

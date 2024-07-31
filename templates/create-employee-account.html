@@ -97,7 +97,7 @@
     <div class="step my-10">
       <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Personal Information</p>
       <div class="mb-6">
-        <input type="text" placeholder="Full name of the employee" name="name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        <input type="text" required placeholder="Full name of the employee" name="name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
       <div class="mb-6">
         <input type="text" placeholder="Unique identifier for the employee" name="employee_id" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
@@ -108,7 +108,7 @@
         <input type="date" placeholder="Employee’s birthdate" name="dob" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
       <div class="mb-6 flex space-x-7 float-left">
-        <input type="radio" id="male" name="gender" value="male" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
+        <input type="radio" checked id="male" name="gender" value="male" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
         <label for="male">Male</label>
         <input type="radio" id="female" name="gender" value="female" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
         <label for="female">Female</label>
@@ -307,7 +307,7 @@
     <div class="step my-10">
       <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Financial Information</p>
       <div class="mb-6">
-        <input type="number" placeholder="Base salary of the employee" name="basic_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        <input type="number" value=0 placeholder="Base salary of the employee" name="basic_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
       <div class="mb-6">
         <input type="text" placeholder="Fuel allowance details, if applicable" name="fuel_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />

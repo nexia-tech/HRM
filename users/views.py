@@ -253,11 +253,15 @@ def create_employee_account(request):
             user.designation = designation
             user.department = depart
             user.active_password = password
-            user.shift_duration_hours = working_hours
+
+            if working_hours != '':
+                user.shift_duration_hours = working_hours
             user.is_staff = True
             
-            user.dob = dob
-            user.doj = doj
+            if dob != "":
+                user.dob = dob
+            if doj != '':
+                user.doj = doj
             user.employee_id = employee_id
             user.gender = gender
             user.martial_status = marital_status
@@ -270,7 +274,8 @@ def create_employee_account(request):
             user.emergency_contact_name = emergency_contact_person_name
             user.emergency_contact_number = emergency_contact_person_phone
             user.emergency_contact_relationship = realtionship_emergency_person
-            user.shift_timings = shift_timing
+            if shift_timing != '':
+                user.shift_timings = shift_timing
             user.employment_status = employment_status
             user.supervisor_name = supervisor_name
             user.job_description = job_description
@@ -336,7 +341,8 @@ def create_employee_account(request):
                 messages.success(request,'Employee Account Has Been Created')
                 return redirect('index')
             except Exception as e:
-                messages.error(request,"Please enter unique username/email")
+                print(e)
+                messages.error(request,f"Error: {str(e)}")
                 return redirect('create-employee-account')
             
         return render(request,'create-employee-account.html',context)
