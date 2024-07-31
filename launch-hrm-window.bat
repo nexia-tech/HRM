@@ -1,5 +1,7 @@
 @ECHO off
 
-start /min python manage.py runserver
+REM Start the Django development server
+START /MIN python manage.py runserver
 
-start /min npm run hrm
+REM Start the npm process
+START /MIN npm run hrm
