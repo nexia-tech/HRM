@@ -126,8 +126,8 @@ def logout_view(request):
     data = {
         "email":request.user.email
     }
-    break_request = requests.post(f"{BASE_URL}hrm/break-time-record/",json=data)
-    time_out_request = requests.post(f"{BASE_URL}hrm/time-out/",json=data)
+    break_request = requests.post(f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/break-time-record/",json=data)
+    time_out_request = requests.post(f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/time-out/",json=data)
     logout(request)
     return redirect('index')
 

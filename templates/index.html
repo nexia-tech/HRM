@@ -273,7 +273,7 @@
           break_type = 'System Generated'
         }
         // Make the POST request to update the time record
-        fetch('{{BASE_URL}}hrm/break-time-record/', {
+        fetch('http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/break-time-record/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

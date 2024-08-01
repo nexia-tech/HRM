@@ -316,10 +316,12 @@ def check_idle(email):
         idle_time += 1
         if idle_time >= idle_threshold:
         
-            r = requests.post(f"{BASE_URL}hrm/break-time-record/",json=data)
+            r = requests.post(f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/break-time-record/",json=data)
+            print(r.status_code)
             
         else:
-            r2 = requests.post(f"{BASE_URL}hrm/update-time-record/",json=data)
+            r2 = requests.post(f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/update-time-record/",json=data)
+            print(r2.status_code)
 
 # API View for starting the thread
 class StartThreadView(APIView):
