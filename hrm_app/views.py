@@ -308,7 +308,7 @@ def schedule_screenshot(email):
     global stop_thread
     while not stop_thread:
         interval = random.randint(1, 10) * 60  # interval in seconds
-        # print(f"Waiting for {interval / 60} minutes before taking the next screenshot.")
+        print(f"Waiting for {interval / 60} minutes before taking the next screenshot.")
         time.sleep(interval)
         take_screenshot(email)
         
