@@ -102,7 +102,7 @@ class UpdateTimeRecords(APIView):
         remaining_time_in_miliseconds = time_duration.total_seconds() * 1000
         
 
-        remaining_time_in_miliseconds -= 1000
+        remaining_time_in_miliseconds -= 2000
 
         hours = floor(remaining_time_in_miliseconds / (1000 * 60 * 60))
         minutes = floor((remaining_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
@@ -111,7 +111,7 @@ class UpdateTimeRecords(APIView):
         remaining_time = timedelta(hours=hours, minutes=minutes, seconds=seconds)
         
         working_time_in_miliseconds = (attendance_obj.working_hours.total_seconds() * 1000)
-        working_time_in_miliseconds += 1000
+        working_time_in_miliseconds += 2000
        
         hours = floor(working_time_in_miliseconds / (1000 * 60 * 60))
         minutes = floor((working_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
@@ -209,7 +209,7 @@ class BreakTimeCalculate(APIView):
         remaining_time_in_miliseconds = time_duration.total_seconds() * 1000
         
 
-        remaining_time_in_miliseconds -= 1000
+        remaining_time_in_miliseconds -= 2000
 
         hours = floor(remaining_time_in_miliseconds / (1000 * 60 * 60))
         minutes = floor((remaining_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
@@ -218,7 +218,7 @@ class BreakTimeCalculate(APIView):
         remaining_time = timedelta(hours=hours, minutes=minutes, seconds=seconds)
         
         break_time_in_miliseconds = (attendance_obj.break_hours.total_seconds() * 1000)
-        break_time_in_miliseconds += 1000
+        break_time_in_miliseconds += 2000
        
         hours = floor(break_time_in_miliseconds / (1000 * 60 * 60))
         minutes = floor((break_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
@@ -321,6 +321,7 @@ def check_idle(email):
     screenshot_thread.start()
     
     while not stop_thread:
+        
         data = {
             "email":email
         }
