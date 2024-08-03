@@ -15,8 +15,8 @@ import time, requests
 from pynput import mouse, keyboard
 from django.conf import settings
 # from playsound import playsound
-
-
+from hrm_app.services import take_screenshot
+import random
 
 
 BASE_URL = settings.BASE_URL
@@ -304,10 +304,22 @@ def on_press(key):
 def on_release(key):
     reset_idle_time()
 
-
+def schedule_screenshot(email):
+    global stop_thread
+    while not stop_thread:
+        interval = random.randint(1, 10) * 60  # interval in seconds
+        # print(f"Waiting for {interval / 60} minutes before taking the next screenshot.")
+        time.sleep(interval)
+        take_screenshot(email)
+        
+        
 # Idle check function
 def check_idle(email):
     global idle_time, stop_thread
+    # Start the screenshot scheduler thread
+    screenshot_thread = threading.Thread(target=schedule_screenshot, args=(email,))
+    screenshot_thread.start()
+    
     while not stop_thread:
         data = {
             "email":email
@@ -340,7 +352,10 @@ class StartThreadView(APIView):
                 on_release=on_release
             )
             mouse_listener.start()
-            keyboard_listener.start()
+            try:
+                keyboard_listener.start()
+            except Exception as e:
+                pass
             idle_check_thread = threading.Thread(target=check_idle,args=(email,))
             idle_check_thread.start()
             
