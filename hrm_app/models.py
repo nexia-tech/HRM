@@ -21,7 +21,7 @@ class AttendanceModel(models.Model):
     shift_time = models.TimeField(null=True)
     working_hours = models.DurationField(default=timezone.timedelta(0))
     remaining_hours = models.DurationField(default=timezone.timedelta(hours=8))
-    break_time_stamp = models.ManyToManyField(EmployeeBreakRecords,blank=True,null=True)
+    break_time_stamp = models.ManyToManyField(EmployeeBreakRecords,blank=True)
     break_hours = models.DurationField(default=timezone.timedelta(0))
     total_hours_completed = models.DurationField(default=timezone.timedelta(0))
     time_out_time = models.TimeField(null=True,blank=True)
@@ -49,3 +49,15 @@ class LeavesModel(models.Model):
     
     def __str__(self):
         return self.employee.email    
+    
+    
+    
+class ScreenShotRecords(models.Model):
+    employee = models.ForeignKey(User, on_delete=models.SET_NULL,null=True,blank=True)
+    date = models.DateField()
+    s3_screen_shot_link = models.TextField(null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)    
+
+    def __str__(self):
+        return self.employee.email      
+    

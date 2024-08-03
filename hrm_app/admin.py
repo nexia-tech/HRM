@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords
+from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords
 from import_export.admin import ImportExportModelAdmin
 
 class AttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
@@ -20,4 +20,4 @@ class EmployeeBreakRecordAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 admin.site.register(EmployeeBreakRecords,EmployeeBreakRecordAdmin)
 
-# admin.site.register(LeavesModel)
+admin.site.register(ScreenShotRecords)
