@@ -34,7 +34,7 @@ def take_screenshot(email):
     screenshot.save(full_file_path)
     # Upload the file to S3
     s3_client.upload_file(full_file_path, 'nexia-hrm', full_file_path)
-    # print("Savedddd")
+    print("Savedddd")
     employee = User.objects.filter(email=email).first()
     
     date = datetime.now().date()
