@@ -30,3 +30,4 @@ class DepartmentAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 admin.site.register(Department,DepartmentAdmin)
 
 hrm_admin.register(User,UserAdmin)
+hrm_admin.register(Department,DepartmentAdmin)
