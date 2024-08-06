@@ -19,7 +19,8 @@ def take_screenshot(email):
     month_year = datetime.now().strftime("%B-%Y")
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     filename = f'screenshot_{email}_{timestamp}.png'
-    directory_path = os.path.join('screenshots', month_year,email)
+    date =str(datetime.now().strftime("%D")).replace("/",'-')
+    directory_path = os.path.join('screenshots', month_year,email,date)
     # print(f"directory path: {directory_path}")
     # Create the directory if it doesn't exist
     try:
