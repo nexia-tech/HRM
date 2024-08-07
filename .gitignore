@@ -165,3 +165,5 @@ node_modules
 
 nohup.out
 screenshots
+
+*.zip

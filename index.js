@@ -1,29 +1,70 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Tray, Menu } = require("electron");
+const path = require("path");
 
+let tray = null;
+let mainWindow = null;
 
-function ElectronMainMethod() {
-  const launchWindow = new BrowserWindow({
+function createWindow() {
+  mainWindow = new BrowserWindow({
     title: "Nexia HRM",
     width: 1300,
     height: 600,
     minWidth: 1000,
-    minHeight:560,
+    minHeight: 560,
     autoHideMenuBar: true,
-
-    frame: false, // Remove the default window frame
+    frame: true, // Remove the default window frame
     webPreferences: {
-      nodeIntegration: false, // Enable Node integration if needed
+      nodeIntegration: true, // Enable Node integration if needed
       contextIsolation: false, // Disable context isolation if Node integration is enabled
     },
-    
   });
 
   const appUrl = "http://127.0.0.1:8000/";
-  // const appUrl = "http://ec2-34-226-12-37.compute-1.amazonaws.com/"
+  mainWindow.loadURL(appUrl);
 
-  launchWindow.loadURL(appUrl);
+  mainWindow.on('minimize', (event) => {
+    event.preventDefault();
+    mainWindow.hide();
+  });
 
+  mainWindow.on('close', (event) => {
+    if (!app.isQuiting) {
+      event.preventDefault();
+      mainWindow.hide();
+    }
 
+    return false;
+  });
 }
 
-app.whenReady().then(ElectronMainMethod)
+app.on('ready', () => {
+  createWindow();
+
+  tray = new Tray(path.join(__dirname, 'tray-icon.png')); // Provide a path to your tray icon
+
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Show App', click: () => { mainWindow.show(); } },
+    { label: 'Quit', click: () => { app.isQuiting = true; app.quit(); } }
+  ]);
+
+  tray.setToolTip('Nexia HRM');
+  tray.setContextMenu(contextMenu);
+
+  tray.on('click', () => {
+    mainWindow.show();
+  });
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
+
+// const appUrl = "http://ec2-34-226-12-37.compute-1.amazonaws.com/"
