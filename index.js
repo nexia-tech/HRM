@@ -11,7 +11,7 @@ function ElectronMainMethod() {
     autoHideMenuBar: true,
     frame: false,// Enable the default window frame
     webPreferences: {
-      nodeIntegration: true,// Enable Node integration if needed
+      nodeIntegration: false,// Enable Node integration if needed
       contextIsolation: true, // Disable context isolation if Node integration is enabled
     },
     
