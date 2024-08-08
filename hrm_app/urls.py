@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut,StartThreadView,StopThreadView
+from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut,StartThreadView,StopThreadView, employees_report
 
 
 urlpatterns = [
@@ -11,6 +11,7 @@ urlpatterns = [
     
     path('start-timer-thread/', StartThreadView.as_view(), name='start_thread'),
     path('stop-timer-thread/', StopThreadView.as_view(), name='stop_thread'),
+    path("employees-report/",employees_report,name='employees-report')
     
 ]
 

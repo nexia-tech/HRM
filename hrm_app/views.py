@@ -383,3 +383,11 @@ class StopThreadView(APIView):
             return Response({'status': 'Thread stopped'}, status=status.HTTP_200_OK)
         else:
             return Response({'status': 'Thread is not running'}, status=status.HTTP_400_BAD_REQUEST)
+
+@login_required(login_url='login')
+def employees_report(request):
+    attendances = AttendanceModel.objects.all()
+    context = {
+        'attendances':attendances
+    }
+    return render(request,'employees-report.html',context)

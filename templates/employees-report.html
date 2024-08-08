@@ -3,14 +3,13 @@
 
 
 {% block body %}
-<section class="bg-gray-50 900 container mx-auto my-8">
+<section class="bg-gray-50 900 container mx-auto ">
     <div class="md:h-[80vh] px-6 mx-auto lg:py-0">
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
-                
                 <th scope="col" class="px-6 py-3 capitalize">
                     Employee Email
                 </th>
@@ -18,50 +17,55 @@
                     shift date
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    break type
+                    shift time
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    break start time
+                    Working hours
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                     break end time
+                     break hours
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    Is break end?
+                    remaining hours
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    comments
+                    total hours completed
                 </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    Time out
+                </th>
+               
+                
             </tr>
         </thead>
         <tbody>
-            {% for time_stamp in attendance.break_time_stamp.all %}
+            {% for attendance in attendances %}
             <tr class="bg-white border-b 800 700">
-              
-                <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">
-                    {{time_stamp.employee.email}}
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                    {{attendance.employee.email}}
                 </th>
-                <th scope="row" >
-                    {{time_stamp.record_date}}
+                <th scope="row">
+                    {{attendance.shift_date}}
                 </th>
                 <td class="px-6 py-4">
-                    {{time_stamp.break_type}}
+                    {{attendance.shift_time}}
                 </td>
                 <td class="px-6 py-4">
-                    {{time_stamp.start_time}}
+                    {{attendance.working_hours}}
                 </td>
                 <td class="px-6 py-4">
-                   {{time_stamp.end_time}}
+                   <a href="{% url "break-time-stamp" attendance.id %}" class="text-blue-700 cursor-pointer"> {{attendance.break_hours}}</a>
                 </td>
                 <td class="px-6 py-4">
-                    {% if time_stamp.is_break_end %}
-                    <i class="fa-solid fa-circle-check text-green-700"></i>
-                    {% else %}
-                    <i class="fa-solid fa-circle-xmark text-red-700"></i>
-                    {% endif %}
-                <td class="px-6 py-4">
-                    <textarea disabled class="bg-gray-300 px-3 py-2 text-black" rows="1">{{time_stamp.break_comments}}</textarea>
+                    {{attendance.remaining_hours}}
                 </td>
+                <td class="px-6 py-4">
+                    {{attendance.total_hours_completed}}
+                </td>
+                <td class="px-6 py-4">
+                    {{attendance.time_out_time}}
+                </td>
+                
             </tr>
             {% endfor %}
             
@@ -79,10 +83,11 @@
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: false,   
-            order: [[0, 'des']],
-            pageLength: 20 // Set the number of entries per page to 10
-            // lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ] //
+            responsive: false,
+            order: [[1, 'des']],
+            pageLength: 20,// Set the number of entries per page to 10,
+            lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ] //
+
         });
     });
 </script>
