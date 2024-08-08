@@ -23,6 +23,7 @@ def take_screenshot(email):
     directory_path = os.path.join('screenshots', month_year,email,date)
     # print(f"directory path: {directory_path}")
     # Create the directory if it doesn't exist
+    directory_path = directory_path.replace("\\","/")
     try:
         os.makedirs(directory_path)
     except FileExistsError:
