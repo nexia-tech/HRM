@@ -51,7 +51,7 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    username
+                    username/Email
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
                     name
@@ -82,7 +82,7 @@
             {% for employee in employees %}
             <tr class="bg-white border-b 800 700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                    {{employee.username}}
+                  <a href="{% url "employees-report" employee.id%}" class="text-blue-700"> {{employee.username}}</a>
                 </th>
                 <td class="px-6 py-4">
                     {{employee.name}}
@@ -160,7 +160,10 @@
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: false   
+            responsive: false,
+            order: [[1, 'asc']],
+            pageLength: 25,// Set the number of entries per page to 10,
+            lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ] //   
         });
     });
 </script>

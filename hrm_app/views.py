@@ -43,7 +43,13 @@ def break_time_stamp(request,id):
     return render(request,'break-time-stamp.html',context)
 
 
-
+@login_required(login_url='login')
+def employees_report(request,id):
+    attendances = AttendanceModel.objects.filter(employee__id=id)
+    context = {
+        'attendances':attendances
+    }
+    return render(request,'employees-report.html',context)
 
 
 class UpdateTimeRecords(APIView):
@@ -384,10 +390,3 @@ class StopThreadView(APIView):
         else:
             return Response({'status': 'Thread is not running'}, status=status.HTTP_400_BAD_REQUEST)
 
-@login_required(login_url='login')
-def employees_report(request):
-    attendances = AttendanceModel.objects.all()
-    context = {
-        'attendances':attendances
-    }
-    return render(request,'employees-report.html',context)

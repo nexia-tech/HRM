@@ -26,13 +26,12 @@
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
           {% if user.is_superuser %}
-          <a href="{% url "create-employee-account" %}" target="_blank" class="mr-5 hover:text-gray-500 cursor-pointer">Create Employee Account</a>
-          <a href="{% url "employees" %}"  target="_blank" class="mr-5 hover:text-gray-500 cursor-pointer">Employees</a>
-          <a href="{% url "employees-report" %}" target="_blank" class="mr-5 hover:text-gray-500 cursor-pointer">Employees Report</a>
+          <a href="{% url "create-employee-account" %}" class="mr-5 hover:text-gray-500 cursor-pointer">Create Employee Account</a>
+          <a href="{% url "employees" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Employees</a>
 
           {% endif %}
-          {% comment %} <a href="{% url "edit-profile" %}" target="_blank" class="mr-5 hover:text-gray-500 cursor-pointer">Edit Profile</a> {% endcomment %}
-          <a href="{% url "my-attendance" %}" target="_blank" class="mr-5 hover:text-gray-500 cursor-pointer">Attendance Report</a>
+          {% comment %} <a href="{% url "edit-profile" %}" class="mr-5 hover:text-gray-500 cursor-pointer">Edit Profile</a> {% endcomment %}
+          <a href="{% url "my-attendance" %}" class="mr-5 hover:text-gray-500 cursor-pointer">Attendance Report</a>
         </nav>
         
         {% if user.is_authenticated %}

@@ -11,7 +11,7 @@ urlpatterns = [
     
     path('start-timer-thread/', StartThreadView.as_view(), name='start_thread'),
     path('stop-timer-thread/', StopThreadView.as_view(), name='stop_thread'),
-    path("employees-report/",employees_report,name='employees-report')
+    path("employees-report/<int:id>/",employees_report,name='employees-report')
     
 ]
 
