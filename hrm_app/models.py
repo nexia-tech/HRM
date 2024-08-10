@@ -24,6 +24,7 @@ class AttendanceModel(models.Model):
     break_time_stamp = models.ManyToManyField(EmployeeBreakRecords,blank=True)
     break_hours = models.DurationField(default=timezone.timedelta(0))
     total_hours_completed = models.DurationField(default=timezone.timedelta(0))
+    is_present = models.BooleanField(default=True) 
     time_out_time = models.TimeField(null=True,blank=True)
     is_time_out_marked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)   

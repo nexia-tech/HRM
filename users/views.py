@@ -46,8 +46,26 @@ def index(request):
     
     
     current_date = timezone.now().date()
-    attendance_obj= AttendanceModel.objects.filter(employee=user,shift_date=current_date,is_time_out_marked=False).first()
+    attendance_records = AttendanceModel.objects.filter(employee=user).order_by('-shift_date')
+    attendance_obj = attendance_records.filter(shift_date=current_date, is_time_out_marked=False).first()
+    last_record = attendance_records.filter(is_time_out_marked=True).last()
 
+    missing_dates = []
+    while last_record.shift_date < current_date:
+        next_date = last_record.shift_date + timedelta(days=1)
+        attendance_object = AttendanceModel(
+            employee=user,
+            shift_date=next_date,
+            shift_time=None,
+            remaining_hours=shift_duration_timedelta,
+            is_present=False,
+            is_time_out_marked=True
+        )
+        missing_dates.append(attendance_object)
+        last_record.shift_date = next_date
+
+    if missing_dates:
+        AttendanceModel.objects.bulk_create(missing_dates)
     
     if attendance_obj is None:
         attendance_object = AttendanceModel()
@@ -100,15 +118,38 @@ def loginView(request):
                 shift_duration_timedelta = timedelta(hours=user.shift_duration_hours)
                 
 
-                attendance_obj= AttendanceModel.objects.filter(employee=user,shift_date=current_date,is_time_out_marked=False).first()
+                # attendance_obj= AttendanceModel.objects.filter(employee=user,shift_date=current_date,is_time_out_marked=False).first()
 
-               
+                # last_record = AttendanceModel.objects.filter(employee=user,is_time_out_marked=True).last()
+                
+                attendance_records = AttendanceModel.objects.filter(employee=user).order_by('-shift_date')
+                attendance_obj = attendance_records.filter(shift_date=current_date, is_time_out_marked=False).first()
+                last_record = attendance_records.filter(is_time_out_marked=True).last()
+
+                missing_dates = []
+                while last_record.shift_date < current_date:
+                    next_date = last_record.shift_date + timedelta(days=1)
+                    attendance_object = AttendanceModel(
+                        employee=user,
+                        shift_date=next_date,
+                        shift_time=None,
+                        remaining_hours=shift_duration_timedelta,
+                        is_present=False,
+                        is_time_out_marked=True
+                    )
+                    missing_dates.append(attendance_object)
+                    last_record.shift_date = next_date
+
+                if missing_dates:
+                    AttendanceModel.objects.bulk_create(missing_dates)
+
                 if attendance_obj is None:
-                    attendance_object = AttendanceModel()
-                    attendance_object.employee = user
-                    attendance_object.shift_date = current_date
-                    attendance_object.shift_time = datetime_obj
-                    attendance_object.remaining_hours = shift_duration_timedelta
+                    attendance_object = AttendanceModel(
+                        employee=user,
+                        shift_date=current_date,
+                        shift_time=datetime_obj,
+                        remaining_hours=shift_duration_timedelta
+                    )
                     attendance_object.save()
                     
                 return redirect('index')  # Replace 'home' with your desired URL name

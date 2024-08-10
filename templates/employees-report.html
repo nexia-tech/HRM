@@ -32,6 +32,9 @@
                     total hours completed
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
+                    Present/Absent
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
                     Time out
                 </th>
                
@@ -61,6 +64,13 @@
                 </td>
                 <td class="px-6 py-4">
                     {{attendance.total_hours_completed}}
+                </td>
+                <td class="px-6 py-4">
+                    {% if attendance.is_present %}
+                    Present
+                    {% else %}
+                    Absent
+                    {% endif %}
                 </td>
                 <td class="px-6 py-4">
                     {{attendance.time_out_time}}
