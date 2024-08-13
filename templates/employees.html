@@ -82,7 +82,7 @@
             {% for employee in employees %}
             <tr class="bg-white border-b 800 700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                  <a href="{% url "employees-report" employee.id%}" class="text-blue-700"> {{employee.username}}</a>
+                  <a href="{% url "view-profile" employee.id%}" class="text-blue-700"> {{employee.username}}</a>
                 </th>
                 <td class="px-6 py-4">
                     {{employee.name}}

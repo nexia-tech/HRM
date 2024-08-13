@@ -399,6 +399,14 @@ def employees(request):
     }
     return render(request,'employees.html',context)
 
+@login_required(login_url='login')
+def view_profile(request,id):
+    employee = User.objects.get(id=id)
+    context = {
+        'employee':employee
+    }
+    return render(request,'view-profile.html',context)
+
 
 @login_required(login_url='login')
 def employee_delete(request,id):
