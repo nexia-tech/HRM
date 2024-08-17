@@ -44,27 +44,30 @@ def index(request):
 
     current_date = timezone.now().date()
     attendance_records = AttendanceModel.objects.filter(
-        employee=user).order_by('-shift_date')
+        employee=user).order_by('shift_date')
     attendance_obj = attendance_records.filter(
         shift_date=current_date, is_time_out_marked=False).first()
     last_record = attendance_records.filter(is_time_out_marked=True).last()
+    try:
+        while last_record.shift_date < current_date:
+            next_date = last_record.shift_date + timedelta(days=1)
+            if next_date != current_date:
+                attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
+                    employee=user,
+                    shift_date=next_date,
+                    shift_time=None,
+                    remaining_hours=shift_duration_timedelta,
+                    is_present=False,
+                    is_time_out_marked=True
+                )
+                if not isNotexist:
+                    attendance_object.is_present=False
+                    
+                attendance_object.save()
+            last_record.shift_date = next_date
 
-    missing_dates = []
-    while last_record.shift_date < current_date:
-        next_date = last_record.shift_date + timedelta(days=1)
-        attendance_object = AttendanceModel(
-            employee=user,
-            shift_date=next_date,
-            shift_time=None,
-            remaining_hours=shift_duration_timedelta,
-            is_present=False,
-            is_time_out_marked=True
-        )
-        missing_dates.append(attendance_object)
-        last_record.shift_date = next_date
-
-    if missing_dates:
-        AttendanceModel.objects.bulk_create(missing_dates)
+    except Exception as e:
+        pass
 
     if attendance_obj is None:
         attendance_object = AttendanceModel()
@@ -126,23 +129,27 @@ def loginView(request):
                     shift_date=current_date, is_time_out_marked=False).first()
                 last_record = attendance_records.filter(
                     is_time_out_marked=True).last()
+                try:
+                    while last_record.shift_date < current_date:
+                        next_date = last_record.shift_date + timedelta(days=1)
+                        if next_date != current_date:
+                            attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
+                                employee=user,
+                                shift_date=next_date,
+                                shift_time=None,
+                                remaining_hours=shift_duration_timedelta,
+                                is_present=False,
+                                is_time_out_marked=True
+                            )
+                            if not isNotexist:
+                                attendance_object.is_present=False
+                                
+                            attendance_object.save()
+                        last_record.shift_date = next_date
 
-                missing_dates = []
-                while last_record.shift_date < current_date:
-                    next_date = last_record.shift_date + timedelta(days=1)
-                    attendance_object = AttendanceModel(
-                        employee=user,
-                        shift_date=next_date,
-                        shift_time=None,
-                        remaining_hours=shift_duration_timedelta,
-                        is_present=False,
-                        is_time_out_marked=True
-                    )
-                    missing_dates.append(attendance_object)
-                    last_record.shift_date = next_date
+                except Exception as e:
+                    pass
 
-                if missing_dates:
-                    AttendanceModel.objects.bulk_create(missing_dates)
 
                 if attendance_obj is None:
                     attendance_object = AttendanceModel(
