@@ -26,3 +26,6 @@ function ElectronMainMethod() {
 
 app.whenReady().then(ElectronMainMethod)
 // const appUrl = "http://ec2-34-226-12-37.compute-1.amazonaws.com/"
+
+
+
