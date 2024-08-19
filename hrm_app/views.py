@@ -323,8 +323,8 @@ def schedule_screenshot(email):
 def check_idle(email):
     global idle_time, stop_thread
     # Start the screenshot scheduler thread
-    screenshot_thread = threading.Thread(target=schedule_screenshot, args=(email,))
-    screenshot_thread.start()
+    # screenshot_thread = threading.Thread(target=schedule_screenshot, args=(email,))
+    # screenshot_thread.start()
     
     while not stop_thread:
         
