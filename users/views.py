@@ -46,7 +46,7 @@ def index(request):
     attendance_records = AttendanceModel.objects.filter(
         employee=user).order_by('shift_date')
     attendance_obj = attendance_records.filter(
-        shift_date=current_date, is_time_out_marked=False).first()
+        shift_date=current_date).first()
     last_record = attendance_records.filter(is_time_out_marked=True).last()
     try:
         while last_record.shift_date < current_date:
@@ -126,7 +126,7 @@ def loginView(request):
                 attendance_records = AttendanceModel.objects.filter(
                     employee=user).order_by('-shift_date')
                 attendance_obj = attendance_records.filter(
-                    shift_date=current_date, is_time_out_marked=False).first()
+                    shift_date=current_date).first()
                 last_record = attendance_records.filter(
                     is_time_out_marked=True).last()
                 try:
