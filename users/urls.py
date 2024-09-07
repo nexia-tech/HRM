@@ -15,3 +15,4 @@ urlpatterns = [
     path("update-profile/<int:id>",update_profile,name='update-profile'),
 
 ]
+
