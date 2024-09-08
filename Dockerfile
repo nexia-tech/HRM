@@ -33,3 +33,4 @@ EXPOSE 8000
 
 # Run the Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
