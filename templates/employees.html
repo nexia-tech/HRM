@@ -51,7 +51,7 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    username
+                    username/Email
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
                     name
@@ -82,7 +82,7 @@
             {% for employee in employees %}
             <tr class="bg-white border-b 800 700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                    <a href="" class="text-blue-700">{{employee.username}}</a>
+                  {{employee.username}}
                 </th>
                 <td class="px-6 py-4">
                     {{employee.name}}
@@ -102,10 +102,12 @@
                 <td class="px-6 py-4">
                     {{employee.designation}}
                 </td>
-                <th scope="col" class="px-6 py-3 capitalize">
-                    <a href="" class="text-blue-700">Edit</a> |
-                    <a class="text-blue-700 cursor-pointer" data-modal-target="delete-employee-{{forloop.counter}}" data-modal-toggle="delete-employee-{{forloop.counter}}">Delete</a>
-                </th>
+                <td>
+                    <a href="{% url "update-profile" employee.id %}" class="text-blue-700">Edit</a> | 
+                    <a href="{% url "view-profile" employee.id%}"  class="text-blue-700">View</a> 
+                </td>
+                      
+                  {% comment %} <a class="text-blue-700 cursor-pointer" data-modal-target="delete-employee-{{forloop.counter}}" data-modal-toggle="delete-employee-{{forloop.counter}}">Delete</a> {% endcomment %}
                 
             </tr>
 
@@ -158,7 +160,10 @@
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: false   
+            responsive: false,
+            order: [[1, 'asc']],
+            pageLength: 25,// Set the number of entries per page to 10,
+            lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ] //   
         });
     });
 </script>

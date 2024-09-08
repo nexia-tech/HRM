@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{employee.email}}{% endblock title %}
+
+{% block body %}
+    <div id="container" class="justify-between sm:p-16 md:p-20 w-auto flex flex-col md:flex-row px-4 sm:px-8 md:px-24 lg:px-24 xl:px-24 relative">
+        <div class="mr-10">
+            {% if employee.profile_picture %}
+            <img
+            class="border-black min-w-[500px] border rounded-full w-full h-auto md:w-auto md:h-auto"
+            src="{{employee.profile_picture.url}}"
+            alt="image of myself"
+            />
+            {% else %}
+            <img alt="profile-pic" class="border-black min-w-[500px] border rounded-full w-full h-auto md:w-auto md:h-auto" src="https://api.dicebear.com/9.x/bottts-neutral/svg?eyes=robocop" />
+            
+            {% endif %}
+        </div>
+        <div class=" w-full sm:w-[70%] md:w-[60%] lg:w-[50%]">
+            <h1 class="text-black font-bold text-3xl mt-6 mb-8">
+            {% if not employee.last_name %}
+            {{employee.first_name}}
+            {% else %}
+            {{employee.first_name}}
+            {{employee.last_name}}
+            {% endif %}
+            </h1>
+
+            <p class="text-black text-lg w-full sm:w-[35rem] md:w-[30rem] lg:w-[25rem] mb-10">
+            <strong>Bio: </strong>{{employee.bio}}
+            <br><strong>Email: </strong>{{employee.email}}
+            <br><strong>Company Email: </strong>{{employee.company_email}}
+            <br><strong>Phone: </strong>{{employee.phone}}
+            <br><strong>Gender: </strong>{{employee.gender}}
+            <br><strong>Department: </strong>{{employee.department.name}}
+            <br><strong>Designation: </strong>{{employee.designation}}
+            <br><strong>Date of Birth: </strong>{{employee.dob}}
+            <br><strong>Address: </strong>{{employee.address}}
+            <br><strong>Date of Joining: </strong>{{employee.doj}}
+            <br><strong>Shift Timings: </strong>{{employee.shift_timings}}
+            <br><strong>Employment Status: </strong>{{employee.employment_status}}
+            </p>
+            <div id="social" class="flex flex-wrap justify-start items-center gap-4 text-center">
+            
+            <a href="{% url "employees-report" employee.id %}" class="bg-gray-800 text-center rounded-lg p-5 w-54 flex items-center gap-2 text-white">
+                <span>View Attendance</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+            <a href="{% url "update-profile" employee.id %}" class="bg-gray-800 text-center rounded-lg p-5 w-54 flex items-center gap-2 text-white">
+                <span>Update Profile</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+    </div>
+
+{% endblock body %}

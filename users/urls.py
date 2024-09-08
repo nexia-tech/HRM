@@ -1,5 +1,5 @@
 from django.urls import path
-from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete
+from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete, view_profile, update_profile
 
 
 urlpatterns = [
@@ -10,6 +10,9 @@ urlpatterns = [
     path('create-employee-account/', create_employee_account,
          name='create-employee-account'),
     path("employees/", employees, name='employees'),
+    path("view-profile/<int:id>",view_profile,name='view-profile'),
     path('employee-delete/<int:id>/',employee_delete,name='employee-delete'),
+    path("update-profile/<int:id>",update_profile,name='update-profile'),
 
 ]
+

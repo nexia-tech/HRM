@@ -1,4 +1,6 @@
 
+# nohup xvfb-run -a gunicorn config.wsgi -t 36000 -w 3 > gunicorn.log 2>&1 &
+
 import os
 from pathlib import Path
 import environ
@@ -19,6 +21,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 BASE_URL = env('BASE_URL')
+
+AWS_ACCESS_KEY_ID=env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY=env('AWS_SECRET_ACCESS_KEY')
 
 
 # Application definition
@@ -68,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'users.context_processor.base_url',
             ],
         },
     },
@@ -79,12 +85,30 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+engine = env('DATABASE_ENGING')
+if engine == 'django.db.backends.mysql':
+    print("RDS")
+    DATABASES = {
+        'default': {
+            'ENGINE': engine,
+            'NAME': env('DATABASE_NAME'),
+            'USER': env('DATABASE_USERNAME'),
+            'PASSWORD': env('DATABASE_PASSWORD').strip(),
+            'HOST': env('DATABASE_HOST'),  # e.g., 'localhost' or an IP address
+            'PORT': env('DATABASE_PORT'), 
+            "OPTIONS": {
+               "init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
+            }
+        }
     }
-}
+else:
+    print("sql")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -122,10 +146,11 @@ AUTH_USER_MODEL = 'users.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_URL = "/config/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "config/media")
 
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = "/static/"
 
 
@@ -188,3 +213,4 @@ CSRF_TRUSTED_ORIGINS = [
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000000  # 1 GB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 100000000000  # 1 GB
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000000000000000000000

@@ -1,0 +1,593 @@
+{% extends 'base.html' %}
+
+{% block style %}
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+    
+    #signUpForm {
+      max-width: 1000px;
+    }
+    
+    #signUpForm .form-header .stepIndicator.active {
+      font-weight: 600;
+    }
+    
+    #signUpForm .form-header .stepIndicator.finish {
+      font-weight: 600;
+      color: #5a67d8;
+    }
+    
+    #signUpForm .form-header .stepIndicator::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      z-index: 9;
+      width: 20px;
+      height: 20px;
+      background-color: #c3dafe;
+      border-radius: 50%;
+      border: 3px solid #ebf4ff;
+    }
+    
+    #signUpForm .form-header .stepIndicator.active::before {
+      background-color: #a3bffa;
+      border: 3px solid #c3dafe;
+    }
+    
+    #signUpForm .form-header .stepIndicator.finish::before {
+      background-color: #5a67d8;
+      border: 3px solid #c3dafe;
+    }
+    
+    #signUpForm .form-header .stepIndicator::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 8px;
+      width: 100%;
+      height: 3px;
+      background-color: #f3f3f3;
+    }
+    
+    #signUpForm .form-header .stepIndicator.active::after {
+      background-color: #a3bffa;
+    }
+    
+    #signUpForm .form-header .stepIndicator.finish::after {
+      background-color: #5a67d8;
+    }
+    
+    #signUpForm .form-header .stepIndicator:last-child:after {
+      display: none;
+    }
+    
+    #signUpForm input.invalid {
+      border: 2px solid #ffaba5;
+    }
+    
+    #signUpForm .step {
+      display: none;
+    }
+  </style>
+{% endblock %}
+
+{% block headlinks %}
+  <!-- google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+  <form id="signUpForm" method="POST" class="p-12 shadow-md rounded-2xl bg-white mx-auto border-solid border-2 border-gray-100 mb-8" action="{% url 'update-profile' employee.id %}">
+    {% csrf_token %}
+    <!-- start step indicators -->
+    <div class="form-header flex gap-3 mb-4 text-xs text-center">
+      <span class="stepIndicator flex-1 pb-8 relative">Personal Information</span>
+      <span class="stepIndicator flex-1 pb-8 relative">Contact Information</span>
+      <span class="stepIndicator flex-1 pb-8 relative">Job Information</span>
+      <span class="stepIndicator flex-1 pb-8 relative">Educational Background</span>
+      <span class="stepIndicator flex-1 pb-8 relative">Financial Information</span>
+      <span class="stepIndicator flex-1 pb-8 relative">Documents</span>
+      <span class="stepIndicator flex-1 pb-8 relative">Miscellaneous Information</span>
+    </div>
+    <!-- end step indicators --> <!-- step one -->
+    <div class="step my-10">
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Personal Information</p>
+      <div class="mb-6">
+        <label for="" class="my-7">Employee Name</label>
+
+        <input type="text" required placeholder="Full name of the employee" name="name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" value="{{employee.name}}"/>
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Unique identifier for the employee</label>
+
+        <input type="text" placeholder="Unique identifier for the employee" name="employee_id" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" value="{{employee.employee_id}}"/>
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Date of Birth</label>
+
+        <input value="{{ employee.dob|date }}" type="date" placeholder="Employee’s birthdate" name="dob" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6 flex space-x-7 float-left">
+        <input type="radio" {% if employee.gender == 'male' %}checked{% endif %} id="male" name="gender" value="male" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" {% if employee.gender == 'female' %}checked{% endif %} value="female" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" {% if employee.gender == 'other' %}checked{% endif %} value="other" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
+        <label for="other">Other</label>
+      </div>
+      
+        <input type="text" value="{{employee.martial_status}}" placeholder="Single, Married, etc" name="marital_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">National identification number</label>
+
+        <input type="text" value="{{employee.cnic}}" placeholder="National identification number" name="nic" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Personal email address</label>
+
+        <input type="email" value="{{employee.email}}" placeholder="Personal email address" name="email" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Primary personal contact number</label>
+
+        <input type="text" value="{{employee.phone}}" placeholder="Primary personal contact number" name="phone" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      
+      <div class="mb-6">
+        <label for="" class="my-7">Residential address</label>
+
+        <textarea placeholder="Residential address" name="address" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'">{{employee.address}}</textarea>
+      </div>
+
+      <div class="mb-6">
+        <label for="" class="my-7">Bio</label>
+        <textarea placeholder="Bio" name="bio" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'">{{employee.bio}}</textarea>
+      </div>
+    </div>
+    <!-- step two -->
+    <div class="step my-10">
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Contact Information</p>
+      <div class="mb-6">
+        <label for="" class="my-7">Company-provided email address</label>
+
+        <input type="email" value="{{employee.company_email}}" placeholder="Company-provided email address" name="company_email" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Company-provided phone number</label>
+
+        <input type="text" value="{{employee.company_phone_number}}" placeholder="Company-provided phone number" name="company_phone" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Name of emergency contact person</label>
+
+        <input type="text" value="{{employee.emergency_contact_name}}" placeholder="Name of emergency contact person" name="emergency_contact_person_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+
+      <div class="mb-6">
+        <label for="" class="my-7">Phone number of emergency contact</label>
+
+        <input type="text" value="{{employee.emergency_contact_number}}" placeholder="Phone number of emergency contact" name="emergency_contact_person_phone" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+
+      <div class="mb-6">
+        <label for="" class="my-7">Relationship to emergency contact person</label>
+
+        <input type="text" value="{{employee.emergency_contact_relationship}}" placeholder="Relationship to emergency contact person" name="realtionship_emergency_person" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+    </div>
+    <!-- step three -->
+    <div class="step my-10">
+        <label for="" class="my-7">Designation</label>
+
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Job Information</p>
+      <div class="mb-6">
+        <input type="text" value="{{employee.designation}}" placeholder="Job title or role within the company" name="designation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Department</label>
+
+        <input type="text" value="{{employee.department.name}}" placeholder="Department the employee is assigned to" name="department" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+     
+
+      <div class="mb-6">
+        <label for="" class="my-7">Working Hours</label>
+
+        <input type="number" required pattern="[1-9]" value="{{employee.shift_duration_hours}}" placeholder="Working Hours" name="working_hours" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Employment Status</label>
+
+        <input type="text" value="{{employee.employment_status}}" placeholder="Full-time, Part-time, Contract, etc" name="employment_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Name of the immediate supervisor or manager</label>
+
+        <input type="text" value="{{employee.supervisor_name}}" placeholder="Name of the immediate supervisor or manager" name="supervisor_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Job Description</label>
+
+        <textarea placeholder="Brief description of job responsibilities" name="job_description" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'">{{employee.job_description}}</textarea>
+      </div>
+    </div>
+
+    <!-- step four -->
+    <div class="step my-10">
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Educational Background</p>
+      <fieldset>
+
+        <div class="mb-6">
+        <label for="" class="my-7">School Name</label>
+
+          <input type="text" value="{{employee.schoool_name}}" placeholder="Name of the high school attended" name="school_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">School City</label>
+
+          <input type="text" value="{{employee.school_city}}" placeholder="City and country of the high school" name="school_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Year of high school graduation</label>
+
+          <input type="number" min="2000" value="{{employee.school_year_graduation}}" placeholder="Year of high school graduation" name="school_year_graduation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">School Major Subject</label>
+
+          <input type="text" value="{{employee.school_major_subject}}" placeholder="Major or focus, if applicable" name="school_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">School Grade</label>
+
+          <input type="text" value="{{employee.school_grade}}" placeholder="Grade Point Average or equivalent" name="school_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+
+        <div class="mb-6">
+        <label for="" class="my-7">College Name</label>
+
+          <input type="text" value="{{employee.college_name}}" placeholder="Name of the high school attended" name="college_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">College City</label>
+
+          <input type="text" value="{{employee.college_city}}" placeholder="City and country of the high school" name="college_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Year of high school graduation</label>
+
+          <input type="number" min="2000" value="{{employee.college_year_graduation}}" placeholder="Year of high school graduation" name="college_year_graduation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">College Major Subject</label>
+
+          <input type="text" value="{{employee.college_major_subject}}" placeholder="Major or focus, if applicable" name="college_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">College Grade</label>
+
+          <input type="text" value="{{employee.college_grade}}" placeholder="Grade Point Average or equivalent" name="college_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+
+        <div class="mb-6">
+        <label for="" class="my-7">Undergraduate Name</label>
+          <input type="text" value="{{employee.undergraduate_name}}" placeholder="Name of the university attended" name="undergraduate_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Undergraduate City</label>
+          <input type="text" value="{{employee.undergraduate_city}}" placeholder="City and country of the university" name="undergraduate_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Undergraduate Degree</label>
+          <input type="text" value="{{employee.undergraduate_degree}}" placeholder="Bachelor’s degree obtained" name="undergraduate_degree" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Undergraduate Major Subject</label>
+          <input type="text" value="{{employee.undergraduate_major_subject}}" placeholder="Fields of study (major and minor)" name="undergraduate_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Undergraduate Graduation Year</label>
+          <input type="number" min="2000" value="{{employee.undergraduate_graduation_year}}" placeholder="Year of undergraduate graduation" name="undergraduate_graduation_year" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Undergraduate Grade</label>
+          <input type="text" value="{{employee.undergraduate_grade}}" placeholder="Grade Point Average or equivalent" name="undergraduate_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+
+        <div class="mb-6">
+        <label for="" class="my-7">Postgraduate (Master’s) Name</label>
+          <input type="text" value="{{employee.master_name}}" placeholder="Name of the university attended" name="master_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Postgraduate (Master’s) City</label>
+          <input type="text" value="{{employee.master_city}}" placeholder="City and country of the university" name="master_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Postgraduate (Master’s) Degree</label>
+          <input type="text" value="{{employee.master_degree}}" placeholder="Master’s degree obtained" name="master_degree" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Postgraduate (Master’s) Major Subject</label>
+          <input type="text" value="{{employee.master_major_subject}}" placeholder="Fields of study" name="master_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Postgraduate (Master’s) Graduation Year</label>
+          <input type="number" min="2000" value="{{employee.master_graduation_year}}" placeholder="Year of postgraduate graduation" name="master_graduation_year" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Postgraduate (Master’s) Grade</label>
+          <input type="text" value="{{employee.master_grade}}" placeholder="Grade Point Average or equivalent" name="master_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+
+        <div class="mb-6">
+        <label for="" class="my-7">Doctorate (PhD) Name</label>
+          <input type="text" value="{{employee.phd_name}}" placeholder="Name of the university attended" name="phd_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Doctorate (PhD) City</label>
+          <input type="text" value="{{employee.phd_city}}" placeholder="City and country of the university" name="phd_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Doctorate (PhD) Degree</label>
+          <input value="{{employee.phd_degree}}" placeholder="Doctorate degree obtained" name="phd_degree" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Doctorate (PhD) Major Subject</label>
+          <input type="text" value="{{employee.phd_major_subject}}" placeholder="Specific field of research" name="phd_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">Year of doctoral graduation</label>
+          <input type="number" min="2000" value="{{employee.phd_graduation_year}}" placeholder="Year of doctoral graduation" name="phd_graduation_year" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+        <div class="mb-6">
+        <label for="" class="my-7">PhD Dissertation</label>
+          <input type="text" value="{{employee.phd_dissertation}}" placeholder="Title of the dissertation" name="phd_dissertation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+
+        <div class="mb-6">
+        <label for="" class="my-7">Doctorate (PhD) SuperVisor Name</label>
+          <input type="text" value="{{employee.phd_supervisor}}" placeholder="Name of the PhD supervisor" name="phd_supervisor" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- step five -->
+    <div class="step my-10">
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Financial Information</p>
+      <div class="mb-6">
+        <label for="" class="my-7">Basic salary of the employee</label>
+        <input type="number" value={{employee.basic_salary}} placeholder="Base salary of the employee" name="basic_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Fuel allowance details, if applicable</label>
+        <input type="text" value={{employee.fuel_allowance}} placeholder="Fuel allowance details, if applicable" name="fuel_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Any additional allowances</label>
+        <input type="text" value={{employee.other_allowance}} placeholder="Any additional allowances" name="other_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Bank name, account number, branch</label>
+        <input type="text" value={{employee.bank_name}} placeholder="Bank name, account number, branch" name="bank_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Employee’s tax ID number</label>
+        <input type="text" value={{employee.employee_tax_number}} placeholder="Employee’s tax ID number" name="employee_tax_number" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+    </div>
+
+    <!-- step six -->
+    <div class="step my-10">
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Documents</p>
+
+      <div class="mb-6">
+
+        <label for="" class="my-7">Profile Picture</label>
+        {% if employee.profile_picture %}
+        <br>
+        <a href="{{BASE_URL}}{{employee.profile_picture.url}}" class="text-blue-700">{{BASE_URL}}{{employee.profile_picture.url}}</a>
+        {% else %}
+        <input type="file" title="Most recent resume or CV" name="profile_picture" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid 
+        border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        {% endif %}
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Resume/CV: Most recent resume or CV</label>
+        {% if employee.resume %}
+        <a href="{{BASE_URL}}{{employee.resume.url}}" class="text-blue-700">{{BASE_URL}}{{employee.resume.url}}</a>
+
+
+        {% else %}
+        <input type="file" title="Most recent resume or CV" name="resume" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        {% endif %}
+
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Educational Certificates: Copies of degrees or diplomas</label>
+        {% if employee.educational_certificates %}
+        <a href="{{BASE_URL}}{{employee.educational_certificates.url}}" class="text-blue-700">{{BASE_URL}}{{employee.educational_certificates.url}}</a>
+
+
+        {% else %}
+        <input type="file" name="educational_certificates" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        {% endif %}
+
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Professional Certifications: Any relevant certifications</label>
+        {% if employee.professional_certifications %}
+        <a href="{{BASE_URL}}{{employee.professional_certifications.url}}" class="text-blue-700">{{BASE_URL}}{{employee.professional_certifications.url}}</a>
+
+        {% else %}
+        <input type="file" name="professional_certifications" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        {% endif %}
+
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Offer Letter: Copy of the offer letter provided by the company</label>
+        {% if employee.offer_letter %}
+        <a href="{{BASE_URL}}{{employee.offer_letter.url}}" class="text-blue-700">{{BASE_URL}}{{employee.offer_letter.url}}</a>
+
+        {% else %}
+        <input type="file" name="offer_letter" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        {% endif %}
+
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Identity Proof: Copy of CNIC or passport</label>
+        {% if employee.identity_proof %}
+        <a href="{{BASE_URL}}{{employee.identity_proof.url}}" class="text-blue-700">{{BASE_URL}}{{employee.identity_proof.url}}</a>
+        
+        {% else %}
+        <input type="file" name="identity_proof" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        {% endif %}
+
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Address Proof: Utility bill or other document proving address</label>
+        {% if employee.utility_bills %}
+        <a href="{{BASE_URL}}{{employee.utility_bills.url}}" class="text-blue-700">{{BASE_URL}}{{employee.utility_bills.url}}</a>
+        
+        {% else %}
+        <input type="file" name="utility_bills" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- step seven -->
+    <div class="step my-10">
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Miscellaneous Information</p>
+      <div class="mb-6">
+        <label for="" class="my-7">Work Experience: Details of previous employment, if any</label>
+        <textarea  placeholder="Work Experience: Details of previous employment, if any" name="work_experience" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'">{{employee.work_experience}}</textarea>
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">List of key skills and competencies separated by comma</label>
+        <input type="text" value={{employee.skills}} placeholder="List of key skills and competencies separated by comma" name="skills" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Languages the employee can speak and/or write separated by comma</label>
+        <input type="text" value={{employee.languages}} placeholder="Languages the employee can speak and/or write separated by comma" name="languages" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">Personal interests or hobbies</label>
+        <input type="text" value={{employee.hobbies}} placeholder="Personal interests or hobbies" name="hobbies" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7">URL to LinkedIn profile</label>
+        <input type="url" value={{employee.linkedin_profile}} placeholder="URL to LinkedIn profile" name="linkedin_profile" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      </div>
+
+      <div class="mb-6">
+        <label for="" class="my-7">Names and contact details of professional references</label>
+        <textarea placeholder="Names and contact details of professional references" name="professional_references" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'">{{employee.professional_references}}</textarea>
+      </div>
+    </div>
+    <!-- start previous / next buttons -->
+    <div class="form-footer flex gap-3">
+      <button type="button" id="prevBtn" class="flex-1 focus:outline-none border border-gray-300 py-2 px-5 rounded-lg shadow-sm text-center text-gray-700 bg-white hover:bg-gray-100 text-lg" onclick="nextPrev(-1)">Previous</button>
+      <button type="button" id="nextBtn" class="flex-1 border border-transparent focus:outline-none p-3 rounded-md text-center text-white bg-indigo-600 hover:bg-indigo-700 text-lg" onclick="nextPrev(1)">Next</button>
+    </div>
+    <!-- end previous / next buttons -->
+  </form>
+{% endblock %}
+
+{% block script %}
+  <script>
+    var currentTab = 0 // Current tab is set to be the first tab (0)
+    showTab(currentTab) // Display the current tab
+    
+    function showTab(n) {
+      // This function will display the specified tab of the form...
+      var x = document.getElementsByClassName('step')
+      x[n].style.display = 'block'
+      //... and fix the Previous/Next buttons:
+      if (n == 0) {
+        document.getElementById('prevBtn').style.display = 'none'
+      } else {
+        document.getElementById('prevBtn').style.display = 'inline'
+      }
+      if (n == x.length - 1) {
+        document.getElementById('nextBtn').innerHTML = 'Submit'
+      } else {
+        document.getElementById('nextBtn').innerHTML = 'Next'
+      }
+      //... and run a function that will display the correct step indicator:
+      fixStepIndicator(n)
+    }
+    
+    function nextPrev(n) {
+      // This function will figure out which tab to display
+      var x = document.getElementsByClassName('step')
+      // Exit the function if any field in the current tab is invalid:
+      if (n == 1 && !validateForm()) return false
+      // Hide the current tab:
+      x[currentTab].style.display = 'none'
+      // Increase or decrease the current tab by 1:
+      currentTab = currentTab + n
+      // if you have reached the end of the form...
+      if (currentTab >= x.length) {
+        // ... the form gets submitted:
+        document.getElementById('signUpForm').submit()
+        return false
+      }
+      // Otherwise, display the correct tab:
+      showTab(currentTab)
+    }
+    
+    function validateForm() {
+      // This function deals with validation of the form fields
+      var x,
+        y,
+        i,
+        valid = true
+      x = document.getElementsByClassName('step')
+      y = x[currentTab].getElementsByTagName('input')
+
+      // A loop that checks every input field in the current tab:
+      for (i = 0; i < y.length; i++) {
+        // If a field is empty...
+        if (y[i].value == '') {
+          // add an "invalid" class to the field:
+          y[i].className += ' invalid'
+          // and set the current valid status to false
+          valid = true
+        }
+      }
+      // If the valid status is true, mark the step as finished and valid:
+      if (valid) {
+        document.getElementsByClassName('stepIndicator')[currentTab].className += ' finish'
+      }
+      return valid // return the valid status
+    }
+    
+    function fixStepIndicator(n) {
+      // This function removes the "active" class of all steps...
+      var i,
+        x = document.getElementsByClassName('stepIndicator')
+      for (i = 0; i < x.length; i++) {
+        x[i].className = x[i].className.replace(' active', '')
+      }
+      //... and adds the "active" class on the current step:
+      x[n].className += ' active'
+    }
+  </script>
+{% endblock %}

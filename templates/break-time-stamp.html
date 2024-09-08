@@ -12,6 +12,9 @@
             <tr>
                 
                 <th scope="col" class="px-6 py-3 capitalize">
+                    Employee Email
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
                     shift date
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
@@ -36,6 +39,9 @@
             <tr class="bg-white border-b 800 700">
               
                 <th scope="row" class="px-6 py-4 font-medium text-black whitespace-nowrap ">
+                    {{time_stamp.employee.email}}
+                </th>
+                <th scope="row" >
                     {{time_stamp.record_date}}
                 </th>
                 <td class="px-6 py-4">
@@ -73,7 +79,10 @@
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
-            responsive: false   
+            responsive: false,   
+            order: [[0, 'des']],
+            pageLength: 25 // Set the number of entries per page to 10
+            lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ] //
         });
     });
 </script>

@@ -11,6 +11,9 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
                 <th scope="col" class="px-6 py-3 capitalize">
+                    Employee Email
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
                     shift date
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
@@ -29,6 +32,9 @@
                     total hours completed
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
+                    Present/Absent
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
                     Time out
                 </th>
                
@@ -39,6 +45,9 @@
             {% for attendance in attendances %}
             <tr class="bg-white border-b 800 700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                    {{attendance.employee.email}}
+                </th>
+                <th scope="row">
                     {{attendance.shift_date}}
                 </th>
                 <td class="px-6 py-4">
@@ -55,6 +64,13 @@
                 </td>
                 <td class="px-6 py-4">
                     {{attendance.total_hours_completed}}
+                </td>
+                <td class="px-6 py-4">
+                    {% if attendance.is_present %}
+                    Present
+                    {% else %}
+                    Absent
+                    {% endif %}
                 </td>
                 <td class="px-6 py-4">
                     {{attendance.time_out_time}}
@@ -78,10 +94,9 @@
     $(document).ready(function() {
         $('#myTable').DataTable({
             responsive: false,
-            order: [[0, 'des']],
-            pageLength: 25, // Set the number of entries per page to 10
+            order: [[1, 'des']],
+            pageLength: 25,// Set the number of entries per page to 10,
             lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ] //
-
 
         });
     });
