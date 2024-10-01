@@ -390,3 +390,84 @@ class StopThreadView(APIView):
         else:
             return Response({'status': 'Thread is not running'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class ApplicantDetailsAPI(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            # Get the data from request
+            data = request.data
+
+            # Get files if present (profile picture and resume)
+            upload_profile = request.FILES.get('upload_profile')
+            resume = request.FILES.get('resume')
+
+            # Extract the fields from the POST data
+            name = data.get('name')
+            position_applied_for = data.get('position_applied_for')
+            father_name = data.get('father_name')
+            email_address = data.get('email_address')
+            cnic = data.get('cnic')
+            date_of_birth = parse_date(data.get('date_of_birth'))
+            marital_status = data.get('marital_status')
+            expected_salary = data.get('expected_salary')
+            address = data.get('address')
+            contact_number = data.get('contact_number')
+            emergency_contact_number = data.get('emergency_contact_number')
+            when_join_us = data.get('when_join_us')
+            shift_availablity = data.get('shift_availablity')
+            matric_details = data.get('matric_details')
+            intermediate_details = data.get('intermediate_details')
+            bachelors_details = data.get('bachelors_details', None)
+            masters_details = data.get('masters_details', None)
+            phd_details = data.get('phd_details', None)
+            diploma_details = data.get('diploma_details', None)
+            job_experience = data.get('job_experience')
+            declaration = data.get('declaration', False)  # Assuming it's a checkbox or boolean field
+
+            exist = ApplicantDetails.objects.filter(email_address=email_address).first()
+            
+            if exist:
+                return Response({
+                'error': "Email already exisit",
+                'message': 'Email already exisit'
+            }, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Create an ApplicantDetails object
+            
+            applicant = ApplicantDetails.objects.create(
+                name=name,
+                position_applied_for=position_applied_for,
+                father_name=father_name,
+                email_address=email_address,
+                cnic=cnic,
+                date_of_birth=date_of_birth,
+                marital_status=marital_status,
+                expected_salary=expected_salary,
+                address=address,
+                contact_number=contact_number,
+                emergeny_contact_number=emergency_contact_number,
+                when_join_us=when_join_us,
+                shift_availablity=shift_availablity,
+                matric_details=matric_details,
+                intermediate_details=intermediate_details,
+                bachelors_details=bachelors_details,
+                masters_details=masters_details,
+                phd_details=phd_details,
+                diploma_details=diploma_details,
+                job_experience=job_experience,
+                upload_profile=upload_profile,
+                resume=resume,
+                declaration=declaration
+            )
+
+            # Return a success response
+            return Response({
+                'message': 'Applicant created successfully!',
+                'applicant_id': applicant.id
+            }, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({
+                'error': str(e),
+                'message': 'Failed to create applicant'
+            }, status=status.HTTP_400_BAD_REQUEST)

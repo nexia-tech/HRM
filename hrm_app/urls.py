@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut,StartThreadView,StopThreadView, employees_report
+from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut,StartThreadView,StopThreadView, employees_report, ApplicantDetailsAPI
 
 
 urlpatterns = [
@@ -12,7 +12,8 @@ urlpatterns = [
     path('start-timer-thread/', StartThreadView.as_view(), name='start_thread'),
     path('stop-timer-thread/', StopThreadView.as_view(), name='stop_thread'),
     path("employees-report/<int:id>/",employees_report,name='employees-report')
-    
+    path('api/applicant/', ApplicantDetailsAPI.as_view(), name='applicant-api'),
+
 ]
 
 
