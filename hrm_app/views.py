@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponseRedirect,redirect
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails
 from django.utils import timezone
 from rest_framework.views import APIView
 from datetime import timedelta,datetime
@@ -407,7 +407,7 @@ class ApplicantDetailsAPI(APIView):
             father_name = data.get('father_name')
             email_address = data.get('email_address')
             cnic = data.get('cnic')
-            date_of_birth = parse_date(data.get('date_of_birth'))
+            date_of_birth = data.get('date_of_birth')
             marital_status = data.get('marital_status')
             expected_salary = data.get('expected_salary')
             address = data.get('address')
