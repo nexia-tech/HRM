@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords
+from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails
 from import_export.admin import ImportExportModelAdmin
 
 class AttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
@@ -21,3 +21,10 @@ class EmployeeBreakRecordAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 admin.site.register(EmployeeBreakRecords,EmployeeBreakRecordAdmin)
 
 admin.site.register(ScreenShotRecords)
+
+class ApplicantDetailsAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ['name','email_address','cnic']
+    search_fields = ['name','email_address']
+    list_filter = ['marital_status','declaration','position_applied_for']
+
+admin.site.register(ApplicantDetails,ApplicantDetailsAdmin)

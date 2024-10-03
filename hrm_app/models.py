@@ -62,3 +62,33 @@ class ScreenShotRecords(models.Model):
     def __str__(self):
         return self.employee.email      
     
+    
+class ApplicantDetails(models.Model):
+    name = models.CharField(max_length=200)
+    position_applied_for = models.CharField(max_length=200)
+    father_name = models.CharField(max_length=200)
+    email_address = models.CharField(max_length=200,unique=True)
+    cnic = models.CharField(max_length=200)
+    date_of_birth = models.DateField()
+    marital_status = models.CharField(max_length=200)
+    expected_salary = models.CharField(max_length=200)
+    address = models.TextField()
+    contact_number = models.CharField(max_length=200)
+    emergeny_contact_number = models.CharField(max_length=200)
+    when_join_us = models.CharField(max_length=200)
+    shift_availablity = models.JSONField()
+    matric_details = models.JSONField()
+    intermediate_details = models.JSONField()
+    bachelors_details = models.JSONField(null=True,blank=True)
+    masters_details = models.JSONField(null=True,blank=True)
+    phd_details = models.JSONField(null=True,blank=True)
+    diploma_details = models.JSONField(null=True,blank=True)
+    job_experience = models.JSONField()
+    upload_profile = models.FileField(upload_to='profile-picture',null=True,blank=True)
+    resume = models.FileField(upload_to='resume',null=True,blank=True)
+    declaration = models.BooleanField(default=False) 
+    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
+    
+    
+    def __str__(self):
+        return self.name
