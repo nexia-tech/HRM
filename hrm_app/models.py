@@ -92,3 +92,17 @@ class ApplicantDetails(models.Model):
     
     def __str__(self):
         return self.name
+    
+    
+class SystemAttendanceModel(models.Model):
+    employee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    shift_date = models.DateField()
+    shift_start_time = models.TimeField(null=True)
+    time_out_time = models.TimeField(null=True,blank=True)
+    remaining_hours = models.DurationField(default=timezone.timedelta(hours=8))
+    is_present = models.BooleanField(default=True) 
+    is_time_out_marked = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)   
+    
+    def __str__(self):
+        return self.employee.email

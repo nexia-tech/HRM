@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponseRedirect,redirect
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel
 from django.utils import timezone
 from rest_framework.views import APIView
 from datetime import timedelta,datetime
@@ -17,7 +17,7 @@ from django.conf import settings
 # from playsound import playsound
 from hrm_app.services import take_screenshot
 import random
-
+from django.http.response import JsonResponse
 
 BASE_URL = settings.BASE_URL
 
@@ -471,3 +471,86 @@ class ApplicantDetailsAPI(APIView):
                 'error': str(e),
                 'message': 'Failed to create applicant'
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ShiftStartTime(APIView):
+    def post(self,request):
+        email = request.data['email']
+        employee = User.objects.filter(email=email).first() 
+        
+        # Get the current time in UTC
+        utc_now = datetime.utcnow()
+
+        # Specify the timezone you want to convert to
+        tz = pytz.timezone('Asia/Karachi')
+
+        # Convert UTC time to the specified timezone
+        karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
+
+        # Format the time as HH:MM:SS string
+        karachi_time_str = karachi_time.strftime("%H:%M:%S")
+
+        current_date = timezone.now().date()
+        
+        attendance = SystemAttendanceModel.objects.filter(employee=employee,shift_date=current_date,is_time_out_marked=False,is_present=True).last()
+        
+        
+        if attendance is None:
+            attendance = SystemAttendanceModel()
+            attendance.shift_date = current_date
+            attendance.employee = employee
+            attendance.shift_start_time = karachi_time_str
+            attendance.is_present = True
+            attendance.save()
+
+        return Response({"success":True,"message":"Shift Start Attendance Marked","start_time": attendance.shift_start_time})
+            
+    
+class ShiftEndTime(APIView):
+    def post(self, request):
+        email = request.data['email']
+        employee = User.objects.filter(email=email).first()
+        utc_now = datetime.utcnow()
+
+        # Specify the timezone you want to convert to
+        tz = pytz.timezone('Asia/Karachi')
+
+        # Convert UTC time to the specified timezone
+        karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
+
+        # Format the time as HH:MM:SS string
+        karachi_time_str = karachi_time.strftime("%H:%M:%S")
+
+        # Get current date
+        current_date = timezone.now().date()
+
+        # Find the attendance record
+        attendance = SystemAttendanceModel.objects.filter(
+            employee=employee,
+            shift_date=current_date,
+            is_time_out_marked=False,
+            is_present=True
+        ).last()
+        
+
+        if attendance:
+            # Convert attendance.shift_start_time to datetime object
+            shift_start_time = karachi_time.replace(
+                hour=attendance.shift_start_time.hour,
+                minute=attendance.shift_start_time.minute,
+                second=attendance.shift_start_time.second,
+                microsecond=0
+            )
+
+           # Calculate time passed since shift start
+            time_passed = karachi_time - shift_start_time
+
+            # Subtract time_passed from remaining_hours
+            attendance.remaining_hours = attendance.remaining_hours - time_passed
+
+            # Mark shift as ended
+            attendance.time_out_time = karachi_time_str
+            attendance.is_time_out_marked = True
+            attendance.save()
+
+        return Response({"success": True, "message": "Shift End Attendance Marked","end_time": attendance.time_out_time})

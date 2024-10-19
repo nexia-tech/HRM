@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from users.models import User, Department
 from django.contrib.auth.decorators import login_required
-from hrm_app.models import AttendanceModel
+from hrm_app.models import AttendanceModel, SystemAttendanceModel
 from django.utils import timezone
 from datetime import datetime, timedelta
 import pytz
@@ -21,65 +21,64 @@ def index(request):
     user = request.user
     configuration = ConfigurationModel.objects.first()
 
-   # Get the current time in UTC
-    utc_now = datetime.utcnow()
+#    # Get the current time in UTC
+#     utc_now = datetime.utcnow()
 
-    # Specify the timezone you want to convert to
-    tz = pytz.timezone('Asia/Karachi')
+#     # Specify the timezone you want to convert to
+#     tz = pytz.timezone('Asia/Karachi')
 
-    # Convert UTC time to the specified timezone
-    karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
+#     # Convert UTC time to the specified timezone
+#     karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
 
-    # Format the time as HH:MM:SS string
-    karachi_time_str = karachi_time.strftime("%H:%M:%S")
+#     # Format the time as HH:MM:SS string
+#     karachi_time_str = karachi_time.strftime("%H:%M:%S")
 
-    # Convert string to datetime object
-    datetime_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
+#     # Convert string to datetime object
+#     datetime_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
 
-    # Extract time part and convert to 12-hour format
-    # current_time_12hr = datetime_obj.strftime("%I:%M:%S")
+#     # Extract time part and convert to 12-hour format
+#     # current_time_12hr = datetime_obj.strftime("%I:%M:%S")
 
-    # Create timedelta object representing shift duration (8 hours in this example)
-    shift_duration_timedelta = timedelta(hours=user.shift_duration_hours)
+#     # Create timedelta object representing shift duration (8 hours in this example)
+#     shift_duration_timedelta = timedelta(hours=user.shift_duration_hours)
 
     current_date = timezone.now().date()
-    attendance_records = AttendanceModel.objects.filter(
-        employee=user).order_by('shift_date')
-    attendance_obj = attendance_records.filter(
-        shift_date=current_date).first()
-    last_record = attendance_records.filter(is_time_out_marked=True).last()
-    try:
-        while last_record.shift_date < current_date:
-            next_date = last_record.shift_date + timedelta(days=1)
-            if next_date != current_date:
-                attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
-                    employee=user,
-                    shift_date=next_date,
-                    shift_time=None,
-                    remaining_hours=shift_duration_timedelta,
-                    is_present=False,
-                    is_time_out_marked=True
-                )
-                if not isNotexist:
-                    attendance_object.is_present=False
+#     attendance_records = AttendanceModel.objects.filter(
+#         employee=user).order_by('shift_date')
+#     attendance_obj = attendance_records.filter(
+#         shift_date=current_date).first()
+#     last_record = attendance_records.filter(is_time_out_marked=True).last()
+#     try:
+#         while last_record.shift_date < current_date:
+#             next_date = last_record.shift_date + timedelta(days=1)
+#             if next_date != current_date:
+#                 attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
+#                     employee=user,
+#                     shift_date=next_date,
+#                     shift_time=None,
+#                     remaining_hours=shift_duration_timedelta,
+#                     is_present=False,
+#                     is_time_out_marked=True
+#                 )
+#                 if not isNotexist:
+#                     attendance_object.is_present=False
                     
-                attendance_object.save()
-            last_record.shift_date = next_date
+#                 attendance_object.save()
+#             last_record.shift_date = next_date
 
-    except Exception as e:
-        pass
+#     except Exception as e:
+#         pass
 
-    if attendance_obj is None:
-        attendance_object = AttendanceModel()
-        attendance_object.employee = user
-        attendance_object.shift_date = current_date
-        attendance_object.shift_time = datetime_obj
-        attendance_object.remaining_hours = shift_duration_timedelta
-        attendance_object.save()
-
+#     if attendance_obj is None:
+#         attendance_object = AttendanceModel()
+#         attendance_object.employee = user
+#         attendance_object.shift_date = current_date
+#         attendance_object.shift_time = datetime_obj
+#         attendance_object.remaining_hours = shift_duration_timedelta
+#         attendance_object.save()
+    
     context = {
         'user': user,
-        'attendance_obj': attendance_obj,
         'BASE_URL': settings.BASE_URL,
         "configuration": configuration,
     }
