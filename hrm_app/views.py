@@ -26,7 +26,14 @@ BASE_URL = settings.BASE_URL
 @login_required(login_url='login')
 def my_attendance(request):
     user = request.user
-    attendances = AttendanceModel.objects.filter(employee=user)
+    # attendances = AttendanceModel.objects.filter(employee=user)
+    attendances = SystemAttendanceModel.objects.filter(employee=user)
+
+    try:
+        for attendance in attendances:
+            attendance.remaining_hours = str(attendance.remaining_hours).split(".")[0]
+    except Exception as e:
+        print(e)
     context = {
         'attendances':attendances
     }

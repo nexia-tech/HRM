@@ -1,0 +1,474 @@
+<script>
+let timerInterval = null;
+let dusraTimerInterval = null;
+
+let startBtn = document.getElementById('startTimerBtn')
+let addBreakBtnConfirm = document.getElementById('AddBreak')
+let TimeOutConfirmBtn = document.getElementById('TimeOutConfirmBtn')
+let timeOut = document.getElementById('timeOut')
+let breakTimeBtn = document.getElementById('breakTimeBtn')
+let isTimeOut = true;
+let logout_btn = document.getElementById('logout-btn')
+var audio = new Audio('{{configuration.audio_file.url}}');
+let start_time = document.getElementById('start_time')
+let end_time = document.getElementById('end_time')
+
+let startTimeValue = getCookieValue('start_time');
+
+
+// Function to calculate remaining time in milliseconds from hours:minutes:seconds format
+function calculateRemainingTime(timeString) {
+    let [hours, minutes, seconds] = timeString.split(':')
+        .map(Number);
+    return ((hours * 3600) + (minutes * 60) + seconds) * 1000;
+}
+
+// Function to get the CSRF token from the meta tag
+function getCSRFToken() {
+    let csrfToken = null;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith('csrftoken=')) {
+            csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+            break;
+        }
+    }
+    return csrfToken;
+}
+
+
+const csrfToken = getCSRFToken(); // Fetch the CSRF token
+
+// Function to update the timer and make the API call
+function updateTimer() {
+    if (remainingTime <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('timer')
+            .textContent = '00:00:00';
+        return;
+    }
+    
+    
+    
+    const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+    
+    
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('timer')
+        .textContent = formattedTime;
+    remainingTime -= 1000; // Decrease remaining time by 1 second (1000 milliseconds)
+    
+    
+    
+    
+}
+
+
+// Function to update the timer and make the API call
+function updateBreakTimer() {
+    
+    
+    console.log("play");
+    
+    let comments = document.getElementById('comments')
+        .value
+    let break_type = document.getElementById('break_type')
+        .value
+    if (break_type == 'Choose break type') {
+        break_type = 'System Generated'
+    }
+    // Make the POST request to update the time record
+    fetch('http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/break-time-record/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+                , break_type: break_type
+                , comments: comments
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            
+            return response.json();
+        })
+        .then(data => {
+            // Update remaining time after break based on response from server
+            remainingTime = calculateRemainingTime(data.remaining_hours); // Assuming server sends remaining hours in format 'HH:MM:SS'
+            console.log('Success:', data);
+            document.getElementById('break_type')
+                .value = "Choose break type"
+            document.getElementById('comments')
+                .value = ""
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+    
+    
+}
+
+// Function to start the timer
+
+
+function startTimer() {
+    
+    // Make the POST request to update the time record
+    fetch('{{BASE_URL}}/hrm/start-timer-thread/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update remaining time after break based on response from server
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    clearInterval(dusraTimerInterval);
+    dusraTimerInterval = null;
+    
+    if (!timerInterval) {
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+    
+    startBtn.setAttribute('disabled', 'disabled')
+    startBtn.classList.add('cursor-not-allowed');
+    startBtn.innerText = "Runing..."
+    
+    breakTimeBtn.removeAttribute('disabled')
+    breakTimeBtn.classList.remove('cursor-not-allowed')
+    
+    timeOut.removeAttribute('disabled')
+    timeOut.classList.remove('cursor-not-allowed')
+    
+    logout_btn.removeAttribute('disabled')
+    logout_btn.classList.remove('cursor-not-allowed')
+    logout_btn.setAttribute('href', "{% url 'logout' %}")
+    
+}
+
+// Function to stop the timer
+function stopTimer() {
+    
+    // Make the POST request to stop the timer thread
+    fetch('{{BASE_URL}}/hrm/stop-timer-thread/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update remaining time after break based on response from server
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+    clearInterval(timerInterval);
+    timerInterval = null;
+    if (!dusraTimerInterval) {
+        dusraTimerInterval = setInterval(updateBreakTimer, 1000);
+    }
+    breakTimeBtn.setAttribute('disabled', 'disabled')
+    breakTimeBtn.classList.add('cursor-not-allowed');
+    
+    
+    timeOut.setAttribute('disabled', 'disabled')
+    timeOut.classList.add('cursor-not-allowed');
+    startBtn.removeAttribute('disabled');
+    startBtn.classList.remove('cursor-not-allowed');
+    startBtn.innerText = "Resume Work"
+    
+    
+}
+
+
+
+function timeOutApi() {
+    
+    
+    // Make the POST request to end the shift 
+    fetch('{{BASE_URL}}/hrm/time-out/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+    
+    
+    // Make the POST request to stop the timer thread
+    fetch('{{BASE_URL}}/hrm/stop-timer-thread/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update remaining time after break based on response from server
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+    clearInterval(timerInterval);
+    clearInterval(dusraTimerInterval);
+    isTimeOut = false
+    startBtn.setAttribute('disabled', 'disabled')
+    startBtn.classList.add('cursor-not-allowed');
+    startBtn.innerText = "Shift Ended"
+    timeOut.setAttribute('disabled', 'disabled')
+    timeOut.classList.add('cursor-not-allowed')
+    breakTimeBtn.setAttribute('disabled', 'disabled')
+    breakTimeBtn.classList.add('cursor-not-allowed');
+    // Make the POST request to stop the timer thread
+    fetch('{{BASE_URL}}/logout/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update remaining time after break based on response from server
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    setTimeout(() => {
+        window.close()
+        
+    }, 5000)
+}
+
+function startShiftTime() {
+    fetch('{{BASE_URL}}/hrm/api/shift-start-time/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Update remaining time after break based on response from server
+            formattedTime = convertToAmPm(data.start_time)
+            start_time.innerText = formattedTime
+            
+            // Save the formatted time into a cookie, expires in 1 days
+            setCookie('start_time', formattedTime, 1);
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+    
+    startBtn.setAttribute('disabled', 'disabled')
+    startBtn.classList.add('cursor-not-allowed');
+    startBtn.innerText = "Runing..."
+    
+    timeOut.removeAttribute('disabled')
+    timeOut.classList.remove('cursor-not-allowed')
+    
+    logout_btn.removeAttribute('disabled')
+    logout_btn.classList.remove('cursor-not-allowed')
+    logout_btn.setAttribute('href', "{% url 'logout' %}")
+    
+}
+
+
+function endShiftTime() {
+    
+    
+    // Make the POST request to end the shift 
+    fetch('{{BASE_URL}}/hrm/api/shift-end-time/', {
+            method: 'POST'
+            , headers: {
+                'Content-Type': 'application/json'
+                , 'X-CSRFToken': csrfToken // Include the CSRF token in the headers
+            }
+            , body: JSON.stringify({
+                email: '{{user.email}}'
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            end_time.innerText = convertToAmPm(data.end_time)
+            // To remove the 'start_time' cookie, call the function:
+            deleteCookie('start_time');
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+    
+    
+    
+    isTimeOut = false
+    startBtn.setAttribute('disabled', 'disabled')
+    startBtn.classList.add('cursor-not-allowed');
+    startBtn.innerText = "Shift Ended"
+    timeOut.setAttribute('disabled', 'disabled')
+    timeOut.classList.add('cursor-not-allowed')
+    
+    
+}
+
+// Event listener for start timer button
+startBtn.addEventListener('click', function () {
+    startShiftTime();
+});
+
+// Event listener for stop timer button
+
+
+TimeOutConfirmBtn.addEventListener('click', function () {
+    endShiftTime();
+})
+
+// Function to convert time to AM/PM format
+function convertToAmPm(time) {
+    let [hours, minutes, seconds] = time.split(':');
+    hours = parseInt(hours);
+    
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert 24-hour format to 12-hour format, handle midnight (00:00)
+    
+    return `${hours}:${minutes}:${seconds} ${ampm}`;
+}
+
+
+// Function to set cookie
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function deleteCookie(name) {
+    // Set the cookie with the same name and an expiration date in the past
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+}
+
+function getCookieValue(name) {
+    // Split the cookie string into individual cookies
+    let cookies = document.cookie.split('; ');
+    
+    // Find the cookie with the specified name
+    for (let cookie of cookies) {
+        let [cookieName, cookieValue] = cookie.split('=');
+        
+        if (cookieName === name) {
+            return cookieValue;
+        }
+    }
+    
+    // Return null if the cookie was not found
+    return null;
+}
+
+
+
+timeOut.setAttribute('disabled', 'disabled')
+timeOut.classList.add('cursor-not-allowed')
+
+logout_btn.classList.add('cursor-not-allowed')
+logout_btn.setAttribute('disabled', 'disabled')
+logout_btn.setAttribute('href', '#')
+
+if (startTimeValue) {
+    start_time.innerText = startTimeValue
+    startShiftTime();
+}
+
+</script>

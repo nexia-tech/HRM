@@ -44,7 +44,7 @@
           </nav>
           
           {% if user.is_authenticated %}
-          <a class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0 ">Logout
+          <a href="{% url "logout" %}" class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0 cursor-pointer">Logout
             <i class="fa-solid fa-right-from-bracket mx-3"></i>
           </a>
           {% comment %} {% else %}

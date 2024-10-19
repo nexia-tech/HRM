@@ -14,23 +14,16 @@
                     shift date
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    shift time
-                </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                    Working hours
-                </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                     break hours
-                </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                    remaining hours
-                </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                    total hours completed
+                    shift Start time
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
                     Time out
                 </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    remaining hours
+                </th>
+              
+                
                
                 
             </tr>
@@ -42,23 +35,16 @@
                     {{attendance.shift_date}}
                 </th>
                 <td class="px-6 py-4">
-                    {{attendance.shift_time}}
-                </td>
-                <td class="px-6 py-4">
-                    {{attendance.working_hours}}
-                </td>
-                <td class="px-6 py-4">
-                   <a href="{% url "break-time-stamp" attendance.id %}" class="text-blue-700 cursor-pointer"> {{attendance.break_hours}}</a>
-                </td>
-                <td class="px-6 py-4">
-                    {{attendance.remaining_hours}}
-                </td>
-                <td class="px-6 py-4">
-                    {{attendance.total_hours_completed}}
+                    {{attendance.shift_start_time}}
                 </td>
                 <td class="px-6 py-4">
                     {{attendance.time_out_time}}
                 </td>
+               
+                <td class="px-6 py-4">
+                    {{attendance.remaining_hours}}
+                </td>
+               
                 
             </tr>
             {% endfor %}
