@@ -27,7 +27,7 @@ BASE_URL = settings.BASE_URL
 def my_attendance(request):
     user = request.user
     # attendances = AttendanceModel.objects.filter(employee=user)
-    attendances = SystemAttendanceModel.objects.filter(employee=user)
+    attendances = SystemAttendanceModel.objects.filter(employee=user).order_by('-shift_date').order_by('-shift_start_time')
 
     try:
         for attendance in attendances:
