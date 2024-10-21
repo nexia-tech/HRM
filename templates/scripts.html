@@ -126,7 +126,7 @@ function updateBreakTimer() {
 function startTimer() {
     
     // Make the POST request to update the time record
-    fetch('{{BASE_URL}}/hrm/start-timer-thread/', {
+    fetch('{{BASE_URL}}hrm/start-timer-thread/', {
             method: 'POST'
             , headers: {
                 'Content-Type': 'application/json'
@@ -176,7 +176,7 @@ function startTimer() {
 function stopTimer() {
     
     // Make the POST request to stop the timer thread
-    fetch('{{BASE_URL}}/hrm/stop-timer-thread/', {
+    fetch('{{BASE_URL}}hrm/stop-timer-thread/', {
             method: 'POST'
             , headers: {
                 'Content-Type': 'application/json'
@@ -224,7 +224,7 @@ function timeOutApi() {
     
     
     // Make the POST request to end the shift 
-    fetch('{{BASE_URL}}/hrm/time-out/', {
+    fetch('{{BASE_URL}}hrm/time-out/', {
             method: 'POST'
             , headers: {
                 'Content-Type': 'application/json'
@@ -250,7 +250,7 @@ function timeOutApi() {
     
     
     // Make the POST request to stop the timer thread
-    fetch('{{BASE_URL}}/hrm/stop-timer-thread/', {
+    fetch('{{BASE_URL}}hrm/stop-timer-thread/', {
             method: 'POST'
             , headers: {
                 'Content-Type': 'application/json'
@@ -285,7 +285,7 @@ function timeOutApi() {
     breakTimeBtn.setAttribute('disabled', 'disabled')
     breakTimeBtn.classList.add('cursor-not-allowed');
     // Make the POST request to stop the timer thread
-    fetch('{{BASE_URL}}/logout/', {
+    fetch('{{BASE_URL}}logout/', {
             method: 'POST'
             , headers: {
                 'Content-Type': 'application/json'
@@ -315,7 +315,7 @@ function timeOutApi() {
 }
 
 function startShiftTime() {
-    fetch('{{BASE_URL}}/hrm/api/shift-start-time/', {
+    fetch('{{BASE_URL}}hrm/api/shift-start-time/', {
             method: 'POST'
             , headers: {
                 'Content-Type': 'application/json'
@@ -363,7 +363,7 @@ function endShiftTime() {
     
     
     // Make the POST request to end the shift 
-    fetch('{{BASE_URL}}/hrm/api/shift-end-time/', {
+    fetch('{{BASE_URL}}hrm/api/shift-end-time/', {
             method: 'POST'
             , headers: {
                 'Content-Type': 'application/json'
