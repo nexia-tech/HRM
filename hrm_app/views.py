@@ -52,7 +52,13 @@ def break_time_stamp(request,id):
 
 @login_required(login_url='login')
 def employees_report(request,id):
-    attendances = AttendanceModel.objects.filter(employee__id=id)
+    attendances = SystemAttendanceModel.objects.filter(employee__id=id)
+    try:
+        for attendance in attendances:
+            attendance.remaining_hours = str(attendance.remaining_hours).split(".")[0]
+    except Exception as e:
+        print(e)
+        
     context = {
         'attendances':attendances
     }

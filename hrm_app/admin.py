@@ -29,4 +29,10 @@ class ApplicantDetailsAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 admin.site.register(ApplicantDetails,ApplicantDetailsAdmin)
 
-admin.site.register(SystemAttendanceModel)
+class SystemAttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ['employee','shift_date','shift_start_time','time_out_time','remaining_hours','is_present','is_time_out_marked','created_at']
+    list_filter = ['is_present','is_time_out_marked','created_at']
+    search_fields = ['employee__email','shift_date','shift_start_time','time_out_time','remaining_hours','is_present','is_time_out_marked','created_at'] 
+    
+
+admin.site.register(SystemAttendanceModel,SystemAttendanceModelAdmin)

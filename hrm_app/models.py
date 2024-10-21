@@ -98,11 +98,20 @@ class SystemAttendanceModel(models.Model):
     employee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     shift_date = models.DateField()
     shift_start_time = models.TimeField(null=True)
-    time_out_time = models.TimeField(null=True,blank=True)
-    remaining_hours = models.DurationField(default=timezone.timedelta(hours=8))
+    time_out_time = models.TimeField(null=True, blank=True)
+    remaining_hours = models.DurationField(null=True, blank=True)  # Leave default empty here
     is_present = models.BooleanField(default=True) 
     is_time_out_marked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)   
     
     def __str__(self):
         return self.employee.email
+    
+    def employee_hour(self):
+        return self.employee.shift_duration_hours
+
+    def save(self, *args, **kwargs):
+        # Set remaining_hours default to employee's shift duration if not provided
+        if self.remaining_hours is None and hasattr(self.employee, 'shift_duration_hours'):
+            self.remaining_hours = timezone.timedelta(hours=self.employee.shift_duration_hours)
+        super().save(*args, **kwargs)
