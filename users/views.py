@@ -11,7 +11,7 @@ import pytz
 from django.conf import settings
 from core.models import ConfigurationModel
 import requests
-
+from users.services import generate_password
 
 BASE_URL = settings.BASE_URL
 
@@ -627,3 +627,28 @@ def employee_delete(request, id):
     messages.success(request, 'Record has been deleted')
 
     return redirect('employees')
+
+
+import pandas as pd
+from django.http import JsonResponse
+
+def create_account(request):
+    file = pd.read_csv('file.csv')
+    for f in file:
+        try:
+            user = User()
+            name = f['name']
+            email = f['email']
+            employee_code = f['employee_code']
+            password = generate_password()
+            user.email = email
+            user.username = email
+            user.name = name
+            user.employee_id = employee_code
+            user.active_password = password
+            user.set_password(password)
+            user.save()
+        except Exception as e:
+            print(f"Employee email {e}")
+        
+    return JsonResponse({"message":"Script completed"})
