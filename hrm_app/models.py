@@ -115,3 +115,37 @@ class SystemAttendanceModel(models.Model):
         if self.remaining_hours is None and hasattr(self.employee, 'shift_duration_hours'):
             self.remaining_hours = timezone.timedelta(hours=self.employee.shift_duration_hours)
         super().save(*args, **kwargs)
+        
+        
+    
+    
+class ThumbAttendnace(models.Model):
+    employee = models.ForeignKey(User,on_delete=models.CASCADE)
+    date = models.CharField(max_length=200,null=True,blank=True)
+    time_table = models.CharField(max_length=200,null=True,blank=True)
+    auto_assign = models.CharField(max_length=200,null=True,blank=True)
+    on_duty = models.CharField(max_length=200)
+    off_duty = models.CharField(max_length=200)
+    clock_in = models.CharField(max_length=200,null=True,blank=True)
+    clock_out = models.CharField(max_length=200,null=True,blank=True)
+    normal = models.CharField(max_length=200,null=True,blank=True)
+    real_time = models.CharField(max_length=200,null=True,blank=True)
+    late = models.CharField(max_length=200,null=True,blank=True)
+    early = models.CharField(max_length=200,null=True,blank=True)
+    absent = models.CharField(max_length=200,null=True,blank=True)
+    ot_time = models.CharField(max_length=200,null=True,blank=True)
+    work_time = models.CharField(max_length=200,null=True,blank=True)
+    exception = models.CharField(max_length=200,null=True,blank=True)
+    must_cin =models.BooleanField(default=False)
+    must_cout =models.BooleanField(default=False)
+    department = models.CharField(max_length=200,null=True,blank=True)
+    ndays = models.CharField(max_length=200,null=True,blank=True)
+    weekend = models.CharField(max_length=200,null=True,blank=True)
+    holiday = models.CharField(max_length=200,null=True,blank=True)
+    att_time = models.TimeField(null=True,blank=True)
+    ndays_ot = models.CharField(max_length=200,null=True,blank=True)
+    weekend_ot = models.CharField(max_length=200,null=True,blank=True)
+    holiday_ot = models.CharField(max_length=200,null=True,blank=True)
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+    def __str__(self):
+        return self.employee.email

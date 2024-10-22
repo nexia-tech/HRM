@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel
+from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace
 from import_export.admin import ImportExportModelAdmin
 
 class AttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
@@ -36,3 +36,12 @@ class SystemAttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     
 
 admin.site.register(SystemAttendanceModel,SystemAttendanceModelAdmin)
+
+class ThumbAttendnaceAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ['employee','date','time_table','auto_assign','on_duty','created_at']
+    search_fields = ['employee__email','date','time_table','auto_assign','on_duty']
+    list_filter = ['date','time_table','created_at']
+    autocomplete_fields = ['employee']
+    
+    
+admin.site.register(ThumbAttendnace,ThumbAttendnaceAdmin)

@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponseRedirect,redirect
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace
 from django.utils import timezone
 from rest_framework.views import APIView
 from datetime import timedelta,datetime
@@ -567,3 +567,12 @@ class ShiftEndTime(APIView):
             attendance.save()
 
         return Response({"success": True, "message": "Shift End Attendance Marked","end_time": attendance.time_out_time})
+    
+    
+
+def thumbAttendance(request,id):
+    attendances = ThumbAttendnace.objects.filter(employee__id=id)
+    user= User.objects.get(id=id)
+    print(user)
+    params = {'attendances':attendances}
+    return render(request,'thumb-attedance.html',params)
