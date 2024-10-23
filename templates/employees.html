@@ -51,7 +51,7 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    username/Email
+                    Employee ID
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
                     name
@@ -60,16 +60,16 @@
                     email
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                     employee id
-                </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                    shift duration hours
-                </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                    gender
+                     department
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
                     designation
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    Working Status
+                </th>
+                <th scope="col" class="px-6 py-3 capitalize">
+                    Employment Status
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
                     Actions
@@ -81,9 +81,9 @@
         <tbody>
             {% for employee in employees %}
             <tr class="bg-white border-b 800 700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                  {{employee.username}}
-                </th>
+              <td class="px-6 py-4">
+                {{employee.employee_id}}
+            </td>
                 <td class="px-6 py-4">
                     {{employee.name}}
                 </td>
@@ -91,17 +91,19 @@
                     {{employee.email}}
                 </td>
                 <td class="px-6 py-4">
-                    {{employee.employee_id}}
+                  {{employee.department}}
+              </td>
+              <td class="px-6 py-4">
+                {{employee.designation}}
+            </td>
+               
+                <td class="px-6 py-4">
+                    {{employee.working_status}}
                 </td>
                 <td class="px-6 py-4">
-                    {{employee.shift_duration_hours}}
+                    {{employee.employment_status}}
                 </td>
-                <td class="px-6 py-4">
-                    {{employee.gender}}
-                </td>
-                <td class="px-6 py-4">
-                    {{employee.designation}}
-                </td>
+                
                 <td>
                     <a href="{% url "update-profile" employee.id %}" class="text-blue-700">Edit</a> | 
                     <a href="{% url "view-profile" employee.id%}"  class="text-blue-700">View</a> 
