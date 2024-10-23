@@ -42,40 +42,40 @@
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
-              <th scope="col" class="px-6 py-3 capitalize">Profile Picture</th>
-              <th scope="col" class="px-6 py-3 capitalize">Employee ID</th>
-              <th scope="col" class="px-6 py-3 capitalize">name</th>
-              <th scope="col" class="px-6 py-3 capitalize">email</th>
-              <th scope="col" class="px-6 py-3 capitalize">department</th>
-              <th scope="col" class="px-6 py-3 capitalize">designation</th>
-              <th scope="col" class="px-6 py-3 capitalize">Working Status</th>
-              <th scope="col" class="px-6 py-3 capitalize">Employment Status</th>
-              <th scope="col" class="px-6 py-3 capitalize">Actions</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">Profile Picture</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">Employee ID</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">name</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">email</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">department</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">designation</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">Working Status</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">Employment Status</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">Actions</th>
             </tr>
           </thead>
           <tbody>
             {% for employee in employees %}
               <tr class="bg-white border-b 800 700">
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 flex justify-center items-center">
                   {% if employee.profile_picture %}
                   <img
-                  class="border-black min-w-12 border rounded-full w-full h-auto md:w-auto md:h-auto"
+                  class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto"
                   src="{{employee.profile_picture.url}}"
                   alt="image of myself"
                   />
                   {% else %}
-                  <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-full h-auto md:w-auto md:h-auto" src="https://api.dicebear.com/9.x/bottts-neutral/svg?eyes=robocop" />
+                  <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto" src="https://api.dicebear.com/9.x/bottts-neutral/svg?eyes=robocop" />
                   
                   {% endif %}
                 </td>
-                <td class="px-6 py-4">{{ employee.employee_id }}</td>
-                <td class="px-6 py-4">{{ employee.name }}</td>
-                <td class="px-6 py-4">{{ employee.email }}</td>
-                <td class="px-6 py-4">{{ employee.department }}</td>
-                <td class="px-6 py-4">{{ employee.designation }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.employee_id }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.name }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.email }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.department }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.designation }}</td>
 
-                <td class="px-6 py-4">{{ employee.working_status }}</td>
-                <td class="px-6 py-4">{{ employee.employment_status }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.working_status }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.employment_status }}</td>
 
                 <td>
                   <a href="{% url 'update-profile' employee.id %}" class="text-blue-700">Edit</a> |
