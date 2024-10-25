@@ -19,6 +19,9 @@ from django.conf import settings
 from hrm_app.services import take_screenshot
 import random
 from django.http.response import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 
 BASE_URL = settings.BASE_URL
 
@@ -428,6 +431,7 @@ class StopThreadView(APIView):
             return Response({'status': 'Thread is not running'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ApplicantDetailsAPI(APIView):
     def post(self, request, *args, **kwargs):
         # try:
