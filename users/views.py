@@ -633,22 +633,51 @@ import pandas as pd
 from django.http import JsonResponse
 
 def create_account(request):
-    file = pd.read_csv('file.csv')
-    for f in file:
+    file = pd.read_excel('file.xlsx')
+    records = list(file['name'])
+    
+    for index, name in enumerate(records):
         try:
-            user = User()
-            name = f['name']
-            email = f['email']
-            employee_code = f['employee_code']
+            print(f"Processing {name}")
+            row = file.iloc[index]
+            
+            employee_code = row['employee_id']
+            phone = row['phone']
+            designation = row['designation']
+            department = row['department']
+            personal_email = row['personal_email']
+            official_email = row['official_email']
+            Emergencyno = row['Emergencyno']
+            Address = row['Address']
+            doj = row['DOJ']
+            cnic = row['CNIC']
+            Basic_Salary = row['Basic_Salary']
+            Fuel_Allowance = row['Fuel_Allowance']
+            Bank_Details = row['Bank_Details']
+
+            department = Department.objects.filter(name=department).first()
+            user = User()  # Make sure you have imported User model
             password = generate_password()
-            user.email = email
-            user.username = email
+            user.email = personal_email
+            user.username = personal_email
             user.name = name
             user.employee_id = employee_code
             user.active_password = password
-            user.set_password(password)
-            user.save()
+            user.phone = phone
+            user.designation = designation
+            user.department = department
+            user.cnic = cnic
+            user.doj = doj
+            user.basic_salary = Basic_Salary
+            user.fuel_allowance = Fuel_Allowance
+            user.bank_name = Bank_Details
+            user.address = Address
+            user.emergency_contact_number = Emergencyno
+            user.company_email = official_email
+            
+            user.set_password(password)  # Set the password properly
+            user.save()                  # Save the user object
         except Exception as e:
-            print(f"Employee email {e}")
+            print(f"Error for employee {name}: {e}")
         
-    return JsonResponse({"message":"Script completed"})
+    return JsonResponse({"message": "Script completed"})

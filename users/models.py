@@ -79,7 +79,7 @@ class User(AbstractUser):
     phd_dissertation = models.CharField(max_length=250,null=True,blank=True)
     phd_supervisor = models.CharField(max_length=250,null=True,blank=True)
 
-    basic_salary = models.IntegerField(null=True,blank=True)
+    basic_salary = models.CharField(max_length=250,null=True,blank=True)
     fuel_allowance = models.CharField(max_length=250,null=True,blank=True)
     other_allowance = models.CharField(max_length=250,null=True,blank=True)
     bank_name = models.CharField(max_length=250,null=True,blank=True)

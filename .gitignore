@@ -167,3 +167,6 @@ nohup.out
 screenshots
 
 *.zip
+*.csv
+*.xlsx
+*.xlsx#
