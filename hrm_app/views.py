@@ -1,17 +1,18 @@
-from django.shortcuts import render,HttpResponseRedirect,redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace
 from django.utils import timezone
 from rest_framework.views import APIView
-from datetime import timedelta,datetime
+from datetime import timedelta, datetime
 from rest_framework.response import Response
-from math import floor    
+from math import floor
 from django.contrib.auth.decorators import login_required
 import pytz
 from users.models import User
 from rest_framework import status
 import threading
-import time, requests
+import time
+import requests
 from pynput import mouse, keyboard
 from django.conf import settings
 # from playsound import playsound
@@ -22,64 +23,69 @@ from django.http.response import JsonResponse
 BASE_URL = settings.BASE_URL
 
 
-
 @login_required(login_url='login')
 def my_attendance(request):
     user = request.user
     # attendances = AttendanceModel.objects.filter(employee=user)
-    attendances = SystemAttendanceModel.objects.filter(employee=user).order_by('-shift_date').order_by('-shift_start_time')
+    attendances = SystemAttendanceModel.objects.filter(
+        employee=user).order_by('-shift_date').order_by('-shift_start_time')
 
     try:
         for attendance in attendances:
-            attendance.remaining_hours = str(attendance.remaining_hours).split(".")[0]
+            attendance.remaining_hours = str(
+                attendance.remaining_hours).split(".")[0]
     except Exception as e:
         print(e)
     context = {
-        'attendances':attendances
+        'attendances': attendances
     }
-    
-    return render(request,'attendance-report.html',context)
+
+    return render(request, 'attendance-report.html', context)
+
 
 @login_required(login_url='login')
-def break_time_stamp(request,id):
+def break_time_stamp(request, id):
     attendance = AttendanceModel.objects.get(id=id)
     context = {
-        'attendance':attendance
+        'attendance': attendance
     }
-    
-    return render(request,'break-time-stamp.html',context)
+
+    return render(request, 'break-time-stamp.html', context)
 
 
 @login_required(login_url='login')
-def employees_report(request,id):
+def employees_report(request, id):
     attendances = SystemAttendanceModel.objects.filter(employee__id=id)
     try:
         for attendance in attendances:
-            attendance.remaining_hours = str(attendance.remaining_hours).split(".")[0]
+            attendance.remaining_hours = str(
+                attendance.remaining_hours).split(".")[0]
     except Exception as e:
         print(e)
-        
+
     context = {
-        'attendances':attendances
+        'attendances': attendances
     }
-    return render(request,'employees-report.html',context)
+    return render(request, 'employees-report.html', context)
 
 
 class UpdateTimeRecords(APIView):
-    
+
     def post(self, request):
         email = request.data.get('email')
         if not email:
             return Response({'error': 'Email is required'}, status=400)
-        
+
         user = User.objects.get(email=email)
         current_date = timezone.now().date()
-        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date,is_time_out_marked=False).first()
-        
+        attendance_obj = AttendanceModel.objects.filter(
+            employee__email=email, shift_date=current_date, is_time_out_marked=False).first()
+
         if not attendance_obj:
-            return Response({'message': "Attendance not found","status":False}, status=404)
-       
-        exist_record = EmployeeBreakRecords.objects.filter(employee=user,record_date=current_date,is_break_end=False).first()
+            return Response({'message': "Attendance not found", "status": False}, status=404)
+
+        exist_record = EmployeeBreakRecords.objects.filter(
+            employee=user, record_date=current_date, is_break_end=False).first()
         # Get the current time in UTC
         utc_now = datetime.utcnow()
 
@@ -91,95 +97,100 @@ class UpdateTimeRecords(APIView):
 
         # Format the time as HH:MM:SS string
         karachi_time_str = karachi_time.strftime("%H:%M:%S")
-        
-            # Convert string to datetime object
+
+        # Convert string to datetime object
         break_end_time_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
-            
+
         if exist_record is not None:
-           
+
             exist_record.end_time = break_end_time_obj
             exist_record.is_break_end = True
             exist_record.save()
-  
+
         remaining_hours_str = str(attendance_obj.remaining_hours)
-        
+
         time_out_time = datetime.strptime(karachi_time_str, "%H:%M:%S")
-        
+
         if remaining_hours_str == "0:00:00":
             attendance_obj.time_out_time = time_out_time
             attendance_obj.is_time_out_marked = True
             attendance_obj.save()
-            return Response({"message":"Your Shift has been ended"})
-        
+            return Response({"message": "Your Shift has been ended"})
+
         # Split the string into hours, minutes, and seconds
         hours, minutes, seconds = map(int, remaining_hours_str.split(':'))
 
         # Create a timedelta object representing the duration
-        time_duration = timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        time_duration = timedelta(
+            hours=hours, minutes=minutes, seconds=seconds)
 
         # Convert timedelta to total milliseconds
         remaining_time_in_miliseconds = time_duration.total_seconds() * 1000
-        
 
         remaining_time_in_miliseconds -= 1000
 
         hours = floor(remaining_time_in_miliseconds / (1000 * 60 * 60))
-        minutes = floor((remaining_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
+        minutes = floor((remaining_time_in_miliseconds %
+                        (1000 * 60 * 60)) / (1000 * 60))
         seconds = floor((remaining_time_in_miliseconds % (1000 * 60)) / 1000)
-        
-        remaining_time = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        
-        working_time_in_miliseconds = (attendance_obj.working_hours.total_seconds() * 1000)
+
+        remaining_time = timedelta(
+            hours=hours, minutes=minutes, seconds=seconds)
+
+        working_time_in_miliseconds = (
+            attendance_obj.working_hours.total_seconds() * 1000)
         working_time_in_miliseconds += 1000
-       
+
         hours = floor(working_time_in_miliseconds / (1000 * 60 * 60))
-        minutes = floor((working_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
+        minutes = floor((working_time_in_miliseconds %
+                        (1000 * 60 * 60)) / (1000 * 60))
         seconds = floor((working_time_in_miliseconds % (1000 * 60)) / 1000)
-        
-        working_hours = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        
-      
+
+        working_hours = timedelta(
+            hours=hours, minutes=minutes, seconds=seconds)
+
         # Update the attendance object with new calculations
         attendance_obj.working_hours = working_hours
         attendance_obj.remaining_hours = remaining_time
-        attendance_obj.total_hours_completed = attendance_obj.working_hours + attendance_obj.break_hours
+        attendance_obj.total_hours_completed = attendance_obj.working_hours + \
+            attendance_obj.break_hours
         attendance_obj.save()
-        
+
         # Return remaining time to frontend
-        return Response({'meesage': "Updated","remaining_hours":str(remaining_time),"status":True})
-    
-    
-    
+        return Response({'meesage': "Updated", "remaining_hours": str(remaining_time), "status": True})
+
+
 def playMusic():
-     # for playing note.mp3 file
+    # for playing note.mp3 file
     playsound('break-tone.mp3')
-    
+
+
 class BreakTimeCalculate(APIView):
-    
-    def post(self,request):
-        
-        
+
+    def post(self, request):
+
         # threading.Thread(target=playMusic()).start()
 
-       
         email = request.data.get('email')
-        break_type = request.data.get('break_type','System Generated')
-        comments = request.data.get('comments',None)
-        
+        break_type = request.data.get('break_type', 'System Generated')
+        comments = request.data.get('comments', None)
+
         if not email:
             return Response({'error': 'Email is required'}, status=400)
-        
+
         current_date = timezone.now().date()
-        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date, is_time_out_marked=False).first()
-        
+        attendance_obj = AttendanceModel.objects.filter(
+            employee__email=email, shift_date=current_date, is_time_out_marked=False).first()
+
         if not attendance_obj:
             return Response({'message': "Attendance not found"}, status=404)
-        
+
         user = User.objects.get(email=email)
-        
+
         # add break records time stamp
-        exist_record = EmployeeBreakRecords.objects.filter(employee=user,record_date=current_date,break_type=break_type,is_break_end=False).first()
-         # Get the current time in UTC
+        exist_record = EmployeeBreakRecords.objects.filter(
+            employee=user, record_date=current_date, break_type=break_type, is_break_end=False).first()
+        # Get the current time in UTC
         utc_now = datetime.utcnow()
 
         # Specify the timezone you want to convert to
@@ -194,73 +205,73 @@ class BreakTimeCalculate(APIView):
         if exist_record is None:
             exist_record = EmployeeBreakRecords()
             exist_record.employee = user
-            
-           
+
             # Convert string to datetime object (24-hour format)
-            break_start_time_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
-            
-            
+            break_start_time_obj = datetime.strptime(
+                karachi_time_str, "%H:%M:%S")
+
             exist_record.start_time = break_start_time_obj
             exist_record.break_comments = comments
             exist_record.break_type = break_type
             exist_record.record_date = current_date
             exist_record.save()
-        
-        
+
         remaining_hours_str = str(attendance_obj.remaining_hours)
         time_out_time = datetime.strptime(karachi_time_str, "%H:%M:%S")
-        
+
         if remaining_hours_str == "0:00:00":
             attendance_obj.time_out_time = time_out_time
             attendance_obj.is_time_out_marked = True
             attendance_obj.save()
-            return Response({"message":"Your Shift has been ended"})
-        
-       
-        
+            return Response({"message": "Your Shift has been ended"})
+
         # Split the string into hours, minutes, and seconds
         hours, minutes, seconds = map(int, remaining_hours_str.split(':'))
 
         # Create a timedelta object representing the duration
-        time_duration = timedelta(hours=hours, minutes=minutes, seconds=seconds)
+        time_duration = timedelta(
+            hours=hours, minutes=minutes, seconds=seconds)
 
         # Convert timedelta to total milliseconds
         remaining_time_in_miliseconds = time_duration.total_seconds() * 1000
-        
 
         remaining_time_in_miliseconds -= 1000
 
         hours = floor(remaining_time_in_miliseconds / (1000 * 60 * 60))
-        minutes = floor((remaining_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
+        minutes = floor((remaining_time_in_miliseconds %
+                        (1000 * 60 * 60)) / (1000 * 60))
         seconds = floor((remaining_time_in_miliseconds % (1000 * 60)) / 1000)
-        
-        remaining_time = timedelta(hours=hours, minutes=minutes, seconds=seconds)
-        
-        break_time_in_miliseconds = (attendance_obj.break_hours.total_seconds() * 1000)
+
+        remaining_time = timedelta(
+            hours=hours, minutes=minutes, seconds=seconds)
+
+        break_time_in_miliseconds = (
+            attendance_obj.break_hours.total_seconds() * 1000)
         break_time_in_miliseconds += 1000
-       
+
         hours = floor(break_time_in_miliseconds / (1000 * 60 * 60))
-        minutes = floor((break_time_in_miliseconds % (1000 * 60 * 60)) / (1000 * 60))
+        minutes = floor((break_time_in_miliseconds %
+                        (1000 * 60 * 60)) / (1000 * 60))
         seconds = floor((break_time_in_miliseconds % (1000 * 60)) / 1000)
-        
-        breaking_hours = timedelta(hours=hours, minutes=minutes, seconds=seconds)
+
+        breaking_hours = timedelta(
+            hours=hours, minutes=minutes, seconds=seconds)
         # Update the attendance object with new calculations
         attendance_obj.break_hours = breaking_hours
         attendance_obj.remaining_hours = remaining_time
-        attendance_obj.total_hours_completed = attendance_obj.working_hours + attendance_obj.break_hours
+        attendance_obj.total_hours_completed = attendance_obj.working_hours + \
+            attendance_obj.break_hours
         if exist_record is not None:
             attendance_obj.break_time_stamp.add(exist_record)
         attendance_obj.save()
 
-        
-        
         # Return remaining time to frontend
-        return Response({'meesage': "Break Time Updated","remaining_hours":str(remaining_time)})
-        
-        
+        return Response({'meesage': "Break Time Updated", "remaining_hours": str(remaining_time)})
+
+
 class TimeOut(APIView):
-    
-    def post(self,request):
+
+    def post(self, request):
         # Get the current time in UTC
         utc_now = datetime.utcnow()
 
@@ -272,26 +283,24 @@ class TimeOut(APIView):
 
         # Format the time as HH:MM:SS string
         karachi_time_str = karachi_time.strftime("%H:%M:%S")
-        
+
         # Convert string to datetime object
         time_out_time = datetime.strptime(karachi_time_str, "%H:%M:%S").time()
-        
-        
+
         email = request.data.get('email')
-        
-        
+
         current_date = timezone.now().date()
-        attendance_obj = AttendanceModel.objects.filter(employee__email=email, shift_date=current_date,is_time_out_marked=False).first()
+        attendance_obj = AttendanceModel.objects.filter(
+            employee__email=email, shift_date=current_date, is_time_out_marked=False).first()
         if attendance_obj is None:
-            return Response({"message":"No Attendance Found","status":False})
+            return Response({"message": "No Attendance Found", "status": False})
 
         attendance_obj.is_time_out_marked = True
         attendance_obj.time_out_time = time_out_time
         attendance_obj.save()
-        
-        
-        return Response({"message":"Time Out Successfully","status":True})
-    
+
+        return Response({"message": "Time Out Successfully", "status": True})
+
 
 # Global variables
 stop_thread = False
@@ -304,58 +313,70 @@ result = None
 # Create an event object
 done_event = threading.Event()
 
+
 def reset_idle_time():
     global idle_time
     idle_time = 0
 
+
 def on_move(x, y):
     reset_idle_time()
+
 
 def on_click(x, y, button, pressed):
     reset_idle_time()
 
+
 def on_scroll(x, y, dx, dy):
     reset_idle_time()
+
 
 def on_press(key):
     reset_idle_time()
 
+
 def on_release(key):
     reset_idle_time()
+
 
 def schedule_screenshot(email):
     global stop_thread
     while not stop_thread:
         interval = random.randint(1, 10) * 60  # interval in seconds
-        print(f"Waiting for {interval / 60} minutes before taking the next screenshot.")
+        print(
+            f"Waiting for {interval / 60} minutes before taking the next screenshot.")
         time.sleep(interval)
         take_screenshot(email)
-        
-        
+
+
 # Idle check function
 def check_idle(email):
     global idle_time, stop_thread
     # Start the screenshot scheduler thread
     # screenshot_thread = threading.Thread(target=schedule_screenshot, args=(email,))
     # screenshot_thread.start()
-    
+
     while not stop_thread:
-        
+
         data = {
-            "email":email
+            "email": email
         }
         time.sleep(1)
         idle_time += 1
         if idle_time >= idle_threshold:
-        
-            r = requests.post(f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/break-time-record/",json=data)
+
+            r = requests.post(
+                f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/break-time-record/", json=data)
             print(r.status_code)
-            
+
         else:
-            r2 = requests.post(f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/update-time-record/",json=data)
+            r2 = requests.post(
+                f"http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/update-time-record/", json=data)
             print(r2.status_code)
 
 # API View for starting the thread
+
+
 class StartThreadView(APIView):
     def post(self, request):
         email = request.data.get('email')
@@ -376,20 +397,23 @@ class StartThreadView(APIView):
                 keyboard_listener.start()
             except Exception as e:
                 pass
-            idle_check_thread = threading.Thread(target=check_idle,args=(email,))
+            idle_check_thread = threading.Thread(
+                target=check_idle, args=(email,))
             idle_check_thread.start()
-            
-            return Response({'status': 'Thread started',"success":True}, status=status.HTTP_200_OK)
+
+            return Response({'status': 'Thread started', "success": True}, status=status.HTTP_200_OK)
         else:
-            return Response({'status': 'Thread already running',"success":False}, status=status.HTTP_200_OK)
+            return Response({'status': 'Thread already running', "success": False}, status=status.HTTP_200_OK)
 
 # API View for stopping the thread
+
+
 class StopThreadView(APIView):
     def post(self, request):
         email = request.data.get('email')
         global stop_thread, idle_check_thread, mouse_listener, keyboard_listener
         if idle_check_thread is not None and idle_check_thread.is_alive():
-        
+
             stop_thread = True
             idle_check_thread.join()
             idle_check_thread = None
@@ -406,54 +430,146 @@ class StopThreadView(APIView):
 
 class ApplicantDetailsAPI(APIView):
     def post(self, request, *args, **kwargs):
-        try:
+        # try:
             # Get the data from request
             data = request.data
 
             # Get files if present (profile picture and resume)
-            upload_profile = request.FILES.get('upload_profile')
+            upload_profile = request.FILES.get('profile_picture')
             resume = request.FILES.get('resume')
 
-            # Extract the fields from the POST data
-            name = data.get('name')
-            position_applied_for = data.get('position_applied_for')
-            father_name = data.get('father_name')
-            email_address = data.get('email_address')
-            cnic = data.get('cnic')
-            date_of_birth = data.get('date_of_birth')
-            marital_status = data.get('marital_status')
-            expected_salary = data.get('expected_salary')
-            address = data.get('address')
-            contact_number = data.get('contact_number')
-            emergency_contact_number = data.get('emergency_contact_number')
-            when_join_us = data.get('when_join_us')
-            shift_availablity = data.get('shift_availablity')
-            matric_details = data.get('matric_details')
-            intermediate_details = data.get('intermediate_details')
-            bachelors_details = data.get('bachelors_details', None)
-            masters_details = data.get('masters_details', None)
-            phd_details = data.get('phd_details', None)
-            diploma_details = data.get('diploma_details', None)
-            job_experience = data.get('job_experience')
-            declaration = data.get('declaration', False)  # Assuming it's a checkbox or boolean field
+            matric_details = {}
+            intermediate_details = {}
+            bachelors_details = {}
+            masters_details = {}
+            phd_details = {}
+            diploma_details = {}
 
-            exist = ApplicantDetails.objects.filter(email_address=email_address).first()
-            
+            matric_details['institute'] = data.get('matric_institute', None)
+            matric_details['degree'] = data.get('matric_degree', None)
+            matric_details['percentage'] = data.get('matric_grade', None)
+            matric_details['year_passing'] = data.get(
+                'matric_passing_year', None)
+
+            intermediate_details['institute'] = data.get(
+                'intermediate_institute', None)
+            intermediate_details['degree'] = data.get(
+                'intermediate_degree', None)
+            intermediate_details['percentage'] = data.get(
+                'intermediate_grade', None)
+            intermediate_details['year_passing'] = data.get(
+                'intermediate_passing_year', None)
+
+            bachelors_details['institute'] = data.get(
+                'bachelors_institute', None)
+            bachelors_details['degree'] = data.get('bachelors_degree', None)
+            bachelors_details['percentage'] = data.get('bachelors_grade', None)
+            bachelors_details['year_passing'] = data.get(
+                'bachelors_year_passing', None)
+
+            masters_details['institute'] = data.get('masters_institute', None)
+            masters_details['degree'] = data.get('masters_degree', None)
+            masters_details['percentage'] = data.get('masters_grade', None)
+            masters_details['year_passing'] = data.get(
+                'masters_year_passing', None)
+
+            phd_details['institute'] = data.get(
+                'phsign-up-report/d_institute', None)
+            phd_details['degree'] = data.get('phd_degree', None)
+            phd_details['percentage'] = data.get('phd_grade', None)
+            phd_details['year_passing'] = data.get('phd_year_passing', None)
+
+            diploma_details['institute'] = data.get('diploma_institute', None)
+            diploma_details['degree'] = data.get('diploma_degree', None)
+            diploma_details['percentage'] = data.get('diploma_grade', None)
+            diploma_details['year_passing'] = data.get(
+                'diploma_year_passing', None)
+
+            job_experience_1_name_of_company = data.get(
+                'job1_company_name', None)
+            job_experience_1_department = data.get('job1_department', None)
+            job_experience_1_position = data.get('job1_designation', None)
+            job_experience_1_joinig_date = data.get('job1_joining_date', None)
+            job_experience_1_salary = data.get('job1_salary', None)
+            job_experience_1_experience_letter = data.get(
+                'job1_experience_letter', None)
+            job_experience_1_reason_for_leaving_job = data.get(
+                'job1_reason', None)
+
+            job_experience_2_name_of_company = data.get(
+                'job2_company_name', None)
+            job_experience_2_department = data.get('job2_department', None)
+            job_experience_2_position = data.get('job2_designation', None)
+            job_experience_2_joinig_date = data.get('job2_joining_date', None)
+            job_experience_2_salary = data.get('job2_salary', None)
+            job_experience_2_experience_letter = data.get(
+                'job2_experience_letter', None)
+            job_experience_2_reason_for_leaving_job = data.get(
+                'job2_reason', None)
+
+            job_experience_3_name_of_company = data.get(
+                'job3_company_name', None)
+            job_experience_3_department = data.get('job3_department', None)
+            job_experience_3_position = data.get('job3_designation', None)
+            job_experience_3_joinig_date = data.get('job3_joining_date', None)
+            job_experience_3_salary = data.get('job3_salary', None)
+            job_experience_3_experience_letter = data.get(
+                'job3_experience_letter', None)
+            job_experience_3_reason_for_leaving_job = data.get(
+                'job3_reason', None)
+
+            job_experience = [{
+                "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job
+            }, {
+                "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job
+            }, {
+                "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job
+            }]
+
+            # Extract the fields from the POST data
+            first_name = data.get('first_name', None)
+            last_name = data.get('last_name', None)
+            name = first_name + last_name
+            position_applied_for = data.get('position_applied_for', None)
+            father_name = data.get('father_name', None)
+            email_address = data.get('email_address', None)
+            cnic = data.get('cnic', None)
+            date_of_birth = data.get('date_of_birth', None)
+            marital_status = data.get('marital_status', None)
+            expected_salary = data.get('expected_salary', None)
+            address = data.get('address', None)
+            contact_number = data.get('contact_number', None)
+            emergency_contact_number = data.get(
+                'emergency_contact_number', None)
+            when_join_us = data.get('when_join_us', None)
+            shift_availablity = data.get('shift_availablity', None)
+            matric_details = matric_details
+            intermediate_details = intermediate_details
+            bachelors_details = bachelors_details
+            masters_details = masters_details
+            phd_details = phd_details
+            diploma_details = diploma_details
+            job_experience = job_experience
+            # Assuming it's a checkbox or boolean field
+            declaration = data.get('declaration', False)
+
+            exist = ApplicantDetails.objects.filter(
+                email_address=email_address).first()
+
             if exist:
                 return Response({
-                'error': "Email already exisit",
-                'message': 'Email already exisit'
-            }, status=status.HTTP_400_BAD_REQUEST)
-            
+                    'error': "Email already exisit",
+                    'message': 'Email already exisit'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
             # Create an ApplicantDetails object
-            
+
             applicant = ApplicantDetails.objects.create(
                 name=name,
                 position_applied_for=position_applied_for,
                 father_name=father_name,
                 email_address=email_address,
                 cnic=cnic,
-                date_of_birth=date_of_birth,
                 marital_status=marital_status,
                 expected_salary=expected_salary,
                 address=address,
@@ -473,13 +589,21 @@ class ApplicantDetailsAPI(APIView):
                 declaration=declaration
             )
 
+            try:
+                applicant.date_of_birth=date_of_birth
+                applicant.save()
+            except Exception as e:
+                print(e)
+                
+                
             # Return a success response
             return Response({
                 'message': 'Applicant created successfully!',
                 'applicant_id': applicant.id
             }, status=status.HTTP_201_CREATED)
 
-        except Exception as e:
+        # except Exception as e:
+            print(e)
             return Response({
                 'error': str(e),
                 'message': 'Failed to create applicant'
@@ -487,10 +611,10 @@ class ApplicantDetailsAPI(APIView):
 
 
 class ShiftStartTime(APIView):
-    def post(self,request):
+    def post(self, request):
         email = request.data['email']
-        employee = User.objects.filter(email=email).first() 
-        
+        employee = User.objects.filter(email=email).first()
+
         # Get the current time in UTC
         utc_now = datetime.utcnow()
 
@@ -504,10 +628,10 @@ class ShiftStartTime(APIView):
         karachi_time_str = karachi_time.strftime("%H:%M:%S")
 
         current_date = timezone.now().date()
-        
-        attendance = SystemAttendanceModel.objects.filter(employee=employee,shift_date=current_date,is_time_out_marked=False,is_present=True).last()
-        
-        
+
+        attendance = SystemAttendanceModel.objects.filter(
+            employee=employee, shift_date=current_date, is_time_out_marked=False, is_present=True).last()
+
         if attendance is None:
             attendance = SystemAttendanceModel()
             attendance.shift_date = current_date
@@ -516,9 +640,9 @@ class ShiftStartTime(APIView):
             attendance.is_present = True
             attendance.save()
 
-        return Response({"success":True,"message":"Shift Start Attendance Marked","start_time": attendance.shift_start_time})
-            
-    
+        return Response({"success": True, "message": "Shift Start Attendance Marked", "start_time": attendance.shift_start_time})
+
+
 class ShiftEndTime(APIView):
     def post(self, request):
         email = request.data['email']
@@ -539,21 +663,12 @@ class ShiftEndTime(APIView):
 
         # Find the attendance record
         attendance = SystemAttendanceModel.objects.filter(
-            employee=employee,
-            shift_date=current_date,
-            is_time_out_marked=False,
-            is_present=True
-        ).last()
-        
+            employee=employee, shift_date=current_date, is_time_out_marked=False, is_present=True).last()
 
         if attendance:
             # Convert attendance.shift_start_time to datetime object
             shift_start_time = karachi_time.replace(
-                hour=attendance.shift_start_time.hour,
-                minute=attendance.shift_start_time.minute,
-                second=attendance.shift_start_time.second,
-                microsecond=0
-            )
+                hour=attendance.shift_start_time.hour, minute=attendance.shift_start_time.minute, second=attendance.shift_start_time.second, microsecond=0)
 
            # Calculate time passed since shift start
             time_passed = karachi_time - shift_start_time
@@ -566,13 +681,12 @@ class ShiftEndTime(APIView):
             attendance.is_time_out_marked = True
             attendance.save()
 
-        return Response({"success": True, "message": "Shift End Attendance Marked","end_time": attendance.time_out_time})
-    
-    
+        return Response({"success": True, "message": "Shift End Attendance Marked", "end_time": attendance.time_out_time})
 
-def thumbAttendance(request,id):
+
+def thumbAttendance(request, id):
     attendances = ThumbAttendnace.objects.filter(employee__id=id)
-    user= User.objects.get(id=id)
+    user = User.objects.get(id=id)
     print(user)
-    params = {'attendances':attendances}
-    return render(request,'thumb-attedance.html',params)
+    params = {'attendances': attendances}
+    return render(request, 'thumb-attedance.html', params)

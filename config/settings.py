@@ -173,7 +173,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://ec2-34-226-12-37.compute-1.amazonaws.com',
     'https://ec2-34-226-12-37.compute-1.amazonaws.com',
     'http://hrm.nexiatech.org',
-    'https://hrm.nexiatech.org'
+    'http://nexiatech.org',
+    'https://hrm.nexiatech.org',
+    'https://nexiatech.org',
+    "http://127.0.0.1:5500"
 
 ]
 CORS_ALLOW_ALL_ORIGINS = True
@@ -209,7 +212,11 @@ CSRF_TRUSTED_ORIGINS = [
     'http://ec2-34-226-12-37.compute-1.amazonaws.com',
     'https://ec2-34-226-12-37.compute-1.amazonaws.com',
     'http://hrm.nexiatech.org',
-    'https://hrm.nexiatech.org'
+    'http://nexiatech.org',
+    'https://hrm.nexiatech.org',
+    'https://nexiatech.org',
+    "http://127.0.0.1:5500",
+    
 
 
 ]
