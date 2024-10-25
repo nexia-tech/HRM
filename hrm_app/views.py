@@ -691,6 +691,13 @@ class ShiftEndTime(APIView):
 def thumbAttendance(request, id):
     attendances = ThumbAttendnace.objects.filter(employee__id=id)
     user = User.objects.get(id=id)
-    print(user)
     params = {'attendances': attendances}
     return render(request, 'thumb-attedance.html', params)
+
+
+def applicants(request):
+    applicant_records = ApplicantDetails.objects.all()
+    params = {
+        'applicant_records':applicant_records
+    }
+    return render(request,'applicant-records.html',params)
