@@ -21,11 +21,11 @@
         <!-- FullName -->
         <h1 class="w-full text-left my-4 sm:mx-4 xs:pl-4 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl font-serif">
           {% if not employee.last_name %}
-            {{ employee.first_name }} Employee ID: ({{ employee.employee_id }})
+            {{ employee.first_name }} (Employee ID: {{ employee.employee_id }})
           {% else %}
             {{ employee.first_name }}
             {{ employee.last_name }}
-            Employee ID: ({{ employee.employee_id }})
+            (Employee ID: {{ employee.employee_id }})
           {% endif %}
         </h1>
       </div>
