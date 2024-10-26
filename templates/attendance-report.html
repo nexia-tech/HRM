@@ -7,58 +7,62 @@
     <div class="md:h-[80vh] px-6 mx-auto lg:py-0">
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
-            <tr>
+    <table class="w-full  text-sm text-gray-500 400" id="myTable">
+        <thead class="text-xs  text-gray-700 uppercase bg-gray-50 700 400">
+            <tr class="">
                 <th scope="col" class="px-6 py-3 capitalize">
                     shift date
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    shift time
+                    Time In
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    Working hours
-                </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                     break hours
+                    Time Out
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
                     remaining hours
                 </th>
-                <th scope="col" class="px-6 py-3 capitalize">
-                    total hours completed
+                <th scope="col" class="px-6 py-3 capitalize flex justify-center items-center">
+                    Time Out Marked?
                 </th>
                 <th scope="col" class="px-6 py-3 capitalize">
-                    Time out
+                    Record Created At
                 </th>
+              
+                
                
                 
             </tr>
         </thead>
-        <tbody>
+        <tbody  class="">
             {% for attendance in attendances %}
-            <tr class="bg-white border-b 800 700">
+            <tr class="bg-white border-b 800 700 ">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                     {{attendance.shift_date}}
                 </th>
                 <td class="px-6 py-4">
-                    {{attendance.shift_time}}
-                </td>
-                <td class="px-6 py-4">
-                    {{attendance.working_hours}}
-                </td>
-                <td class="px-6 py-4">
-                   <a href="{% url "break-time-stamp" attendance.id %}" class="text-blue-700 cursor-pointer"> {{attendance.break_hours}}</a>
-                </td>
-                <td class="px-6 py-4">
-                    {{attendance.remaining_hours}}
-                </td>
-                <td class="px-6 py-4">
-                    {{attendance.total_hours_completed}}
+                    {{attendance.shift_start_time}}
                 </td>
                 <td class="px-6 py-4">
                     {{attendance.time_out_time}}
                 </td>
+               
+                <td class="px-6 py-4">
+                    {{attendance.remaining_hours}}
+                </td>
+
+                <td class="px-6 py-4">
+                    {% if attendance.is_time_out_marked %}
+                    <i class="fa-solid flex justify-center items-center fa-circle-check text-green-700"></i>
+
+                    {% else %}
+                    <i class="fa-solid flex justify-center items-center fa-circle-xmark text-red-700"></i>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4">
+                    {{attendance.created_at}}
+                </td>
+               
                 
             </tr>
             {% endfor %}

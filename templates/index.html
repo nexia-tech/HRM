@@ -25,9 +25,11 @@
           <span class="ml-3 text-xl text-black">Nexia HRM</span>
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          {% if user.is_superuser %}
+          {% if user.is_staff %}
+            <a href="{% url "applicants" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Applicant Report</a>
           <a href="{% url "create-employee-account" %}" class="mr-5 hover:text-gray-500 cursor-pointer">Create Employee Account</a>
-          <a href="{% url "employees" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Employees</a>
+          <a href="{% url "employees" %}"  class="mr-5 hover:text-gray-500 cursor-pointer">Employee Records</a>
+          <a href="{% url "my-attendance" %}" class="mr-5 hover:text-gray-500 cursor-pointer">My Attendance Report</a>
           {% else %}
           {% comment %} <a href="{% url "edit-profile" %}" class="mr-5 hover:text-gray-500 cursor-pointer">Edit Profile</a> {% endcomment %}
           <a href="{% url "my-attendance" %}" class="mr-5 hover:text-gray-500 cursor-pointer">My Attendance Report</a>
@@ -87,26 +89,27 @@
     <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap md:h-screen">
       <div class="lg:w-1/2 md:w-1/2 bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
         <div class="h-full text-center">
-          {% if attendance_obj.employee.profile_picture %}
-            <img alt="profile-pic" class="w-48 h-48 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="{{ attendance_obj.employee.profile_picture.url }}" />
+          {% if user.profile_picture %}
+            <img alt="profile-pic" class="w-48 h-48 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="{{ user.profile_picture.url }}" />
           {% else %}
-            <img alt="profile-pic" class="w-48 h-48 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="https://api.dicebear.com/9.x/bottts-neutral/svg?eyes=robocop" />
+            <img alt="profile-pic" class="w-48 h-48 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
           {% endif %}
-          <p class="leading-relaxed text-base">{{ attendance_obj.employee.bio }}</p>
+          <p class="leading-relaxed text-base">{{ user.bio }}</p>
           <span class="inline-block h-1 w-10 rounded bg-blue-500 mt-6 mb-4"></span>
-          <p class="text-gray-500 text-base">{{ attendance_obj.employee.department.name }}</p>
-          <h2 class="text-white font-medium title-font tracking-wider text-xl">{{ attendance_obj.employee.name }}</h2>
-          <p class="text-gray-500 text-lg">{{ attendance_obj.employee.designation }}</p>
+          <p class="text-gray-500 text-base">{{ user.department.name }}</p>
+          <h2 class="text-white font-medium title-font tracking-wider text-xl">{{ user.name }}</h2>
+          <p class="text-gray-500 text-lg">{{ user.designation }}</p>
         </div>
       </div>
       <div class="flex flex-col w-full">
         <div class="lg:w-1/2 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
           <h1 class="text-5xl font-bold mb-4">Shift Timing</h1>
-          <div id="timer" class="text-6xl font-bold mb-4">{{ attendance_obj.remaining_hours }}</div>
+          <div class="text-2xl font-bold mb-4">Time In: <span id="start_time" ></span> </div>
+          <div class="text-2xl font-bold mb-4">Time Out:  <span id="end_time" ></span> </div>
           <div class="space-x-4 flex flex-wrap gap-y-5 justify-start">
-            <button id="startTimerBtn" onclick="startTimer()" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Time in</button>
+            <button id="startTimerBtn"  class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Time in</button>
 
-            <button id="breakTimeBtn" data-modal-target="break-modal" data-modal-toggle="break-modal" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded" type="button">Add Break</button>
+            {% comment %} <button id="breakTimeBtn" data-modal-target="break-modal" data-modal-toggle="break-modal" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded" type="button">Add Break</button> {% endcomment %}
             
             <button id="timeOut"  data-modal-target="time-out" data-modal-toggle="time-out" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded" type="button">Time Out</button>
           
@@ -194,326 +197,7 @@
 
 
 </body>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
 
-  <script>
-    let timerInterval = null;
-    let dusraTimerInterval= null;
-    let shiftDurationHours = "{{ attendance_obj.remaining_hours }}";
-    let remainingTime = calculateRemainingTime(shiftDurationHours); // Calculate initial remaining time
-    let startBtn = document.getElementById('startTimerBtn')
-    let addBreakBtnConfirm = document.getElementById('AddBreak')
-    let TimeOutConfirmBtn = document.getElementById('TimeOutConfirmBtn')
-    let timeOut = document.getElementById('timeOut')
-    let breakTimeBtn = document.getElementById('breakTimeBtn')
-    let isTimeOut = true;
-    let logout_btn = document.getElementById('logout-btn') 
-    var audio = new Audio('{{configuration.audio_file.url}}');
-
-  
-    // Function to calculate remaining time in milliseconds from hours:minutes:seconds format
-    function calculateRemainingTime(timeString) {
-      let [hours, minutes, seconds] = timeString.split(':').map(Number);
-      return ((hours * 3600) + (minutes * 60) + seconds) * 1000;
-    }
-  
-    // Function to get the CSRF token from the meta tag
-    function getCSRFToken() {
-      let csrfToken = null;
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith('csrftoken=')) {
-          csrfToken = cookie.substring('csrftoken='.length, cookie.length);
-          break;
-        }
-      }
-      return csrfToken;
-    }
-  
-
-    const csrfToken = getCSRFToken(); // Fetch the CSRF token
-
-    // Function to update the timer and make the API call
-    function updateTimer() {
-      if (remainingTime <= 0) {
-        clearInterval(timerInterval);
-        document.getElementById('timer').textContent = '00:00:00';
-        return;
-      }
-
-
-  
-      const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-      
-  
-      const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      document.getElementById('timer').textContent = formattedTime;
-      remainingTime -= 1000; // Decrease remaining time by 1 second (1000 milliseconds)
-  
-    
-
-
-    
-    }
-
-
-    // Function to update the timer and make the API call
-    function updateBreakTimer() {
-       
-        // Play sound
-        {% comment %} audio.play(); {% endcomment %}
-        console.log("play");
-        
-        let comments =  document.getElementById('comments').value
-        let break_type = document.getElementById('break_type').value
-        if(break_type == 'Choose break type')
-        {
-          break_type = 'System Generated'
-        }
-        // Make the POST request to update the time record
-        fetch('http://ec2-34-226-12-37.compute-1.amazonaws.com/hrm/break-time-record/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-          },
-          body: JSON.stringify({ email: '{{attendance_obj.employee.email}}' ,break_type:break_type,comments:comments})
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
-          
-          return response.json();
-        })
-        .then(data => {
-             // Update remaining time after break based on response from server
-             remainingTime = calculateRemainingTime(data.remaining_hours); // Assuming server sends remaining hours in format 'HH:MM:SS'
-          console.log('Success:', data);
-          document.getElementById('break_type').value = "Choose break type"
-          document.getElementById('comments').value = ""
-          
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-
-        
-
-      }
-  
-    // Function to start the timer
-    function startTimer() {
-        {% comment %} audio.pause() {% endcomment %}
-      // Make the POST request to update the time record
-    fetch('{{BASE_URL}}/hrm/start-timer-thread/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-      },
-      body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(data => {
-         // Update remaining time after break based on response from server
-      console.log('Success:', data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-      clearInterval(dusraTimerInterval);
-      dusraTimerInterval = null;
-
-      if (!timerInterval) {
-        timerInterval = setInterval(updateTimer, 1000);
-      }
-
-      startBtn.setAttribute('disabled','disabled')
-      startBtn.classList.add('cursor-not-allowed');
-      startBtn.innerText = "Runing..."
-
-      breakTimeBtn.removeAttribute('disabled')
-      breakTimeBtn.classList.remove('cursor-not-allowed')
-
-      timeOut.removeAttribute('disabled')
-      timeOut.classList.remove('cursor-not-allowed')
-
-      logout_btn.removeAttribute('disabled')
-      logout_btn.classList.remove('cursor-not-allowed')
-      logout_btn.setAttribute('href',"{% url 'logout' %}")
-
-    }
-  
-    // Function to stop the timer
-    function stopTimer() {
-      
-      // Make the POST request to stop the timer thread
-      fetch('{{BASE_URL}}/hrm/stop-timer-thread/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-        },
-        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-           // Update remaining time after break based on response from server
-        console.log('Success:', data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-
-      clearInterval(timerInterval);
-      timerInterval = null;
-      if(!dusraTimerInterval)
-      {
-        dusraTimerInterval = setInterval(updateBreakTimer, 1000);
-      }
-      breakTimeBtn.setAttribute('disabled','disabled')
-      breakTimeBtn.classList.add('cursor-not-allowed');
-
-      
-      timeOut.setAttribute('disabled','disabled')
-      timeOut.classList.add('cursor-not-allowed');
-      startBtn.removeAttribute('disabled');
-      startBtn.classList.remove('cursor-not-allowed');
-      startBtn.innerText = "Resume Work"
-
-
-    }
-  
- 
-
-    function timeOutApi()
-    {
-      
-
-       // Make the POST request to end the shift 
-       fetch('{{BASE_URL}}/hrm/time-out/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-        },
-        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Success:', data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-
-
-
-      // Make the POST request to stop the timer thread
-      fetch('{{BASE_URL}}/hrm/stop-timer-thread/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-        },
-        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-           // Update remaining time after break based on response from server
-        console.log('Success:', data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-      
-      clearInterval(timerInterval);
-      clearInterval(dusraTimerInterval);
-      isTimeOut = false
-      startBtn.setAttribute('disabled','disabled')
-      startBtn.classList.add('cursor-not-allowed');
-      startBtn.innerText = "Shift Ended"
-      timeOut.setAttribute('disabled','disabled')
-      timeOut.classList.add('cursor-not-allowed')
-      breakTimeBtn.setAttribute('disabled','disabled')
-      breakTimeBtn.classList.add('cursor-not-allowed');
-       // Make the POST request to stop the timer thread
-       fetch('{{BASE_URL}}/logout/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken // Include the CSRF token in the headers
-        },
-        body: JSON.stringify({ email: '{{attendance_obj.employee.email}}'})
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-           // Update remaining time after break based on response from server
-        console.log('Success:', data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-      setTimeout(()=>{
-      window.close()
-
-      },5000)
-    }
-   
-  
-    // Event listener for start timer button
-startBtn.addEventListener('click', function() {
-  startTimer();
-});
-
-// Event listener for stop timer button
-addBreakBtnConfirm.addEventListener('click', function() {
-  stopTimer();
-});
-
-TimeOutConfirmBtn.addEventListener('click',function()
-{
-  timeOutApi();
-})
-
-
-timeOut.setAttribute('disabled','disabled')
-timeOut.classList.add('cursor-not-allowed')
-breakTimeBtn.setAttribute('disabled','disabled')
-breakTimeBtn.classList.add('cursor-not-allowed')
-logout_btn.classList.add('cursor-not-allowed')
-logout_btn.setAttribute('disabled','disabled')
-logout_btn.setAttribute('href','#')
-
-</script>
+{% include "scripts.html" %}
 
 </html>

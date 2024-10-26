@@ -17,13 +17,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xcj7@)ijvx=jae0#2fq(*=6h%&i74#qfbjxl5w@a4y!2cvd=%r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ["*"]
 BASE_URL = env('BASE_URL')
 
-AWS_ACCESS_KEY_ID=env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY=env('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'core',
-    
+
 
 ]
 
@@ -51,11 +51,11 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,9 +95,9 @@ if engine == 'django.db.backends.mysql':
             'USER': env('DATABASE_USERNAME'),
             'PASSWORD': env('DATABASE_PASSWORD').strip(),
             'HOST': env('DATABASE_HOST'),  # e.g., 'localhost' or an IP address
-            'PORT': env('DATABASE_PORT'), 
+            'PORT': env('DATABASE_PORT'),
             "OPTIONS": {
-               "init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
+                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'"
             }
         }
     }
@@ -146,14 +146,14 @@ AUTH_USER_MODEL = 'users.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-MEDIA_URL = "/config/media/"
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "config/media")
 
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = "/static/"
 
-
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -168,11 +168,16 @@ CORS_ALLOWED_ORIGINS = [
     "https://localhost",
     "http://127.0.0.1:8000",
     "http://207.148.10.92",
-     "https://207.148.10.92",
-     'http://localhost:8000',
-     'http://ec2-34-226-12-37.compute-1.amazonaws.com',
-     'https://ec2-34-226-12-37.compute-1.amazonaws.com',
-    
+    "https://207.148.10.92",
+    'http://localhost:8000',
+    'http://ec2-34-226-12-37.compute-1.amazonaws.com',
+    'https://ec2-34-226-12-37.compute-1.amazonaws.com',
+    'http://hrm.nexiatech.org',
+    'http://nexiatech.org',
+    'https://hrm.nexiatech.org',
+    'https://nexiatech.org',
+    "http://127.0.0.1:5500"
+
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -200,13 +205,19 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
     "https://localhost",
     'https://52.206.234.170',
-     "http://localhost:80",
-     "http://207.148.10.92",
-     "https://207.148.10.92",
+    "http://localhost:80",
+    "http://207.148.10.92",
+    "https://207.148.10.92",
     "http://127.0.0.1:8000",
-     'http://ec2-34-226-12-37.compute-1.amazonaws.com',
-     'https://ec2-34-226-12-37.compute-1.amazonaws.com',
-   
+    'http://ec2-34-226-12-37.compute-1.amazonaws.com',
+    'https://ec2-34-226-12-37.compute-1.amazonaws.com',
+    'http://hrm.nexiatech.org',
+    'http://nexiatech.org',
+    'https://hrm.nexiatech.org',
+    'https://nexiatech.org',
+    "http://127.0.0.1:5500",
+    
+
 
 ]
 

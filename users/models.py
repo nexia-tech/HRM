@@ -31,6 +31,7 @@ class User(AbstractUser):
     dob = models.DateField(null=True,blank=True)
     martial_status = models.CharField(max_length=250,null=True,blank=True)
     address = models.TextField(null=True,blank=True)
+    working_status = models.CharField(max_length=200,null=True,blank=True)
     
     company_email = models.EmailField(max_length=200,null=True,blank=True)
     company_phone_number = models.CharField(max_length=200,null=True,blank=True)
@@ -78,7 +79,7 @@ class User(AbstractUser):
     phd_dissertation = models.CharField(max_length=250,null=True,blank=True)
     phd_supervisor = models.CharField(max_length=250,null=True,blank=True)
 
-    basic_salary = models.IntegerField(null=True,blank=True)
+    basic_salary = models.CharField(max_length=250,null=True,blank=True)
     fuel_allowance = models.CharField(max_length=250,null=True,blank=True)
     other_allowance = models.CharField(max_length=250,null=True,blank=True)
     bank_name = models.CharField(max_length=250,null=True,blank=True)

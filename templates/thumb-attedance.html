@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}
+  Attendance Report
+{% endblock %}
+
+{% block body %}
+  <section class="bg-gray-50 container mx-auto">
+    <div class="md:h-[80vh] px-6 mx-auto lg:py-0">
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
+            <tr>
+              <th scope="col" class="px-6 py-3 capitalize">Employee Name</th>
+              <th scope="col" class="px-6 py-3 capitalize">date</th>
+              <th scope="col" class="px-6 py-3 capitalize">time table</th>
+              <th scope="col" class="px-6 py-3 capitalize">auto assign</th>
+              <th scope="col" class="px-6 py-3 capitalize">on duty</th>
+              <th scope="col" class="px-6 py-3 capitalize">off duty</th>
+              <th scope="col" class="px-6 py-3 capitalize">clock in</th>
+              <th scope="col" class="px-6 py-3 capitalize">clock out</th>
+              <th scope="col" class="px-6 py-3 capitalize">normal</th>
+              <th scope="col" class="px-6 py-3 capitalize">real time</th>
+              <th scope="col" class="px-6 py-3 capitalize">late</th>
+              <th scope="col" class="px-6 py-3 capitalize">early</th>
+              <th scope="col" class="px-6 py-3 capitalize">absent</th>
+              <th scope="col" class="px-6 py-3 capitalize">ot time</th>
+              <th scope="col" class="px-6 py-3 capitalize">work time</th>
+              <th scope="col" class="px-6 py-3 capitalize">exception</th>
+              <th scope="col" class="px-6 py-3 capitalize">must_cin</th>
+              <th scope="col" class="px-6 py-3 capitalize">must_cout</th>
+              <th scope="col" class="px-6 py-3 capitalize">department</th>
+              <th scope="col" class="px-6 py-3 capitalize">n days</th>
+              <th scope="col" class="px-6 py-3 capitalize">weekend</th>
+              <th scope="col" class="px-6 py-3 capitalize">holiday</th>
+              <th scope="col" class="px-6 py-3 capitalize">att_time</th>
+              <th scope="col" class="px-6 py-3 capitalize">ndays_ot</th>
+              <th scope="col" class="px-6 py-3 capitalize">weekend_ot</th>
+              <th scope="col" class="px-6 py-3 capitalize">holiday_ot</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for attendance in attendances %}
+              <tr class="bg-white border-b 800 700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ attendance.employee.name }}</th>
+                <th scope="row">{{ attendance.date }}</th>
+                <td class="px-6 py-4">{{ attendance.time_table }}</td>
+                <td class="px-6 py-4">{{ attendance.auto_assign }}</td>
+                <td class="px-6 py-4">{{ attendance.on_duty }}</td>
+                <td class="px-6 py-4">{{ attendance.off_duty }}</td>
+                <td class="px-6 py-4">{{ attendance.clock_in }}</td>
+                <td class="px-6 py-4">{{ attendance.clock_out }}</td>
+                <td class="px-6 py-4">{{ attendance.normal }}</td>
+                <td class="px-6 py-4">{{ attendance.real_time }}</td>
+                <td class="px-6 py-4">{{ attendance.late }}</td>
+                <td class="px-6 py-4">{{ attendance.early }}</td>
+                <td class="px-6 py-4">{{ attendance.absent }}</td>
+                <td class="px-6 py-4">{{ attendance.ot_time }}</td>
+                <td class="px-6 py-4">{{ attendance.work_time }}</td>
+                <td class="px-6 py-4">{{ attendance.exception }}</td>
+                <td class="px-6 py-4">{{ attendance.must_cin }}</td>
+                <td class="px-6 py-4">{{ attendance.must_cout }}</td>
+                <td class="px-6 py-4">{{ attendance.department }}</td>
+                <td class="px-6 py-4">{{ attendance.ndays }}</td>
+                <td class="px-6 py-4">{{ attendance.weekend }}</td>
+                <td class="px-6 py-4">{{ attendance.holiday }}</td>
+                <td class="px-6 py-4">{{ attendance.att_time }}</td>
+                <td class="px-6 py-4">{{ attendance.ndays_ot }}</td>
+                <td class="px-6 py-4">{{ attendance.weekend_ot }}</td>
+                <td class="px-6 py-4">{{ attendance.holiday_ot }}</td>
+                
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      $('#myTable').DataTable({
+        responsive: false,
+        order: [[1, 'des']],
+        pageLength: 25, // Set the number of entries per page to 10,
+        lengthMenu: [
+          [10, 25, 50, 100],
+          [10, 25, 50, 100]
+        ] //
+      })
+    })
+  </script>
+{% endblock %}

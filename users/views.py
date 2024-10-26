@@ -4,14 +4,14 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from users.models import User, Department
 from django.contrib.auth.decorators import login_required
-from hrm_app.models import AttendanceModel
+from hrm_app.models import AttendanceModel, SystemAttendanceModel
 from django.utils import timezone
 from datetime import datetime, timedelta
 import pytz
 from django.conf import settings
 from core.models import ConfigurationModel
 import requests
-
+from users.services import generate_password
 
 BASE_URL = settings.BASE_URL
 
@@ -21,65 +21,64 @@ def index(request):
     user = request.user
     configuration = ConfigurationModel.objects.first()
 
-   # Get the current time in UTC
-    utc_now = datetime.utcnow()
+#    # Get the current time in UTC
+#     utc_now = datetime.utcnow()
 
-    # Specify the timezone you want to convert to
-    tz = pytz.timezone('Asia/Karachi')
+#     # Specify the timezone you want to convert to
+#     tz = pytz.timezone('Asia/Karachi')
 
-    # Convert UTC time to the specified timezone
-    karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
+#     # Convert UTC time to the specified timezone
+#     karachi_time = utc_now.replace(tzinfo=pytz.utc).astimezone(tz)
 
-    # Format the time as HH:MM:SS string
-    karachi_time_str = karachi_time.strftime("%H:%M:%S")
+#     # Format the time as HH:MM:SS string
+#     karachi_time_str = karachi_time.strftime("%H:%M:%S")
 
-    # Convert string to datetime object
-    datetime_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
+#     # Convert string to datetime object
+#     datetime_obj = datetime.strptime(karachi_time_str, "%H:%M:%S")
 
-    # Extract time part and convert to 12-hour format
-    # current_time_12hr = datetime_obj.strftime("%I:%M:%S")
+#     # Extract time part and convert to 12-hour format
+#     # current_time_12hr = datetime_obj.strftime("%I:%M:%S")
 
-    # Create timedelta object representing shift duration (8 hours in this example)
-    shift_duration_timedelta = timedelta(hours=user.shift_duration_hours)
+#     # Create timedelta object representing shift duration (8 hours in this example)
+#     shift_duration_timedelta = timedelta(hours=user.shift_duration_hours)
 
     current_date = timezone.now().date()
-    attendance_records = AttendanceModel.objects.filter(
-        employee=user).order_by('shift_date')
-    attendance_obj = attendance_records.filter(
-        shift_date=current_date).first()
-    last_record = attendance_records.filter(is_time_out_marked=True).last()
-    try:
-        while last_record.shift_date < current_date:
-            next_date = last_record.shift_date + timedelta(days=1)
-            if next_date != current_date:
-                attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
-                    employee=user,
-                    shift_date=next_date,
-                    shift_time=None,
-                    remaining_hours=shift_duration_timedelta,
-                    is_present=False,
-                    is_time_out_marked=True
-                )
-                if not isNotexist:
-                    attendance_object.is_present=False
+#     attendance_records = AttendanceModel.objects.filter(
+#         employee=user).order_by('shift_date')
+#     attendance_obj = attendance_records.filter(
+#         shift_date=current_date).first()
+#     last_record = attendance_records.filter(is_time_out_marked=True).last()
+#     try:
+#         while last_record.shift_date < current_date:
+#             next_date = last_record.shift_date + timedelta(days=1)
+#             if next_date != current_date:
+#                 attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
+#                     employee=user,
+#                     shift_date=next_date,
+#                     shift_time=None,
+#                     remaining_hours=shift_duration_timedelta,
+#                     is_present=False,
+#                     is_time_out_marked=True
+#                 )
+#                 if not isNotexist:
+#                     attendance_object.is_present=False
                     
-                attendance_object.save()
-            last_record.shift_date = next_date
+#                 attendance_object.save()
+#             last_record.shift_date = next_date
 
-    except Exception as e:
-        pass
+#     except Exception as e:
+#         pass
 
-    if attendance_obj is None:
-        attendance_object = AttendanceModel()
-        attendance_object.employee = user
-        attendance_object.shift_date = current_date
-        attendance_object.shift_time = datetime_obj
-        attendance_object.remaining_hours = shift_duration_timedelta
-        attendance_object.save()
-
+#     if attendance_obj is None:
+#         attendance_object = AttendanceModel()
+#         attendance_object.employee = user
+#         attendance_object.shift_date = current_date
+#         attendance_object.shift_time = datetime_obj
+#         attendance_object.remaining_hours = shift_duration_timedelta
+#         attendance_object.save()
+    
     context = {
         'user': user,
-        'attendance_obj': attendance_obj,
         'BASE_URL': settings.BASE_URL,
         "configuration": configuration,
     }
@@ -628,3 +627,57 @@ def employee_delete(request, id):
     messages.success(request, 'Record has been deleted')
 
     return redirect('employees')
+
+
+import pandas as pd
+from django.http import JsonResponse
+
+def create_account(request):
+    file = pd.read_excel('file.xlsx')
+    records = list(file['name'])
+    
+    for index, name in enumerate(records):
+        try:
+            print(f"Processing {name}")
+            row = file.iloc[index]
+            
+            employee_code = row['employee_id']
+            phone = row['phone']
+            designation = row['designation']
+            department = row['department']
+            personal_email = row['personal_email']
+            official_email = row['official_email']
+            Emergencyno = row['Emergencyno']
+            Address = row['Address']
+            doj = row['DOJ']
+            cnic = row['CNIC']
+            Basic_Salary = row['Basic_Salary']
+            Fuel_Allowance = row['Fuel_Allowance']
+            Bank_Details = row['Bank_Details']
+
+            department = Department.objects.filter(name=department).first()
+            user = User()  # Make sure you have imported User model
+            password = generate_password()
+            user.email = personal_email
+            user.username = personal_email
+            user.name = name
+            user.employee_id = employee_code
+            user.active_password = password
+            user.phone = phone
+            user.designation = designation
+            user.department = department
+            user.cnic = cnic
+            user.doj = doj
+            user.basic_salary = Basic_Salary
+            user.fuel_allowance = Fuel_Allowance
+            user.bank_name = Bank_Details
+            user.address = Address
+            user.emergency_contact_number = Emergencyno
+            user.company_email = official_email
+            
+            user.set_password(password)  # Set the password properly
+            user.save()                  # Save the user object
+        except Exception as e:
+            print(f"Error for employee {name}: {e}")
+        
+    return JsonResponse({"message": "Script completed"})
