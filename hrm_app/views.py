@@ -701,3 +701,12 @@ def applicants(request):
         'applicant_records':applicant_records
     }
     return render(request,'applicant-records.html',params)
+
+
+
+def applicant_detail(request,id):
+    applicant_record = ApplicantDetails.objects.get(id=id)
+    params = {
+        'applicant_record':applicant_record
+    }
+    return render(request,'applicant-profile.html',params)

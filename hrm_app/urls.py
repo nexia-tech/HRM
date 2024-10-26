@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance,applicants
+from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail
 
 
 urlpatterns = [
@@ -18,8 +18,9 @@ urlpatterns = [
 
     path('api/shift-start-time/', ShiftStartTime.as_view(), name='shift-start-time'),
     path('api/shift-end-time/', ShiftEndTime.as_view(), name='shift-end-time'),
-    
-    path("thumb-attendance/<int:id>/",thumbAttendance,name='thumb-attendance'),
-    path('applicants/',applicants,name='applicants')
+
+    path("thumb-attendance/<int:id>/", thumbAttendance, name='thumb-attendance'),
+    path('applicants/', applicants, name='applicants'),
+    path('applicant/<int:id>/', applicant_detail, name='applicant'),
 
 ]
