@@ -119,10 +119,10 @@
               <span>View Attendance</span>
               <i class="fa-solid fa-arrow-right-long"></i>
             </a>
-            <a href="{% url 'thumb-attendance' employee.id %}" class="bg-gray-800 text-center rounded-lg px-5 py-3 w-54 flex items-center gap-2 text-white">
+            {% comment %} <a href="{% url 'thumb-attendance' employee.id %}" class="bg-gray-800 text-center rounded-lg px-5 py-3 w-54 flex items-center gap-2 text-white">
               <span>Thumb Attendance</span>
               <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
+            </a> {% endcomment %}
             <a href="{% url 'update-profile' employee.id %}" class="bg-gray-800 text-center rounded-lg px-5 py-3 w-54 flex items-center gap-2 text-white">
               <span>Update Profile</span>
               <i class="fa-solid fa-arrow-right-long"></i>
