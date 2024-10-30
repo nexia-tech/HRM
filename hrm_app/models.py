@@ -74,6 +74,8 @@ class ApplicantDetails(models.Model):
     expected_salary = models.CharField(max_length=200,null=True,blank=True)
     address = models.TextField(null=True,blank=True)
     contact_number = models.CharField(max_length=200,null=True,blank=True)
+    other_mobile_number = models.CharField(max_length=200,null=True,blank=True)
+    
     emergeny_contact_number = models.CharField(max_length=200,null=True,blank=True)
     when_join_us = models.CharField(max_length=200,null=True,blank=True)
     shift_availablity = models.JSONField(null=True,blank=True)

@@ -453,6 +453,7 @@ class ApplicantDetailsAPI(APIView):
         # try:
         # Get the data from request
         data = request.data
+        print(data)
 
         # Get files if present (profile picture and resume)
         upload_profile = request.FILES.get('profile_picture')
@@ -510,6 +511,7 @@ class ApplicantDetailsAPI(APIView):
         job_experience_1_department = data.get('job1_department', None)
         job_experience_1_position = data.get('job1_designation', None)
         job_experience_1_joinig_date = data.get('job1_joining_date', None)
+        job_experience_1_end_date = data.get('job1_end_date', None)
         job_experience_1_salary = data.get('job1_salary', None)
         job_experience_1_experience_letter = data.get(
             'job1_experience_letter', None)
@@ -521,6 +523,7 @@ class ApplicantDetailsAPI(APIView):
         job_experience_2_department = data.get('job2_department', None)
         job_experience_2_position = data.get('job2_designation', None)
         job_experience_2_joinig_date = data.get('job2_joining_date', None)
+        job_experience_2_end_date = data.get('job2_end_date', None)
         job_experience_2_salary = data.get('job2_salary', None)
         job_experience_2_experience_letter = data.get(
             'job2_experience_letter', None)
@@ -532,6 +535,7 @@ class ApplicantDetailsAPI(APIView):
         job_experience_3_department = data.get('job3_department', None)
         job_experience_3_position = data.get('job3_designation', None)
         job_experience_3_joinig_date = data.get('job3_joining_date', None)
+        job_experience_3_end_date = data.get('job3_end_date', None)
         job_experience_3_salary = data.get('job3_salary', None)
         job_experience_3_experience_letter = data.get(
             'job3_experience_letter', None)
@@ -539,11 +543,11 @@ class ApplicantDetailsAPI(APIView):
             'job3_reason', None)
 
         job_experience = [{
-            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job
+            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job,"job_experience_1_end_date":job_experience_1_end_date
         }, {
-            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job
+            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job,"job_experience_2_end_date":job_experience_2_end_date
         }, {
-            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job
+            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job,"job_experience_3_end_date":job_experience_3_end_date
         }]
 
         # Extract the fields from the POST data
@@ -555,6 +559,7 @@ class ApplicantDetailsAPI(APIView):
         email_address = data.get('email_address', None)
         cnic = data.get('cnic', None)
         date_of_birth = data.get('date_of_birth', None)
+        other_mobile_number = data.get('other_mobile_number', None)
         marital_status = data.get('marital_status', None)
         expected_salary = data.get('expected_salary', None)
         address = data.get('address', None)
@@ -606,6 +611,7 @@ class ApplicantDetailsAPI(APIView):
             job_experience=job_experience,
             upload_profile=upload_profile,
             resume=resume,
+            other_mobile_number=other_mobile_number,
             declaration=declaration
         )
 
