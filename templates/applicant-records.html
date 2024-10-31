@@ -40,8 +40,8 @@
                 <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.marital_status }}</td>
                 <td>
-                    <a href="#" class="text-blue-700">Edit</a> |
-                    <a href="#" class="text-blue-700">View</a>
+                    {% comment %} <a href="#" class="text-blue-700">Edit</a> | {% endcomment %}
+                    <a href="{% url "applicant" applicant_record.id %}" class="text-blue-700">View</a>
                   </td>
               </tr>
             {% endfor %}

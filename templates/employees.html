@@ -80,9 +80,8 @@
                 <td>
                   <a href="{% url 'update-profile' employee.id %}" class="text-blue-700">Edit</a> |
                   <a href="{% url 'view-profile' employee.id %}" class="text-blue-700">View</a>
+                  {% comment %} <a class="text-blue-700 cursor-pointer" data-modal-target="delete-employee-{{ forloop.counter }}" data-modal-toggle="delete-employee-{{ forloop.counter }}">Delete</a> {% endcomment %}
                 </td>
-
-                {% comment %} <a class="text-blue-700 cursor-pointer" data-modal-target="delete-employee-{{ forloop.counter }}" data-modal-toggle="delete-employee-{{ forloop.counter }}">Delete</a> {% endcomment %}
               </tr>
 
               <!-- Time Out modal -->
