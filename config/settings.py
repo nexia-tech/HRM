@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -172,10 +172,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
     'http://ec2-34-226-12-37.compute-1.amazonaws.com',
     'https://ec2-34-226-12-37.compute-1.amazonaws.com',
-    'http://hrm.nexiatech.org',
     'http://nexiatech.org',
-    'https://hrm.nexiatech.org',
     'https://nexiatech.org',
+    'http://hrm.nexiatech.org',
+    'https://hrm.nexiatech.org',
     "http://127.0.0.1:5500"
 
 ]
@@ -211,10 +211,10 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     'http://ec2-34-226-12-37.compute-1.amazonaws.com',
     'https://ec2-34-226-12-37.compute-1.amazonaws.com',
-    'http://hrm.nexiatech.org',
     'http://nexiatech.org',
-    'https://hrm.nexiatech.org',
     'https://nexiatech.org',
+    'http://hrm.nexiatech.org',
+    'https://hrm.nexiatech.org',
     "http://127.0.0.1:5500",
     
 
