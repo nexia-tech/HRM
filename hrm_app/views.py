@@ -634,7 +634,7 @@ class ApplicantDetailsAPI(APIView):
             'message': 'Failed to create applicant'
         }, status=status.HTTP_400_BAD_REQUEST)
 
-@method_decorator(csrf_exempt, name='dispatch')
+@csrf_exempt
 def applicant_detail_form_function(request):
     if request.method == 'POST':
         # try:
