@@ -77,6 +77,8 @@ class ApplicantDetails(models.Model):
     other_mobile_number = models.CharField(max_length=200,null=True,blank=True)
     
     emergeny_contact_number = models.CharField(max_length=200,null=True,blank=True)
+    emergency_contact_relation = models.CharField(max_length=200,null=True,blank=True)
+    
     when_join_us = models.CharField(max_length=200,null=True,blank=True)
     shift_availablity = models.JSONField(null=True,blank=True)
     matric_details = models.JSONField(null=True,blank=True)

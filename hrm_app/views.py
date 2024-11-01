@@ -730,11 +730,11 @@ def applicant_detail_form_function(request):
             'job3_reason', None)
 
         job_experience = [{
-            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job,"job_experience_1_end_date":job_experience_1_end_date
+            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job,"end_date":job_experience_1_end_date
         }, {
-            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job,"job_experience_2_end_date":job_experience_2_end_date
+            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job,"end_date":job_experience_2_end_date
         }, {
-            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job,"job_experience_3_end_date":job_experience_3_end_date
+            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job,"end_date":job_experience_3_end_date
         }]
 
         # Extract the fields from the POST data
@@ -754,6 +754,8 @@ def applicant_detail_form_function(request):
         emergency_contact_number = data.get(
             'emergency_contact_number', None)
         when_join_us = data.get('when_join_us', None)
+        emergency_contact_relation = data.get('emergency_contact_relation', None)
+        
         shift_availablity = data.get('shift_availablity', None)
         matric_details = matric_details
         intermediate_details = intermediate_details
@@ -788,6 +790,7 @@ def applicant_detail_form_function(request):
             contact_number=contact_number,
             emergeny_contact_number=emergency_contact_number,
             when_join_us=when_join_us,
+            emergency_contact_relation=emergency_contact_relation,
             shift_availablity=shift_availablity,
             matric_details=matric_details,
             intermediate_details=intermediate_details,
