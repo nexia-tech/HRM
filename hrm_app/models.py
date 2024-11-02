@@ -77,6 +77,8 @@ class ApplicantDetails(models.Model):
     other_mobile_number = models.CharField(max_length=200,null=True,blank=True)
     
     emergeny_contact_number = models.CharField(max_length=200,null=True,blank=True)
+    emergency_contact_relation = models.CharField(max_length=200,null=True,blank=True)
+    
     when_join_us = models.CharField(max_length=200,null=True,blank=True)
     shift_availablity = models.JSONField(null=True,blank=True)
     matric_details = models.JSONField(null=True,blank=True)
@@ -89,6 +91,7 @@ class ApplicantDetails(models.Model):
     upload_profile = models.FileField(upload_to='profile-picture',null=True,blank=True)
     resume = models.FileField(upload_to='resume',null=True,blank=True)
     declaration = models.BooleanField(default=False) 
+    is_employee = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     
     

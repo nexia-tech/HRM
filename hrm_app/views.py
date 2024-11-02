@@ -22,6 +22,7 @@ from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
+from django.contrib import messages
 
 
 BASE_URL = settings.BASE_URL
@@ -634,6 +635,195 @@ class ApplicantDetailsAPI(APIView):
             'message': 'Failed to create applicant'
         }, status=status.HTTP_400_BAD_REQUEST)
 
+@csrf_exempt
+def applicant_detail_form_function(request):
+    if request.method == 'POST':
+        # try:
+        # Get the data from request
+        data = request.POST
+        print(data)
+
+        # Get files if present (profile picture and resume)
+        upload_profile = request.FILES.get('profile_picture')
+        resume = request.FILES.get('resume')
+
+        matric_details = {}
+        intermediate_details = {}
+        bachelors_details = {}
+        masters_details = {}
+        phd_details = {}
+        diploma_details = {}
+
+        matric_details['institute'] = data.get('matric_institute', None)
+        matric_details['degree'] = data.get('matric_degree', None)
+        matric_details['percentage'] = data.get('matric_grade', None)
+        matric_details['year_passing'] = data.get(
+            'matric_passing_year', None)
+
+        intermediate_details['institute'] = data.get(
+            'intermediate_institute', None)
+        intermediate_details['degree'] = data.get(
+            'intermediate_degree', None)
+        intermediate_details['percentage'] = data.get(
+            'intermediate_grade', None)
+        intermediate_details['year_passing'] = data.get(
+            'intermediate_passing_year', None)
+
+        bachelors_details['institute'] = data.get(
+            'bachelors_institute', None)
+        bachelors_details['degree'] = data.get('bachelors_degree', None)
+        bachelors_details['percentage'] = data.get('bachelors_grade', None)
+        bachelors_details['year_passing'] = data.get(
+            'bachelors_year_passing', None)
+
+        masters_details['institute'] = data.get('masters_institute', None)
+        masters_details['degree'] = data.get('masters_degree', None)
+        masters_details['percentage'] = data.get('masters_grade', None)
+        masters_details['year_passing'] = data.get(
+            'masters_year_passing', None)
+
+        phd_details['institute'] = data.get(
+            'phsign-up-report/d_institute', None)
+        phd_details['degree'] = data.get('phd_degree', None)
+        phd_details['percentage'] = data.get('phd_grade', None)
+        phd_details['year_passing'] = data.get('phd_year_passing', None)
+
+        diploma_details['institute'] = data.get('diploma_institute', None)
+        diploma_details['degree'] = data.get('diploma_degree', None)
+        diploma_details['percentage'] = data.get('diploma_grade', None)
+        diploma_details['year_passing'] = data.get(
+            'diploma_year_passing', None)
+
+        job_experience_1_name_of_company = data.get(
+            'job1_company_name', None)
+        job_experience_1_department = data.get('job1_department', None)
+        job_experience_1_position = data.get('job1_designation', None)
+        job_experience_1_joinig_date = data.get('job1_joining_date', None)
+        job_experience_1_end_date = data.get('job1_end_date', None)
+        job_experience_1_salary = data.get('job1_salary', None)
+        job_experience_1_experience_letter = data.get(
+            'job1_experience_letter', None)
+        job_experience_1_reason_for_leaving_job = data.get(
+            'job1_reason', None)
+
+        job_experience_2_name_of_company = data.get(
+            'job2_company_name', None)
+        job_experience_2_department = data.get('job2_department', None)
+        job_experience_2_position = data.get('job2_designation', None)
+        job_experience_2_joinig_date = data.get('job2_joining_date', None)
+        job_experience_2_end_date = data.get('job2_end_date', None)
+        job_experience_2_salary = data.get('job2_salary', None)
+        job_experience_2_experience_letter = data.get(
+            'job2_experience_letter', None)
+        job_experience_2_reason_for_leaving_job = data.get(
+            'job2_reason', None)
+
+        job_experience_3_name_of_company = data.get(
+            'job3_company_name', None)
+        job_experience_3_department = data.get('job3_department', None)
+        job_experience_3_position = data.get('job3_designation', None)
+        job_experience_3_joinig_date = data.get('job3_joining_date', None)
+        job_experience_3_end_date = data.get('job3_end_date', None)
+        job_experience_3_salary = data.get('job3_salary', None)
+        job_experience_3_experience_letter = data.get(
+            'job3_experience_letter', None)
+        job_experience_3_reason_for_leaving_job = data.get(
+            'job3_reason', None)
+
+        job_experience = [{
+            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job,"end_date":job_experience_1_end_date
+        }, {
+            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job,"end_date":job_experience_2_end_date
+        }, {
+            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job,"end_date":job_experience_3_end_date
+        }]
+
+        # Extract the fields from the POST data
+        first_name = data.get('first_name', None)
+        last_name = data.get('last_name', None)
+        name = first_name + last_name
+        position_applied_for = data.get('position_applied_for', None)
+        father_name = data.get('father_name', None)
+        email_address = data.get('email_address', None)
+        cnic = data.get('cnic', None)
+        date_of_birth = data.get('date_of_birth', None)
+        other_mobile_number = data.get('other_mobile_number', None)
+        marital_status = data.get('marital_status', None)
+        expected_salary = data.get('expected_salary', None)
+        address = data.get('address', None)
+        contact_number = data.get('contact_number', None)
+        emergency_contact_number = data.get(
+            'emergency_contact_number', None)
+        when_join_us = data.get('when_join_us', None)
+        emergency_contact_relation = data.get('emergency_contact_relation', None)
+        
+        shift_availablity = data.get('shift_availablity', None)
+        matric_details = matric_details
+        intermediate_details = intermediate_details
+        bachelors_details = bachelors_details
+        masters_details = masters_details
+        phd_details = phd_details
+        diploma_details = diploma_details
+        job_experience = job_experience
+        # Assuming it's a checkbox or boolean field
+        declaration = data.get('declaration', False)
+
+        exist = ApplicantDetails.objects.filter(
+            email_address=email_address).first()
+
+        if exist:
+            return Response({
+                'error': "Email already exisit",
+                'message': 'Email already exisit'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create an ApplicantDetails object
+
+        applicant = ApplicantDetails.objects.create(
+            name=name,
+            position_applied_for=position_applied_for,
+            father_name=father_name,
+            email_address=email_address,
+            cnic=cnic,
+            marital_status=marital_status,
+            expected_salary=expected_salary,
+            address=address,
+            contact_number=contact_number,
+            emergeny_contact_number=emergency_contact_number,
+            when_join_us=when_join_us,
+            emergency_contact_relation=emergency_contact_relation,
+            shift_availablity=shift_availablity,
+            matric_details=matric_details,
+            intermediate_details=intermediate_details,
+            bachelors_details=bachelors_details,
+            masters_details=masters_details,
+            phd_details=phd_details,
+            diploma_details=diploma_details,
+            job_experience=job_experience,
+            upload_profile=upload_profile,
+            resume=resume,
+            other_mobile_number=other_mobile_number,
+            declaration=declaration
+        )
+
+        try:
+            applicant.date_of_birth = date_of_birth
+            applicant.save()
+        except Exception as e:
+            print(e)
+
+        # Return a success response
+        return Response({
+            'message': 'Applicant created successfully!',
+            'applicant_id': applicant.id
+        }, status=status.HTTP_201_CREATED)
+
+        # except Exception as e:
+        print(e)
+        return Response({
+            'error': str(e),
+            'message': 'Failed to create applicant'
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 class ShiftStartTime(APIView):
     def post(self, request):
@@ -717,7 +907,7 @@ def thumbAttendance(request, id):
 
 
 def applicants(request):
-    applicant_records = ApplicantDetails.objects.all()
+    applicant_records = ApplicantDetails.objects.filter(is_employee=False)
     params = {
         'applicant_records': applicant_records
     }
@@ -736,3 +926,12 @@ def get_csrf_token(request):
     # Return the CSRF token as a JSON response
     token = get_token(request)
     return JsonResponse({'csrfToken': token})
+
+
+def mark_as_employee(request,id):
+    record = ApplicantDetails.objects.get(id=id)
+    record.is_employee = True
+    record.save()
+    messages.success(request, 'Employee Marked')
+    
+    return redirect('applicants')
