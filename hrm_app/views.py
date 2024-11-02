@@ -22,6 +22,7 @@ from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
+from django.contrib import messages
 
 
 BASE_URL = settings.BASE_URL
@@ -931,4 +932,6 @@ def mark_as_employee(request,id):
     record = ApplicantDetails.objects.get(id=id)
     record.is_employee = True
     record.save()
+    messages.success(request, 'Employee Marked')
+    
     return redirect('applicants')
