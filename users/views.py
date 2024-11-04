@@ -208,7 +208,7 @@ def edit_profile(request):
 
 @login_required(login_url='login')
 def create_employee_account(request):
-    if request.user.is_superuser:
+    if request.user.is_staff:
         departments = Department.objects.all()
         context = {
             'departments': departments
