@@ -9,6 +9,16 @@ from users.services import generate_password
 def create_employee_account(sender,created,instance,*args,**kwargs):
     if instance.is_employee:
         print("working")
+        last_employee = User.objects.last()
+        print(last_employee.employee_id.split("-"))
+        print(last_employee.employee_id.split("-")[1])
+        employee_id = int(last_employee.employee_id.split("-")[1]) + 1
+        print(employee_id)
+        if employee_id < 100:
+            employee_id = f"NX-0{str(employee_id)}"
+        else:
+            employee_id = f"NX-{str(employee_id)}"
+        
         user = User()
         user.name = instance.name
         user.username = instance.email_address
@@ -18,6 +28,7 @@ def create_employee_account(sender,created,instance,*args,**kwargs):
         user.doj = datetime.now().date()
         user.resume  = instance.resume
         user.profile_picture = instance.upload_profile
+        user.employee_id = employee_id
         password = generate_password()
         user.set_password(password)
         user.active_password = password
