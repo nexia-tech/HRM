@@ -18,7 +18,7 @@ class User(AbstractUser):
     )
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200,unique=True)
-    employee_id = models.CharField(max_length=200,null=True,blank=True)
+    employee_id = models.CharField(max_length=200,unique=True,null=True)
     bio = models.TextField(null=True,blank=True)
     shift_duration_hours = models.PositiveIntegerField(default=8)  # Default shift duration in hours
     profile_picture = models.ImageField(null=True,blank=True,upload_to='profile_pics')
