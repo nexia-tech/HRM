@@ -908,6 +908,7 @@ def thumbAttendance(request, id):
 
 def applicants(request):
     applicant_records = ApplicantDetails.objects.filter(is_employee=False)
+   
     params = {
         'applicant_records': applicant_records
     }
@@ -916,7 +917,17 @@ def applicants(request):
 
 def applicant_detail(request, id):
     applicant_record = ApplicantDetails.objects.get(id=id)
+
+    # Check if any field is None or an empty string
+    any_field_empty = any(
+        getattr(applicant_record, field.name) in [None, '']  # Check for None or empty string
+        for field in applicant_record._meta.fields
+    )
+    print(any_field_empty)
+    
+  
     params = {
+        'any_field_empty': any_field_empty,
         'applicant_record': applicant_record
     }
     return render(request, 'applicant-profile.html', params)

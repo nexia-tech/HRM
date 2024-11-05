@@ -19,7 +19,7 @@
         {% endif %}
 
         <!-- FullName -->
-        <h1 class="w-full text-left my-4 sm:mx-4 xs:pl-4 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl font-serif">{{ employee.name }}</h1>
+        <h1 class="w-full text-left my-4 sm:mx-4 xs:pl-4 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl font-serif">{{ employee.name }} {% if any_field_empty %} (<span class="text-red-600">Some Data is Missing</span>) {% endif %}</h1>
       </div>
 
       <div class="xl:w-[80%] lg:w-[90%] md:w-[90%] sm:w-[92%] xs:w-[90%] mx-auto flex flex-col gap-4 items-center relative lg:-top-8 md:-top-6 sm:-top-4 xs:-top-4">
@@ -28,6 +28,7 @@
 
         <!-- Detail -->
         <div class="w-full my-auto py-6 flex flex-col justify-center gap-2">
+          <h1 class="text-4xl text-white font-bold mb-7">Personal Information</h1>
           <div class="w-full flex sm:flex-row xs:flex-col gap-2 justify-center">
             <div class="w-full">
               <dl class="text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
@@ -76,7 +77,7 @@
 
                 <div class="flex flex-col pt-3">
                   <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">CNIC</dt>
-                  <dd class="text-lg font-semibold hover:text-blue-500">{{ employee.cnic }}</dd>
+                  <dd class="text-lg font-semibold">{{ employee.cnic }}</dd>
                 </div>
                 <div class="flex flex-col py-3">
                   <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">Basic Salary</dt>
@@ -93,7 +94,7 @@
               <dl class="text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
                 <div class="flex flex-col pb-3">
                   <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">Date of Joining</dt>
-                  <dd class="text-lg font-semibold hover:text-blue-500">{{ employee.doj }}</dd>
+                  <dd class="text-lg font-semibold">{{ employee.doj }}</dd>
                 </div>
 
                 <div class="flex flex-col pt-3">
@@ -103,7 +104,7 @@
 
                 <div class="flex flex-col py-3">
                   <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">Companey Email</dt>
-                  <dd class="text-lg font-semibold">{{ employee.company_email }}</dd>
+                  <dd class="text-lg font-semibold hover:text-blue-500"><a href="mailto:{{ employee.company_email }}">{{ employee.company_email }}</a></dd>
                 </div>
 
                 <div class="flex flex-col pt-3">
@@ -113,12 +114,12 @@
 
                 <div class="flex flex-col pt-3">
                   <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">Emergeny Contact Relationship?</dt>
-                  <dd class="text-lg font-semibold hover:text-blue-500">{{ employee.emergency_contact_relationship }}</dd>
+                  <dd class="text-lg font-semibold">{{ employee.emergency_contact_relationship }}</dd>
                 </div>
 
                 <div class="flex flex-col pt-3">
                   <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">shift timing</dt>
-                  <dd class="text-lg font-semibold hover:text-blue-500">{{ employee.shift_timings }}</dd>
+                  <dd class="text-lg font-semibold">{{ employee.shift_timings }}</dd>
                 </div>
               </dl>
             </div>
