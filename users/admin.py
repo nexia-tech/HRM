@@ -15,7 +15,7 @@ class HRMAdminSite(AdminSite):
 hrm_admin = HRMAdminSite(name='hrm_admin')
 
 class UserAdmin(ImportExportModelAdmin,admin.ModelAdmin):
-    list_display = ['username','email','phone','shift_duration_hours','employee_id']
+    list_display = ['username','email','phone','shift_duration_hours','employee_id','created_at']
     autocomplete_fields = ['department']
     filter_horizontal = ['user_permissions']
     list_filter = ['department','gender']

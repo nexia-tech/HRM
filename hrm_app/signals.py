@@ -9,7 +9,7 @@ from users.services import generate_password
 def create_employee_account(sender,created,instance,*args,**kwargs):
     if instance.is_employee:
         print("working")
-        last_employee = User.objects.last()
+        last_employee = User.objects.all().order_by('-employee_id').first()
         print(last_employee.employee_id.split("-"))
         print(last_employee.employee_id.split("-")[1])
         employee_id = int(last_employee.employee_id.split("-")[1]) + 1
