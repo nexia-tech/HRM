@@ -812,6 +812,7 @@ def applicant_detail_form_function(request):
         except Exception as e:
             print(e)
 
+        return redirect('https://nexiatech.org/thankyou')
         # Return a success response
         return Response({
             'message': 'Applicant created successfully!',
