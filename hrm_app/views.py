@@ -943,8 +943,12 @@ def get_csrf_token(request):
 
 def mark_as_employee(request,id):
     record = ApplicantDetails.objects.get(id=id)
-    record.is_employee = True
-    record.save()
-    messages.success(request, 'Employee Marked')
+    user = User.objects.filter(email=record.email_address).first()
+    if not user:
+        record.is_employee = True
+        record.save()
+        messages.success(request, 'Employee Marked')
+    else:
+        messages.error(request, 'Email already exist on the record')
     
     return redirect('applicants')
