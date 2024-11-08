@@ -423,37 +423,43 @@
                <div class="mb-6">
                   <select id="diploma-certification" name="diploma-certification" onchange="showCertificationOptions(this.value)" class="w-full px-4 py-2 rounded-md border border-gray-200">
                       <option value="" selected disabled>Select Options</option>
-                      <option value="diploma">Yes</option>
+                      <option value="diploma-container">Yes</option>
                       <option value="No">No</option>
                   </select>
                </div>
-               <div id="diploma-section" style="display: none;">
+               <div id="diploma-container" style="display: none;">
+                  <div class="diploma-section" id="diploma1">
 
-                  <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
-                  <div class="flex space-x-10">
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Institute Name" name="diploma_institute"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                           />
+                     <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
+                     <div class="flex space-x-10">
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Institute Name" name="diploma_institute1"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                              />
+                        </div>
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Subject" name="diploma_degree1"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                              /> 
+                        </div>
                      </div>
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Subject" name="diploma_degree"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                           /> 
+                     <div class="flex space-x-10">
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Percentage/CGPA/Grade" name="diploma_grade1"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                              />
+                        </div>
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Year of Passing" name="diploma_year_passing1"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
+                              />
+                        </div>
                      </div>
                   </div>
-                  <div class="flex space-x-10">
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Percentage/CGPA/Grade" name="diploma_grade"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
-                           />
-                     </div>
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Year of Passing" name="diploma_year_passing"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
-                           />
-                     </div>
-                  </div>
+               </div>
+               <div id="add-diploma" style="display: none;">
+                  <button type="button" onclick="addDiploma()" class="bg-blue-500 hover:bg-blue-700 text-white p-2 py-0">+</button>
+                  <button type="button" onclick="removeDiploma()" class="bg-red-500 hover:bg-red-700 text-white p-2 py-0">-</button>
                </div>
             </div>
             <!-- step three -->
@@ -528,8 +534,8 @@
             </div>
                
                <div id="add-more" style="display: none;">
-                  <button type="button" onclick="addExperience()" class="bg-blue-500 hover:bg-blue-700 text-white px-7 py-4">Add more</button>
-                  <button type="button" onclick="removeExperience()" class="bg-red-500 hover:bg-red-700 text-white px-7 py-4">Remove</button>
+                  <button type="button" onclick="addExperience()" class="bg-blue-500 hover:bg-blue-700 text-white  p-2 py-0">+</button>
+                  <button type="button" onclick="removeExperience()" class="bg-red-500 hover:bg-red-700 text-white  p-2 py-0">-</button>
                </div>
             </div>
             <!-- step four -->
@@ -926,19 +932,22 @@
    }
 
    function showCertificationOptions(level) {
-      const levels = ["diploma"];
+      const levels = ["diploma-container"];
       let show = false;
   
       levels.forEach((lvl) => {
          console.log(lvl);
          console.log(level);
          console.log(lvl === level);
-          const section = document.getElementById(`${lvl}-section`);
+          const section = document.getElementById(`${lvl}`);
+         const add_more_btn = document.getElementById('add-diploma')
+         
           if (lvl === level)
           {
               show = true;
           } 
           section.style.display = show ? "block" : "none";
+         add_more_btn.style.display = show ? "block" : "none";
           
       });
   }
@@ -966,8 +975,12 @@
 
 
    let experienceCount = 1;
+   let DiplomaCount = 1;
 const maxExperienceCount = 3;
+const maxDiplomaCount = 3
 
+
+// ADD MORE EXPERIENCE 
 function addExperience() {
    if (experienceCount >= maxExperienceCount) {
       alert("You can only add up to 3 experiences.");
@@ -1040,6 +1053,8 @@ function addExperience() {
    experienceContainer.appendChild(newExperience);
 }
 
+
+// REMOVE EXPERIENCE
 function removeExperience() {
    if (experienceCount <= 1) {
       alert("At least one work experience is required.");
@@ -1049,6 +1064,61 @@ function removeExperience() {
    const experienceToRemove = document.getElementById(`experience${experienceCount}`);
    experienceToRemove.remove();
    experienceCount--;
+}
+
+
+// ADD DIPLOMA SECTIONS
+function addDiploma() {
+   if (DiplomaCount >= maxDiplomaCount) {
+      alert("You can only add up to 3 diploma/certificates.");
+      return;
+   }
+
+   DiplomaCount++;
+   const diploma_container = document.getElementById("diploma-container");
+
+   const newDiploma = document.createElement("div");
+   newDiploma.classList.add("diploma-section");
+   newDiploma.setAttribute("id", `diploma${DiplomaCount}`);
+   newDiploma.innerHTML = `
+      <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
+                     <div class="flex space-x-10">
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Institute Name" name="diploma_institute${DiplomaCount}"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                              />
+                        </div>
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Subject" name="diploma_degree${DiplomaCount}"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                              /> 
+                        </div>
+                     </div>
+                     <div class="flex space-x-10">
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Percentage/CGPA/Grade" name="diploma_grade${DiplomaCount}"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                              />
+                        </div>
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Year of Passing" name="diploma_year_passing${DiplomaCount}"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
+                              />
+                        </div>
+                     </div>
+   `;
+   diploma_container.appendChild(newDiploma);
+}
+
+function removeDiploma() {
+   if (DiplomaCount <= 1) {
+      alert("At least one work diploma/Certificate is required.");
+      return;
+   }
+
+   const diplomaToRemove = document.getElementById(`diploma${DiplomaCount}`);
+   diplomaToRemove.remove();
+   DiplomaCount--;
 }
 
 </script>
