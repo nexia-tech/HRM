@@ -757,7 +757,7 @@ def applicant_detail_form_function(request):
             'emergency_contact_number', None)
         when_join_us = data.get('when_join_us', None)
         emergency_contact_relation = data.get('emergency_contact_relation', None)
-        
+        gender = data.get('gender',None)
         shift_availablity = data.get('shift_availablity', None)
         matric_details = matric_details
         intermediate_details = intermediate_details
@@ -789,6 +789,7 @@ def applicant_detail_form_function(request):
             marital_status=marital_status,
             expected_salary=expected_salary,
             address=address,
+            gender=gender,
             contact_number=contact_number,
             emergeny_contact_number=emergency_contact_number,
             when_join_us=when_join_us,
