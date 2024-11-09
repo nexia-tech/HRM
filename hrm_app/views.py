@@ -622,6 +622,7 @@ class ApplicantDetailsAPI(APIView):
         except Exception as e:
             print(e)
 
+        return redirect('https://nexiatech.org/thankyou')
         # Return a success response
         return Response({
             'message': 'Applicant created successfully!',
@@ -756,7 +757,7 @@ def applicant_detail_form_function(request):
             'emergency_contact_number', None)
         when_join_us = data.get('when_join_us', None)
         emergency_contact_relation = data.get('emergency_contact_relation', None)
-        
+        gender = data.get('gender',None)
         shift_availablity = data.get('shift_availablity', None)
         matric_details = matric_details
         intermediate_details = intermediate_details
@@ -788,6 +789,7 @@ def applicant_detail_form_function(request):
             marital_status=marital_status,
             expected_salary=expected_salary,
             address=address,
+            gender=gender,
             contact_number=contact_number,
             emergeny_contact_number=emergency_contact_number,
             when_join_us=when_join_us,
@@ -812,6 +814,7 @@ def applicant_detail_form_function(request):
         except Exception as e:
             print(e)
 
+        return redirect('https://nexiatech.org/thankyou')
         # Return a success response
         return Response({
             'message': 'Applicant created successfully!',
@@ -908,6 +911,7 @@ def thumbAttendance(request, id):
 
 def applicants(request):
     applicant_records = ApplicantDetails.objects.filter(is_employee=False)
+   
     params = {
         'applicant_records': applicant_records
     }
@@ -916,7 +920,17 @@ def applicants(request):
 
 def applicant_detail(request, id):
     applicant_record = ApplicantDetails.objects.get(id=id)
+
+    # Check if any field is None or an empty string
+    any_field_empty = any(
+        getattr(applicant_record, field.name) in [None, '']  # Check for None or empty string
+        for field in applicant_record._meta.fields
+    )
+    print(any_field_empty)
+    
+  
     params = {
+        'any_field_empty': any_field_empty,
         'applicant_record': applicant_record
     }
     return render(request, 'applicant-profile.html', params)
@@ -930,8 +944,12 @@ def get_csrf_token(request):
 
 def mark_as_employee(request,id):
     record = ApplicantDetails.objects.get(id=id)
-    record.is_employee = True
-    record.save()
-    messages.success(request, 'Employee Marked')
+    user = User.objects.filter(email=record.email_address).first()
+    if not user:
+        record.is_employee = True
+        record.save()
+        messages.success(request, 'Employee Marked')
+    else:
+        messages.error(request, 'Email already exist on the record')
     
     return redirect('applicants')

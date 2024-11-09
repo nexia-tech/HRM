@@ -208,7 +208,7 @@ def edit_profile(request):
 
 @login_required(login_url='login')
 def create_employee_account(request):
-    if request.user.is_superuser:
+    if request.user.is_staff:
         departments = Department.objects.all()
         context = {
             'departments': departments
@@ -421,8 +421,15 @@ def employees(request):
 @login_required(login_url='login')
 def view_profile(request, id):
     employee = User.objects.get(id=id)
+    
+     # Check if any field is None or an empty string
+    any_field_empty = any(
+        getattr(employee, field.name) in [None, '']  # Check for None or empty string
+        for field in employee._meta.fields
+    )
     context = {
-        'employee': employee
+        'employee': employee,
+        "any_field_empty":any_field_empty
     }
     return render(request, 'view-profile.html', context)
 

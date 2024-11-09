@@ -13,7 +13,7 @@ urlpatterns = [
     path("view-profile/<int:id>",view_profile,name='view-profile'),
     path('employee-delete/<int:id>/',employee_delete,name='employee-delete'),
     path("update-profile/<int:id>",update_profile,name='update-profile'),
-    path("create-account/",create_account,name='create-account')    
+    path("create-account/",create_account,name='create-account')
 
 ]
 
