@@ -73,7 +73,7 @@
           </div>
 
           <div class="mb-5 hidden" id="hired">
-            <form action="" method="post">
+            <form action="" method="post"> {% csrf_token %}
               <div class="flex gap-3">
                 <div class="mb-6 w-1/2">
                   <label for="" class="my-7 text-base text-black">Enter Officil email.</label>
@@ -132,7 +132,6 @@
                   <label class="text-black my-7 text-base" for="follow_up_date">Professional References</label>
                   <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
                 </div>
-                
               </div>
               <div class="flex gap-3">
                 <div class="mb-6 w-1/2">
@@ -243,21 +242,26 @@
                   <textarea placeholder="Reason For rejected" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason"></textarea>
                 </div>
               </div>
+              <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
+              <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
             </form>
           </div>
 
           <div class="mb-5 hidden" id="rejected_reason">
             <label class="text-black my-7 text-base" for="rejected_reason">Reason</label>
             <textarea placeholder="Reason For rejected" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason"></textarea>
+            <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
+            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
           <div class="mb-5 hidden" id="follow_up_date">
             <label class="text-black my-7 text-base" for="follow_up_date">Follow up date</label>
             <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" />
+            <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
+            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
-          <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
-          <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+         
         </div>
       </div>
     </div>

@@ -92,6 +92,9 @@ class ApplicantDetails(models.Model):
     resume = models.FileField(upload_to='resume',null=True,blank=True)
     declaration = models.BooleanField(default=False) 
     is_employee = models.BooleanField(default=False)
+    follow_up_date = models.DateField(null=True,blank=True)
+    rejected_reason = models.TextField(null=True,blank=True)
+    is_rejected = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     
     
