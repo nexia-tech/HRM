@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from math import floor
 from django.contrib.auth.decorators import login_required
 import pytz
-from users.models import User
+from users.models import User, Department
 from rest_framework import status
 import threading
 import time
@@ -911,9 +911,10 @@ def thumbAttendance(request, id):
 
 def applicants(request):
     applicant_records = ApplicantDetails.objects.filter(is_employee=False)
-   
+    departments = Department.objects.all()
     params = {
-        'applicant_records': applicant_records
+        'applicant_records': applicant_records,
+        'departments':departments
     }
     return render(request, 'applicant-records.html', params)
 

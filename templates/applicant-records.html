@@ -11,11 +11,12 @@
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
               <th scope="col" class="px-6 py-3 capitalize">Profile Picture</th>
+              <th scope="col" class="px-6 py-3 capitalize">Date</th>
               <th scope="col" class="px-6 py-3 capitalize">Name</th>
               <th scope="col" class="px-6 py-3 capitalize">Position Applied For</th>
-              <th scope="col" class="px-6 py-3 capitalize">Father Name</th>
               <th scope="col" class="px-6 py-3 capitalize">Email</th>
-              <th scope="col" class="px-6 py-3 capitalize">marital_status</th>
+              <th scope="col" class="px-6 py-3 capitalize">Phone</th>
+              <th scope="col" class="px-6 py-3 capitalize">Gender</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">Actions</th>
             </tr>
           </thead>
@@ -29,14 +30,15 @@
                     <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
                   {% endif %}
                 </td>
+                <td class="px-6 py-4">{{ applicant_record.created_at }}</td>
                 <td class="px-6 py-4">{{ applicant_record.name }}</td>
                 <td class="px-6 py-4">{{ applicant_record.position_applied_for }}</td>
-                <td class="px-6 py-4">{{ applicant_record.father_name }}</td>
                 <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
-                <td class="px-6 py-4">{{ applicant_record.marital_status }}</td>
+                <td class="px-6 py-4">{{ applicant_record.contact_number }}</td>
+                <td class="px-6 py-4">{{ applicant_record.gender }}</td>
                 <td>
                   <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
-                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark as Employee</button>
+                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark as Status</button>
                 </td>
               </tr>
             {% endfor %}
@@ -47,11 +49,11 @@
   </section>
 
   <!-- Modal (Single instance outside of the loop) -->
-  <div id="mark-as-employee-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex justify-center items-center">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+  <div id="mark-as-employee-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-[calc(100%-1rem)] max-h-full flex justify-center items-center">
+    <div class="relative p-4 w-full max-w-6xl max-h-full">
+      <div class="relative bg-white rounded-lg shadow text-black">
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Add as an Employee</h3>
+          <h3 class="text-xl font-semibold text-gray-900">Add as an Employee</h3>
           <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeModal()">
             <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -61,8 +63,199 @@
         </div>
         <div class="p-4 md:p-5 capitalize space-y-4">
           <div class="mb-5">
-            <label for="Phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Are you sure to mark as an employee?</label>
+            <select name="when_join_us" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="StatusReason(this.value)">
+              <option value="" disabled selected>Select Status</option>
+              <option value="option1">Hired</option>
+              <option value="option2">Rejected</option>
+              <option value="option3">Follow up</option>
+              <option value="option4">Shortlisted</option>
+            </select>
           </div>
+
+          <div class="mb-5 hidden" id="hired">
+            <form action="" method="post">
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Enter Officil email.</label>
+                  <input type="email" required placeholder="Enter Official Email *" name="email_address" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkFormData(this)" />
+                </div>
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Shift Duration Hours</label>
+                  <input type="text" placeholder="Shift Duration Hours" name="job1_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Proile Picutre.</label>
+                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="profile_picture" />
+
+                  <p for="" class="text-red-600 text-sm">
+                    <span class="font-bold">Note:</span> Please use .jpg, .png, or .webp formats.
+                  </p>
+                </div>
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Department</label>
+                  <select name="when_join_us" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="StatusReason(this.value)">
+                    <option value="" disabled selected>Select Department</option>
+                    {% for department in departments %}
+                      <option value="{{ department.name }}">{{ department.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Designation</label>
+                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Date of joining</label>
+                  <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" />
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Shift timing</label>
+                  <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" />
+                </div>
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Working status</label>
+                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">supervisor Name</label>
+                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Professional References</label>
+                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+                
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="rejected_reason">Basic Salary</label>
+                  <input type="text" placeholder="Expected Salary" name="expected_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+                </div>
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="rejected_reason">Fuel Allowance</label>
+                  <input type="text" placeholder="Expected Salary" name="expected_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="rejected_reason">Other Allowance</label>
+                  <input type="text" placeholder="Expected Salary" name="expected_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+                </div>
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="rejected_reason">Bank Name</label>
+                  <input type="email" required placeholder="Enter Official Email *" name="email_address" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkFormData(this)" />
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Education Certification.</label>
+                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
+
+                  <p for="" class="text-red-600 text-sm">
+                    <span class="font-bold">Note:</span> Please use .pdf formats.
+                  </p>
+                </div>
+
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Professional Certification.</label>
+                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
+
+                  <p for="" class="text-red-600 text-sm">
+                    <span class="font-bold">Note:</span> Please use .pdf formats.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Offer letter.</label>
+                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
+
+                  <p for="" class="text-red-600 text-sm">
+                    <span class="font-bold">Note:</span> Please use .pdf formats.
+                  </p>
+                </div>
+
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Identity Proof.</label>
+                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
+
+                  <p for="" class="text-red-600 text-sm">
+                    <span class="font-bold">Note:</span> Please use .pdf formats.
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Utility Bills</label>
+                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
+
+                  <p for="" class="text-red-600 text-sm">
+                    <span class="font-bold">Note:</span> Please use .pdf formats.
+                  </p>
+                </div>
+
+                <div class="mb-6 w-1/2">
+                  <label for="" class="my-7 text-base text-black">Experience Certificate</label>
+                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
+
+                  <p for="" class="text-red-600 text-sm">
+                    <span class="font-bold">Note:</span> Please use .pdf formats.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Skills</label>
+                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Languages</label>
+                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Hobbies</label>
+                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="follow_up_date">Linkedin Profile</label>
+                  <input type="url" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
+                </div>
+              </div>
+              <div class="flex gap-3">
+                <div class="mb-6 w-1/2">
+                  <label class="text-black my-7 text-base" for="rejected_reason">Job Description</label>
+                  <textarea placeholder="Reason For rejected" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="mb-5 hidden" id="rejected_reason">
+            <label class="text-black my-7 text-base" for="rejected_reason">Reason</label>
+            <textarea placeholder="Reason For rejected" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason"></textarea>
+          </div>
+
+          <div class="mb-5 hidden" id="follow_up_date">
+            <label class="text-black my-7 text-base" for="follow_up_date">Follow up date</label>
+            <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" />
+          </div>
+
           <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
           <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
         </div>
@@ -98,6 +291,29 @@
     function closeModal() {
       const modal = document.getElementById('mark-as-employee-modal')
       modal.classList.add('hidden')
+    }
+    
+    function StatusReason(e) {
+      rejected_reason = document.getElementById('rejected_reason')
+      follow_up_date = document.getElementById('follow_up_date')
+      hired = document.getElementById('hired')
+      if (e == 'option1') {
+        hired.classList.remove('hidden')
+        follow_up_date.classList.add('hidden')
+        rejected_reason.classList.add('hidden')
+      } else if (e == 'option2') {
+        rejected_reason.classList.remove('hidden')
+        follow_up_date.classList.add('hidden')
+        hired.classList.add('hidden')
+      } else if (e == 'option3') {
+        follow_up_date.classList.remove('hidden')
+        rejected_reason.classList.add('hidden')
+        hired.classList.add('hidden')
+      } else {
+        rejected_reason.classList.add('hidden')
+        follow_up_date.classList.add('hidden')
+        hired.classList.add('hidden')
+      }
     }
   </script>
 {% endblock %}

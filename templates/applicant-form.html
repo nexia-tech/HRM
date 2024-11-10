@@ -184,6 +184,7 @@
                <div class="mb-6">
                   <label for="">Gender</label>
                   <select name="gender" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required>
+                     <option value="" disabled selected>Select your gender</option>
                      <option value="male">Male</option>
                      <option value="female">Female</option>
                   </select>
@@ -665,7 +666,7 @@
    document.getElementById('csrf').value = csrfToken; // Set the value of the input field
    
    
-   var currentTab = 3 // Current tab is set to be the first tab (0)
+   var currentTab = 0 // Current tab is set to be the first tab (0)
    showTab(currentTab) // Display the current tab
    
    
