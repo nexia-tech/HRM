@@ -92,6 +92,7 @@ class User(AbstractUser):
     offer_letter = models.FileField(null=True,blank=True, upload_to='offer_letter')
     identity_proof = models.FileField(null=True,blank=True, upload_to='identity_proof')
     utility_bills = models.FileField(null=True,blank=True, upload_to='utility_bills')
+    experience_certificate = models.FileField(null=True,blank=True, upload_to='experience_certificate')
 
     work_experience = models.TextField(null=True,blank=True)
     skills = models.CharField(max_length=250,null=True,blank=True)
