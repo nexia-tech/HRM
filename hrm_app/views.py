@@ -911,7 +911,7 @@ def thumbAttendance(request, id):
 
 
 def applicants(request):
-    applicant_records = ApplicantDetails.objects.filter(is_employee=False)
+    applicant_records = ApplicantDetails.objects.filter(is_employee=False,is_rejected=False)
     departments = Department.objects.all()
     params = {
         'applicant_records': applicant_records,
@@ -950,7 +950,6 @@ class Mark_as_Employee(APIView):
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         data = request.data
-        print('work')
         email_address = data.get('email_address')
         shift_duration = data.get('shift_duration')
         profile_picture = request.FILES.get('profile_picture')
@@ -979,10 +978,7 @@ class Mark_as_Employee(APIView):
         
         if not user:
             last_employee = User.objects.all().order_by('-employee_id').first()
-            print(last_employee.employee_id.split("-"))
-            print(last_employee.employee_id.split("-")[1])
             employee_id = int(last_employee.employee_id.split("-")[1]) + 1
-            print(employee_id)
             if employee_id < 100:
                 employee_id = f"NX-0{str(employee_id)}"
             else:
@@ -1035,16 +1031,14 @@ class Mark_as_Employee(APIView):
                 record.is_employee = True
                 user_obj.save()
                 record.save()
-                messages.success(request, 'Employee Marked')
-                return Response({"message":"Form Submitted"},status=200)
+                return Response({"message":"Employee Marked Successfully!!","status":True},status=200)
             except Exception as e:
                 print(str(e))
-                messages.error(request, f'Something went wrong {str(e)}')
-                return Response({"message":f'Something went wrong {str(e)}'},status=400)
+                return Response({"message":f'Something went wrong {str(e)}', "status":False},status=400)
             
         else:
             messages.error(request, 'Email already exist on the record')
-            return Response({"message":f'Email already exist on the record'},status=400)
+            return Response({"message":f'Email already exist on the record',"status":False},status=400)
 
 
 class Mark_as_follow(APIView):

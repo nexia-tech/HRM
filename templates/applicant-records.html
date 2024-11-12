@@ -138,8 +138,8 @@
                 <input type="text" placeholder="Basic Salary *" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" id="basic_salary" />
               </div>
               <div class="mb-6 w-1/2">
-                <label class="text-black my-7 text-base" for="fuel_alloance">Fuel Allowance *</label>
-                <input type="text" placeholder="Fuel Allowance *" id="fuel_alloance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+                <label class="text-black my-7 text-base" for="fuel_allowance">Fuel Allowance *</label>
+                <input type="text" placeholder="Fuel Allowance *" id="fuel_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
               </div>
             </div>
             <div class="flex gap-3">
@@ -262,6 +262,13 @@
       </div>
     </div>
   </div>
+
+  <div id="customModal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg w-full max-w-sm shadow-lg relative">
+      <span class="close-btn absolute top-2 right-2 text-gray-500 text-2xl cursor-pointer">&times;</span>
+      <p id="modalMessage" class="text-gray-800 text-center"></p>
+    </div>
+  </div>
 {% endblock %}
 
 {% block script %}
@@ -330,6 +337,28 @@
       modal.classList.add('hidden')
     }
     
+    // Function to show the modal with a custom message
+    function showModal(message) {
+      const modal = document.getElementById('customModal')
+      const modalMessage = document.getElementById('modalMessage')
+    
+      modalMessage.textContent = message
+      modal.classList.remove('hidden')
+    }
+    
+    // Close the modal when the close button is clicked
+    document.querySelector('.close-btn').onclick = function () {
+      document.getElementById('customModal').classList.add('hidden')
+    }
+    
+    // Close the modal when clicking outside of the modal content
+    window.onclick = function (event) {
+      const modal = document.getElementById('customModal')
+      if (event.target == modal) {
+        modal.classList.add('hidden')
+      }
+    }
+    
     function hiredEmployee() {
       const email_address = document.getElementById('email_address').value
       const shift_duration = document.getElementById('shift_duration').value
@@ -342,7 +371,7 @@
       const supervisor_name = document.getElementById('supervisor_name').value
       const references = document.getElementById('references').value
       const basic_salary = document.getElementById('basic_salary').value
-      const fuel_alloance = document.getElementById('fuel_alloance').value
+      const fuel_allowance = document.getElementById('fuel_allowance').value
       const other_allowance = document.getElementById('other_allowance').value
       const bank_name = document.getElementById('bank_name').value
       const education_certification = document.getElementById('education_certification').value
@@ -357,32 +386,138 @@
       const linkedin_link = document.getElementById('linkedin_link').value
       const job_description = document.getElementById('job_description').value
     
-   
+      if (!email_address) {
+        showModal("Please enter your official email address");
+        return
+    } else if (!shift_duration) {
+      showModal("Please enter the shift duration");
+      return  
+    } else if (!profile_picture) {
+      showModal("Please upload a profile picture");
+      return  
+    } else if (!department) {
+      showModal("Please select a department");
+      return  
+    } else if (!designation) {
+      showModal("Please enter your designation");
+      return  
+    } else if (!doj) {
+      showModal("Please enter the date of joining");
+      return  
+    } else if (!shift_timing) {
+      showModal("Please enter the shift timing");
+      return  
+    } else if (!working_status) {
+      showModal("Please select the working status");
+      return  
+    } else if (!supervisor_name) {
+      showModal("Please enter the supervisor's name");
+      return  
+    } else if (!references) {
+      showModal("Please provide references");
+      return  
+    } else if (!basic_salary) {
+      showModal("Please enter the basic salary");
+      return  
+    } else if (!fuel_allowance) {
+      showModal("Please enter the fuel allowance");
+      return  
+    } else if (!other_allowance) {
+      showModal("Please enter other allowances");
+      return  
+    } else if (!bank_name) {
+      showModal("Please enter the bank name");
+      return  
+    } else if (!education_certification) {
+      showModal("Please upload your educational certification");
+      return  
+    } else if (!professional_certification) {
+      showModal("Please upload your professional certification");
+      return  
+    } else if (!offer_letter) {
+      showModal("Please upload the offer letter");
+      return  
+    } else if (!identity_proof) {
+      showModal("Please upload an identity proof document");
+      return  
+    } else if (!utility_bills) {
+      showModal("Please upload utility bills as proof of address");
+      return  
+    } else if (!experience_certificate) {
+      showModal("Please upload the experience certificate");
+      return  
+    } else if (!skills) {
+      showModal("Please enter your skills");
+      return  
+    } else if (!hobbies) {
+      showModal("Please enter your hobbies");
+      return  
+    } else if (!language) {
+      showModal("Please enter the languages you speak");
+      return  
+    } else if (!linkedin_link) {
+      showModal("Please enter your LinkedIn profile link");
+      return  
+    } else if (!job_description) {
+      showModal("Please enter the job description");
+      return  
+    }
+    
     
       fetch(`{{BASE_URL}}hrm/mark-as-employee/${record_id}/`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': '{{ csrf_token }}'
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
         },
-        body: JSON.stringify({ email_address: email_address, shift_duration: shift_duration, profile_picture: profile_picture, designation: designation, department: department, doj: doj, shift_timing: shift_timing, working_status: working_status, supervisor_name: supervisor_name, references: references, basic_salary: basic_salary, fuel_alloance: fuel_alloance, other_allowance: other_allowance, bank_name: bank_name, education_certification: education_certification, professional_certification: professional_certification, offer_letter: offer_letter, identity_proof: identity_proof, utility_bills: utility_bills, experience_certificate: experience_certificate, language: language, skills: skills, hobbies: hobbies, linkedin_link: linkedin_link, job_description: job_description })
-      })
-        .then((response) => {
-          if (response.ok) {
-            console.log(response);
-            alert('Data saved successfully!')
-            closeModal()
-          } else {
-            alert('Failed to save data.')
-          }
+        body: JSON.stringify({
+            email_address: email_address,
+            shift_duration: shift_duration,
+            profile_picture: profile_picture,
+            designation: designation,
+            department: department,
+            doj: doj,
+            shift_timing: shift_timing,
+            working_status: working_status,
+            supervisor_name: supervisor_name,
+            references: references,
+            basic_salary: basic_salary,
+            fuel_allowance: fuel_allowance,
+            other_allowance: other_allowance,
+            bank_name: bank_name,
+            education_certification: education_certification,
+            professional_certification: professional_certification,
+            offer_letter: offer_letter,
+            identity_proof: identity_proof,
+            utility_bills: utility_bills,
+            experience_certificate: experience_certificate,
+            language: language,
+            skills: skills,
+            hobbies: hobbies,
+            linkedin_link: linkedin_link,
+            job_description: job_description
         })
-        .catch((error) => console.error('Error:', error))
-    }
+    })
+    .then((response) => {
+        if (response.ok) {
+            return response.json(); // Convert response to JSON
+        } else {
+            showModal('Failed to save data');
+            throw new Error('Network response was not ok.');
+        }
+    })
+    .then((data) => {
+        console.log('Response data:', data); // Log the response data
+        showModal(data.message);
+        closeModal();
+    })
+    .catch((error) => showModal(`Error: ${error}`));
+  }    
     
     function sendFollowUpData() {
       const date = document.getElementById('follow_up_date_input').value
       if (!date) {
-        alert('Please select a date.')
+        showModal('Please select a date');
         return
       }
     
@@ -396,13 +531,13 @@
       })
         .then((response) => {
           if (response.ok) {
-            alert('Data saved successfully!')
+            showModal('Employee status updated successfully');
             closeModal()
           } else {
-            alert('Failed to save data.')
+            showModal('Failed to save data');
           }
         })
-        .catch((error) => console.error('Error:', error))
+        .catch((error) => showModal(`Error: ${error}`))
     }
     
     function sendRejectedReason() {
@@ -422,13 +557,13 @@
       })
         .then((response) => {
           if (response.ok) {
-            alert('Data saved successfully!')
+            showModal('Data saved successfully!');
             closeModal()
           } else {
-            alert('Failed to save data.')
+            showModal('Failed to save data');
           }
         })
-        .catch((error) => console.error('Error:', error))
+        .catch((error) => showModal(`Error: ${error}`))
     }
     
     function StatusReason(e) {
@@ -453,26 +588,22 @@
         hired.classList.add('hidden')
       }
     }
-
-
-    const checkFormData = (input)=>{
+    
+    const checkFormData = (input) => {
       // Get the list of classes
-      let classList = input.className.split(" ");
-
+      let classList = input.className.split(' ')
+    
       // Remove the last class from the array
-      let lastClassName = classList.pop();
+      let lastClassName = classList.pop()
       // Join the classes back into a string and update the input's class attribute
-      if (input.value == ''){
-         valid = false
+      if (input.value == '') {
+        valid = false
+      } else {
+        if (lastClassName == 'invalid') {
+          valid = true
+          input.className = classList.join(' ')
+        }
       }
-      else{
-         if (lastClassName == 'invalid'){
-            valid = true
-            input.className = classList.join(" ");
-
-         }
-       }
-
-  }
+    }
   </script>
 {% endblock %}
