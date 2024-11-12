@@ -191,10 +191,8 @@ def edit_profile(request):
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         profile_picture = request.FILES.get('profile_picture')
-        bio = request.POST.get('bio')
         user.phone = phone
         user.name = name
-        user.bio = bio
         user.profile_picture = profile_picture
         user.save()
         messages.success(request, 'Profile has been updated')
@@ -283,7 +281,6 @@ def create_employee_account(request):
             fuel_allowance = request.POST.get('fuel_allowance')
             other_allowance = request.POST.get('other_allowance')
             bank_name = request.POST.get('bank_name')
-            employee_tax_number = request.POST.get('employee_tax_number')
 
             profile_picture = request.FILES.get('profile_picture')
             resume = request.FILES.get('resume')
@@ -377,7 +374,6 @@ def create_employee_account(request):
             user.basic_salary = basic_salary
             user.fuel_allowance = fuel_allowance
             user.other_allowance = other_allowance
-            user.employee_tax_number = employee_tax_number
 
             user.profile_picture = profile_picture
             user.resume = resume
@@ -506,7 +502,6 @@ def update_profile(request, id):
         fuel_allowance = request.POST.get('fuel_allowance')
         other_allowance = request.POST.get('other_allowance')
         bank_name = request.POST.get('bank_name')
-        employee_tax_number = request.POST.get('employee_tax_number')
 
         profile_picture = request.FILES.get(
             'profile_picture', employee.profile_picture)
@@ -521,7 +516,6 @@ def update_profile(request, id):
         utility_bills = request.FILES.get(
             'utility_bills', employee.utility_bills)
 
-        bio = request.POST.get('bio')
         work_experience = request.POST.get('work_experience')
         skills = request.POST.get('skills')
         languages = request.POST.get('languages')
@@ -536,7 +530,6 @@ def update_profile(request, id):
         employee.name = name
         employee.designation = designation
         employee.department = depart
-        employee.bio = bio
 
         if working_hours != '':
             employee.shift_duration_hours = working_hours
@@ -598,7 +591,6 @@ def update_profile(request, id):
         employee.basic_salary = basic_salary
         employee.fuel_allowance = fuel_allowance
         employee.other_allowance = other_allowance
-        employee.employee_tax_number = employee_tax_number
 
         employee.profile_picture = profile_picture
         employee.resume = resume
