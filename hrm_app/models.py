@@ -96,6 +96,7 @@ class ApplicantDetails(models.Model):
     shortlisted_date = models.DateField(null=True,blank=True)
     rejected_reason = models.TextField(null=True,blank=True)
     remarks = models.TextField(null=True,blank=True)
+    status = models.CharField(max_length=200,default='In Process',null=True,blank=True)
     is_rejected = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     

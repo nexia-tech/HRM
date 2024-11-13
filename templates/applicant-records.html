@@ -17,6 +17,7 @@
               <th scope="col" class="px-6 py-3 capitalize">Phone</th>
               <th scope="col" class="px-6 py-3 capitalize">Email</th>
               <th scope="col" class="px-6 py-3 capitalize">Gender</th>
+              <th scope="col" class="px-6 py-3 capitalize">Status</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">Actions</th>
             </tr>
           </thead>
@@ -36,6 +37,7 @@
                 <td class="px-6 py-4">{{ applicant_record.contact_number }}</td>
                 <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.gender }}</td>
+                <td class="px-6 py-4">{{ applicant_record.status }}</td>
                 <td>
                   <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
                   <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark Status</button>

@@ -1032,6 +1032,7 @@ class Mark_as_Employee(APIView):
             user_obj.job_description = job_description
             try:
                 record.is_employee = True
+                record.status = "Hired"
                 user_obj.save()
                 record.save()
                 return Response({"message":"Employee Marked Successfully!!","status":True},status=200)
@@ -1054,6 +1055,7 @@ class Mark_as_follow(APIView):
         if not user:
             record.follow_up_date = follow_up_date
             record.remarks = remarks
+            record.status = 'Follow up'
             record.save()
             messages.success(request, 'Employee Status Updated')
         else:
@@ -1069,6 +1071,7 @@ class Mark_as_Shortlisted(APIView):
         if not user:
             record.shortlisted_date = shortlisted_date
             record.remarks = remarks
+            record.status = "Shortlisted"
             record.save()
             messages.success(request, 'Employee Status Updated')
         else:
@@ -1084,6 +1087,7 @@ class Mark_as_Rejected(APIView):
         if not user:
             record.rejected_reason = rejected
             record.is_rejected = True
+            record.status = "Rejected"
             record.save()
             messages.success(request, 'Employee Status Updated')
         else:
