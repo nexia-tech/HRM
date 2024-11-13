@@ -40,6 +40,7 @@ class User(AbstractUser):
     
     doj = models.DateField(null=True,blank=True)
     shift_timings = models.TimeField(null=True,blank=True)
+    shift_end_timing = models.TimeField(null=True,blank=True)
     employment_status = models.CharField(max_length=250,null=True,blank=True)
     supervisor_name = models.CharField(max_length=250,null=True,blank=True)
     job_description = models.TextField(null=True,blank=True)

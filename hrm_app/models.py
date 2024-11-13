@@ -93,7 +93,9 @@ class ApplicantDetails(models.Model):
     declaration = models.BooleanField(default=False) 
     is_employee = models.BooleanField(default=False)
     follow_up_date = models.DateField(null=True,blank=True)
+    shortlisted_date = models.DateField(null=True,blank=True)
     rejected_reason = models.TextField(null=True,blank=True)
+    remarks = models.TextField(null=True,blank=True)
     is_rejected = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     

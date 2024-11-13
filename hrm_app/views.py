@@ -743,7 +743,7 @@ def applicant_detail_form_function(request):
         # Extract the fields from the POST data
         first_name = data.get('first_name', None)
         last_name = data.get('last_name', None)
-        name = first_name + last_name
+        name = first_name + " "+ last_name
         position_applied_for = data.get('position_applied_for', None)
         father_name = data.get('father_name', None)
         email_address = data.get('email_address', None)
@@ -911,7 +911,7 @@ def thumbAttendance(request, id):
 
 
 def applicants(request):
-    applicant_records = ApplicantDetails.objects.filter(is_employee=False,is_rejected=False)
+    applicant_records = ApplicantDetails.objects.filter(is_employee=False)
     departments = Department.objects.all()
     params = {
         'applicant_records': applicant_records,
@@ -957,6 +957,8 @@ class Mark_as_Employee(APIView):
         department = data.get('department')
         doj = data.get('doj')
         shift_timing = data.get('shift_timing')
+        shift_end_timing = data.get('shift_end_timing')
+        
         working_status = data.get('working_status')
         supervisor_name = data.get('supervisor_name')
         references = data.get('references')
@@ -1009,6 +1011,7 @@ class Mark_as_Employee(APIView):
             user_obj.designation = designation
             user_obj.doj = doj
             user_obj.shift_timings = shift_timing
+            user_obj.shift_end_timing=shift_end_timing
             user_obj.working_status = working_status
             user_obj.supervisor_name = supervisor_name
             user_obj.professional_references = references
@@ -1047,14 +1050,30 @@ class Mark_as_follow(APIView):
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         follow_up_date = request.data.get('follow_up_date')
+        remarks = request.data.get('remarks')
         if not user:
             record.follow_up_date = follow_up_date
+            record.remarks = remarks
             record.save()
-            messages.success(request, 'Employee Marked')
+            messages.success(request, 'Employee Status Updated')
         else:
             messages.error(request, 'Email already exist on the record')
         return redirect('applicants')
 
+class Mark_as_Shortlisted(APIView):
+     def post(self,request,id):
+        record = ApplicantDetails.objects.get(id=id)
+        user = User.objects.filter(email=record.email_address).first()
+        shortlisted_date = request.data.get('shortlisted_date')
+        remarks = request.data.get('remarks')
+        if not user:
+            record.shortlisted_date = shortlisted_date
+            record.remarks = remarks
+            record.save()
+            messages.success(request, 'Employee Status Updated')
+        else:
+            messages.error(request, 'Email already exist on the record')
+        return redirect('applicants')
 
 class Mark_as_Rejected(APIView):
     
@@ -1066,7 +1085,7 @@ class Mark_as_Rejected(APIView):
             record.rejected_reason = rejected
             record.is_rejected = True
             record.save()
-            messages.success(request, 'Employee Marked')
+            messages.success(request, 'Employee Status Updated')
         else:
             messages.error(request, 'Email already exist on the record')
         return redirect('applicants')

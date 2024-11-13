@@ -94,9 +94,9 @@
           {% else %}
             <img alt="profile-pic" class="w-48 h-48 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
           {% endif %}
+          <h2 class="text-white font-medium title-font tracking-wider text-xl">{{ user.name }}</h2>
           <span class="inline-block h-1 w-10 rounded bg-blue-500 mt-6 mb-4"></span>
           <p class="text-gray-500 text-base">{{ user.department.name }}</p>
-          <h2 class="text-white font-medium title-font tracking-wider text-xl">{{ user.name }}</h2>
           <p class="text-gray-500 text-lg">{{ user.designation }}</p>
         </div>
       </div>

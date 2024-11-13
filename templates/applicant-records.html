@@ -14,8 +14,8 @@
               <th scope="col" class="px-6 py-3 capitalize">Date</th>
               <th scope="col" class="px-6 py-3 capitalize">Name</th>
               <th scope="col" class="px-6 py-3 capitalize">Position Applied For</th>
-              <th scope="col" class="px-6 py-3 capitalize">Email</th>
               <th scope="col" class="px-6 py-3 capitalize">Phone</th>
+              <th scope="col" class="px-6 py-3 capitalize">Email</th>
               <th scope="col" class="px-6 py-3 capitalize">Gender</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">Actions</th>
             </tr>
@@ -33,12 +33,12 @@
                 <td class="px-6 py-4">{{ applicant_record.created_at }}</td>
                 <td class="px-6 py-4">{{ applicant_record.name }}</td>
                 <td class="px-6 py-4">{{ applicant_record.position_applied_for }}</td>
-                <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.contact_number }}</td>
+                <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.gender }}</td>
                 <td>
                   <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
-                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark as Status</button>
+                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark Status</button>
                 </td>
               </tr>
             {% endfor %}
@@ -80,7 +80,17 @@
               </div>
               <div class="mb-6 w-1/2">
                 <label for="" class="my-7 text-base text-black">Shift Duration Hours *</label>
-                <input type="text" placeholder="Shift Duration Hours *" id="shift_duration" name="shift_duration" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+                <select name="shift_duration" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required id="shift_duration">
+                  <option value="" disabled selected>Select Shift Duration Hours *</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
               </div>
             </div>
             <div class="flex gap-3">
@@ -114,12 +124,12 @@
             </div>
             <div class="flex gap-3">
               <div class="mb-6 w-1/2">
-                <label class="text-black my-7 text-base" for="shift_timing">Shift timing *</label>
+                <label class="text-black my-7 text-base" for="shift_start_timing">Shift Start timing *</label>
                 <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_timing" id="shift_timing" />
               </div>
               <div class="mb-6 w-1/2">
-                <label class="text-black my-7 text-base" for="working_status">Working status *</label>
-                <input type="text" required placeholder="Working status *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="working_status" />
+                <label class="text-black my-7 text-base" for="shift_end_timing">Shift end timing *</label>
+                <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_end_timing" id="shift_end_timing" />
               </div>
             </div>
             <div class="flex gap-3">
@@ -148,8 +158,8 @@
                 <input type="text" placeholder="Other Allowance *" id="other_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
               </div>
               <div class="mb-6 w-1/2">
-                <label class="text-black my-7 text-base" for="bank_name">Bank Name *</label>
-                <input type="email" required placeholder="Bank Name *" id="bank_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkFormData(this)" />
+                <label class="text-black my-7 text-base" for="working_status">Working status *</label>
+                <input type="text" required placeholder="Working status *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="working_status" />
               </div>
             </div>
 
@@ -240,6 +250,10 @@
                 <label class="text-black my-7 text-base" for="job_description">Job Description *</label>
                 <textarea placeholder="Job Description *" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="job_description" id="job_description"></textarea>
               </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="bank_name">Bank Details *</label>
+                <textarea placeholder="Bank Details *" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="bank_name" id="bank_name" oninput="checkFormData(this)"></textarea>
+              </div>
             </div>
             <button onclick="hiredEmployee()" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</button>
             <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
@@ -253,9 +267,32 @@
           </div>
 
           <div class="mb-5 hidden" id="follow_up_date">
-            <label class="text-black my-7 text-base" for="follow_up_date">Follow up date</label>
-            <input type="date" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" id="follow_up_date_input" />
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="follow_up_date">Follow up date</label>
+                <input type="date" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" id="follow_up_date_input" />
+              </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="remarks">Remarks *</label>
+                <textarea placeholder="Remarks *" rows="1" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="remarks" id="remarks" oninput="checkFormData(this)"></textarea>
+              </div>
+            </div>
             <button onclick="sendFollowUpData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</button>
+            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+          </div>
+
+          <div class="mb-5 hidden" id="shortlisted">
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="shortlisted">Follow up date</label>
+                <input type="date" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shortlisted_followup" id="shortlisted_followup_input" />
+              </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="remakrs">Remarks *</label>
+                <textarea placeholder="Remarks *" rows="1" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="remarks" id="shortlisted_remarks" oninput="checkFormData(this)"></textarea>
+              </div>
+            </div>
+            <button onclick="sendShortlistedData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</button>
             <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
         </div>
@@ -387,137 +424,141 @@
       const job_description = document.getElementById('job_description').value
     
       if (!email_address) {
-        showModal("Please enter your official email address");
+        showModal('Please enter your official email address')
         return
-    } else if (!shift_duration) {
-      showModal("Please enter the shift duration");
-      return  
-    } else if (!profile_picture) {
-      showModal("Please upload a profile picture");
-      return  
-    } else if (!department) {
-      showModal("Please select a department");
-      return  
-    } else if (!designation) {
-      showModal("Please enter your designation");
-      return  
-    } else if (!doj) {
-      showModal("Please enter the date of joining");
-      return  
-    } else if (!shift_timing) {
-      showModal("Please enter the shift timing");
-      return  
-    } else if (!working_status) {
-      showModal("Please select the working status");
-      return  
-    } else if (!supervisor_name) {
-      showModal("Please enter the supervisor's name");
-      return  
-    } else if (!references) {
-      showModal("Please provide references");
-      return  
-    } else if (!basic_salary) {
-      showModal("Please enter the basic salary");
-      return  
-    } else if (!fuel_allowance) {
-      showModal("Please enter the fuel allowance");
-      return  
-    } else if (!other_allowance) {
-      showModal("Please enter other allowances");
-      return  
-    } else if (!bank_name) {
-      showModal("Please enter the bank name");
-      return  
-    } else if (!education_certification) {
-      showModal("Please upload your educational certification");
-      return  
-    } else if (!professional_certification) {
-      showModal("Please upload your professional certification");
-      return  
-    } else if (!offer_letter) {
-      showModal("Please upload the offer letter");
-      return  
-    } else if (!identity_proof) {
-      showModal("Please upload an identity proof document");
-      return  
-    } else if (!utility_bills) {
-      showModal("Please upload utility bills as proof of address");
-      return  
-    } else if (!experience_certificate) {
-      showModal("Please upload the experience certificate");
-      return  
-    } else if (!skills) {
-      showModal("Please enter your skills");
-      return  
-    } else if (!hobbies) {
-      showModal("Please enter your hobbies");
-      return  
-    } else if (!language) {
-      showModal("Please enter the languages you speak");
-      return  
-    } else if (!linkedin_link) {
-      showModal("Please enter your LinkedIn profile link");
-      return  
-    } else if (!job_description) {
-      showModal("Please enter the job description");
-      return  
-    }
-    
+      } else if (!shift_duration) {
+        showModal('Please enter the shift duration')
+        return
+      } else if (!profile_picture) {
+        showModal('Please upload a profile picture')
+        return
+      } else if (!department) {
+        showModal('Please select a department')
+        return
+      } else if (!designation) {
+        showModal('Please enter your designation')
+        return
+      } else if (!doj) {
+        showModal('Please enter the date of joining')
+        return
+      } else if (!shift_timing) {
+        showModal('Please enter the shift timing')
+        return
+      } else if (!working_status) {
+        showModal('Please select the working status')
+        return
+      } else if (!supervisor_name) {
+        showModal("Please enter the supervisor's name")
+        return
+      } else if (!references) {
+        showModal('Please provide references')
+        return
+      } else if (!basic_salary) {
+        showModal('Please enter the basic salary')
+        return
+      } else if (!fuel_allowance) {
+        showModal('Please enter the fuel allowance')
+        return
+      } else if (!other_allowance) {
+        showModal('Please enter other allowances')
+        return
+      } else if (!bank_name) {
+        showModal('Please enter the bank name')
+        return
+      } else if (!education_certification) {
+        showModal('Please upload your educational certification')
+        return
+      } else if (!professional_certification) {
+        showModal('Please upload your professional certification')
+        return
+      } else if (!offer_letter) {
+        showModal('Please upload the offer letter')
+        return
+      } else if (!identity_proof) {
+        showModal('Please upload an identity proof document')
+        return
+      } else if (!utility_bills) {
+        showModal('Please upload utility bills as proof of address')
+        return
+      } else if (!experience_certificate) {
+        showModal('Please upload the experience certificate')
+        return
+      } else if (!skills) {
+        showModal('Please enter your skills')
+        return
+      } else if (!hobbies) {
+        showModal('Please enter your hobbies')
+        return
+      } else if (!language) {
+        showModal('Please enter the languages you speak')
+        return
+      } else if (!linkedin_link) {
+        showModal('Please enter your LinkedIn profile link')
+        return
+      } else if (!job_description) {
+        showModal('Please enter the job description')
+        return
+      }
     
       fetch(`{{BASE_URL}}hrm/mark-as-employee/${record_id}/`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}'
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
         },
         body: JSON.stringify({
-            email_address: email_address,
-            shift_duration: shift_duration,
-            profile_picture: profile_picture,
-            designation: designation,
-            department: department,
-            doj: doj,
-            shift_timing: shift_timing,
-            working_status: working_status,
-            supervisor_name: supervisor_name,
-            references: references,
-            basic_salary: basic_salary,
-            fuel_allowance: fuel_allowance,
-            other_allowance: other_allowance,
-            bank_name: bank_name,
-            education_certification: education_certification,
-            professional_certification: professional_certification,
-            offer_letter: offer_letter,
-            identity_proof: identity_proof,
-            utility_bills: utility_bills,
-            experience_certificate: experience_certificate,
-            language: language,
-            skills: skills,
-            hobbies: hobbies,
-            linkedin_link: linkedin_link,
-            job_description: job_description
+          email_address: email_address,
+          shift_duration: shift_duration,
+          profile_picture: profile_picture,
+          designation: designation,
+          department: department,
+          doj: doj,
+          shift_timing: shift_timing,
+          working_status: working_status,
+          supervisor_name: supervisor_name,
+          references: references,
+          basic_salary: basic_salary,
+          fuel_allowance: fuel_allowance,
+          other_allowance: other_allowance,
+          bank_name: bank_name,
+          education_certification: education_certification,
+          professional_certification: professional_certification,
+          offer_letter: offer_letter,
+          identity_proof: identity_proof,
+          utility_bills: utility_bills,
+          experience_certificate: experience_certificate,
+          language: language,
+          skills: skills,
+          hobbies: hobbies,
+          linkedin_link: linkedin_link,
+          job_description: job_description
         })
-    })
-    .then((response) => {
-        if (response.ok) {
-            return response.json(); // Convert response to JSON
-        } else {
-            showModal('Failed to save data');
-            throw new Error('Network response was not ok.');
-        }
-    })
-    .then((data) => {
-        console.log('Response data:', data); // Log the response data
-        showModal(data.message);
-        closeModal();
-    })
-    .catch((error) => showModal(`Error: ${error}`));
-  }    
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json() // Convert response to JSON
+          } else {
+            showModal('Failed to save data')
+            throw new Error('Network response was not ok.')
+          }
+        })
+        .then((data) => {
+          console.log('Response data:', data) // Log the response data
+          showModal(data.message)
+          closeModal()
+        })
+        .catch((error) => showModal(`Error: ${error}`))
+    }
     
     function sendFollowUpData() {
       const date = document.getElementById('follow_up_date_input').value
+      const remarks = document.getElementById('remarks').value
       if (!date) {
-        showModal('Please select a date');
+        showModal('Please select a date')
+        return
+      }
+      else if (!remarks) {
+        showModal('Please enter remarks')
         return
       }
     
@@ -527,14 +568,14 @@
           'Content-Type': 'application/json',
           'X-CSRFToken': '{{ csrf_token }}'
         },
-        body: JSON.stringify({ follow_up_date: date })
+        body: JSON.stringify({ follow_up_date: date,remarks:remarks })
       })
         .then((response) => {
           if (response.ok) {
-            showModal('Employee status updated successfully');
+            showModal('Employee status updated successfully')
             closeModal()
           } else {
-            showModal('Failed to save data');
+            showModal('Failed to save data')
           }
         })
         .catch((error) => showModal(`Error: ${error}`))
@@ -543,7 +584,7 @@
     function sendRejectedReason() {
       const rejected_reason = document.getElementById('rejected_reason_input').value
       if (!rejected_reason) {
-        alert('Please Enter\nWhy you reject him/her?.')
+        showModal('Please Enter\nWhy you reject him/her?.')
         return
       }
     
@@ -557,35 +598,81 @@
       })
         .then((response) => {
           if (response.ok) {
-            showModal('Data saved successfully!');
+            showModal('Data saved successfully!')
             closeModal()
           } else {
-            showModal('Failed to save data');
+            showModal('Failed to save data')
+          }
+        })
+        .catch((error) => showModal(`Error: ${error}`))
+    }
+
+    function sendShortlistedData() {
+      const date = document.getElementById('shortlisted_followup_input').value
+      const remarks = document.getElementById('shortlisted_remarks').value
+      
+      if (!date) {
+        showModal('Please select a date')
+        return
+      }
+      else if (!remarks) {
+        showModal('Please enter remarks')
+        return
+      }
+    
+      fetch(`{{BASE_URL}}hrm/mark-as-shortlisted/${record_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ shortlisted_date: date,remarks:remarks })
+      })
+        .then((response) => {
+          if (response.ok) {
+            showModal('Employee status updated successfully')
+            closeModal()
+          } else {
+            showModal('Failed to save data')
           }
         })
         .catch((error) => showModal(`Error: ${error}`))
     }
     
+    
     function StatusReason(e) {
       rejected_reason = document.getElementById('rejected_reason')
       follow_up_date = document.getElementById('follow_up_date')
       hired = document.getElementById('hired')
+      shortlisted = document.getElementById('shortlisted')
       if (e == 'option1') {
         hired.classList.remove('hidden')
         follow_up_date.classList.add('hidden')
+        shortlisted.classList.add('hidden')
         rejected_reason.classList.add('hidden')
       } else if (e == 'option2') {
         rejected_reason.classList.remove('hidden')
         follow_up_date.classList.add('hidden')
+        shortlisted.classList.add('hidden')
         hired.classList.add('hidden')
       } else if (e == 'option3') {
         follow_up_date.classList.remove('hidden')
         rejected_reason.classList.add('hidden')
+        shortlisted.classList.add('hidden')
         hired.classList.add('hidden')
-      } else {
+      } 
+      else if (e == 'option4') {
+        follow_up_date.classList.add('hidden')
+        rejected_reason.classList.add('hidden')
+        hired.classList.add('hidden')
+        shortlisted.classList.remove('hidden')
+      } 
+      
+      else {
         rejected_reason.classList.add('hidden')
         follow_up_date.classList.add('hidden')
         hired.classList.add('hidden')
+        shortlisted.classList.remove('hidden')
       }
     }
     

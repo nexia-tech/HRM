@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected
+from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted
 
 
 urlpatterns = [
@@ -28,6 +28,7 @@ urlpatterns = [
     path('mark-as-employee/<int:id>/', Mark_as_Employee.as_view(), name='mark-as-employee'),
     path('mark-as-follow/<int:id>/', Mark_as_follow.as_view(), name='mark-as-follow'),
     path('mark-as-rejected/<int:id>/', Mark_as_Rejected.as_view(), name='mark-as-rejected'),
+    path('mark-as-shortlisted/<int:id>/', Mark_as_Shortlisted.as_view(), name='mark-as-shortlisted'),
     
     
 
