@@ -18,6 +18,7 @@
               <th scope="col" class="px-6 py-3 capitalize">Email</th>
               <th scope="col" class="px-6 py-3 capitalize">Gender</th>
               <th scope="col" class="px-6 py-3 capitalize">Status</th>
+              <th scope="col" class="px-6 py-3 capitalize">Remarks</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">Actions</th>
             </tr>
           </thead>
@@ -38,6 +39,15 @@
                 <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.gender }}</td>
                 <td class="px-6 py-4">{{ applicant_record.status }}</td>
+                {% if applicant_record.status == 'Rejected' %}
+                  <td class="px-6 py-4">
+                    <textarea disabled>{{ applicant_record.rejected_reason }}</textarea>
+                  </td>
+                {% else %}
+                  <td class="px-6 py-4">
+                    <textarea disabled>{{ applicant_record.remarks }}</textarea>
+                  </td>
+                {% endif %}
                 <td>
                   <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
                   <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark Status</button>
@@ -257,15 +267,15 @@
                 <textarea placeholder="Bank Details *" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="bank_name" id="bank_name" oninput="checkFormData(this)"></textarea>
               </div>
             </div>
-            <button onclick="hiredEmployee()" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</button>
-            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+            <button onclick="hiredEmployee()" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
           <div class="mb-5 hidden" id="rejected_reason">
             <label class="text-black my-7 text-base" for="rejected_reason">Reason</label>
             <textarea placeholder="Reason For rejected" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason" id="rejected_reason_input"></textarea>
-            <button onclick="sendRejectedReason()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</button>
-            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+            <button onclick="sendRejectedReason()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
           <div class="mb-5 hidden" id="follow_up_date">
@@ -279,8 +289,8 @@
                 <textarea placeholder="Remarks *" rows="1" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="remarks" id="remarks" oninput="checkFormData(this)"></textarea>
               </div>
             </div>
-            <button onclick="sendFollowUpData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</button>
-            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+            <button onclick="sendFollowUpData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
           <div class="mb-5 hidden" id="shortlisted">
@@ -294,8 +304,8 @@
                 <textarea placeholder="Remarks *" rows="1" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="remarks" id="shortlisted_remarks" oninput="checkFormData(this)"></textarea>
               </div>
             </div>
-            <button onclick="sendShortlistedData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</button>
-            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+            <button onclick="sendShortlistedData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
         </div>
       </div>
@@ -558,8 +568,7 @@
       if (!date) {
         showModal('Please select a date')
         return
-      }
-      else if (!remarks) {
+      } else if (!remarks) {
         showModal('Please enter remarks')
         return
       }
@@ -570,7 +579,7 @@
           'Content-Type': 'application/json',
           'X-CSRFToken': '{{ csrf_token }}'
         },
-        body: JSON.stringify({ follow_up_date: date,remarks:remarks })
+        body: JSON.stringify({ follow_up_date: date, remarks: remarks })
       })
         .then((response) => {
           if (response.ok) {
@@ -608,16 +617,15 @@
         })
         .catch((error) => showModal(`Error: ${error}`))
     }
-
+    
     function sendShortlistedData() {
       const date = document.getElementById('shortlisted_followup_input').value
       const remarks = document.getElementById('shortlisted_remarks').value
-      
+    
       if (!date) {
         showModal('Please select a date')
         return
-      }
-      else if (!remarks) {
+      } else if (!remarks) {
         showModal('Please enter remarks')
         return
       }
@@ -628,7 +636,7 @@
           'Content-Type': 'application/json',
           'X-CSRFToken': '{{ csrf_token }}'
         },
-        body: JSON.stringify({ shortlisted_date: date,remarks:remarks })
+        body: JSON.stringify({ shortlisted_date: date, remarks: remarks })
       })
         .then((response) => {
           if (response.ok) {
@@ -640,7 +648,6 @@
         })
         .catch((error) => showModal(`Error: ${error}`))
     }
-    
     
     function StatusReason(e) {
       rejected_reason = document.getElementById('rejected_reason')
@@ -662,15 +669,12 @@
         rejected_reason.classList.add('hidden')
         shortlisted.classList.add('hidden')
         hired.classList.add('hidden')
-      } 
-      else if (e == 'option4') {
+      } else if (e == 'option4') {
         follow_up_date.classList.add('hidden')
         rejected_reason.classList.add('hidden')
         hired.classList.add('hidden')
         shortlisted.classList.remove('hidden')
-      } 
-      
-      else {
+      } else {
         rejected_reason.classList.add('hidden')
         follow_up_date.classList.add('hidden')
         hired.classList.add('hidden')
