@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted
+from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted, systemAttendance
 
 
 urlpatterns = [
@@ -22,6 +22,7 @@ urlpatterns = [
     path('api/shift-end-time/', ShiftEndTime.as_view(), name='shift-end-time'),
 
     path("thumb-attendance/<int:id>/", thumbAttendance, name='thumb-attendance'),
+    path("system-attendance/<int:id>/", systemAttendance, name='system-attendance'),
     path('applicants/', applicants, name='applicants'),
     path('applicant/<int:id>/', applicant_detail, name='applicant'),
     path('api/get-csrf-token/', get_csrf_token, name='get-csrf-token'),

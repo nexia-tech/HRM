@@ -438,7 +438,7 @@ def view_profile(request, id):
 def update_profile(request, id):
     user = User.objects.get(id=id)
     context = {
-        'user': user
+        'user1': user
     }
     if request.method == 'POST':
         email = request.POST.get('email')

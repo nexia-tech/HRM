@@ -909,6 +909,12 @@ def thumbAttendance(request, id):
     params = {'attendances': attendances}
     return render(request, 'thumb-attedance.html', params)
 
+def systemAttendance(request, id):
+    attendances = SystemAttendanceModel.objects.filter(employee__id=id)
+    user = User.objects.get(id=id)
+    params = {'attendances': attendances}
+    return render(request, 'attendance-report.html', params)
+
 
 def applicants(request):
     applicant_records = ApplicantDetails.objects.filter(is_employee=False)
