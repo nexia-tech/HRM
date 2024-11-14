@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import pytz
 from django.conf import settings
 from core.models import ConfigurationModel
-import requests
+import requests, json
 from users.services import generate_password
 
 BASE_URL = settings.BASE_URL
@@ -187,21 +187,25 @@ def logout_view(request):
 @login_required(login_url='login')
 def edit_profile(request):
     user = request.user
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        profile_picture = request.FILES.get('profile_picture')
-        user.phone = phone
-        user.name = name
-        user.profile_picture = profile_picture
+    context = {
+        'user': user
+        
+    }
+    return render(request, 'edit-profile.html', context)
+
+def update_user(request,user_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = User.objects.get(id=user_id)
+
+        for field, value in data.items():
+            if hasattr(user, field):
+                if (field == 'doj' and value != "") or (field == 'dob' and value != "") or (field == 'shift_timings' and value != ""):
+                    setattr(user, field, value)
+
         user.save()
-        messages.success(request, 'Profile has been updated')
-        return redirect('index')
-    else:
-        context = {
-            'user': user
-        }
-        return render(request, 'edit-profile.html', context)
+        return JsonResponse({"success": True})
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
 @login_required(login_url='login')
@@ -432,9 +436,9 @@ def view_profile(request, id):
 
 @login_required(login_url='login')
 def update_profile(request, id):
-    employee = User.objects.get(id=id)
+    user = User.objects.get(id=id)
     context = {
-        'employee': employee
+        'user': user
     }
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -616,7 +620,7 @@ def update_profile(request, id):
             return redirect('update-profile', id=employee.id)
 
     else:
-        return render(request, 'update-profile.html', context)
+        return render(request, 'edit-profile.html', context)
 
 
 @login_required(login_url='login')
