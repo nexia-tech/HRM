@@ -18,8 +18,8 @@ class UserAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['username','email','company_email','phone','shift_duration_hours','employee_id','created_at']
     autocomplete_fields = ['department']
     filter_horizontal = ['user_permissions']
-    list_filter = ['department','gender']
-    search_fields = ['email','username','phone','employee_id','sdfdsf@gmail.com']
+    list_filter = ['department','gender','doj','dob']
+    search_fields = ['name','email','username','phone','employee_id','company_email','company_phone_number','emergency_contact_name','emergency_contact_number','emergency_contact_relationship']
 
 admin.site.register(User,UserAdmin)
 
