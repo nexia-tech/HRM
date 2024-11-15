@@ -917,6 +917,9 @@ def systemAttendance(request, id):
 
 
 def applicants(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     applicant_records = ApplicantDetails.objects.filter(is_employee=False)
     departments = Department.objects.all()
     params = {
@@ -927,6 +930,9 @@ def applicants(request):
 
 
 def applicant_detail(request, id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     applicant_record = ApplicantDetails.objects.get(id=id)
 
     # Check if any field is None or an empty string

@@ -186,6 +186,9 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def edit_profile(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     user = request.user
     context = {
         'user': user
@@ -210,6 +213,9 @@ def update_user(request,user_id):
 
 @login_required(login_url='login')
 def create_employee_account(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     if request.user.is_staff:
         departments = Department.objects.all()
         context = {
@@ -411,6 +417,9 @@ def create_employee_account(request):
 
 @login_required(login_url='login')
 def employees(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     employees = User.objects.all()
     context = {
         'employees': employees
@@ -419,8 +428,8 @@ def employees(request):
 
 
 @login_required(login_url='login')
-def view_profile(request, id):
-    employee = User.objects.get(id=id)
+def view_profile(request):
+    employee = request.user
     
      # Check if any field is None or an empty string
     any_field_empty = any(
@@ -436,6 +445,9 @@ def view_profile(request, id):
 
 @login_required(login_url='login')
 def update_profile(request, id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     user = User.objects.get(id=id)
     context = {
         'user1': user
@@ -625,6 +637,9 @@ def update_profile(request, id):
 
 @login_required(login_url='login')
 def employee_delete(request, id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     user = User.objects.get(id=id)
     user.delete()
     messages.success(request, 'Record has been deleted')

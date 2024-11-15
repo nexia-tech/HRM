@@ -15,11 +15,11 @@ class HRMAdminSite(AdminSite):
 hrm_admin = HRMAdminSite(name='hrm_admin')
 
 class UserAdmin(ImportExportModelAdmin,admin.ModelAdmin):
-    list_display = ['username','email','phone','shift_duration_hours','employee_id','created_at']
+    list_display = ['username','email','company_email','phone','shift_duration_hours','employee_id','created_at']
     autocomplete_fields = ['department']
     filter_horizontal = ['user_permissions']
     list_filter = ['department','gender']
-    search_fields = ['email','username','phone','employee_id']
+    search_fields = ['email','username','phone','employee_id','sdfdsf@gmail.com']
 
 admin.site.register(User,UserAdmin)
 

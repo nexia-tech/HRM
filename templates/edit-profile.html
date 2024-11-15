@@ -33,8 +33,6 @@
         <div class="w-full my-auto py-6 flex flex-col justify-center gap-2">
           <div class="flex justify-between items-center">
             <h1 class="text-4xl text-white font-bold mb-7">Personal Information</h1>
-            <a href="{% url "system-attendance" user1.id %}" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-12 py-2 rounded-lg">System Attendance</a>
-            <a href="{% url "thumb-attendance" user1.id %}" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-12 py-2 rounded-lg">Thumb Attendance</a>
             <button onclick="enableEditMode()" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-12 py-2 rounded-lg">Edit</button>
             <button id="saveBtn" onclick="saveChanges()" type="button" class="bg-green-500 hover:bg-green-700 text-white px-12 py-2 rounded-lg hidden">Save</button>
             <button id="close" onclick="disabledEditMode()"  type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-12 py-2 rounded-lg hidden">Close</button>
