@@ -1042,6 +1042,13 @@ class Mark_as_Employee(APIView):
             user_obj.hobbies = hobbies
             user_obj.linkedin_profile = linkedin_link
             user_obj.job_description = job_description
+            user_obj.matric_details = record.matric_details 
+            user_obj.intermediate_details = record.intermediate_details 
+            user_obj.bachelors_details = record.bachelors_details 
+            user_obj.masters_details = record.masters_details 
+            user_obj.phd_details = record.phd_details 
+            user_obj.diploma_details = record.diploma_details 
+            user_obj.job_experience = record.job_experience 
             try:
                 record.is_employee = True
                 record.status = "Hired"

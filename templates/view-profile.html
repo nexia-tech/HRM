@@ -102,7 +102,7 @@
                 </div>
 
                 <div class="flex flex-col py-3">
-                  <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">Companey Email</dt>
+                  <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400 capitalize">Company Email</dt>
                   <dd class="text-lg font-semibold hover:text-blue-500"><a href="mailto:{{ employee.company_email }}">{{ employee.company_email }}</a></dd>
                 </div>
 
@@ -179,6 +179,39 @@
                   <td class="py-3 px-6">{{ employee.phd_graduation_year }}</td>
                 </tr>
               {% endif %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="w-full my-auto py-6">
+          <h1 class="text-4xl text-white font-bold mb-7">Experience Detail</h1>
+          <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-lg">
+            <thead>
+              <tr class="bg-gray-200 text-gray-600 text-left uppercase text-sm leading-normal">
+                <th class="py-3 px-6">Company Name</th>
+                <th class="py-3 px-6">Department</th>
+                <th class="py-3 px-6">Position/Designation</th>
+                <th class="py-3 px-6">Salary</th>
+                <th class="py-3 px-6">Start Date</th>
+                <th class="py-3 px-6">End Date</th>
+                <th class="py-3 px-6">Experience Letter?</th>
+                <th class="py-3 px-6">Reason for leaving job</th>
+              </tr>
+            </thead>
+            <tbody id="data-table" class="text-gray-700 text-sm font-light">
+              {% for job_experienc in employee.job_experience %}
+              <tr class="border-b border-gray-200 hover:bg-gray-100">
+                  <td class="py-3 px-6">{{job_experienc.company_name}}</td>
+                  <td class="py-3 px-6">{{job_experienc.department}}</td>
+                  <td class="py-3 px-6">{{job_experienc.position}}</td>
+                  <td class="py-3 px-6">{{job_experienc.salary}}</td>
+                  <td class="py-3 px-6">{{job_experienc.joining_date}}</td>
+                  <td class="py-3 px-6">{{job_experienc.end_date}}</td>
+                  <td class="py-3 px-6">{{job_experienc.experience_letter}}</td>
+                  <td class="py-3 px-6">{{job_experienc.reason_leaving}}</td>
+              </tr>
+              {% endfor %}
+
             </tbody>
           </table>
         </div>

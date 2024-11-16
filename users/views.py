@@ -7,11 +7,11 @@ from django.contrib.auth.decorators import login_required
 from hrm_app.models import AttendanceModel, SystemAttendanceModel
 from django.utils import timezone
 from datetime import datetime, timedelta
-import pytz
 from django.conf import settings
 from core.models import ConfigurationModel
-import requests, json
+import requests, json, pytz
 from users.services import generate_password
+from django.views.decorators.csrf import csrf_exempt
 
 BASE_URL = settings.BASE_URL
 
@@ -449,8 +449,15 @@ def update_profile(request, id):
         messages.error(request,"You don't have permission")
         return redirect('index')
     user = User.objects.get(id=id)
+    
+     # Check if any field is None or an empty string
+    any_field_empty = any(
+        getattr(user, field.name) in [None, '']  # Check for None or empty string
+        for field in user._meta.fields
+    )
     context = {
-        'user1': user
+        'user1': user,
+        "any_field_empty":any_field_empty
     }
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -646,6 +653,38 @@ def employee_delete(request, id):
 
     return redirect('employees')
 
+@csrf_exempt
+def update_education(request,user_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = User.objects.get(id=user_id)  # Adjust based on how you retrieve the user object
+        # Update education fields based on keys
+        for key, value in data.items():
+            if key.startswith("matric_details_"):
+                field = key.split("_", 2)[2]  # Extract field name (e.g., 'institute', 'degree')
+                user.matric_details[field] = value
+            elif key.startswith("intermediate_details_"):
+                field = key.split("_", 2)[2]
+                user.intermediate_details[field] = value
+            elif key.startswith("bachelors_details_"):
+                field = key.split("_", 2)[2]
+                user.bachelors_details[field] = value
+            elif key.startswith("masters_details_"):
+                field = key.split("_", 2)[2]
+                user.masters_details[field] = value
+            elif key.startswith("phd_details_"):
+                field = key.split("_", 2)[2]
+                user.phd_details[field] = value
+            elif key.startswith("diploma_details_"):
+                field = key.split("_", 2)[2]
+                user.diploma_details[field] = value
+
+        # Save the updated user object
+        user.save()
+
+        return JsonResponse({"message": "Education updated successfully.","success": True})
+
+    return JsonResponse({"error": "Invalid request method.","success":False}, status=400)
 
 import pandas as pd
 from django.http import JsonResponse

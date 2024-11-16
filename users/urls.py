@@ -1,5 +1,5 @@
 from django.urls import path
-from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete, view_profile, update_profile, create_account, update_user
+from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete, view_profile, update_profile, create_account, update_user, update_education
 
 
 urlpatterns = [
@@ -15,7 +15,8 @@ urlpatterns = [
     path("update-profile/<int:id>",update_profile,name='update-profile'),
     path("api/update-user/<int:user_id>/",update_user,name='update-user'),
     
-    path("create-account/",create_account,name='create-account')
+    path("create-account/",create_account,name='create-account'),
+    path('update-education/<int:user_id>/', update_education, name='update_education'),
 
 ]
 
