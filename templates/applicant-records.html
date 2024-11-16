@@ -514,6 +514,33 @@
         return
       }
     
+      /*const formData = new FormData();
+
+      formData.append('email_address', email_address);
+      formData.append('shift_duration', shift_duration);
+      formData.append('designation', designation);
+      formData.append('department', department);
+      formData.append('doj', doj);
+      formData.append('shift_timing', shift_timing);
+      formData.append('working_status', working_status);
+      formData.append('supervisor_name', supervisor_name);
+      formData.append('references', references);
+      formData.append('basic_salary', basic_salary);
+      formData.append('fuel_allowance', fuel_allowance);
+      formData.append('other_allowance', other_allowance);
+      formData.append('bank_name', bank_name);
+      formData.append('offer_letter', offer_letter);
+      formData.append('identity_proof', identity_proof);
+      formData.append('utility_bills', utility_bills);
+      formData.append('experience_certificate', experience_certificate);
+      formData.append('language', language);
+      formData.append('skills', skills);
+      formData.append('hobbies', hobbies);
+      formData.append('linkedin_link', linkedin_link);
+      formData.append('job_description', job_description);
+      formData.append('education_certification', education_certification);
+      formData.append('professional_certification', professional_certification);
+*/
       fetch(`{{BASE_URL}}hrm/mark-as-employee/${record_id}/`, {
         method: 'POST',
         headers: {

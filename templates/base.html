@@ -33,7 +33,7 @@
             {% comment %} <span class="ml-3 text-xl text-black">HRM</span> {% endcomment %}
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            {% if user.is_staff %}
+            {% if user.is_superuser %}
             <a href="#"  class="mr-5 text-white hover:text-gray-500 cursor-pointer">Apply Leave</a>
             <a href="{% url "applicants" %}"  class="mr-5 text-white hover:text-gray-500 cursor-pointer">Applicant Report</a>
             {% comment %} <a href="{% url "create-employee-account" %}"  class="mr-5 text-white hover:text-gray-500 cursor-pointer">Create Employee Account</a> {% endcomment %}
@@ -42,7 +42,7 @@
           {% else %}
             <a href="#"  class="mr-5 text-white hover:text-gray-500 cursor-pointer">Apply Leave</a>
             {% comment %} <a href="{% url "edit-profile" %}"  class="mr-5 text-white hover:text-gray-500 cursor-pointer">Edit Profile</a> {% endcomment %}
-            <a href="{% url "my-attendance" %}"  class="mr-5 text-white hover:text-gray-500 cursor-pointer">My Attendance Report</a>
+            <a href="{% url "my-attendance" %}"  class="mr-5 text-white hover:text-gray-500 cursor-pointer">Employee Attendance Report</a>
             {% endif %}
           </nav>
           
@@ -50,10 +50,7 @@
           <a href="{% url "logout" %}" class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0 cursor-pointer">Logout
             <i class="fa-solid fa-right-from-bracket mx-3"></i>
           </a>
-          {% comment %} {% else %}
-          <button class="inline-flex items-center bg-black text-white border-0 py-1 px-3 focus:outline-none hover:bg-black  rounded text-base mt-4 md:mt-0">Login
-            <i class="fa-solid fa-arrow-right-to-bracket mx-3"></i>
-          </button> {% endcomment %}
+          
           
           {% endif %}
          
