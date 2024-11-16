@@ -19,7 +19,6 @@ class User(AbstractUser):
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200,unique=True)
     employee_id = models.CharField(max_length=200,unique=True,null=True)
-    bio = models.TextField(null=True,blank=True)
     shift_duration_hours = models.PositiveIntegerField(default=8)  # Default shift duration in hours
     profile_picture = models.ImageField(null=True,blank=True,upload_to='profile_pics')
     gender = models.CharField(max_length=200,choices=GENDER_CHOICES,default='Male')
@@ -41,49 +40,23 @@ class User(AbstractUser):
     
     doj = models.DateField(null=True,blank=True)
     shift_timings = models.TimeField(null=True,blank=True)
+    shift_end_timing = models.TimeField(null=True,blank=True)
     employment_status = models.CharField(max_length=250,null=True,blank=True)
     supervisor_name = models.CharField(max_length=250,null=True,blank=True)
     job_description = models.TextField(null=True,blank=True)
     
-    schoool_name = models.CharField(max_length=250,null=True,blank=True)
-    school_city = models.CharField(max_length=250,null=True,blank=True)
-    school_year_graduation = models.CharField(max_length=250,null=True,blank=True)
-    school_major_subject = models.CharField(max_length=250,null=True,blank=True)
-    school_grade = models.CharField(max_length=250,null=True,blank=True)
-    
-    college_name = models.CharField(max_length=250,null=True,blank=True)
-    college_city = models.CharField(max_length=250,null=True,blank=True)
-    college_year_graduation = models.CharField(max_length=250,null=True,blank=True)
-    college_major_subject = models.CharField(max_length=250,null=True,blank=True)
-    college_grade = models.CharField(max_length=250,null=True,blank=True)
-    
-    undergraduate_name = models.CharField(max_length=250,null=True,blank=True)
-    undergraduate_city = models.CharField(max_length=250,null=True,blank=True)
-    undergraduate_degree = models.CharField(max_length=250,null=True,blank=True)
-    undergraduate_major_subject = models.CharField(max_length=250,null=True,blank=True)
-    undergraduate_graduation_year = models.CharField(max_length=250,null=True,blank=True)
-    undergraduate_grade = models.CharField(max_length=250,null=True,blank=True)
-    
-    master_name = models.CharField(max_length=250,null=True,blank=True)
-    master_city = models.CharField(max_length=250,null=True,blank=True)
-    master_degree = models.CharField(max_length=250,null=True,blank=True)
-    master_major_subject = models.CharField(max_length=250,null=True,blank=True)
-    master_graduation_year = models.CharField(max_length=250,null=True,blank=True)
-    master_grade = models.CharField(max_length=250,null=True,blank=True)
-    
-    phd_name = models.CharField(max_length=250,null=True,blank=True)
-    phd_city = models.CharField(max_length=250,null=True,blank=True)
-    phd_degree = models.CharField(max_length=250,null=True,blank=True)
-    phd_major_subject = models.CharField(max_length=250,null=True,blank=True)
-    phd_graduation_year = models.CharField(max_length=250,null=True,blank=True)
-    phd_dissertation = models.CharField(max_length=250,null=True,blank=True)
-    phd_supervisor = models.CharField(max_length=250,null=True,blank=True)
+    matric_details = models.JSONField(null=True,blank=True)
+    intermediate_details = models.JSONField(null=True,blank=True)
+    bachelors_details = models.JSONField(null=True,blank=True)
+    masters_details = models.JSONField(null=True,blank=True)
+    phd_details = models.JSONField(null=True,blank=True)
+    diploma_details = models.JSONField(null=True,blank=True)
+    job_experience = models.JSONField(null=True,blank=True)
 
     basic_salary = models.CharField(max_length=250,null=True,blank=True)
     fuel_allowance = models.CharField(max_length=250,null=True,blank=True)
     other_allowance = models.CharField(max_length=250,null=True,blank=True)
     bank_name = models.CharField(max_length=250,null=True,blank=True)
-    employee_tax_number = models.CharField(max_length=250,null=True,blank=True)
     
     
     resume = models.FileField(null=True,blank=True,upload_to='resume')
@@ -92,6 +65,7 @@ class User(AbstractUser):
     offer_letter = models.FileField(null=True,blank=True, upload_to='offer_letter')
     identity_proof = models.FileField(null=True,blank=True, upload_to='identity_proof')
     utility_bills = models.FileField(null=True,blank=True, upload_to='utility_bills')
+    experience_certificate = models.FileField(null=True,blank=True, upload_to='experience_certificate')
 
     work_experience = models.TextField(null=True,blank=True)
     skills = models.CharField(max_length=250,null=True,blank=True)

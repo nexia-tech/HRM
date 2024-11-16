@@ -36,8 +36,8 @@
     {% endfor %}
   {% endif %}
 
-  <section class="bg-gray-50 900 container mx-auto">
-    <div class="md:h-screen px-6 mx-auto lg:py-0">
+  <section class="bg-gray-50 900 container mx-auto my-10 py-7">
+    <div class="md:h-screen px-6 mx-auto lg:py-0 ">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
@@ -46,6 +46,7 @@
               <th scope="col" class="px-6 py-3 capitalize text-base">Employee ID</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">name</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">company email</th>
+              <th scope="col" class="px-6 py-3 capitalize text-base">professional email</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">department</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">designation</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">Working Status</th>
@@ -71,6 +72,7 @@
                 <td class="px-6 py-4 text-base">{{ employee.employee_id }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.name }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.company_email }}</td>
+                <td class="px-6 py-4 text-base">{{ employee.email }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.department }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.designation }}</td>
 
@@ -78,9 +80,7 @@
                 <td class="px-6 py-4 text-base">{{ employee.employment_status }}</td>
 
                 <td>
-                  <a href="{% url 'update-profile' employee.id %}" class="text-blue-700">Edit</a> |
-                  <a href="{% url 'view-profile' employee.id %}" class="text-blue-700">View</a>
-                  {% comment %} <a class="text-blue-700 cursor-pointer" data-modal-target="delete-employee-{{ forloop.counter }}" data-modal-toggle="delete-employee-{{ forloop.counter }}">Delete</a> {% endcomment %}
+                  <a href="{% url 'update-profile' employee.id %}" class="text-blue-700">View</a>
                 </td>
               </tr>
 

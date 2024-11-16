@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-  <section class="bg-gray-50 container mx-auto">
+  <section class="bg-gray-50 container mx-auto my-10 py-7">
     <div class="md:h-[80vh] px-6 mx-auto lg:py-0">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
@@ -14,9 +14,11 @@
               <th scope="col" class="px-6 py-3 capitalize">Date</th>
               <th scope="col" class="px-6 py-3 capitalize">Name</th>
               <th scope="col" class="px-6 py-3 capitalize">Position Applied For</th>
-              <th scope="col" class="px-6 py-3 capitalize">Email</th>
               <th scope="col" class="px-6 py-3 capitalize">Phone</th>
+              <th scope="col" class="px-6 py-3 capitalize">Email</th>
               <th scope="col" class="px-6 py-3 capitalize">Gender</th>
+              <th scope="col" class="px-6 py-3 capitalize">Status</th>
+              <th scope="col" class="px-6 py-3 capitalize">Remarks</th>
               <th scope="col" class="px-6 py-3 capitalize text-base">Actions</th>
             </tr>
           </thead>
@@ -33,12 +35,22 @@
                 <td class="px-6 py-4">{{ applicant_record.created_at }}</td>
                 <td class="px-6 py-4">{{ applicant_record.name }}</td>
                 <td class="px-6 py-4">{{ applicant_record.position_applied_for }}</td>
-                <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.contact_number }}</td>
+                <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
                 <td class="px-6 py-4">{{ applicant_record.gender }}</td>
+                <td class="px-6 py-4">{{ applicant_record.status }}</td>
+                {% if applicant_record.status == 'Rejected' %}
+                  <td class="px-6 py-4">
+                    <textarea disabled>{{ applicant_record.rejected_reason }}</textarea>
+                  </td>
+                {% else %}
+                  <td class="px-6 py-4">
+                    <textarea disabled>{{ applicant_record.remarks }}</textarea>
+                  </td>
+                {% endif %}
                 <td>
                   <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
-                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark as Status</button>
+                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark Status</button>
                 </td>
               </tr>
             {% endfor %}
@@ -73,197 +85,237 @@
           </div>
 
           <div class="mb-5 hidden" id="hired">
-            <form action="" method="post"> {% csrf_token %}
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Enter Officil email.</label>
-                  <input type="email" required placeholder="Enter Official Email *" name="email_address" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkFormData(this)" />
-                </div>
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Shift Duration Hours</label>
-                  <input type="text" placeholder="Shift Duration Hours" name="job1_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
-                </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label for="email_address" class="my-7 text-base text-black">Enter Officil email *</label>
+                <input type="email" required placeholder="Enter Official Email *" id="email_address" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkFormData(this)" />
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Proile Picutre.</label>
-                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="profile_picture" />
-
-                  <p for="" class="text-red-600 text-sm">
-                    <span class="font-bold">Note:</span> Please use .jpg, .png, or .webp formats.
-                  </p>
-                </div>
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Department</label>
-                  <select name="when_join_us" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="StatusReason(this.value)">
-                    <option value="" disabled selected>Select Department</option>
-                    {% for department in departments %}
-                      <option value="{{ department.name }}">{{ department.name }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
+              <div class="mb-6 w-1/2">
+                <label for="" class="my-7 text-base text-black">Shift Duration Hours *</label>
+                <select name="shift_duration" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required id="shift_duration">
+                  <option value="" disabled selected>Select Shift Duration Hours *</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Designation</label>
-                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Date of joining</label>
-                  <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" />
-                </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label for="profile_picture" class="my-7 text-base text-black">Proile Picutre *</label>
+                <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" id="profile_picture" />
+
+                <p for="" class="text-red-600 text-sm">
+                  <span class="font-bold">Note:</span> Please use .jpg, .png, or .webp formats.
+                </p>
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Shift timing</label>
-                  <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" />
-                </div>
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Working status</label>
-                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
+              <div class="mb-6 w-1/2">
+                <label for="department" class="my-7 text-base text-black">Department</label>
+                <select name="when_join_us" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required id="department">
+                  <option value="" disabled selected>Select Department *</option>
+                  {% for department in departments %}
+                    <option value="{{ department.name }}">{{ department.name }}</option>
+                  {% endfor %}
+                </select>
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">supervisor Name</label>
-                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Professional References</label>
-                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label for="designation" class="my-7 text-base text-black">Designation *</label>
+                <input type="text" required placeholder="Designation *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="designation" />
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="rejected_reason">Basic Salary</label>
-                  <input type="text" placeholder="Expected Salary" name="expected_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
-                </div>
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="rejected_reason">Fuel Allowance</label>
-                  <input type="text" placeholder="Expected Salary" name="expected_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
-                </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="doj">Date of joining *</label>
+                <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="doj" id="doj" />
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="rejected_reason">Other Allowance</label>
-                  <input type="text" placeholder="Expected Salary" name="expected_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
-                </div>
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="rejected_reason">Bank Name</label>
-                  <input type="email" required placeholder="Enter Official Email *" name="email_address" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkFormData(this)" />
-                </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="shift_start_timing">Shift Start timing *</label>
+                <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_timing" id="shift_timing" />
               </div>
-
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Education Certification.</label>
-                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
-
-                  <p for="" class="text-red-600 text-sm">
-                    <span class="font-bold">Note:</span> Please use .pdf formats.
-                  </p>
-                </div>
-
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Professional Certification.</label>
-                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
-
-                  <p for="" class="text-red-600 text-sm">
-                    <span class="font-bold">Note:</span> Please use .pdf formats.
-                  </p>
-                </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="shift_end_timing">Shift end timing *</label>
+                <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_end_timing" id="shift_end_timing" />
               </div>
-
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Offer letter.</label>
-                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
-
-                  <p for="" class="text-red-600 text-sm">
-                    <span class="font-bold">Note:</span> Please use .pdf formats.
-                  </p>
-                </div>
-
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Identity Proof.</label>
-                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
-
-                  <p for="" class="text-red-600 text-sm">
-                    <span class="font-bold">Note:</span> Please use .pdf formats.
-                  </p>
-                </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="supervisor_name">supervisor Name *</label>
+                <input type="text" required placeholder="supervisor Name *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="supervisor_name" />
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Utility Bills</label>
-                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="references">Professional References *</label>
+                <input type="text" required placeholder="Professional References *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="references" />
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="basic_salary">Basic Salary *</label>
+                <input type="text" placeholder="Basic Salary *" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" id="basic_salary" />
+              </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="fuel_allowance">Fuel Allowance *</label>
+                <input type="text" placeholder="Fuel Allowance *" id="fuel_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="other_allowance">Other Allowance *</label>
+                <input type="text" placeholder="Other Allowance *" id="other_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)" />
+              </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="working_status">Working status *</label>
+                <input type="text" required placeholder="Working status *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="working_status" />
+              </div>
+            </div>
 
-                  <p for="" class="text-red-600 text-sm">
-                    <span class="font-bold">Note:</span> Please use .pdf formats.
-                  </p>
-                </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label for="education_certification" class="my-7 text-base text-black">Education Certification *</label>
+                <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach education certification documents in pdf format." accept=".pdf" id="education_certification" />
 
-                <div class="mb-6 w-1/2">
-                  <label for="" class="my-7 text-base text-black">Experience Certificate</label>
-                  <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" name="profile_picture" />
-
-                  <p for="" class="text-red-600 text-sm">
-                    <span class="font-bold">Note:</span> Please use .pdf formats.
-                  </p>
-                </div>
+                <p class="text-red-600 text-sm">
+                  <span class="font-bold">Note:</span> Please use .pdf formats.
+                </p>
               </div>
 
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Skills</label>
-                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
+              <div class="mb-6 w-1/2">
+                <label for="professional_certification" class="my-7 text-base text-black">Professional Certification *</label>
+                <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a professional certification pdf file." accept=".pdf" id="professional_certification" />
 
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Languages</label>
-                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
+                <p class="text-red-600 text-sm">
+                  <span class="font-bold">Note:</span> Please use .pdf formats.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label for="offer_letter" class="my-7 text-base text-black">Offer letter *</label>
+                <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach an offer letter." accept=".pdf" id="offer_letter" />
+
+                <p class="text-red-600 text-sm">
+                  <span class="font-bold">Note:</span> Please use .pdf formats.
+                </p>
               </div>
 
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Hobbies</label>
-                  <input type="text" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
+              <div class="mb-6 w-1/2">
+                <label for="identity_proof" class="my-7 text-base text-black">Identity Proof *</label>
+                <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a cnic." accept=".pdf" id="identity_proof" />
 
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="follow_up_date">Linkedin Profile</label>
-                  <input type="url" required placeholder="Designation *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" />
-                </div>
+                <p class="text-red-600 text-sm">
+                  <span class="font-bold">Note:</span> Please use .pdf formats.
+                </p>
               </div>
-              <div class="flex gap-3">
-                <div class="mb-6 w-1/2">
-                  <label class="text-black my-7 text-base" for="rejected_reason">Job Description</label>
-                  <textarea placeholder="Reason For rejected" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason"></textarea>
-                </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label for="utility_bills" class="my-7 text-base text-black">Utility Bills *</label>
+                <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="utility_bills" />
+
+                <p class="text-red-600 text-sm">
+                  <span class="font-bold">Note:</span> Please use .pdf formats.
+                </p>
               </div>
-              <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
-              <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
-            </form>
+
+              <div class="mb-6 w-1/2">
+                <label for="experience_certificate" class="my-7 text-base text-black">Experience Certificate *</label>
+                <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="experience_certificate" />
+
+                <p class="text-red-600 text-sm">
+                  <span class="font-bold">Note:</span> Please use .pdf formats.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="skills">Skills *</label>
+                <input type="text" required placeholder="Skills *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="skills" />
+              </div>
+
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="language">Languages *</label>
+                <input type="text" required placeholder="Languages *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="language" />
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="hobbies">Hobbies</label>
+                <input type="text" required placeholder="Hobbies *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="hobbies" />
+              </div>
+
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="linkedin_link">Linkedin Profile *</label>
+                <input type="url" required placeholder="Linkedin Profile *" pattern="[A-Za-z]+" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" id="linkedin_link" />
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="job_description">Job Description *</label>
+                <textarea placeholder="Job Description *" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="job_description" id="job_description"></textarea>
+              </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="bank_name">Bank Details *</label>
+                <textarea placeholder="Bank Details *" cols="200" rows="6" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="bank_name" id="bank_name" oninput="checkFormData(this)"></textarea>
+              </div>
+            </div>
+            <button onclick="hiredEmployee()" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
           <div class="mb-5 hidden" id="rejected_reason">
             <label class="text-black my-7 text-base" for="rejected_reason">Reason</label>
-            <textarea placeholder="Reason For rejected" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason"></textarea>
-            <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
-            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+            <textarea placeholder="Reason For rejected" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" name="rejected_reason" id="rejected_reason_input"></textarea>
+            <button onclick="sendRejectedReason()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
           <div class="mb-5 hidden" id="follow_up_date">
-            <label class="text-black my-7 text-base" for="follow_up_date">Follow up date</label>
-            <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" />
-            <a id="markAsEmployeeLink" href="#" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Yes</a>
-            <input type="button" value="No" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="follow_up_date">Follow up date</label>
+                <input type="date" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="follow_up_date" id="follow_up_date_input" />
+              </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="remarks">Remarks *</label>
+                <textarea placeholder="Remarks *" rows="1" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="remarks" id="remarks" oninput="checkFormData(this)"></textarea>
+              </div>
+            </div>
+            <button onclick="sendFollowUpData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
-         
+          <div class="mb-5 hidden" id="shortlisted">
+            <div class="flex gap-3">
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="shortlisted">Follow up date</label>
+                <input type="date" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shortlisted_followup" id="shortlisted_followup_input" />
+              </div>
+              <div class="mb-6 w-1/2">
+                <label class="text-black my-7 text-base" for="remakrs">Remarks *</label>
+                <textarea placeholder="Remarks *" rows="1" class="w-full px-4 py-3 my-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="remarks" id="shortlisted_remarks" oninput="checkFormData(this)"></textarea>
+              </div>
+            </div>
+            <button onclick="sendShortlistedData()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id="customModal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg w-full max-w-sm shadow-lg relative">
+      <span class="close-btn absolute top-2 right-2 text-gray-500 text-2xl cursor-pointer">&times;</span>
+      <p id="modalMessage" class="text-gray-800 text-center"></p>
     </div>
   </div>
 {% endblock %}
@@ -281,12 +333,49 @@
         ] //
       })
     })
-    function openModal(applicantId) {
-      const modal = document.getElementById('mark-as-employee-modal')
-      const markAsEmployeeLink = document.getElementById('markAsEmployeeLink')
     
-      // Set the href of the "Yes" button with the correct URL for marking as employee
-      markAsEmployeeLink.href = `{% url 'mark-as-employee' 0 %}`.replace('0', applicantId)
+    function CharacterValidation(input) {
+      let value = input.value.replace(/\d/g, '')
+      input.value = value
+    
+      // Get the list of classes
+      let classList = input.className.split(' ')
+    
+      // Remove the last class from the array
+      let lastClassName = classList.pop()
+      // Join the classes back into a string and update the input's class attribute
+      if (input.value == '') {
+        valid = false
+      } else {
+        if (lastClassName == 'invalid') {
+          valid = true
+          input.className = classList.join(' ')
+        }
+      }
+    }
+    function NumberValidation(input) {
+      let value = input.value.replace(/\D/g, '')
+      input.value = value
+      // Get the list of classes
+      let classList = input.className.split(' ')
+    
+      // Remove the last class from the array
+      let lastClassName = classList.pop()
+      // Join the classes back into a string and update the input's class attribute
+      if (input.value == '') {
+        valid = false
+      } else {
+        if (lastClassName == 'invalid') {
+          valid = true
+          input.className = classList.join(' ')
+        }
+      }
+    }
+    
+    let record_id = null
+    function openModal(applicantId) {
+      record_id = applicantId
+      const modal = document.getElementById('mark-as-employee-modal')
     
       // Show the modal
       modal.classList.remove('hidden')
@@ -297,26 +386,345 @@
       modal.classList.add('hidden')
     }
     
+    // Function to show the modal with a custom message
+    function showModal(message) {
+      const modal = document.getElementById('customModal')
+      const modalMessage = document.getElementById('modalMessage')
+    
+      modalMessage.textContent = message
+      modal.classList.remove('hidden')
+    }
+    
+    // Close the modal when the close button is clicked
+    document.querySelector('.close-btn').onclick = function () {
+      document.getElementById('customModal').classList.add('hidden')
+      window.location.reload()
+
+    }
+    
+    // Close the modal when clicking outside of the modal content
+    window.onclick = function (event) {
+      const modal = document.getElementById('customModal')
+      if (event.target == modal) {
+        modal.classList.add('hidden')
+      }
+    }
+    
+    function hiredEmployee() {
+      const email_address = document.getElementById('email_address').value
+      const shift_duration = document.getElementById('shift_duration').value
+      const profile_picture = document.getElementById('profile_picture').value
+      const department = document.getElementById('department').value
+      const designation = document.getElementById('designation').value
+      const doj = document.getElementById('doj').value
+      const shift_timing = document.getElementById('shift_timing').value
+      const working_status = document.getElementById('working_status').value
+      const supervisor_name = document.getElementById('supervisor_name').value
+      const references = document.getElementById('references').value
+      const basic_salary = document.getElementById('basic_salary').value
+      const fuel_allowance = document.getElementById('fuel_allowance').value
+      const other_allowance = document.getElementById('other_allowance').value
+      const bank_name = document.getElementById('bank_name').value
+      const education_certification = document.getElementById('education_certification').value
+      const professional_certification = document.getElementById('professional_certification').value
+      const offer_letter = document.getElementById('offer_letter').value
+      const identity_proof = document.getElementById('identity_proof').value
+      const utility_bills = document.getElementById('utility_bills').value
+      const experience_certificate = document.getElementById('experience_certificate').value
+      const skills = document.getElementById('skills').value
+      const language = document.getElementById('language').value
+      const hobbies = document.getElementById('hobbies').value
+      const linkedin_link = document.getElementById('linkedin_link').value
+      const job_description = document.getElementById('job_description').value
+    
+      if (!email_address) {
+        showModal('Please enter your official email address')
+        return
+      } else if (!shift_duration) {
+        showModal('Please enter the shift duration')
+        return
+      } else if (!profile_picture) {
+        showModal('Please upload a profile picture')
+        return
+      } else if (!department) {
+        showModal('Please select a department')
+        return
+      } else if (!designation) {
+        showModal('Please enter your designation')
+        return
+      } else if (!doj) {
+        showModal('Please enter the date of joining')
+        return
+      } else if (!shift_timing) {
+        showModal('Please enter the shift timing')
+        return
+      } else if (!working_status) {
+        showModal('Please select the working status')
+        return
+      } else if (!supervisor_name) {
+        showModal("Please enter the supervisor's name")
+        return
+      } else if (!references) {
+        showModal('Please provide references')
+        return
+      } else if (!basic_salary) {
+        showModal('Please enter the basic salary')
+        return
+      } else if (!fuel_allowance) {
+        showModal('Please enter the fuel allowance')
+        return
+      } else if (!other_allowance) {
+        showModal('Please enter other allowances')
+        return
+      } else if (!bank_name) {
+        showModal('Please enter the bank name')
+        return
+      } else if (!education_certification) {
+        showModal('Please upload your educational certification')
+        return
+      } else if (!professional_certification) {
+        showModal('Please upload your professional certification')
+        return
+      } else if (!offer_letter) {
+        showModal('Please upload the offer letter')
+        return
+      } else if (!identity_proof) {
+        showModal('Please upload an identity proof document')
+        return
+      } else if (!utility_bills) {
+        showModal('Please upload utility bills as proof of address')
+        return
+      } else if (!experience_certificate) {
+        showModal('Please upload the experience certificate')
+        return
+      } else if (!skills) {
+        showModal('Please enter your skills')
+        return
+      } else if (!hobbies) {
+        showModal('Please enter your hobbies')
+        return
+      } else if (!language) {
+        showModal('Please enter the languages you speak')
+        return
+      } else if (!linkedin_link) {
+        showModal('Please enter your LinkedIn profile link')
+        return
+      } else if (!job_description) {
+        showModal('Please enter the job description')
+        return
+      }
+    
+      /*const formData = new FormData();
+
+      formData.append('email_address', email_address);
+      formData.append('shift_duration', shift_duration);
+      formData.append('designation', designation);
+      formData.append('department', department);
+      formData.append('doj', doj);
+      formData.append('shift_timing', shift_timing);
+      formData.append('working_status', working_status);
+      formData.append('supervisor_name', supervisor_name);
+      formData.append('references', references);
+      formData.append('basic_salary', basic_salary);
+      formData.append('fuel_allowance', fuel_allowance);
+      formData.append('other_allowance', other_allowance);
+      formData.append('bank_name', bank_name);
+      formData.append('offer_letter', offer_letter);
+      formData.append('identity_proof', identity_proof);
+      formData.append('utility_bills', utility_bills);
+      formData.append('experience_certificate', experience_certificate);
+      formData.append('language', language);
+      formData.append('skills', skills);
+      formData.append('hobbies', hobbies);
+      formData.append('linkedin_link', linkedin_link);
+      formData.append('job_description', job_description);
+      formData.append('education_certification', education_certification);
+      formData.append('professional_certification', professional_certification);
+*/
+      fetch(`{{BASE_URL}}hrm/mark-as-employee/${record_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+          email_address: email_address,
+          shift_duration: shift_duration,
+          profile_picture: profile_picture,
+          designation: designation,
+          department: department,
+          doj: doj,
+          shift_timing: shift_timing,
+          working_status: working_status,
+          supervisor_name: supervisor_name,
+          references: references,
+          basic_salary: basic_salary,
+          fuel_allowance: fuel_allowance,
+          other_allowance: other_allowance,
+          bank_name: bank_name,
+          education_certification: education_certification,
+          professional_certification: professional_certification,
+          offer_letter: offer_letter,
+          identity_proof: identity_proof,
+          utility_bills: utility_bills,
+          experience_certificate: experience_certificate,
+          language: language,
+          skills: skills,
+          hobbies: hobbies,
+          linkedin_link: linkedin_link,
+          job_description: job_description
+        })
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json() // Convert response to JSON
+          } else {
+            showModal('Failed to save data')
+            throw new Error('Network response was not ok.')
+          }
+        })
+        .then((data) => {
+          console.log('Response data:', data) // Log the response data
+          showModal(data.message)
+          closeModal()
+        })
+        .catch((error) => showModal(`Error: ${error}`))
+    }
+    
+    function sendFollowUpData() {
+      const date = document.getElementById('follow_up_date_input').value
+      const remarks = document.getElementById('remarks').value
+      if (!date) {
+        showModal('Please select a date')
+        return
+      } else if (!remarks) {
+        showModal('Please enter remarks')
+        return
+      }
+    
+      fetch(`{{BASE_URL}}hrm/mark-as-follow/${record_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ follow_up_date: date, remarks: remarks })
+      })
+        .then((response) => {
+          if (response.ok) {
+            showModal('Employee status updated successfully')
+            closeModal()
+          } else {
+            showModal('Failed to save data')
+          }
+        })
+        .catch((error) => showModal(`Error: ${error}`))
+    }
+    
+    function sendRejectedReason() {
+      const rejected_reason = document.getElementById('rejected_reason_input').value
+      if (!rejected_reason) {
+        showModal('Please Enter\nWhy you reject him/her?.')
+        return
+      }
+    
+      fetch(`{{BASE_URL}}hrm/mark-as-rejected/${record_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ rejected: rejected_reason })
+      })
+        .then((response) => {
+          if (response.ok) {
+            showModal('Data saved successfully!')
+            closeModal()
+          } else {
+            showModal('Failed to save data')
+          }
+        })
+        .catch((error) => showModal(`Error: ${error}`))
+    }
+    
+    function sendShortlistedData() {
+      const date = document.getElementById('shortlisted_followup_input').value
+      const remarks = document.getElementById('shortlisted_remarks').value
+    
+      if (!date) {
+        showModal('Please select a date')
+        return
+      } else if (!remarks) {
+        showModal('Please enter remarks')
+        return
+      }
+    
+      fetch(`{{BASE_URL}}hrm/mark-as-shortlisted/${record_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ shortlisted_date: date, remarks: remarks })
+      })
+        .then((response) => {
+          if (response.ok) {
+            showModal('Employee status updated successfully')
+            closeModal()
+          } else {
+            showModal('Failed to save data')
+          }
+        })
+        .catch((error) => showModal(`Error: ${error}`))
+    }
+    
     function StatusReason(e) {
       rejected_reason = document.getElementById('rejected_reason')
       follow_up_date = document.getElementById('follow_up_date')
       hired = document.getElementById('hired')
+      shortlisted = document.getElementById('shortlisted')
       if (e == 'option1') {
         hired.classList.remove('hidden')
         follow_up_date.classList.add('hidden')
+        shortlisted.classList.add('hidden')
         rejected_reason.classList.add('hidden')
       } else if (e == 'option2') {
         rejected_reason.classList.remove('hidden')
         follow_up_date.classList.add('hidden')
+        shortlisted.classList.add('hidden')
         hired.classList.add('hidden')
       } else if (e == 'option3') {
         follow_up_date.classList.remove('hidden')
         rejected_reason.classList.add('hidden')
+        shortlisted.classList.add('hidden')
         hired.classList.add('hidden')
+      } else if (e == 'option4') {
+        follow_up_date.classList.add('hidden')
+        rejected_reason.classList.add('hidden')
+        hired.classList.add('hidden')
+        shortlisted.classList.remove('hidden')
       } else {
         rejected_reason.classList.add('hidden')
         follow_up_date.classList.add('hidden')
         hired.classList.add('hidden')
+        shortlisted.classList.remove('hidden')
+      }
+    }
+    
+    const checkFormData = (input) => {
+      // Get the list of classes
+      let classList = input.className.split(' ')
+    
+      // Remove the last class from the array
+      let lastClassName = classList.pop()
+      // Join the classes back into a string and update the input's class attribute
+      if (input.value == '') {
+        valid = false
+      } else {
+        if (lastClassName == 'invalid') {
+          valid = true
+          input.className = classList.join(' ')
+        }
       }
     }
   </script>

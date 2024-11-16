@@ -722,7 +722,14 @@
                    valid = false;
                }
            }
-          
+           /*else if (y[i].type === "text" && y[i].name === "expected_salary") { // Ensure this is the CNIC field
+               if (!expected_salary.test(y[i].value)) {
+                   // Display error message if invalid characters are detected
+                   y[i].className += ' invalid';
+                   //alert('Please enter alphabets only in the CNIC field.');
+                   valid = false;
+               }
+           }*/
            else if (y[i].type === "email" && y[i].value == '') { 
                    y[i].className += ' invalid';
                    valid = false;
@@ -731,25 +738,17 @@
                y[i].className += ' invalid';
                valid = false;
            }*/
-    // Check if the field is empty
-      if(y[i].name == 'date_of_birth'){
-         console.log(y[i].value);
-         if(y[i].value.length > 2){
-         y[i].classList.remove('invalid')
-         }
-      }
-    if(y[i].name != 'other_mobile_number'){
-      if (y[i].value == '') {
-         y[i].className += ' invalid'; 
-         valid = false;
-      }
-}
+   
    
        }
            
           
    
-          
+           // Check if the field is empty
+          // if (y[i].value == '') {
+            //   y[i].className += ' invalid'; // Highlight empty field
+              // valid = true;
+           //}
        
        // If valid, mark the step as finished
        if (valid) {

@@ -23,6 +23,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
 from django.contrib import messages
+from users.services import generate_password
 
 
 BASE_URL = settings.BASE_URL
@@ -742,7 +743,7 @@ def applicant_detail_form_function(request):
         # Extract the fields from the POST data
         first_name = data.get('first_name', None)
         last_name = data.get('last_name', None)
-        name = first_name + last_name
+        name = first_name + " "+ last_name
         position_applied_for = data.get('position_applied_for', None)
         father_name = data.get('father_name', None)
         email_address = data.get('email_address', None)
@@ -908,8 +909,17 @@ def thumbAttendance(request, id):
     params = {'attendances': attendances}
     return render(request, 'thumb-attedance.html', params)
 
+def systemAttendance(request, id):
+    attendances = SystemAttendanceModel.objects.filter(employee__id=id)
+    user = User.objects.get(id=id)
+    params = {'attendances': attendances}
+    return render(request, 'attendance-report.html', params)
+
 
 def applicants(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     applicant_records = ApplicantDetails.objects.filter(is_employee=False)
     departments = Department.objects.all()
     params = {
@@ -920,6 +930,9 @@ def applicants(request):
 
 
 def applicant_detail(request, id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     applicant_record = ApplicantDetails.objects.get(id=id)
 
     # Check if any field is None or an empty string
@@ -943,14 +956,159 @@ def get_csrf_token(request):
     return JsonResponse({'csrfToken': token})
 
 
-def mark_as_employee(request,id):
-    record = ApplicantDetails.objects.get(id=id)
-    user = User.objects.filter(email=record.email_address).first()
-    if not user:
-        record.is_employee = True
-        record.save()
-        messages.success(request, 'Employee Marked')
-    else:
-        messages.error(request, 'Email already exist on the record')
+class Mark_as_Employee(APIView):
     
-    return redirect('applicants')
+    def post(self,request,id):
+        record = ApplicantDetails.objects.get(id=id)
+        user = User.objects.filter(email=record.email_address).first()
+        data = request.data
+        email_address = data.get('email_address')
+        shift_duration = data.get('shift_duration')
+        profile_picture = request.FILES.get('profile_picture')
+        designation = data.get('designation')
+        department = data.get('department')
+        doj = data.get('doj')
+        shift_timing = data.get('shift_timing')
+        shift_end_timing = data.get('shift_end_timing')
+        
+        working_status = data.get('working_status')
+        supervisor_name = data.get('supervisor_name')
+        references = data.get('references')
+        basic_salary = data.get('basic_salary')
+        fuel_alloance = data.get('fuel_alloance')
+        other_allowance = data.get('other_allowance')
+        bank_name = data.get('bank_name')
+        education_certification = request.FILES.get('education_certification')
+        professional_certification = request.FILES.get('professional_certification')
+        offer_letter = request.FILES.get('offer_letter')
+        identity_proof = request.FILES.get('identity_proof')
+        utility_bills = request.FILES.get('utility_bills')
+        experience_certificate = request.FILES.get('experience_certificate')
+        language = data.get('language')
+        skills = data.get('skills')
+        hobbies = data.get('hobbies')
+        linkedin_link = data.get('linkedin_link')
+        job_description = data.get('job_description')
+        
+        if not user:
+            last_employee = User.objects.all().order_by('-employee_id').first()
+            employee_id = int(last_employee.employee_id.split("-")[1]) + 1
+            if employee_id < 100:
+                employee_id = f"NX-0{str(employee_id)}"
+            else:
+                employee_id = f"NX-{str(employee_id)}"
+            
+            department = Department.objects.filter(name=department).first()
+            user_obj = User()
+            user_obj.name = record.name
+            user_obj.username = record.email_address
+            user_obj.email = record.email_address
+            user_obj.cnic = record.cnic
+            user_obj.address = record.address
+            user_obj.doj = datetime.now().date()
+            user_obj.resume  = record.resume
+            user_obj.profile_picture = record.upload_profile
+            user_obj.employee_id = employee_id
+            password = generate_password()
+            user_obj.set_password(password)
+            user_obj.active_password = password
+            user_obj.emergency_contact_name = record.emergency_contact_relation
+            user_obj.phone = record.contact_number
+            user_obj.martial_status = record.marital_status
+            user_obj.dob = record.date_of_birth
+            user_obj.company_email = email_address
+            user_obj.shift_duration_hours = shift_duration
+            user_obj.profile_picture = profile_picture
+            user_obj.department = department
+            user_obj.designation = designation
+            user_obj.doj = doj
+            user_obj.shift_timings = shift_timing
+            user_obj.shift_end_timing=shift_end_timing
+            user_obj.working_status = working_status
+            user_obj.supervisor_name = supervisor_name
+            user_obj.professional_references = references
+            user_obj.basic_salary = basic_salary
+            user_obj.fuel_allowance = fuel_alloance
+            user_obj.other_allowance = other_allowance
+            user_obj.bank_name = bank_name
+            user_obj.educational_certificates = education_certification
+            user_obj.professional_certifications = professional_certification
+            user_obj.offer_letter = offer_letter
+            user_obj.identity_proof = identity_proof
+            user_obj.utility_bills = utility_bills
+            user_obj.experience_certificate = experience_certificate
+            user_obj.languages = language
+            user_obj.skills = skills
+            user_obj.hobbies = hobbies
+            user_obj.linkedin_profile = linkedin_link
+            user_obj.job_description = job_description
+            user_obj.matric_details = record.matric_details 
+            user_obj.intermediate_details = record.intermediate_details 
+            user_obj.bachelors_details = record.bachelors_details 
+            user_obj.masters_details = record.masters_details 
+            user_obj.phd_details = record.phd_details 
+            user_obj.diploma_details = record.diploma_details 
+            user_obj.job_experience = record.job_experience 
+            try:
+                record.is_employee = True
+                record.status = "Hired"
+                user_obj.save()
+                record.save()
+                return Response({"message":"Employee Marked Successfully!!","status":True},status=200)
+            except Exception as e:
+                print(str(e))
+                return Response({"message":f'Something went wrong {str(e)}', "status":False},status=400)
+            
+        else:
+            messages.error(request, 'Email already exist on the record')
+            return Response({"message":f'Email already exist on the record',"status":False},status=400)
+
+
+class Mark_as_follow(APIView):
+    
+    def post(self,request,id):
+        record = ApplicantDetails.objects.get(id=id)
+        user = User.objects.filter(email=record.email_address).first()
+        follow_up_date = request.data.get('follow_up_date')
+        remarks = request.data.get('remarks')
+        if not user:
+            record.follow_up_date = follow_up_date
+            record.remarks = remarks
+            record.status = 'Follow up'
+            record.save()
+            messages.success(request, 'Employee Status Updated')
+        else:
+            messages.error(request, 'Email already exist on the record')
+        return redirect('applicants')
+
+class Mark_as_Shortlisted(APIView):
+     def post(self,request,id):
+        record = ApplicantDetails.objects.get(id=id)
+        user = User.objects.filter(email=record.email_address).first()
+        shortlisted_date = request.data.get('shortlisted_date')
+        remarks = request.data.get('remarks')
+        if not user:
+            record.shortlisted_date = shortlisted_date
+            record.remarks = remarks
+            record.status = "Shortlisted"
+            record.save()
+            messages.success(request, 'Employee Status Updated')
+        else:
+            messages.error(request, 'Email already exist on the record')
+        return redirect('applicants')
+
+class Mark_as_Rejected(APIView):
+    
+    def post(self,request,id):
+        record = ApplicantDetails.objects.get(id=id)
+        user = User.objects.filter(email=record.email_address).first()
+        rejected = request.data.get('rejected')
+        if not user:
+            record.rejected_reason = rejected
+            record.is_rejected = True
+            record.status = "Rejected"
+            record.save()
+            messages.success(request, 'Employee Status Updated')
+        else:
+            messages.error(request, 'Email already exist on the record')
+        return redirect('applicants')

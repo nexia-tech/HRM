@@ -7,11 +7,11 @@ from django.contrib.auth.decorators import login_required
 from hrm_app.models import AttendanceModel, SystemAttendanceModel
 from django.utils import timezone
 from datetime import datetime, timedelta
-import pytz
 from django.conf import settings
 from core.models import ConfigurationModel
-import requests
+import requests, json, pytz
 from users.services import generate_password
+from django.views.decorators.csrf import csrf_exempt
 
 BASE_URL = settings.BASE_URL
 
@@ -186,28 +186,36 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def edit_profile(request):
-    user = request.user
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        profile_picture = request.FILES.get('profile_picture')
-        bio = request.POST.get('bio')
-        user.phone = phone
-        user.name = name
-        user.bio = bio
-        user.profile_picture = profile_picture
-        user.save()
-        messages.success(request, 'Profile has been updated')
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
         return redirect('index')
-    else:
-        context = {
-            'user': user
-        }
-        return render(request, 'edit-profile.html', context)
+    user = request.user
+    context = {
+        'user': user
+        
+    }
+    return render(request, 'edit-profile.html', context)
+
+def update_user(request,user_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = User.objects.get(id=user_id)
+
+        for field, value in data.items():
+            if hasattr(user, field):
+                if (field == 'doj' and value != "") or (field == 'dob' and value != "") or (field == 'shift_timings' and value != ""):
+                    setattr(user, field, value)
+
+        user.save()
+        return JsonResponse({"success": True})
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
 @login_required(login_url='login')
 def create_employee_account(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     if request.user.is_staff:
         departments = Department.objects.all()
         context = {
@@ -283,7 +291,6 @@ def create_employee_account(request):
             fuel_allowance = request.POST.get('fuel_allowance')
             other_allowance = request.POST.get('other_allowance')
             bank_name = request.POST.get('bank_name')
-            employee_tax_number = request.POST.get('employee_tax_number')
 
             profile_picture = request.FILES.get('profile_picture')
             resume = request.FILES.get('resume')
@@ -377,7 +384,6 @@ def create_employee_account(request):
             user.basic_salary = basic_salary
             user.fuel_allowance = fuel_allowance
             user.other_allowance = other_allowance
-            user.employee_tax_number = employee_tax_number
 
             user.profile_picture = profile_picture
             user.resume = resume
@@ -411,6 +417,9 @@ def create_employee_account(request):
 
 @login_required(login_url='login')
 def employees(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     employees = User.objects.all()
     context = {
         'employees': employees
@@ -419,8 +428,8 @@ def employees(request):
 
 
 @login_required(login_url='login')
-def view_profile(request, id):
-    employee = User.objects.get(id=id)
+def view_profile(request):
+    employee = request.user
     
      # Check if any field is None or an empty string
     any_field_empty = any(
@@ -436,9 +445,19 @@ def view_profile(request, id):
 
 @login_required(login_url='login')
 def update_profile(request, id):
-    employee = User.objects.get(id=id)
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    user = User.objects.get(id=id)
+    
+     # Check if any field is None or an empty string
+    any_field_empty = any(
+        getattr(user, field.name) in [None, '']  # Check for None or empty string
+        for field in user._meta.fields
+    )
     context = {
-        'employee': employee
+        'user1': user,
+        "any_field_empty":any_field_empty
     }
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -506,7 +525,6 @@ def update_profile(request, id):
         fuel_allowance = request.POST.get('fuel_allowance')
         other_allowance = request.POST.get('other_allowance')
         bank_name = request.POST.get('bank_name')
-        employee_tax_number = request.POST.get('employee_tax_number')
 
         profile_picture = request.FILES.get(
             'profile_picture', employee.profile_picture)
@@ -521,7 +539,6 @@ def update_profile(request, id):
         utility_bills = request.FILES.get(
             'utility_bills', employee.utility_bills)
 
-        bio = request.POST.get('bio')
         work_experience = request.POST.get('work_experience')
         skills = request.POST.get('skills')
         languages = request.POST.get('languages')
@@ -536,7 +553,6 @@ def update_profile(request, id):
         employee.name = name
         employee.designation = designation
         employee.department = depart
-        employee.bio = bio
 
         if working_hours != '':
             employee.shift_duration_hours = working_hours
@@ -598,7 +614,6 @@ def update_profile(request, id):
         employee.basic_salary = basic_salary
         employee.fuel_allowance = fuel_allowance
         employee.other_allowance = other_allowance
-        employee.employee_tax_number = employee_tax_number
 
         employee.profile_picture = profile_picture
         employee.resume = resume
@@ -624,17 +639,52 @@ def update_profile(request, id):
             return redirect('update-profile', id=employee.id)
 
     else:
-        return render(request, 'update-profile.html', context)
+        return render(request, 'edit-profile.html', context)
 
 
 @login_required(login_url='login')
 def employee_delete(request, id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     user = User.objects.get(id=id)
     user.delete()
     messages.success(request, 'Record has been deleted')
 
     return redirect('employees')
 
+@csrf_exempt
+def update_education(request,user_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user = User.objects.get(id=user_id)  # Adjust based on how you retrieve the user object
+        # Update education fields based on keys
+        for key, value in data.items():
+            if key.startswith("matric_details_"):
+                field = key.split("_", 2)[2]  # Extract field name (e.g., 'institute', 'degree')
+                user.matric_details[field] = value
+            elif key.startswith("intermediate_details_"):
+                field = key.split("_", 2)[2]
+                user.intermediate_details[field] = value
+            elif key.startswith("bachelors_details_"):
+                field = key.split("_", 2)[2]
+                user.bachelors_details[field] = value
+            elif key.startswith("masters_details_"):
+                field = key.split("_", 2)[2]
+                user.masters_details[field] = value
+            elif key.startswith("phd_details_"):
+                field = key.split("_", 2)[2]
+                user.phd_details[field] = value
+            elif key.startswith("diploma_details_"):
+                field = key.split("_", 2)[2]
+                user.diploma_details[field] = value
+
+        # Save the updated user object
+        user.save()
+
+        return JsonResponse({"message": "Education updated successfully.","success": True})
+
+    return JsonResponse({"error": "Invalid request method.","success":False}, status=400)
 
 import pandas as pd
 from django.http import JsonResponse
