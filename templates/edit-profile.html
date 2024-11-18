@@ -19,7 +19,7 @@
         {% endif %}
 
         <!-- FullName -->
-        <h1 class=" text-left my-4 sm:mx-4 xs:pl-4 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl font-serif">
+        <h1 class="text-left my-4 sm:mx-4 xs:pl-4 text-gray-800 dark:text-white lg:text-4xl md:text-3xl sm:text-3xl xs:text-xl font-serif">
           {{ user1.name }} {% if any_field_empty %}
             (<span class="text-red-600">Some Data is Missing</span>)
           {% endif %}
@@ -31,7 +31,7 @@
 
         <!-- Detail -->
         <div class="w-full my-auto py-6 flex flex-col justify-center gap-2">
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center" enctype="multipart/form-data">
             <h1 class="text-4xl text-white font-bold mb-7">Personal Information</h1>
             <button onclick="enableEditMode()" type="button" class="bg-blue-500 hover:bg-blue-700 text-white px-12 py-2 rounded-lg">Edit</button>
             <button id="saveBtn" onclick="saveChanges()" type="button" class="bg-green-500 hover:bg-green-700 text-white px-12 py-2 rounded-lg hidden">Save</button>
@@ -234,7 +234,7 @@
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.matric_details.percentage }}</span>
-                    <input class="edit-mode hidden border rounded-md border-black p-2"  value="{{ user1.matric_details.percentage }}" name="matric_details_percentage" />
+                    <input class="edit-mode hidden border rounded-md border-black p-2" value="{{ user1.matric_details.percentage }}" name="matric_details_percentage" />
                   </td>
 
                   <td class="py-3 px-6">
@@ -261,7 +261,7 @@
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.intermediate_details.percentage }}</span>
-                    <input class="edit-mode hidden border rounded-md border-black p-2"  value="{{ user1.intermediate_details.percentage }}" name="intermediate_details_percentage" />
+                    <input class="edit-mode hidden border rounded-md border-black p-2" value="{{ user1.intermediate_details.percentage }}" name="intermediate_details_percentage" />
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.intermediate_details.year_passing }}</span>
@@ -288,7 +288,7 @@
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.bachelors_details.percentage }}</span>
-                    <input class="edit-mode hidden border rounded-md border-black p-2"  value="{{ user1.bachelors_details.percentage }}" name="bachelors_details_percentage" />
+                    <input class="edit-mode hidden border rounded-md border-black p-2" value="{{ user1.bachelors_details.percentage }}" name="bachelors_details_percentage" />
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.bachelors_details.year_passing }}</span>
@@ -314,7 +314,7 @@
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.masters_details.percentage }}</span>
-                    <input class="edit-mode hidden border rounded-md border-black p-2"  value="{{ user1.masters_details.percentage }}" name="masters_details_percentage" />
+                    <input class="edit-mode hidden border rounded-md border-black p-2" value="{{ user1.masters_details.percentage }}" name="masters_details_percentage" />
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.masters_details.year_passing }}</span>
@@ -341,7 +341,7 @@
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.phd_details.percentage }}</span>
-                    <input class="edit-mode hidden border rounded-md border-black p-2"  value="{{ user1.phd_details.percentage }}" name="phd_details_percentage" />
+                    <input class="edit-mode hidden border rounded-md border-black p-2" value="{{ user1.phd_details.percentage }}" name="phd_details_percentage" />
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.phd_details.year_passing }}</span>
@@ -368,7 +368,7 @@
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.diploma_details.percentage }}</span>
-                    <input class="edit-mode hidden border rounded-md border-black p-2"  value="{{ user1.diploma_details.percentage }}" name="diploma_details_percentage" />
+                    <input class="edit-mode hidden border rounded-md border-black p-2" value="{{ user1.diploma_details.percentage }}" name="diploma_details_percentage" />
                   </td>
                   <td class="py-3 px-6">
                     <span class="view-mode">{{ user1.diploma_details.year_passing }}</span>
@@ -417,57 +417,80 @@
           </table>
         </div> {% endcomment %}
 
-        
         <div class="w-full my-auto py-6">
           <h1 class="text-4xl text-white font-bold mb-7">Documents:</h1>
-          <div class="space-x-8">
+          <div class="">
             {% if user1.resume %}
               <p class="text-base text-blue-600 hover:underline font-bold">
                 <a href="{{ user1.resume.url }}" download="{{ user1.resume }}">Resume</a>
               </p>
             {% else %}
-              <p class="text-white">Resume:</p>
-              <input type="file" class="my-3 p-1  text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="experience_certificate" />
+              <form action="{% url "update-resume" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p class="text-white">Resume:</p>
+                <input type="file" name="resume" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+                <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
+              </form>
             {% endif %}
             {% if user1.educational_certificates %}
               <p class="text-base text-blue-600 hover:underline font-bold">
                 <a href="{{ user1.educational_certificates.url }}" download="{{ user1.educational_certificates }}">Educational Certificates</a>
               </p>
-              {% else %}
+            {% else %}
+            <form action="{% url "educational-certificates" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
+              {% csrf_token %}
               <p class="text-white">Educational Certificates:</p>
-              <input type="file" class="my-3 p-1  text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="experience_certificate" />
+              <input type="file" name="educational_certificates" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
+              </form>
             {% endif %}
             {% if user1.professional_certifications %}
               <p class="text-base text-blue-600 hover:underline font-bold">
                 <a href="{{ user1.professional_certifications.url }}" download="{{ user1.professional_certifications }}">Professional Certifications</a>
               </p>
-              {% else %}
+            {% else %}
+            <form action="{% url "professional-certifications" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
+              {% csrf_token %}
               <p class="text-white">Professional Certifications:</p>
-              <input type="file" class="my-3 p-1  text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="experience_certificate" />
+              <input type="file" name="professional_certifications" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
+              </form>
             {% endif %}
             {% if user1.offer_letter %}
               <p class="text-base text-blue-600 hover:underline font-bold">
                 <a href="{{ user1.offer_letter.url }}" download="{{ user1.offer_letter }}">Offer Letter</a>
               </p>
-              {% else %}
+            {% else %}
+            <form action="{% url "offer-letter" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
+              {% csrf_token %}
               <p class="text-white">Offer Letter:</p>
-              <input type="file" class="my-3 p-1  text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="experience_certificate" />
+              <input type="file" name="offer_letter" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
+              </form>
             {% endif %}
             {% if user1.identity_proof %}
               <p class="text-base text-blue-600 hover:underline font-bold">
                 <a href="{{ user1.identity_proof.url }}" download="{{ user1.identity_proof }}">Identity Proof</a>
               </p>
-              {% else %}
+            {% else %}
+            <form action="{% url "identity-proof" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
+              {% csrf_token %}
               <p class="text-white">Identity Proof:</p>
-              <input type="file" class="my-3 p-1  text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="experience_certificate" />
+              <input type="file" name="identity_proof" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
+              </form>
             {% endif %}
             {% if user1.utility_bills %}
               <p class="text-base text-blue-600 hover:underline font-bold">
                 <a href="{{ user1.utility_bills.url }}" download="{{ user1.utility_bills }}">Utility Bills</a>
               </p>
-              {% else %}
+            {% else %}
+            <form action="{% url "utility-bills" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
+              {% csrf_token %}
               <p class="text-white">Utility Bills:</p>
-              <input type="file" class="my-3 p-1  text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf" id="experience_certificate" />
+              <input type="file" name="utility_bills" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
+              </form>
             {% endif %}
           </div>
         </div>
