@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -12,6 +12,7 @@ from core.models import ConfigurationModel
 import requests, json, pytz
 from users.services import generate_password
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 
 BASE_URL = settings.BASE_URL
 
@@ -702,10 +703,10 @@ def update_resume(request,id):
         else:
             messages.error(request, 'No file uploaded. Please try again.')
 
-        return redirect('index')
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
     messages.error(request, 'Invalid request method.')
-    return redirect('index')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
 
 def education_certification(request,id):
@@ -723,10 +724,10 @@ def education_certification(request,id):
         else:
             messages.error(request, 'No file uploaded. Please try again.')
 
-        return redirect(f'http://127.0.0.1:8000/update-profile/{id}')
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
     messages.error(request, 'Invalid request method.')
-    return redirect('index')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
 
 def professional_certifications(request,id):
@@ -744,10 +745,10 @@ def professional_certifications(request,id):
         else:
             messages.error(request, 'No file uploaded. Please try again.')
 
-        return redirect('index')
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
     messages.error(request, 'Invalid request method.')
-    return redirect('index')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
 
 def offer_letter(request,id):
@@ -765,10 +766,11 @@ def offer_letter(request,id):
         else:
             messages.error(request, 'No file uploaded. Please try again.')
 
-        return redirect('index')
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
     messages.error(request, 'Invalid request method.')
-    return redirect('index')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
 
 
 def identity_proof(request,id):
@@ -786,10 +788,10 @@ def identity_proof(request,id):
         else:
             messages.error(request, 'No file uploaded. Please try again.')
 
-        return redirect('index')
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
     messages.error(request, 'Invalid request method.')
-    return redirect('index')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
 
 def utility_bills(request,id):
@@ -807,10 +809,10 @@ def utility_bills(request,id):
         else:
             messages.error(request, 'No file uploaded. Please try again.')
 
-        return redirect('index')
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
     messages.error(request, 'Invalid request method.')
-    return redirect('index')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
 
 
 import pandas as pd

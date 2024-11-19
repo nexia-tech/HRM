@@ -428,7 +428,7 @@
               <form action="{% url "update-resume" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
                 {% csrf_token %}
                 <p class="text-white">Resume:</p>
-                <input type="file" name="resume" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+                <input type="file" required name="resume" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
                 <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
               </form>
             {% endif %}
@@ -440,7 +440,7 @@
             <form action="{% url "educational-certificates" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
               {% csrf_token %}
               <p class="text-white">Educational Certificates:</p>
-              <input type="file" name="educational_certificates" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="file" required name="educational_certificates" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
               <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
               </form>
             {% endif %}
@@ -452,7 +452,7 @@
             <form action="{% url "professional-certifications" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
               {% csrf_token %}
               <p class="text-white">Professional Certifications:</p>
-              <input type="file" name="professional_certifications" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="file" required name="professional_certifications" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
               <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
               </form>
             {% endif %}
@@ -464,7 +464,7 @@
             <form action="{% url "offer-letter" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
               {% csrf_token %}
               <p class="text-white">Offer Letter:</p>
-              <input type="file" name="offer_letter" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="file" required name="offer_letter" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
               <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
               </form>
             {% endif %}
@@ -476,7 +476,7 @@
             <form action="{% url "identity-proof" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
               {% csrf_token %}
               <p class="text-white">Identity Proof:</p>
-              <input type="file" name="identity_proof" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="file" required name="identity_proof" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
               <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
               </form>
             {% endif %}
@@ -488,7 +488,7 @@
             <form action="{% url "utility-bills" user1.id %}" method="POST" class="flex justify-between items-center" enctype="multipart/form-data">
               {% csrf_token %}
               <p class="text-white">Utility Bills:</p>
-              <input type="file" name="utility_bills" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
+              <input type="file" required name="utility_bills" class="my-3 p-1 text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf"  />
               <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg cursor-pointer"  value="Submit" />
               </form>
             {% endif %}
