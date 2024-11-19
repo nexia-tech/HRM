@@ -748,14 +748,11 @@
            }*/
     // Check if the field is empty
     if(y[i].name == 'date_of_birth'){
-         console.log(y[i].value);
          if(y[i].value.length > 2){
             y[i].nextElementSibling.classList.add('hidden');
          y[i].classList.remove('invalid')
       }
       }
-      console.log(y[i]);
-      console.log(y[i].nextElementSibling);
     if(y[i].name != 'other_mobile_number'){
        if (y[i].value == '') {
           y[i].className += ' invalid'; 
@@ -836,11 +833,9 @@
       if (emailRegex.test(input.value)) {
         emailError.classList.add('hidden'); // Hide error message if valid
         input.classList.remove('invalid')
-        console.log("Working1");
       } else {
          emailError.classList.remove('hidden'); // Show error message if invalid
          input.classList.add('invalid')
-         console.log("Working 2");
       }
     }
    
@@ -890,7 +885,6 @@
    
    function CharacterValidation(input) {
       // Remove any characters that are not letters or spaces
-      console.log(input.value);
       let value = input.value.replace(/[^a-zA-Z\s]/g, '');
       input.value = value;
       // Check if the input is empty
@@ -951,7 +945,6 @@
   
    
    function selectAll(input){
-       console.log();
        if (input.checked){
            afternoon.checked  =true
            night.checked  =true
@@ -990,9 +983,6 @@
       let show = false;
   
       levels.forEach((lvl) => {
-         console.log(lvl);
-         console.log(level);
-         console.log(lvl === level);
           const section = document.getElementById(`${lvl}`);
          const add_more_btn = document.getElementById('add-diploma')
          
@@ -1011,9 +1001,6 @@
    let show = false;
 
    experience_container.forEach((lvl) => {
-      console.log(lvl);
-      console.log(experience);
-      console.log(lvl === experience);
          const section = document.getElementById(`${lvl}`);
          const add_more_btn = document.getElementById('add-more')
          if (lvl === experience)
