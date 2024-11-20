@@ -745,16 +745,37 @@
            }
            
            if (y[i].name != 'other_mobile_number') {
+            if (currentTab == 0){
+
+            
                if (y[i].value == '') {
                    y[i].className += ' invalid';
                    try {
-                       
                        y[i].nextElementSibling.classList.remove('hidden');
                    } catch (err) {
                        console.log(err);
                    }
                    valid = false;
                }
+            }else if(currentTab == 3)
+            {
+               console.log(y[i].name);
+               // Check if the input is of type "file" and if it's empty
+               if ((y[i].name === "profile_picture" || y[i].name =='resume') && y[i].value) {
+                  y[i].classList.remove('invalid')
+                  valid = true; // Set the validation status to false
+               }else{
+                  if(y[i].name != 'declaration') {
+                  console.log("File input is empty.");
+                  y[i].className += ' invalid'; // Add 'invalid' class to highlight the field
+                  valid = false;
+                  }
+            }
+               
+            }
+            else{
+               valid = true;
+            }
            }
            try {
                
@@ -772,6 +793,31 @@
            } catch (err) {
                console.log("Error: ", err);
            }
+
+           try{
+            if (z[i].name == 'diploma-certification') {
+               let diploma_container =  document.getElementById('diploma-container')
+               if(z[i].value == 'diploma-container') {
+                  for(let v = 0; v < diploma_container.children.length; v++) {
+                     let diploma = diploma_container.children[v]
+                     diploma.setAttribute(oninput,'CharacterValidation(this)')
+                     diploma.setAttribute(pattern,'[^a-zA-Z\s]/g')
+                  }
+               }
+                  z[i].className += ' invalid';
+                  try {
+                     
+                     z[i].nextElementSibling.classList.remove('hidden');
+                  } catch (err) {
+                     console.log(err);
+                  }
+                  valid = false;
+               }
+           }
+           catch (err) {
+               console.log("Error: ", err);
+           }
+            
        }
        
        if (!valid) {
@@ -919,7 +965,14 @@
        input.value = value;
        // Get the list of classes
        let classList = input.className.split(" ");
-       input.nextElementSibling.classList.add('hidden')
+       try{
+          input.nextElementSibling.classList.add('hidden')
+
+       }
+       catch(error){
+         console.log("Error 956: ", error);
+       }
+
        
        // Remove the last class from the array
        let lastClassName = classList.pop();
