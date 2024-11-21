@@ -889,11 +889,19 @@ class ShiftEndTime(APIView):
             shift_start_time = karachi_time.replace(
                 hour=attendance.shift_start_time.hour, minute=attendance.shift_start_time.minute, second=attendance.shift_start_time.second, microsecond=0)
 
+
+            # If shift_start_time is after karachi_time, adjust the date
+            if shift_start_time > karachi_time:
+                shift_start_time -= timedelta(days=1)
+                
+                
            # Calculate time passed since shift start
             time_passed = karachi_time - shift_start_time
 
             # Subtract time_passed from remaining_hours
-            attendance.remaining_hours = attendance.remaining_hours - time_passed
+            attendance.remaining_hours = max(
+                timedelta(0), attendance.remaining_hours - time_passed
+            )
 
             # Mark shift as ended
             attendance.time_out_time = karachi_time_str

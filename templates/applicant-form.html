@@ -15,7 +15,7 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
          crossorigin="anonymous" referrerpolicy="no-referrer" />
-         <link rel="shortcut icon" href="https://nexiatech.org/wp-content/uploads/2021/11/nexia-logo-new-90x90.png" type="image/x-icon">
+      <link rel="shortcut icon" href="https://nexiatech.org/wp-content/uploads/2021/11/nexia-logo-new-90x90.png" type="image/x-icon">
    </head>
    <style>
       body {
@@ -77,60 +77,53 @@
       display: none;
       }
       p{
-         font-family: "Roboto", Sans-serif;
+      font-family: "Roboto", Sans-serif;
       }
    </style>
    <body>
       <!-- Navbar -->
-<nav class="flex justify-between items-center bg-black text-white px-8 py-4">
-   <!-- Left Side: Logo -->
-   <div class="flex items-center space-x-2">
-      <a href="https://nexiatech.org">
-         <img src="https://nexiatech.org/wp-content/uploads/2021/11/nexia-logo-new.png" alt="Logo" class="h-20">
-      </a>
+      <nav class="flex justify-between items-center bg-black text-white px-8 py-4">
+         <!-- Left Side: Logo -->
+         <div class="flex items-center space-x-2">
+            <a href="https://nexiatech.org">
+            <img src="https://nexiatech.org/wp-content/uploads/2021/11/nexia-logo-new.png" alt="Logo" class="h-20">
+            </a>
+         </div>
+         <!-- Navigation Links -->
+         <ul class="flex space-x-10">
+            <li><a href="https://nexiatech.org/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">HOME</a></li>
+            <li><a href="https://nexiatech.org/about-us/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">ABOUT US</a></li>
+            <!-- Services Dropdown -->
+            <li class="relative group">
+               <a href="#" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">SERVICES</a>
+               <!-- Dropdown Menu -->
+               <ul class="absolute left-0 hidden mt-2 bg-white text-black shadow-lg group-hover:block w-72">
+                  <li><a href="https://nexiatech.org/mobile-app-development/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Mobile App Development</a></li>
+                  <li><a href="https://nexiatech.org/web-development/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Web Development</a></li>
+                  <li><a href="https://nexiatech.org/digital-marketing/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Digital Marketing</a></li>
+                  <li><a href="https://nexiatech.org/software-development/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Software Development</a></li>
+                  <li></li>
+               </ul>
+            </li>
+            <li><a href="https://nexiatech.org/portfolio/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">PORTFOLIO</a></li>
+            <li><a href="https://nexiatech.org/contact/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">CONTACT US</a></li>
+         </ul>
+         <!-- Right Side: Contact Info -->
+         <div class="flex items-center space-x-2">
+            <img src="https://miboozwp.pixydrops.com/wp-content/uploads/2021/11/phone-icon.png" alt="">
+            <div class="flex flex-col">
+               <span class="text-xs font-light">Call Anytime</span>
+               <span class="text-sm font-bold"><a href="tel:02137225488" class="hover:text-[#6EC1E4]">021 37225488</a></span>
+            </div>
+         </div>
+      </nav>
       
-   </div>
-
- 
-   <!-- Navigation Links -->
-   <ul class="flex space-x-10">
-      <li><a href="https://nexiatech.org/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">HOME</a></li>
-      <li><a href="https://nexiatech.org/about-us/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">ABOUT US</a></li>
-
-      <!-- Services Dropdown -->
-      <li class="relative group">
-          <a href="#" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">SERVICES</a>
-          <!-- Dropdown Menu -->
-          <ul class="absolute left-0 hidden mt-2 bg-white text-black shadow-lg group-hover:block w-72">
-             <li><a href="https://nexiatech.org/mobile-app-development/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Mobile App Development</a></li>
-             <li><a href="https://nexiatech.org/web-development/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Web Development</a></li>
-            <li><a href="https://nexiatech.org/digital-marketing/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Digital Marketing</a></li>
-            <li><a href="https://nexiatech.org/software-development/" class="hover:bg-[#6EC1E4] block pr-10 pl-4 py-2 hover:text-white transition text-sm">Software Development</a></li>
-            <li></li>
-            
-          </ul>
-      </li>
-
-      <li><a href="https://nexiatech.org/portfolio/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">PORTFOLIO</a></li>
-      <li><a href="https://nexiatech.org/contact/" class="hover:text-[#6EC1E4] transition hover:line-through text-sm">CONTACT US</a></li>
-  </ul>
-
-   <!-- Right Side: Contact Info -->
-   <div class="flex items-center space-x-2">
-      <img src="https://miboozwp.pixydrops.com/wp-content/uploads/2021/11/phone-icon.png" alt="">
-       <div class="flex flex-col">
-           <span class="text-xs font-light">Call Anytime</span>
-           <span class="text-sm font-bold"><a href="tel:02137225488" class="hover:text-[#6EC1E4]">021 37225488</a></span>
-       </div>
-   </div>
-</nav>
       <!-- Applicant Form Section -->
       <section class="flex items-center justify-center h-72 bg-black">
          <h1 class="text-4xl font-semibold text-white">APPLICANT FORM</h1>
       </section>
-
+      
       <div class="my-20">
-         
          <form id="signUpForm" method="POST"
             class="p-12 shadow-md rounded-2xl bg-white mx-auto border-solid border-2 border-gray-100 mb-8"
             action="https://hrm.nexiatech.org/hrm/api/applicant-form/" enctype="multipart/form-data">
@@ -146,55 +139,60 @@
             <div class="step my-10">
                <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Personal Information</p>
                <div class="mb-6">
-                  <input type="text" required placeholder="First Name *" name="first_name" pattern="[A-Za-z]+" title="Only alphabets are allowed" 
+                  <input type="text" required placeholder="First Name *" name="first_name" pattern="/[^a-zA-Z\s]/g" title="Only alphabets are allowed" 
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
                      oninput="CharacterValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <input type="text" required placeholder="Last Name *" name="last_name" pattern="[A-Za-z]+"
+                  <input type="text" required placeholder="Last Name *" name="last_name" pattern="/[^a-zA-Z\s]/g"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <input type="text" placeholder="Position Applied For" name="position_applied_for" pattern="[A-Za-z\s]+"
+                  <input type="text" placeholder="Position Applied For  *" name="position_applied_for" pattern="/[^a-zA-Z\s]/g"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <input type="text" placeholder="Father's Name" name="father_name" pattern="[A-Za-z\s]+"
+                  <input type="text" placeholder="Father's Name  *" name="father_name" pattern="/[^a-zA-Z\s]/g"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
                   <input type="email" required placeholder="Email *" name="email_address"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkEmail(this)"
                      />
-                     <span id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address.</span>
-
+                  <span id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address *.</span>
                </div>
                <div class="mb-6">
                   <input type="text" id="cnic" placeholder="CNIC (xxxxx-xxxxxxx-x) *" name="cnic"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                      maxlength="15" title="Format: xxxxx-xxxxxxx-x" required 
                      oninput="formatCNIC(this)" />
-                  <div id="cnicError" style="color: red; display: none;">Please enter a valid CNIC in the format xxxxx-xxxxxxx-x</div>
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <label for="">Date of Birth</label>
-                  <input type="date" placeholder="Date of Birth" max="2019-12-31" name="date_of_birth"
+                  <label for="">Date of Birth  *</label>
+                  <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDOB(this)" name="date_of_birth"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <label for="">Gender</label>
-                  <select name="gender" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required>
+                  <label for="">Gender *</label>
+                  <select name="gender" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
                      <option value="" disabled selected>Select your gender</option>
                      <option value="male">Male</option>
                      <option value="female">Female</option>
                   </select>
+                  <span class="text-red-500 text-sm hidden">Please select any option *</span>
                </div>
-               <p class="my-3">Select Marital Status</p>
+               <p class="my-3">Select Marital Status *</p>
                <div class="mb-6 flex space-x-7 float-left">
                   <input type="radio" id="single" name="marital_status" value="single"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
@@ -210,19 +208,22 @@
                   <label for="divorced">Divorced</label>
                </div>
                <div class="mb-6">
-                  <input type="text" placeholder="Expected Salary" name="expected_salary"
+                  <input type="text" placeholder="Expected Salary *" name="expected_salary"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <input type="text" placeholder="Street Address" name="address"
+                  <input type="text" oninput="checkFormData(this)" placeholder="Street Address *" name="address"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <input type="text" pattern="\+[0-9]{9,30}" placeholder="Mobile number" name="contact_number"
+                  <input type="text" pattern="\+[0-9]{9,30}" placeholder="Mobile number *" name="contact_number"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
                   <input type="text" pattern="\+[0-9]{9,30}" placeholder="Other phone number" name="other_mobile_number"
@@ -230,28 +231,31 @@
                      />
                </div>
                <div class="mb-6">
-                  <input type="text" pattern="\+[0-9]{9,30}" placeholder="Emergency Contact Number"
+                  <input type="text" pattern="\+[0-9]{9,30}" placeholder="Emergency Contact Number *"
                      name="emergency_contact_number"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <input type="text" placeholder="Emergency Contact relation"
+                  <input type="text" placeholder="Emergency Contact relation *"
                      name="emergency_contact_relation"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                      />
+                  <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                </div>
                <div class="mb-6">
-                  <select name="when_join_us" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required>
-                     <option value="" disabled selected>How soon can you join us?</option>
+                  <select name="when_join_us" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+                     <option value="" disabled selected>How soon can you join us? *</option>
                      <option value="asap">As soon as poosible</option>
                      <option value="1_week">One Week</option>
                      <option value="2_weeks">Two Weeks</option>
                      <option value="3_weeks">Three Weeks</option>
                      <option value="1_month">One Month</option>
                   </select>
+                  <span class="text-red-500 text-sm hidden">Please select any option *</span>
                </div>
-               <p class="my-3">Shift Availability</p>
+               <p class="my-3">Shift Availability *</p>
                <div class="mb-6 flex space-x-7 float-left">
                   <input type="checkbox" id="all" name="shift_availablity" value="all"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
@@ -261,7 +265,7 @@
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
                      oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
                   <label for="afternoon">Afternoon</label>
-                  <input type="checkbox" id="evening" name="shift_availablity" value="evening"
+                  <input type="checkbox" id="evening" checked name="shift_availablity" value="evening"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
                      oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
                   <label for="evening">Evening</label>
@@ -278,41 +282,39 @@
                <p class="text-md font-bold text-gray-700 leading-tight text-start mt-8 mb-5 text-xl">What is your last qualification?</p>
                <div class="mb-6">
                   <select id="qualification" name="qualification" onchange="showQualificationFields(this.value)" class="w-full px-4 py-2 rounded-md border border-gray-200">
-                      <option value="" selected disabled>Select Qualification</option>
-                      <option value="matric">Matriculation/O-Level</option>
-                      <option value="inter">Intermediate/A-Level</option>
-                      <option value="bachelor">Bachelors/Graduation</option>
-                      <option value="master">Masters</option>
-                      <option value="phd">PhD</option>
+                     <option value="" selected disabled>Select Qualification</option>
+                     <option value="matric">Matriculation/O-Level</option>
+                     <option value="inter">Intermediate/A-Level</option>
+                     <option value="bachelor">Bachelors/Graduation</option>
+                     <option value="master">Masters</option>
+                     <option value="phd">PhD</option>
                   </select>
                </div>
-              
                <br>
                <div id="matric-section" class="qualification-section" style="display: none;">
                   <p class="font-bold my-3 text-2xl">Matriculation/O-Level</p>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Institute Name" name="matric_institute"
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Institute Name *" name="matric_institute"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
                            />
                      </div>
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Subject" name="matric_degree"
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Subject *" name="matric_degree"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
                            />
                      </div>
                   </div>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Percentage/CGPA/Grade" name="matric_grade"
+                        <input type="text" placeholder="Percentage/CGPA/Grade *" name="matric_grade"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
                            />
                      </div>
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Year of Passing" name="matric_passing_year"
+                        <input type="text" placeholder="Year of Passing *" name="matric_passing_year"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
                            oninput="validateYear(this)" />
-
                      </div>
                   </div>
                </div>
@@ -320,24 +322,24 @@
                   <p class="font-bold my-3 text-2xl">Intermediate/A-Level</p>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Institute Name" name="intermediate_institute"
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Institute Name *" name="intermediate_institute"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
                            />
                      </div>
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Subject" name="intermediate_degree"
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Subject *" name="intermediate_degree"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
                            />
                      </div>
                   </div>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Percentage/CGPA/Grade" name="intermediate_grade"
+                        <input type="text" placeholder="Percentage/CGPA/Grade *" name="intermediate_grade"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
                            />
                      </div>
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Year of Passing" name="intermediate_passing_year"
+                        <input type="text" placeholder="Year of Passing *" name="intermediate_passing_year"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
                            />
                      </div>
@@ -347,24 +349,24 @@
                   <p class="font-bold my-3 text-2xl">Bachelors/Graduation</p>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Institute Name" name="bachelors_institute"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                        <input type="text" placeholder="Institute Name *" name="bachelors_institute"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                            />
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" placeholder="Degree" name="bachelors_degree"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                            />
                      </div>
                   </div>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Percentage/CGPA/Grade" name="bachelors_grade"
+                        <input type="text" placeholder="Percentage/CGPA/Grade *" name="bachelors_grade"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
                            />
                      </div>
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Year of Passing" name="bachelors_year_passing"
+                        <input type="text" placeholder="Year of Passing *" name="bachelors_year_passing"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
                            />
                      </div>
@@ -374,24 +376,24 @@
                   <p class="font-bold my-3 text-2xl">Masters</p>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Institute Name" name="masters_institute"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                        <input type="text" placeholder="Institute Name *" name="masters_institute"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                            />
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" placeholder="Degree" name="masters_degree"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                            />
                      </div>
                   </div>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Percentage/CGPA/Grade" name="masters_grade"
+                        <input type="text" placeholder="Percentage/CGPA/Grade *" name="masters_grade"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
                            />
                      </div>
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Year of Passing" name="masters_year_passing"
+                        <input type="text" placeholder="Year of Passing *" name="masters_year_passing"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
                            />
                      </div>
@@ -401,62 +403,60 @@
                   <p class="font-bold my-3 text-2xl">PhD</p>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Institute Name" name="phd_institute"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                        <input type="text" placeholder="Institute Name *" name="phd_institute"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                            />
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" placeholder="Degree" name="phd_degree"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                            />
                      </div>
                   </div>
                   <div class="flex space-x-10">
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Percentage/CGPA/Grade" name="phd_grade"
+                        <input type="text" placeholder="Percentage/CGPA/Grade *" name="phd_grade"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
                            />
                      </div>
                      <div class="mb-6 w-full">
-                        <input type="text" placeholder="Year of Passing" name="phd_year_passing"
+                        <input type="text" placeholder="Year of Passing *" name="phd_year_passing"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
                            />
                      </div>
                   </div>
                </div>
-
                <p class="text-md font-bold text-gray-700 leading-tight text-start mt-8 mb-5 text-xl">Do you have any diploma and Certificate?</p>
                <div class="mb-6">
                   <select id="diploma-certification" name="diploma-certification" onchange="showCertificationOptions(this.value)" class="w-full px-4 py-2 rounded-md border border-gray-200">
-                      <option value="" selected disabled>Select Options</option>
-                      <option value="diploma-container">Yes</option>
-                      <option value="No">No</option>
+                     <option value="" selected disabled>Select Options</option>
+                     <option value="diploma-container">Yes</option>
+                     <option value="No">No</option>
                   </select>
                </div>
                <div id="diploma-container" style="display: none;">
                   <div class="diploma-section" id="diploma1">
-
                      <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
                      <div class="flex space-x-10">
                         <div class="mb-6 w-full">
-                           <input type="text" placeholder="Institute Name" name="diploma_institute1"
-                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           <input type="text" placeholder="Institute Name *" name="diploma_institute1"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                               />
                         </div>
                         <div class="mb-6 w-full">
-                           <input type="text" placeholder="Subject" name="diploma_degree1"
-                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           <input type="text" placeholder="Subject *" name="diploma_degree1"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
                               /> 
                         </div>
                      </div>
                      <div class="flex space-x-10">
                         <div class="mb-6 w-full">
-                           <input type="text" placeholder="Percentage/CGPA/Grade" name="diploma_grade1"
+                           <input type="text" placeholder="Percentage/CGPA/Grade *" name="diploma_grade1"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
                               />
                         </div>
                         <div class="mb-6 w-full">
-                           <input type="text" placeholder="Year of Passing" name="diploma_year_passing1"
+                           <input type="text" placeholder="Year of Passing *" name="diploma_year_passing1"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
                               />
                         </div>
@@ -474,71 +474,70 @@
                <p class="text-md font-bold text-gray-700 leading-tight text-start mt-8 mb-5 text-xl">Do you have any working experience?</p>
                <div class="mb-6">
                   <select id="working-experience" name="working-experience" onchange="showWorkingExperience(this.value)" class="w-full px-4 py-2 rounded-md border border-gray-200">
-                      <option value="" selected disabled>Select Options</option>
-                      <option value="experience-container">Yes</option>
-                      <option value="No">No</option>
+                     <option value="" selected disabled>Select Options</option>
+                     <option value="experience-container">Yes</option>
+                     <option value="No">No</option>
                   </select>
                </div>
                <div id="experience-container" style="display: none;">
                   <div class="experience-section" id="experience1">
-                  <p class="font-bold my-3 text-2xl">Last Work Experience 1</p>
-                  <div class="flex space-x-10">
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Name of Company" name="job1_company_name"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                           />
+                     <p class="font-bold my-3 text-2xl">Last Work Experience 1</p>
+                     <div class="flex space-x-10">
+                        <div class="mb-6 w-full">
+                           <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Name of Company *" name="job1_company_name"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                              />
+                        </div>
+                        <div class="mb-6 w-full">
+                           <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Department *" name="job1_department"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                              />
+                        </div>
                      </div>
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Department" name="job1_department"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                           />
+                     <div class="flex space-x-10">
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Position/Designation *" name="job1_designation"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                              />
+                        </div>
+                        <div class="mb-6 w-full">
+                           <input type="text" placeholder="Salary *" name="job1_salary"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+                              />
+                        </div>
                      </div>
-                  </div>
-                  <div class="flex space-x-10">
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Position/Designation" name="job1_designation"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                           />
+                     <div class="mb-6 w-full flex space-x-10">
+                        <div class="w-1/2">
+                           <label for="">Start Date *</label>
+                           <input type="date" placeholder="Joing" name="job1_joining_date"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+                              />
+                        </div>
+                        <div class="w-1/2">
+                           <label for="">End Date *</label>
+                           <input type="date" placeholder="Joing" name="job1_end_date"
+                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+                              />
+                        </div>
                      </div>
-                     <div class="mb-6 w-full">
-                        <input type="text" placeholder="Salary" name="job1_salary"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
-                           />
+                     <p class="my-3">Experience Letter *</p>
+                     <div class="mb-6 flex space-x-7 float-left">
+                        <input type="radio" id="yes" name="job1_experience_letter" value="Yes"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                           oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                        <label for="yes">Yes</label>
+                        <input type="radio" id="no" name="job1_experience_letter" value="No"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                           oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                        <label for="no">No</label>
                      </div>
-                  </div>
-                  <div class="mb-6 w-full flex space-x-10">
-                     <div class="w-1/2">
-                        <label for="">Start Date</label>
-                        <input type="date" placeholder="Joing" name="job1_joining_date"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
-                           />
+                     <div class="mb-6">
+                        <textarea placeholder="Reason For Leaving Job" name="job1_reason"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                           ></textarea>
                      </div>
-                     <div class="w-1/2">
-                        <label for="">End Date</label>
-                        <input type="date" placeholder="Joing" name="job1_end_date"
-                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
-                           />
-                     </div>
-                  </div>
-                  <p class="my-3">Experience Letter</p>
-                  <div class="mb-6 flex space-x-7 float-left">
-                     <input type="radio" id="yes" name="job1_experience_letter" value="Yes"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                        oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                     <label for="yes">Yes</label>
-                     <input type="radio" id="no" name="job1_experience_letter" value="No"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                        oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                     <label for="no">No</label>
-                  </div>
-                  <div class="mb-6">
-                     <textarea placeholder="Reason For Leaving Job" name="job1_reason"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
-                        ></textarea>
                   </div>
                </div>
-            </div>
-               
                <div id="add-more" style="display: none;">
                   <button type="button" onclick="addExperience()" class="bg-blue-500 hover:bg-blue-700 text-white  p-2 py-0">+</button>
                   <button type="button" onclick="removeExperience()" class="bg-red-500 hover:bg-red-700 text-white  p-2 py-0">-</button>
@@ -549,9 +548,8 @@
                <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Upload your documents</p>
                <div class="mb-6">
                   <label for="" class="my-7 text-base font-bold ">Please attach a clear Passport size picture.</label>
-                     <input type="file" 
-               class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="profile_picture">
-                     
+                  <input type="file" 
+                     class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="profile_picture">
                   <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
                </div>
                <div class="mb-2">
@@ -581,7 +579,7 @@
             <!-- end previous / next buttons -->
          </form>
       </div>
-
+      
       <!-- Footer -->
       <footer class="bg-black text-white py-10 px-6 md:px-12 lg:px-24">
          <div class="flex flex-col md:flex-row md:justify-between space-y-8 md:space-y-0  container mx-auto">
@@ -589,72 +587,76 @@
             <div>
                <h3 class="text-[#6EC1E4] font-semibold text-2xl mb-2">CONTACT</h3>
                <p class="text-lg leading-relaxed">
-                     B-37, Block 5 Gulshan-e-Iqbal Sindh,<br>
-                     Karachi 75300<br>
-                     <a href="mailto:hello@nexiatech.org" class="hover:text-[#6EC1E4] text-[#FFFFFF]">hello@nexiatech.org</a>
-                     <br>
-                     <a href="tel:021 3722 5488" class="hover:text-[#6EC1E4] text-[#FFFFFF]">021 3722 5488</a>
+                  B-37, Block 5 Gulshan-e-Iqbal Sindh,<br>
+                  Karachi 75300<br>
+                  <a href="mailto:hello@nexiatech.org" class="hover:text-[#6EC1E4] text-[#FFFFFF]">hello@nexiatech.org</a>
+                  <br>
+                  <a href="tel:021 3722 5488" class="hover:text-[#6EC1E4] text-[#FFFFFF]">021 3722 5488</a>
                </p>
                <div class="flex space-x-3 mt-4 ">
-                     <!-- Social Media Icons -->
-                     <a href="https://www.facebook.com/Nexiatech-100283196154806"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook.png" alt="Facebook"/></a>
-                     <a href="https://www.instagram.com/nexia.tech/"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram"/></a>
-                     <a href="https://twitter.com/Nexiatech1"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter.png" alt="Twitter"/></a>
-                     <a href="https://www.linkedin.com/company/nexia-tech/"><img src="https://img.icons8.com/ios-filled/24/ffffff/linkedin.png" alt="LinkedIn"/></a>
+                  <!-- Social Media Icons -->
+                  <a href="https://www.facebook.com/Nexiatech-100283196154806"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook.png" alt="Facebook"/></a>
+                  <a href="https://www.instagram.com/nexia.tech/"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram"/></a>
+                  <a href="https://twitter.com/Nexiatech1"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter.png" alt="Twitter"/></a>
+                  <a href="https://www.linkedin.com/company/nexia-tech/"><img src="https://img.icons8.com/ios-filled/24/ffffff/linkedin.png" alt="LinkedIn"/></a>
                </div>
             </div>
-
             <!-- Quick Links Section -->
             <div class="grid grid-cols-1 gap-4 text-sm">
                <h3 class="text-[#6EC1E4] font-semibold text-2xl mb-2">QUICK LINKS</h3>
                <div class="flex justify-center space-x-9">
-                     <ul class="space-y-1">
-                        <li><a href="https://nexiatech.org/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Home</a></li>
-                        <li><a href="https://nexiatech.org/portfolio/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Portfolio</a></li>
-                        <li><a href="https://nexiatech.org/contact/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Contact</a></li>
-                        <li><a href="https://nexiatech.org/terms-and-condition/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Terms & Condition</a></li>
-                        <li><a href="https://nexiatech.org/privacy-policy/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Privacy Policy</a></li>
-                     </ul>
-                     <ul class="space-y-1">
-                        <li><a href="https://nexiatech.org/digital-marketing/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Digital Marketing</a></li>
-                        <li><a href="https://nexiatech.org/mobile-app-development/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Mobile App Development</a></li>
-                        <li><a href="https://nexiatech.org/software-development/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Software Development</a></li>
-                        <li><a href="https://nexiatech.org/web-development/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Web Development</a></li>
-                        <li><a href="https://nexiatech.org/career">Career</a></li>
+                  <ul class="space-y-1">
+                     <li><a href="https://nexiatech.org/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Home</a></li>
+                     <li><a href="https://nexiatech.org/portfolio/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Portfolio</a></li>
+                     <li><a href="https://nexiatech.org/contact/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Contact</a></li>
+                     <li><a href="https://nexiatech.org/terms-and-condition/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Terms & Condition</a></li>
+                     <li><a href="https://nexiatech.org/privacy-policy/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Privacy Policy</a></li>
+                  </ul>
+                  <ul class="space-y-1">
+                     <li><a href="https://nexiatech.org/digital-marketing/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Digital Marketing</a></li>
+                     <li><a href="https://nexiatech.org/mobile-app-development/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Mobile App Development</a></li>
+                     <li><a href="https://nexiatech.org/software-development/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Software Development</a></li>
+                     <li><a href="https://nexiatech.org/web-development/" class="hover:line-through hover:text-[#6EC1E4] text-sm text-[#FFFFFF]">Web Development</a></li>
+                     <li><a href="https://nexiatech.org/career">Career</a></li>
                   </ul>
                </div>
-               
             </div>
-
             <!-- Logo and Newsletter Section -->
             <div class="flex flex-col items-center md:items-start">
                <img src="https://nexiatech.org/wp-content/uploads/2021/11/nexia-logo-new.png" alt="Logo" class="h-16 mb-6">
-               
                <h3 class="text-[#6EC1E4] font-semibold text-lg mb-2">NEWSLETTER</h3>
                <div class="flex flex-col items-start space-y-2">
-                     <input type="email" placeholder="Email address" class="bg-black border-b-2 border-gray-600 outline-none text-white p-1">
-                     <label class="flex items-center text-sm">
-                        <input type="checkbox" checked disabled class="mr-2">
-                        I agree to all your terms and policies
-                     </label>
+                  <input type="email" placeholder="Email address" class="bg-black border-b-2 border-gray-600 outline-none text-white p-1">
+                  <label class="flex items-center text-sm">
+                  <input type="checkbox" checked disabled class="mr-2">
+                  I agree to all your terms and policies
+                  </label>
                </div>
             </div>
          </div>
-         
          <!-- Footer Bottom -->
          <div class="mt-8 text-center text-base text-[#FFFFFF]">
             © Copyrights, 2024 Nexia Tech. All Rights Reserved.
          </div>
       </footer>
-
+      
+      <div id="customModal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+         <div class="bg-white p-14 text-xl capitalize  rounded-lg w-full max-w-sm shadow-lg relative">
+            <span class="close-btn absolute top-2 right-2 text-gray-500 text-2xl cursor-pointer">&times;</span>
+            <p id="modalMessage" class="text-red-800 font-bold text-center"></p>
+         </div>
+      </div>
+   
+   
    </body>
-</html>
+
+
 <script>
    var afternoon = document.getElementById('afternoon')
    var evening = document.getElementById('evening')
    var night = document.getElementById('night')
    var x, y, i, valid = true;
-       // Function to get the CSRF token from the meta tag
+   // Function to get the CSRF token from the meta tag
    function getCSRFToken() {
        let csrfToken = null;
        const cookies = document.cookie.split(';');
@@ -668,7 +670,8 @@
        return csrfToken;
    }
    const csrfToken = getCSRFToken(); // Fetch the CSRF token
-   document.getElementById('csrf').value = csrfToken; // Set the value of the input field
+   document.getElementById('csrf')
+       .value = csrfToken; // Set the value of the input field
    
    
    var currentTab = 0 // Current tab is set to be the first tab (0)
@@ -682,14 +685,18 @@
        x[n].style.display = 'block'
        //... and fix the Previous/Next buttons:
        if (n == 0) {
-           document.getElementById('prevBtn').style.display = 'none'
+           document.getElementById('prevBtn')
+               .style.display = 'none'
        } else {
-           document.getElementById('prevBtn').style.display = 'inline'
+           document.getElementById('prevBtn')
+               .style.display = 'inline'
        }
        if (n == x.length - 1) {
-           document.getElementById('nextBtn').innerHTML = 'Submit'
+           document.getElementById('nextBtn')
+               .innerHTML = 'Submit'
        } else {
-           document.getElementById('nextBtn').innerHTML = 'Next'
+           document.getElementById('nextBtn')
+               .innerHTML = 'Next'
        }
        //... and run a function that will display the correct step indicator:
        fixStepIndicator(n)
@@ -698,7 +705,7 @@
    function validateForm() {
        x = document.getElementsByClassName('step');
        y = x[currentTab].getElementsByTagName('input');
-       
+       z = x[currentTab].getElementsByTagName('select');
        // Loop to check each input field in the current tab
        for (i = 0; i < y.length; i++) {
            const alphabetPattern = /^[A-Za-z]+$/;
@@ -713,55 +720,123 @@
                    //alert('Please enter alphabets only in the field.');
                    valid = false;
                }
-           }
-           else if (y[i].type === "text" && y[i].name === "cnic") { // Ensure this is the CNIC field
+           } else if (y[i].type === "text" && y[i].name === "cnic") { // Ensure this is the CNIC field
                if (!cnicPattern.test(y[i].value)) {
                    // Display error message if invalid characters are detected
                    y[i].className += ' invalid';
                    //alert('Please enter alphabets only in the CNIC field.');
                    valid = false;
                }
+           } else if (y[i].type === "email" && y[i].value == '') {
+               y[i].className += ' invalid';
+               valid = false;
            }
-          
-           else if (y[i].type === "email" && y[i].value == '') { 
-                   y[i].className += ' invalid';
-                   valid = false;
-               }
            /*else if (y[i].className.includes("qualification") && y[i].value == '') { 
                y[i].className += ' invalid';
                valid = false;
            }*/
-    // Check if the field is empty
-      if(y[i].name == 'date_of_birth'){
-         console.log(y[i].value);
-         if(y[i].value.length > 2){
-         y[i].classList.remove('invalid')
-         }
-      }
-    if(y[i].name != 'other_mobile_number'){
-      if (y[i].value == '') {
-         y[i].className += ' invalid'; 
-         valid = false;
-      }
-}
-   
-       }
+           // Check if the field is empty
            
-          
-   
-          
+           if (y[i].name == 'date_of_birth') {
+               if (y[i].value.length > 2) {
+                   y[i].nextElementSibling.classList.add('hidden');
+                   y[i].classList.remove('invalid')
+               }
+           }
+           
+           if (y[i].name != 'other_mobile_number') {
+            if (currentTab == 0){
+
+            
+               if (y[i].value == '') {
+                   y[i].className += ' invalid';
+                   try {
+                       y[i].nextElementSibling.classList.remove('hidden');
+                   } catch (err) {
+                       console.log(err);
+                   }
+                   valid = false;
+               }
+            }else if(currentTab == 3)
+            {
+               console.log(y[i].name);
+               // Check if the input is of type "file" and if it's empty
+               if ((y[i].name === "profile_picture" || y[i].name =='resume') && y[i].value) {
+                  y[i].classList.remove('invalid')
+                  valid = true; // Set the validation status to false
+               }else{
+                  if(y[i].name != 'declaration') {
+                  console.log("File input is empty.");
+                  y[i].className += ' invalid'; // Add 'invalid' class to highlight the field
+                  valid = false;
+                  }
+            }
+               
+            }
+            else{
+               valid = true;
+            }
+           }
+           try {
+               
+               if (z[i].name == 'gender' || z[i].name == 'when_join_us') {
+                   if (z[i].value == '') {
+                       z[i].className += ' invalid';
+                       try {
+                           z[i].nextElementSibling.classList.remove('hidden');
+                       } catch (err) {
+                           console.log(err);
+                       }
+                       valid = false;
+                   }
+               }
+           } catch (err) {
+               console.log("Error: ", err);
+           }
+
+           try{
+            if (z[i].name == 'diploma-certification') {
+               let diploma_container =  document.getElementById('diploma-container')
+               if(z[i].value == 'diploma-container') {
+                  for(let v = 0; v < diploma_container.children.length; v++) {
+                     let diploma = diploma_container.children[v]
+                     diploma.setAttribute(oninput,'CharacterValidation(this)')
+                     diploma.setAttribute(pattern,'[^a-zA-Z\s]/g')
+                  }
+               }
+                  z[i].className += ' invalid';
+                  try {
+                     
+                     z[i].nextElementSibling.classList.remove('hidden');
+                  } catch (err) {
+                     console.log(err);
+                  }
+                  valid = false;
+               }
+           }
+           catch (err) {
+               console.log("Error: ", err);
+           }
+            
+       }
+       
+       if (!valid) {
+           showModal("Please fill out the form completely");
+       }
+       
+       
        
        // If valid, mark the step as finished
        if (valid) {
            document.getElementsByClassName('stepIndicator')[currentTab].className += ' finish';
        }
-   
+       
        return valid; // Return validation status
    }
    
    function nextPrev(n) {
        var x = document.getElementsByClassName('step');
-   
+       
        // Only proceed if validation passes
        if (n == 1 && !validateForm()) return false;
        
@@ -771,53 +846,54 @@
        
        // Submit if on the last tab, otherwise show the next tab
        if (currentTab >= x.length) {
-           document.getElementById('signUpForm').submit();
+           document.getElementById('signUpForm')
+               .submit();
            return false;
        }
        
        showTab(currentTab);
    }
    
-   const checkFormData = (input)=>{
+   const checkFormData = (input) => {
        // Get the list of classes
        let classList = input.className.split(" ");
-
+       input.nextElementSibling.classList.add('hidden')
+       
        // Remove the last class from the array
        let lastClassName = classList.pop();
        // Join the classes back into a string and update the input's class attribute
-       if (input.value == ''){
-          valid = false
+       if (input.value == '') {
+           valid = false
+       } else {
+           if (lastClassName == 'invalid') {
+               valid = true
+               input.className = classList.join(" ");
+               
+           }
        }
-       else{
-          if (lastClassName == 'invalid'){
-             valid = true
-             input.className = classList.join(" ");
- 
-          }
-        }
-
+       
    }
-
-   function checkEmail(input) {
-
-      const emailError = document.getElementById('emailError');
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-      if (emailRegex.test(input.value)) {
-        emailError.classList.add('hidden'); // Hide error message if valid
-        input.classList.remove('invalid')
-        console.log("Working1");
-      } else {
-         emailError.classList.remove('hidden'); // Show error message if invalid
-         input.classList.add('invalid')
-         console.log("Working 2");
-      }
-    }
    
+   function checkEmail(input) {
+       
+       const emailError = document.getElementById('emailError');
+       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+       
+       if (emailRegex.test(input.value)) {
+           emailError.classList.add('hidden'); // Hide error message if valid
+           input.classList.remove('invalid')
+       } else {
+           emailError.classList.remove('hidden'); // Show error message if invalid
+           input.classList.add('invalid')
+       }
+   }
+   
+
+
    function fixStepIndicator(n) {
        // This function removes the "active" class of all steps...
-       var i,
-           x = document.getElementsByClassName('stepIndicator')
+       var i
+           , x = document.getElementsByClassName('stepIndicator')
        for (i = 0; i < x.length; i++) {
            x[i].className = x[i].className.replace(' active', '')
        }
@@ -827,321 +903,366 @@
    
    function formatCNIC(input) {
        let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
-      
+       
        if (value.length > 5) {
            // Add first dash after five digits
            value = value.slice(0, 5) + '-' + value.slice(5);
        }
-      
+       
        if (value.length > 13) {
            // Add second dash after the next seven digits
            value = value.slice(0, 13) + '-' + value.slice(13, 14);
        }
        input.value = value;
-
+       
        // Get the list of classes
-      let classList = input.className.split(" ");
-
-      // Remove the last class from the array
-      let lastClassName = classList.pop();
-      // Join the classes back into a string and update the input's class attribute
-      if (input.value == ''){
-         valid = false
-      }
-      else{
-         if (lastClassName == 'invalid'){
-            valid = true
-            input.className = classList.join(" ");
-
-         }
+       let classList = input.className.split(" ");
+       
+       // Remove the last class from the array
+       let lastClassName = classList.pop();
+       // Join the classes back into a string and update the input's class attribute
+       if (input.value == '') {
+           valid = false
+       } else {
+           if (lastClassName == 'invalid') {
+               valid = true
+               input.className = classList.join(" ");
+               input.nextElementSibling.classList.add('hidden')
+               
+           }
        }
    }
    
-   function CharacterValidation(input){
-       let value = input.value.replace(/\d/g, ''); 
+   function CharacterValidation(input) {
+       // Remove any characters that are not letters or spaces
+       let value = input.value.replace(/[^a-zA-Z\s]/g, '');
        input.value = value;
-
-      // Get the list of classes
-      let classList = input.className.split(" ");
-
-      // Remove the last class from the array
-      let lastClassName = classList.pop();
-      // Join the classes back into a string and update the input's class attribute
-      if (input.value == ''){
-         valid = false
-      }
-      else{
-         if (lastClassName == 'invalid'){
-            valid = true
-            input.className = classList.join(" ");
-
-         }
+       // Check if the input is empty
+       input.nextElementSibling.classList.add('hidden')
+       if (input.value.trim() === '') {
+           // Add the 'invalid' class if not already present
+           if (!input.classList.contains('invalid')) {
+               input.classList.add('invalid');
+               
+           }
+       } else {
+           // Remove the 'invalid' class if present
+           input.classList.remove('invalid');
        }
-   
    }
-   function NumberValidation(input){
-       let value = input.value.replace(/\D/g, ''); 
+   
+   function checkDOB(input){
+      let date = input.value;
+      if (date){
+       input.nextElementSibling.classList.add('hidden')
+       input.classList.remove('invalid');
+
+      }
+   }
+   
+   function NumberValidation(input) {
+       let value = input.value.replace(/\D/g, '');
        input.value = value;
        // Get the list of classes
-      let classList = input.className.split(" ");
+       let classList = input.className.split(" ");
+       try{
+          input.nextElementSibling.classList.add('hidden')
 
-      // Remove the last class from the array
-      let lastClassName = classList.pop();
-      // Join the classes back into a string and update the input's class attribute
-      if (input.value == ''){
-         valid = false
-      }
-      else{
-         if (lastClassName == 'invalid'){
-            valid = true
-            input.className = classList.join(" ");
+       }
+       catch(error){
+         console.log("Error 956: ", error);
+       }
 
-         }
+       
+       // Remove the last class from the array
+       let lastClassName = classList.pop();
+       // Join the classes back into a string and update the input's class attribute
+       if (input.value == '') {
+           valid = false
+       } else {
+           if (lastClassName == 'invalid') {
+               valid = true
+               input.className = classList.join(" ");
+               
+           }
        }
    }
-
+   
    function validateYear(input) {
-      let value = input.value.replace(/\D/g, ''); 
-      input.value = value;
-      const year = parseInt(input.value, 10);
-      const maxYear = 2024;
-  
-      // Allow only numbers and ensure it’s 4 digits
-      if (!/^\d{0,4}$/.test(input.value)) {
-          input.value = input.value.slice(0, -1); // Remove the last character if not a number
-          return;
-      }
-  
-      // If year is greater than the max year, reset to max year
-      if (year > maxYear) {
-          input.value = maxYear;
-      }
-  }
-  
-   
-   function selectAll(input){
-       console.log();
-       if (input.checked){
-           afternoon.checked  =true
-           night.checked  =true
-           evening.checked  =true
-           afternoon.setAttribute('disabled','disabled')
-           evening.setAttribute('disabled','disabled')
-           night.setAttribute('disabled','disabled')
+       let value = input.value.replace(/\D/g, '');
+       input.value = value;
+       const year = parseInt(input.value, 10);
+       const maxYear = 2024;
+       
+       // Allow only numbers and ensure it’s 4 digits
+       if (!/^\d{0,4}$/.test(input.value)) {
+           input.value = input.value.slice(0, -1); // Remove the last character if not a number
+           return;
        }
-       else{
-           afternoon.checked  =false
-           night.checked  =false
-           evening.checked  =false
-           afternoon.removeAttribute('disabled','disabled')
-           evening.removeAttribute('disabled','disabled')
-           night.removeAttribute('disabled','disabled')
+       
+       // If year is greater than the max year, reset to max year
+       if (year > maxYear) {
+           input.value = maxYear;
+       }
+   }
+   
+   
+   function selectAll(input) {
+       if (input.checked) {
+           afternoon.checked = true
+           night.checked = true
+           evening.checked = true
+           afternoon.setAttribute('disabled', 'disabled')
+           evening.setAttribute('disabled', 'disabled')
+           night.setAttribute('disabled', 'disabled')
+       } else {
+           afternoon.checked = false
+           night.checked = false
+           evening.checked = false
+           afternoon.removeAttribute('disabled', 'disabled')
+           evening.removeAttribute('disabled', 'disabled')
+           night.removeAttribute('disabled', 'disabled')
        }
    }
    
    function showQualificationFields(level) {
        const levels = ["phd", "master", "bachelor", "inter", "matric"];
        let show = false;
-   
+       
        levels.forEach((lvl) => {
            const section = document.getElementById(`${lvl}-section`);
-           if (lvl === level)
-           {
+           if (lvl === level) {
                show = true;
-           } 
+           }
            section.style.display = show ? "block" : "none";
            
        });
    }
-
+   
    function showCertificationOptions(level) {
-      const levels = ["diploma-container"];
-      let show = false;
-  
-      levels.forEach((lvl) => {
-         console.log(lvl);
-         console.log(level);
-         console.log(lvl === level);
-          const section = document.getElementById(`${lvl}`);
-         const add_more_btn = document.getElementById('add-diploma')
-         
-          if (lvl === level)
-          {
-              show = true;
-          } 
-          section.style.display = show ? "block" : "none";
-         add_more_btn.style.display = show ? "block" : "none";
-          
-      });
-  }
-
-  function showWorkingExperience(experience){
-   const experience_container = ["experience-container"];
-   let show = false;
-
-   experience_container.forEach((lvl) => {
-      console.log(lvl);
-      console.log(experience);
-      console.log(lvl === experience);
-         const section = document.getElementById(`${lvl}`);
-         const add_more_btn = document.getElementById('add-more')
-         if (lvl === experience)
-         {
-            show = true;
-         } 
-         section.style.display = show ? "block" : "none";
-         add_more_btn.style.display = show ? "block" : "none";
-         
-   });
-  }
-
-
-
+       const levels = ["diploma-container"];
+       let show = false;
+       
+       levels.forEach((lvl) => {
+           const section = document.getElementById(`${lvl}`);
+           const add_more_btn = document.getElementById('add-diploma')
+           
+           if (lvl === level) {
+               show = true;
+           }
+           section.style.display = show ? "block" : "none";
+           add_more_btn.style.display = show ? "block" : "none";
+           
+       });
+   }
+   
+   function showWorkingExperience(experience) {
+       const experience_container = ["experience-container"];
+       let show = false;
+       
+       experience_container.forEach((lvl) => {
+           const section = document.getElementById(`${lvl}`);
+           const add_more_btn = document.getElementById('add-more')
+           if (lvl === experience) {
+               show = true;
+           }
+           section.style.display = show ? "block" : "none";
+           add_more_btn.style.display = show ? "block" : "none";
+           
+       });
+   }
+   
+   
+   
    let experienceCount = 1;
    let DiplomaCount = 1;
-const maxExperienceCount = 3;
-const maxDiplomaCount = 3
-
-
-// ADD MORE EXPERIENCE 
-function addExperience() {
-   if (experienceCount >= maxExperienceCount) {
-      alert("You can only add up to 3 experiences.");
-      return;
-   }
-
-   experienceCount++;
-   const experienceContainer = document.getElementById("experience-container");
-
-   const newExperience = document.createElement("div");
-   newExperience.classList.add("experience-section");
-   newExperience.setAttribute("id", `experience${experienceCount}`);
-   newExperience.innerHTML = `
-      <p class="font-bold my-3 text-2xl">Last Work Experience ${experienceCount}</p>
-               <div class="flex space-x-10">
-                  <div class="mb-6 w-full">
-                     <input type="text" placeholder="Name of Company" name="job${experienceCount}_company_name"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                        />
-                  </div>
-                  <div class="mb-6 w-full">
-                     <input type="text" placeholder="Department" name="job${experienceCount}_department"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                        />
-                  </div>
-               </div>
-               <div class="flex space-x-10">
-                  <div class="mb-6 w-full">
-                     <input type="text" placeholder="Position/Designation" name="job${experienceCount}_designation"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                        />
-                  </div>
-                  <div class="mb-6 w-full">
-                     <input type="text" placeholder="Salary" name="job${experienceCount}_salary"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
-                        />
-                  </div>
-               </div>
-               <div class="mb-6 w-full flex space-x-10">
-                  <div class="w-1/2">
-                     <label for="">Start Date</label>
-                     <input type="date" placeholder="Joing" name="job${experienceCount}_joining_date"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
-                        />
-                  </div>
-                  <div class="w-1/2">
-                     <label for="">End Date</label>
-                     <input type="date" placeholder="Joing" name="job${experienceCount}_end_date"
-                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
-                        />
-                  </div>
-               </div>
-               <p class="my-3">Experience Letter</p>
-               <div class="mb-6 flex space-x-7 float-left">
-                  <input type="radio" id="yes" name="job${experienceCount}_experience_letter" value="Yes"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="yes">Yes</label>
-                  <input type="radio" id="no" name="job${experienceCount}_experience_letter" value="No"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="no">No</label>
-               </div>
-               <div class="mb-6">
-                  <textarea placeholder="Reason For Leaving Job" name="job${experienceCount}_reason"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
-                     ></textarea>
-               </div>
-   `;
-   experienceContainer.appendChild(newExperience);
-}
-
-
-// REMOVE EXPERIENCE
-function removeExperience() {
-   if (experienceCount <= 1) {
-      alert("At least one work experience is required.");
-      return;
-   }
-
-   const experienceToRemove = document.getElementById(`experience${experienceCount}`);
-   experienceToRemove.remove();
-   experienceCount--;
-}
-
-
-// ADD DIPLOMA SECTIONS
-function addDiploma() {
-   if (DiplomaCount >= maxDiplomaCount) {
-      alert("You can only add up to 3 diploma/certificates.");
-      return;
-   }
-
-   DiplomaCount++;
-   const diploma_container = document.getElementById("diploma-container");
-
-   const newDiploma = document.createElement("div");
-   newDiploma.classList.add("diploma-section");
-   newDiploma.setAttribute("id", `diploma${DiplomaCount}`);
-   newDiploma.innerHTML = `
-      <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
-                     <div class="flex space-x-10">
-                        <div class="mb-6 w-full">
-                           <input type="text" placeholder="Institute Name" name="diploma_institute${DiplomaCount}"
-                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                              />
-                        </div>
-                        <div class="mb-6 w-full">
-                           <input type="text" placeholder="Subject" name="diploma_degree${DiplomaCount}"
-                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-                              /> 
-                        </div>
+   const maxExperienceCount = 3;
+   const maxDiplomaCount = 3
+   
+   
+   // ADD MORE EXPERIENCE 
+   function addExperience() {
+       if (experienceCount >= maxExperienceCount) {
+           alert("You can only add up to 3 experiences.");
+           return;
+       }
+       
+       experienceCount++;
+       const experienceContainer = document.getElementById("experience-container");
+       
+       const newExperience = document.createElement("div");
+       newExperience.classList.add("experience-section");
+       newExperience.setAttribute("id", `experience${experienceCount}`);
+       newExperience.innerHTML = `
+         <p class="font-bold my-3 text-2xl">Last Work Experience ${experienceCount}</p>
+                  <div class="flex space-x-10">
+                     <div class="mb-6 w-full">
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Name of Company *" name="job${experienceCount}_company_name"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           />
                      </div>
-                     <div class="flex space-x-10">
-                        <div class="mb-6 w-full">
-                           <input type="text" placeholder="Percentage/CGPA/Grade" name="diploma_grade${DiplomaCount}"
-                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
-                              />
-                        </div>
-                        <div class="mb-6 w-full">
-                           <input type="text" placeholder="Year of Passing" name="diploma_year_passing${DiplomaCount}"
-                              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
-                              />
-                        </div>
+                     <div class="mb-6 w-full">
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Department *" name="job${experienceCount}_department"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           />
                      </div>
-   `;
-   diploma_container.appendChild(newDiploma);
-}
-
-function removeDiploma() {
-   if (DiplomaCount <= 1) {
-      alert("At least one work diploma/Certificate is required.");
-      return;
+                  </div>
+                  <div class="flex space-x-10">
+                     <div class="mb-6 w-full">
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Position/Designation *" name="job${experienceCount}_designation"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           />
+                     </div>
+                     <div class="mb-6 w-full">
+                        <input type="text" placeholder="Salary *" name="job${experienceCount}_salary"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+                           />
+                     </div>
+                  </div>
+                  <div class="mb-6 w-full flex space-x-10">
+                     <div class="w-1/2">
+                        <label for="">Start Date *</label>
+                        <input type="date" placeholder="Joing" name="job${experienceCount}_joining_date"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+                           />
+                     </div>
+                     <div class="w-1/2">
+                        <label for="">End Date *</label>
+                        <input type="date" placeholder="Joing" name="job${experienceCount}_end_date"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+                           />
+                     </div>
+                  </div>
+                  <p class="my-3">Experience Letter *</p>
+                  <div class="mb-6 flex space-x-7 float-left">
+                     <input type="radio" id="yes" name="job${experienceCount}_experience_letter" value="Yes"
+                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                        oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                     <label for="yes">Yes</label>
+                     <input type="radio" id="no" name="job${experienceCount}_experience_letter" value="No"
+                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                        oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                     <label for="no">No</label>
+                  </div>
+                  <div class="mb-6">
+                     <textarea placeholder="Reason For Leaving Job" name="job${experienceCount}_reason"
+                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                        ></textarea>
+                  </div>
+      `;
+       experienceContainer.appendChild(newExperience);
    }
-
-   const diplomaToRemove = document.getElementById(`diploma${DiplomaCount}`);
-   diplomaToRemove.remove();
-   DiplomaCount--;
-}
-
+   
+   
+   // REMOVE EXPERIENCE
+   function removeExperience() {
+       if (experienceCount <= 1) {
+           alert("At least one work experience is required.");
+           return;
+       }
+       
+       const experienceToRemove = document.getElementById(`experience${experienceCount}`);
+       experienceToRemove.remove();
+       experienceCount--;
+   }
+   
+   
+   // ADD DIPLOMA SECTIONS
+   function addDiploma() {
+       if (DiplomaCount >= maxDiplomaCount) {
+           alert("You can only add up to 3 diploma/certificates.");
+           return;
+       }
+       
+       DiplomaCount++;
+       const diploma_container = document.getElementById("diploma-container");
+       
+       const newDiploma = document.createElement("div");
+       newDiploma.classList.add("diploma-section");
+       newDiploma.setAttribute("id", `diploma${DiplomaCount}`);
+       newDiploma.innerHTML = `
+         <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
+                        <div class="flex space-x-10">
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Institute Name *" name="diploma_institute${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                                 />
+                           </div>
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Subject *" name="diploma_degree${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                                 /> 
+                           </div>
+                        </div>
+                        <div class="flex space-x-10">
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Percentage/CGPA/Grade *" name="diploma_grade${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                                 />
+                           </div>
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Year of Passing *" name="diploma_year_passing${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
+                                 />
+                           </div>
+                        </div>
+      `;
+       diploma_container.appendChild(newDiploma);
+   }
+   
+   function removeDiploma() {
+       if (DiplomaCount <= 1) {
+           alert("At least one work diploma/Certificate is required.");
+           return;
+       }
+       
+       const diplomaToRemove = document.getElementById(`diploma${DiplomaCount}`);
+       diplomaToRemove.remove();
+       DiplomaCount--;
+   }
+   
+   
+   // check select options
+   
+   function checkSelectOptions(select) {
+       // Check if the input is empty
+       select.nextElementSibling.classList.add('hidden')
+       if (select.value.trim() === '') {
+           // Add the 'invalid' class if not already present
+           if (!select.classList.contains('invalid')) {
+               select.classList.add('invalid');
+               
+           }
+       } else {
+           // Remove the 'invalid' class if present
+           select.classList.remove('invalid');
+       }
+       
+   }
+   
+   function closeModal() {
+       const modal = document.getElementById('customModal')
+       modal.classList.add('hidden')
+   }
+   
+   // Function to show the modal with a custom message
+   function showModal(message) {
+       const modal = document.getElementById('customModal')
+       const modalMessage = document.getElementById('modalMessage')
+       
+       modalMessage.textContent = message
+       modal.classList.remove('hidden')
+   }
+   
+   // Close the modal when the close button is clicked
+   document.querySelector('.close-btn')
+       .onclick = function () {
+           document.getElementById('customModal')
+               .classList.add('hidden')
+           
+       }
+   
 </script>
+
+
+</html>

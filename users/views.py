@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
@@ -12,6 +12,7 @@ from core.models import ConfigurationModel
 import requests, json, pytz
 from users.services import generate_password
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 
 BASE_URL = settings.BASE_URL
 
@@ -685,6 +686,134 @@ def update_education(request,user_id):
         return JsonResponse({"message": "Education updated successfully.","success": True})
 
     return JsonResponse({"error": "Invalid request method.","success":False}, status=400)
+
+
+def update_resume(request,id):
+    if request.method == "POST":
+        # Upload resume file
+        resume = request.FILES.get('resume')  # Get the uploaded file
+
+        if resume:
+            user = get_object_or_404(User, id=id)  # Safely get the user or return a 404 error
+            user.resume = resume
+            user.save()
+
+            print("Uploaded file:", resume)
+            messages.success(request, 'uploaded successfully.')
+        else:
+            messages.error(request, 'No file uploaded. Please try again.')
+
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+    messages.error(request, 'Invalid request method.')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+
+def education_certification(request,id):
+    if request.method == "POST":
+        # Upload resume file
+        educational_certificates = request.FILES.get('educational_certificates')  # Get the uploaded file
+
+        if educational_certificates:
+            user = get_object_or_404(User, id=id)  # Safely get the user or return a 404 error
+            user.educational_certificates = educational_certificates
+            user.save()
+
+            print("Uploaded file:", educational_certificates)
+            messages.success(request, 'uploaded successfully.')
+        else:
+            messages.error(request, 'No file uploaded. Please try again.')
+
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+    messages.error(request, 'Invalid request method.')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+
+def professional_certifications(request,id):
+    if request.method == "POST":
+        # Upload resume file
+        professional_certifications = request.FILES.get('professional_certifications')  # Get the uploaded file
+
+        if professional_certifications:
+            user = get_object_or_404(User, id=id)  # Safely get the user or return a 404 error
+            user.professional_certifications = professional_certifications
+            user.save()
+
+            print("Uploaded file:", professional_certifications)
+            messages.success(request, 'uploaded successfully.')
+        else:
+            messages.error(request, 'No file uploaded. Please try again.')
+
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+    messages.error(request, 'Invalid request method.')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+
+def offer_letter(request,id):
+    if request.method == "POST":
+        # Upload resume file
+        offer_letter = request.FILES.get('offer_letter')  # Get the uploaded file
+
+        if offer_letter:
+            user = get_object_or_404(User, id=id)  # Safely get the user or return a 404 error
+            user.offer_letter = offer_letter
+            user.save()
+
+            print("Uploaded file:", offer_letter)
+            messages.success(request, 'uploaded successfully.')
+        else:
+            messages.error(request, 'No file uploaded. Please try again.')
+
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+    messages.error(request, 'Invalid request method.')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+
+
+def identity_proof(request,id):
+    if request.method == "POST":
+        # Upload resume file
+        identity_proof = request.FILES.get('identity_proof')  # Get the uploaded file
+
+        if identity_proof:
+            user = get_object_or_404(User, id=id)  # Safely get the user or return a 404 error
+            user.identity_proof = identity_proof
+            user.save()
+
+            print("Uploaded file:", identity_proof)
+            messages.success(request, 'uploaded successfully.')
+        else:
+            messages.error(request, 'No file uploaded. Please try again.')
+
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+    messages.error(request, 'Invalid request method.')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+
+def utility_bills(request,id):
+    if request.method == "POST":
+        # Upload resume file
+        utility_bills = request.FILES.get('utility_bills')  # Get the uploaded file
+
+        if utility_bills:
+            user = get_object_or_404(User, id=id)  # Safely get the user or return a 404 error
+            user.utility_bills = utility_bills
+            user.save()
+
+            print("Uploaded file:", utility_bills)
+            messages.success(request, 'uploaded successfully.')
+        else:
+            messages.error(request, 'No file uploaded. Please try again.')
+
+        return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
+    messages.error(request, 'Invalid request method.')
+    return HttpResponseRedirect(reverse('update-profile',kwargs={'id':id}))
+
 
 import pandas as pd
 from django.http import JsonResponse
