@@ -58,6 +58,7 @@ MIDDLEWARE = [
 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.ip_restriction.ip_restriction_middleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
