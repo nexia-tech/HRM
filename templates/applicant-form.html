@@ -197,20 +197,16 @@
                   </select>
                   <span class="text-red-500 text-sm hidden">Please select any option *</span>
                </div>
-               <p class="my-3">Select Marital Status *</p>
-               <div class="mb-6 flex space-x-7 float-left">
-                  <input type="radio" id="single" name="marital_status" value="single"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="single">Single</label>
-                  <input type="radio" id="married" name="marital_status" value="married"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="married">Married</label>
-                  <input type="radio" id="divorced" name="marital_status" value="divorced"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="divorced">Divorced</label>
+               <div class="mb-6">
+                  <label for="">Marital Status *</label>
+                  <select name="marital_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+                     <option value="" disabled selected>Select Marital Status *</option>
+                     <option value="signle" id="single">Single</option>
+                     <option value="married" id="married">Married</option>
+                     <option value="divorced" id="divorced">Divorced</option>
+                  </select>
+                  <span class="text-red-500 text-sm hidden">Please select any option *</span>
+                 
                </div>
                <div class="mb-6">
                   <input type="text" placeholder="Expected Salary *" name="expected_salary"
@@ -913,7 +909,7 @@
            }
            try {
                
-               if (z[i].name == 'gender' || z[i].name == 'when_join_us') {
+               if (z[i].name == 'gender' || z[i].name == 'when_join_us' || z[i].name == 'marital_status') {
                    if (z[i].value == '') {
                        z[i].className += ' invalid';
                        try {
