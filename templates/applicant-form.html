@@ -79,6 +79,11 @@
       p{
       font-family: "Roboto", Sans-serif;
       }
+      .text_area_invalid {
+         background-color: #ffe6e6;
+         border: 1px solid red !important;
+     }
+     
    </style>
    <body>
       <!-- Navbar -->
@@ -178,7 +183,7 @@
                </div>
                <div class="mb-6">
                   <label for="">Date of Birth  *</label>
-                  <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDOB(this)" name="date_of_birth"
+                  <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDate(this)" name="date_of_birth"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                      />
                   <span class="text-red-500 text-sm hidden">Please enter required field *</span>
@@ -489,38 +494,44 @@
                            <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Name of Company *" name="job1_company_name"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                         <div class="mb-6 w-full">
                            <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Department *" name="job1_department"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                      </div>
                      <div class="flex space-x-10">
                         <div class="mb-6 w-full">
                            <input type="text" placeholder="Position/Designation *" name="job1_designation"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                         <div class="mb-6 w-full">
                            <input type="text" placeholder="Salary *" name="job1_salary"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                      </div>
                      <div class="mb-6 w-full flex space-x-10">
                         <div class="w-1/2">
                            <label for="">Start Date *</label>
-                           <input type="date" placeholder="Joing" name="job1_joining_date"
+                           <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job1_joining_date"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                         <div class="w-1/2">
                            <label for="">End Date *</label>
-                           <input type="date" placeholder="Joing" name="job1_end_date"
+                           <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job1_end_date"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                      </div>
                      <p class="my-3">Experience Letter *</p>
                      <div class="mb-6 flex space-x-7 float-left">
@@ -534,7 +545,7 @@
                         <label for="no">No</label>
                      </div>
                      <div class="mb-6">
-                        <textarea placeholder="Reason For Leaving Job" name="job1_reason"
+                        <textarea oninput='TextAreaValidation(this)' placeholder="Reason For Leaving Job" name="job1_reason"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
                            ></textarea>
                      </div>
@@ -836,6 +847,51 @@
                   valid = true;
                }
            }
+           else if (currentTab == 2) {
+            const workingExperience = document.getElementById("working-experience");
+            const experienceContainer = document.getElementById("experience-container");
+            
+            if (workingExperience.value === "experience-container") {
+                const experienceSections = document.querySelectorAll(".experience-section");
+                let allFieldsValid = true;
+        
+                experienceSections.forEach((section) => {
+                    const inputs = section.querySelectorAll("input");
+                    const textareas = section.querySelectorAll("textarea");
+                    inputs.forEach((input) => {
+                        if (!input.value.trim()) {
+                            input.classList.add("invalid");
+                            allFieldsValid = false;
+                        } else {
+                            input.classList.remove("invalid");
+
+                        }
+                    });
+
+                    textareas.forEach((textarea) => {
+                     if (!textarea.value.trim()) {
+                         textarea.classList.add("text_area_invalid");
+                         allFieldsValid = false;
+                        } else {
+                         textarea.classList.remove("text_area_invalid");
+
+                     }
+                 });
+                });
+        
+                // If any field is invalid, prevent navigation
+                if (!allFieldsValid) {
+                    valid = false;
+                }
+            } else if (workingExperience.value === "No") {
+                // Allow navigation if "No" is selected
+                valid = true;
+            } else {
+                // If no option is selected, prevent navigation
+                valid = false;
+            }
+        }
+        
            
             else if(currentTab == 3)
             {
@@ -1028,8 +1084,13 @@
            input.classList.remove('invalid');
        }
    }
+
+   function TextAreaValidation(t){
+      t.classList.remove('text_area_invalid')
+      
+   }
    
-   function checkDOB(input){
+   function checkDate(input){
       let date = input.value;
       if (date){
        input.nextElementSibling.classList.add('hidden')
@@ -1178,11 +1239,13 @@
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Name of Company *" name="job${experienceCount}_company_name"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Department *" name="job${experienceCount}_department"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                   </div>
                   <div class="flex space-x-10">
@@ -1190,25 +1253,29 @@
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Position/Designation *" name="job${experienceCount}_designation"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" placeholder="Salary *" name="job${experienceCount}_salary"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                   </div>
                   <div class="mb-6 w-full flex space-x-10">
                      <div class="w-1/2">
                         <label for="">Start Date *</label>
-                        <input type="date" placeholder="Joing" name="job${experienceCount}_joining_date"
+                        <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job${experienceCount}_joining_date"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                      <div class="w-1/2">
                         <label for="">End Date *</label>
-                        <input type="date" placeholder="Joing" name="job${experienceCount}_end_date"
+                        <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job${experienceCount}_end_date"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                   </div>
                   <p class="my-3">Experience Letter *</p>
@@ -1223,7 +1290,7 @@
                      <label for="no">No</label>
                   </div>
                   <div class="mb-6">
-                     <textarea placeholder="Reason For Leaving Job" name="job${experienceCount}_reason"
+                     <textarea oninput='TextAreaValidation(this)' placeholder="Reason For Leaving Job" name="job${experienceCount}_reason"
                         class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
                         ></textarea>
                   </div>
