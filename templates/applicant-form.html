@@ -79,6 +79,11 @@
       p{
       font-family: "Roboto", Sans-serif;
       }
+      .text_area_invalid {
+         background-color: #ffe6e6;
+         border: 1px solid red !important;
+     }
+     
    </style>
    <body>
       <!-- Navbar -->
@@ -178,7 +183,7 @@
                </div>
                <div class="mb-6">
                   <label for="">Date of Birth  *</label>
-                  <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDOB(this)" name="date_of_birth"
+                  <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDate(this)" name="date_of_birth"
                      class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                      />
                   <span class="text-red-500 text-sm hidden">Please enter required field *</span>
@@ -192,20 +197,16 @@
                   </select>
                   <span class="text-red-500 text-sm hidden">Please select any option *</span>
                </div>
-               <p class="my-3">Select Marital Status *</p>
-               <div class="mb-6 flex space-x-7 float-left">
-                  <input type="radio" id="single" name="marital_status" value="single"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="single">Single</label>
-                  <input type="radio" id="married" name="marital_status" value="married"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="married">Married</label>
-                  <input type="radio" id="divorced" name="marital_status" value="divorced"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="divorced">Divorced</label>
+               <div class="mb-6">
+                  <label for="">Marital Status *</label>
+                  <select name="marital_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+                     <option value="" disabled selected>Select Marital Status *</option>
+                     <option value="signle" id="single">Single</option>
+                     <option value="married" id="married">Married</option>
+                     <option value="divorced" id="divorced">Divorced</option>
+                  </select>
+                  <span class="text-red-500 text-sm hidden">Please select any option *</span>
+                 
                </div>
                <div class="mb-6">
                   <input type="text" placeholder="Expected Salary *" name="expected_salary"
@@ -298,11 +299,13 @@
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Institute Name *" name="matric_institute"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Subject *" name="matric_degree"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                   </div>
                   <div class="flex space-x-10">
@@ -487,38 +490,44 @@
                            <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Name of Company *" name="job1_company_name"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                         <div class="mb-6 w-full">
                            <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Department *" name="job1_department"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                      </div>
                      <div class="flex space-x-10">
                         <div class="mb-6 w-full">
                            <input type="text" placeholder="Position/Designation *" name="job1_designation"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                         <div class="mb-6 w-full">
                            <input type="text" placeholder="Salary *" name="job1_salary"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                      </div>
                      <div class="mb-6 w-full flex space-x-10">
                         <div class="w-1/2">
                            <label for="">Start Date *</label>
-                           <input type="date" placeholder="Joing" name="job1_joining_date"
+                           <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job1_joining_date"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                         <div class="w-1/2">
                            <label for="">End Date *</label>
-                           <input type="date" placeholder="Joing" name="job1_end_date"
+                           <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job1_end_date"
                               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                               />
-                        </div>
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
                      </div>
                      <p class="my-3">Experience Letter *</p>
                      <div class="mb-6 flex space-x-7 float-left">
@@ -532,7 +541,7 @@
                         <label for="no">No</label>
                      </div>
                      <div class="mb-6">
-                        <textarea placeholder="Reason For Leaving Job" name="job1_reason"
+                        <textarea oninput='TextAreaValidation(this)' placeholder="Reason For Leaving Job" name="job1_reason"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
                            ></textarea>
                      </div>
@@ -757,16 +766,137 @@
                    }
                    valid = false;
                }
-            }else if(currentTab == 3)
+            }
+            else if (currentTab == 1) {
+               let valid_diploma, valid_education;
+               // Check if diploma/certificate is selected
+               const diplomaSelect = document.getElementById("diploma-certification");
+               if (diplomaSelect.value === "diploma-container") {
+                  // Get all diploma sections dynamically
+                  const diplomaSections = document.querySelectorAll(".diploma-section");
+
+                  diplomaSections.forEach((section, index) => {
+                        const inputs = section.querySelectorAll("input");
+                        inputs.forEach(input => {
+                           if (!input.value.trim()) {
+                              input.classList.add("invalid");
+                              valid_diploma = false;
+                              valid = false;
+                           } else {
+                              input.classList.remove("invalid");
+                              valid_diploma = true;
+                        }
+                        });
+                  });
+               }else if(diplomaSelect.value == 'No'){
+                  valid_diploma = true;
+
+               }
+           
+               const qualification = document.getElementById('qualification').value;
+           
+               // Mapping qualification levels and their required fields
+               const requiredFields = {
+                   matric: ['matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year'],
+                   inter: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year'
+                   ],
+                   bachelor: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year',
+                       'bachelors_institute', 'bachelors_degree', 'bachelors_grade', 'bachelors_year_passing'
+                   ],
+                   master: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year',
+                       'bachelors_institute', 'bachelors_degree', 'bachelors_grade', 'bachelors_year_passing',
+                       'masters_institute', 'masters_degree', 'masters_grade', 'masters_year_passing'
+                   ],
+                   phd: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year',
+                       'bachelors_institute', 'bachelors_degree', 'bachelors_grade', 'bachelors_year_passing',
+                       'masters_institute', 'masters_degree', 'masters_grade', 'masters_year_passing',
+                       'phd_institute', 'phd_degree', 'phd_grade', 'phd_year_passing'
+                   ],
+               };
+           
+               // Get the fields to validate based on the selected qualification
+               const fieldsToValidate = requiredFields[qualification] || [];
+           
+               for (let i = 0; i < y.length; i++) {
+                   if (fieldsToValidate.includes(y[i].name)) {
+                       if (!y[i].value.trim()) {
+                           y[i].className += ' invalid'; // Highlight the invalid field
+                           valid_education = false;
+                           valid = false;
+                       } else {
+                           y[i].classList.remove('invalid'); // Remove the highlight if valid
+                           valid_education = true;
+                       }
+                   }
+               }
+
+               if (valid_diploma && valid_education)
+               {
+                  valid = true;
+               }
+           }
+           else if (currentTab == 2) {
+            const workingExperience = document.getElementById("working-experience");
+            const experienceContainer = document.getElementById("experience-container");
+            
+            if (workingExperience.value === "experience-container") {
+                const experienceSections = document.querySelectorAll(".experience-section");
+                let allFieldsValid = true;
+        
+                experienceSections.forEach((section) => {
+                    const inputs = section.querySelectorAll("input");
+                    const textareas = section.querySelectorAll("textarea");
+                    inputs.forEach((input) => {
+                        if (!input.value.trim()) {
+                            input.classList.add("invalid");
+                            allFieldsValid = false;
+                        } else {
+                            input.classList.remove("invalid");
+
+                        }
+                    });
+
+                    textareas.forEach((textarea) => {
+                     if (!textarea.value.trim()) {
+                         textarea.classList.add("text_area_invalid");
+                         allFieldsValid = false;
+                        } else {
+                         textarea.classList.remove("text_area_invalid");
+
+                     }
+                 });
+                });
+        
+                // If any field is invalid, prevent navigation
+                if (!allFieldsValid) {
+                    valid = false;
+                }
+            } else if (workingExperience.value === "No") {
+                // Allow navigation if "No" is selected
+                valid = true;
+            } else {
+                // If no option is selected, prevent navigation
+                valid = false;
+            }
+        }
+        
+           
+            else if(currentTab == 3)
             {
-               console.log(y[i].name);
                // Check if the input is of type "file" and if it's empty
                if ((y[i].name === "profile_picture" || y[i].name =='resume') && y[i].value) {
                   y[i].classList.remove('invalid')
                   valid = true; // Set the validation status to false
                }else{
                   if(y[i].name != 'declaration') {
-                  console.log("File input is empty.");
                   y[i].className += ' invalid'; // Add 'invalid' class to highlight the field
                   valid = false;
                   }
@@ -779,7 +909,7 @@
            }
            try {
                
-               if (z[i].name == 'gender' || z[i].name == 'when_join_us') {
+               if (z[i].name == 'gender' || z[i].name == 'when_join_us' || z[i].name == 'marital_status') {
                    if (z[i].value == '') {
                        z[i].className += ' invalid';
                        try {
@@ -950,8 +1080,13 @@
            input.classList.remove('invalid');
        }
    }
+
+   function TextAreaValidation(t){
+      t.classList.remove('text_area_invalid')
+      
+   }
    
-   function checkDOB(input){
+   function checkDate(input){
       let date = input.value;
       if (date){
        input.nextElementSibling.classList.add('hidden')
@@ -1100,11 +1235,13 @@
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Name of Company *" name="job${experienceCount}_company_name"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Department *" name="job${experienceCount}_department"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                   </div>
                   <div class="flex space-x-10">
@@ -1112,25 +1249,29 @@
                         <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Position/Designation *" name="job${experienceCount}_designation"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                      <div class="mb-6 w-full">
                         <input type="text" placeholder="Salary *" name="job${experienceCount}_salary"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                   </div>
                   <div class="mb-6 w-full flex space-x-10">
                      <div class="w-1/2">
                         <label for="">Start Date *</label>
-                        <input type="date" placeholder="Joing" name="job${experienceCount}_joining_date"
+                        <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job${experienceCount}_joining_date"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                      <div class="w-1/2">
                         <label for="">End Date *</label>
-                        <input type="date" placeholder="Joing" name="job${experienceCount}_end_date"
+                        <input type="date" oninput="checkDate(this)" placeholder="Joing" name="job${experienceCount}_end_date"
                            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
                            />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
                      </div>
                   </div>
                   <p class="my-3">Experience Letter *</p>
@@ -1145,7 +1286,7 @@
                      <label for="no">No</label>
                   </div>
                   <div class="mb-6">
-                     <textarea placeholder="Reason For Leaving Job" name="job${experienceCount}_reason"
+                     <textarea oninput='TextAreaValidation(this)' placeholder="Reason For Leaving Job" name="job${experienceCount}_reason"
                         class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
                         ></textarea>
                   </div>
