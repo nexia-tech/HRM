@@ -32,7 +32,7 @@
                     <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-20 text-center h-20" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
                   {% endif %}
                 </td>
-                <td class="px-6 py-4">{{ applicant_record.created_at }}</td>
+                <td class="px-6 py-4">{{ applicant_record.created_at|date:'d-M-Y' }}</td>
                 <td class="px-6 py-4">{{ applicant_record.name }}</td>
                 <td class="px-6 py-4">{{ applicant_record.position_applied_for }}</td>
                 <td class="px-6 py-4">{{ applicant_record.contact_number }}</td>
