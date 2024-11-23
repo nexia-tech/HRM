@@ -1,7 +1,7 @@
 from django.http import HttpResponseForbidden
 
 # Define allowed IPs
-ALLOWED_IPS = ['39.51.103.250', '39.51.52.167','127.0.0.1:8000','127.0.0.1','137.59.226.58']  # Replace with your allowed IPs.
+ALLOWED_IPS = ['39.51.103.250', '39.51.52.167','127.0.0.1:8000','127.0.0.1','137.59.226.58','39.51.115.201','39.34.153.156']  # Replace with your allowed IPs.
 
 def ip_restriction_middleware(get_response):
     def middleware(request):
