@@ -1105,6 +1105,28 @@ class Mark_as_Shortlisted(APIView):
             messages.error(request, 'Email already exist on the record')
         return redirect('applicants')
 
+
+class SetSchedule(APIView):
+     def post(self,request,id):
+        record = ApplicantDetails.objects.get(id=id)
+        user = User.objects.filter(email=record.email_address).first()
+        scheduled_date = request.data.get('scheduled_date')
+        scheduled_time = request.data.get('scheduled_time')
+        remarks = request.data.get('comments')
+        if not user:
+            record.scheduled_date = scheduled_date
+            record.scheduled_time = scheduled_time
+            record.remarks = remarks
+            record.is_scheduled = True
+            record.status = "Scheduled"
+            record.save()
+            messages.success(request, 'Employee Status Updated')
+            return Response(status=200)
+        else:
+            messages.error(request, 'Email already exist on the record')
+            return Response(status=500)
+    
+    
 class Mark_as_Rejected(APIView):
     
     def post(self,request,id):
@@ -1120,3 +1142,15 @@ class Mark_as_Rejected(APIView):
         else:
             messages.error(request, 'Email already exist on the record')
         return redirect('applicants')
+
+
+def show_schedules_records(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    records = ApplicantDetails.objects.filter(is_scheduled=True)
+    params = {
+        'records':records
+    }
+    
+    return render(request,'scedules-records.html', params)

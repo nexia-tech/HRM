@@ -23,34 +23,34 @@
             </tr>
           </thead>
           <tbody>
-            {% for applicant_record in applicant_records %}
+            {% for record in records %}
               <tr class="bg-white border-b 800 700">
                 <td class="px-6 py-4 flex justify-center items-center">
-                  {% if applicant_record.upload_profile %}
-                    <img class="border-black min-w-12 border rounded-full w-14 text-center h-14" src="{{ applicant_record.upload_profile.url }}" alt="image of applicant" />
+                  {% if record.upload_profile %}
+                    <img class="border-black min-w-12 border rounded-full w-14 text-center h-14" src="{{ record.upload_profile.url }}" alt="image of applicant" />
                   {% else %}
                     <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-14 text-center h-14" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
                   {% endif %}
                 </td>
-                <td class="px-6 py-4">{{ applicant_record.created_at|date:'d-M-Y' }}</td>
-                <td class="px-6 py-4">{{ applicant_record.name }}</td>
-                <td class="px-6 py-4">{{ applicant_record.position_applied_for }}</td>
-                <td class="px-6 py-4">{{ applicant_record.contact_number }}</td>
-                <td class="px-6 py-4">{{ applicant_record.email_address }}</td>
-                <td class="px-6 py-4">{{ applicant_record.gender }}</td>
-                <td class="px-6 py-4">{{ applicant_record.status }}</td>
-                {% if applicant_record.status == 'Rejected' %}
+                <td class="px-6 py-4">{{ record.created_at|date:'d-M-Y' }}</td>
+                <td class="px-6 py-4">{{ record.name }}</td>
+                <td class="px-6 py-4">{{ record.position_applied_for }}</td>
+                <td class="px-6 py-4">{{ record.contact_number }}</td>
+                <td class="px-6 py-4">{{ record.email_address }}</td>
+                <td class="px-6 py-4">{{ record.gender }}</td>
+                <td class="px-6 py-4">{{ record.status }}</td>
+                {% if record.status == 'Rejected' %}
                   <td class="px-6 py-4">
-                    <textarea disabled>{{ applicant_record.rejected_reason }}</textarea>
+                    <textarea disabled class="border-black">{{ record.rejected_reason }}</textarea>
                   </td>
                 {% else %}
                   <td class="px-6 py-4">
-                    <textarea disabled>{{ applicant_record.remarks }}</textarea>
+                    <textarea disabled class="border-black">{{ record.remarks }}</textarea>
                   </td>
                 {% endif %}
                 <td>
-                  <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
-                  <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark Status</button>
+                  <a href="{% url 'applicant' record.id %}" class="text-blue-700">View</a> |
+                  <button onclick="openModal('{{ record.id }}')" class="text-blue-700">Mark Status</button>
                 </td>
               </tr>
             {% endfor %}

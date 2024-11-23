@@ -98,6 +98,9 @@ class ApplicantDetails(models.Model):
     remarks = models.TextField(null=True,blank=True)
     status = models.CharField(max_length=200,default='In Process',null=True,blank=True)
     is_rejected = models.BooleanField(default=False)
+    is_scheduled = models.BooleanField(default=False)
+    scheduled_date = models.DateField(null=True, blank=True)
+    scheduled_time = models.TimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     
     
