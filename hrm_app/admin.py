@@ -25,7 +25,7 @@ admin.site.register(ScreenShotRecords)
 class ApplicantDetailsAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['name','email_address','cnic','marital_status','is_employee','is_rejected','is_scheduled','created_at']
     search_fields = ['name','email_address','cnic']
-    list_filter = ['marital_status','declaration','position_applied_for','is_employee','is_rejected','is_scheduled']
+    list_filter = ['marital_status','declaration','position_applied_for','is_employee','is_rejected','is_scheduled','status']
 
 admin.site.register(ApplicantDetails,ApplicantDetailsAdmin)
 

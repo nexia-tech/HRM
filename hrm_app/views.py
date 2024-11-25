@@ -928,7 +928,7 @@ def applicants(request):
     if not request.user.is_superuser:
         messages.error(request,"You don't have permission")
         return redirect('index')
-    applicant_records = ApplicantDetails.objects.filter(is_employee=False)
+    applicant_records = ApplicantDetails.objects.filter(is_employee=False).exclude(status='Junk')
     departments = Department.objects.all()
     params = {
         'applicant_records': applicant_records,
@@ -1126,6 +1126,18 @@ class SetSchedule(APIView):
             messages.error(request, 'Email already exist on the record')
             return Response(status=500)
     
+class SetJunks(APIView):
+     def post(self,request,id):
+        record = ApplicantDetails.objects.get(id=id)
+        user = User.objects.filter(email=record.email_address).first()
+        if not user:
+            record.status = "Junk"
+            record.save()
+            messages.success(request, 'Employee Status Updated')
+            return Response(status=200)
+        else:
+            messages.error(request, 'Email already exist on the record')
+            return Response(status=500)
     
 class Mark_as_Rejected(APIView):
     
