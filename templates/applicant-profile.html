@@ -213,9 +213,9 @@
         <div class="w-full my-auto py-6">
           <h1 class="text-4xl text-white font-bold mb-7">Documents Detail</h1>
           <div class="flex items-center space-x-8">
-            {% if job_experienc.resume %}
+            {% if applicant_record.resume %}
               <p class="text-base text-blue-600 hover:underline font-bold">
-                <a href="{{ job_experienc.resume.url }}" download="{{ job_experienc.resume }}">Resume</a>
+                <a href="{{ applicant_record.resume.url }}" download="{{ applicant_record.resume }}">Resume</a>
               </p>
               {% else %}
               <p class="text-base text-white  font-bold">

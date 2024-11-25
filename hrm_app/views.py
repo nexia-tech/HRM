@@ -754,8 +754,7 @@ def applicant_detail_form_function(request):
         expected_salary = data.get('expected_salary', None)
         address = data.get('address', None)
         contact_number = data.get('contact_number', None)
-        emergency_contact_number = data.get(
-            'emergency_contact_number', None)
+        emergency_contact_number = data.get('emergency_contact_number', None)
         when_join_us = data.get('when_join_us', None)
         emergency_contact_relation = data.get('emergency_contact_relation', None)
         gender = data.get('gender',None)
@@ -804,31 +803,20 @@ def applicant_detail_form_function(request):
             diploma_details=diploma_details,
             job_experience=job_experience,
             upload_profile=upload_profile,
-            resume=resume,
             other_mobile_number=other_mobile_number,
             declaration=declaration
         )
 
         try:
+            applicant.resume = resume
             applicant.date_of_birth = date_of_birth
             applicant.save()
         except Exception as e:
             print(e)
 
         return redirect('https://nexiatech.org/thankyou')
-        # Return a success response
-        return Response({
-            'message': 'Applicant created successfully!',
-            'applicant_id': applicant.id
-        }, status=status.HTTP_201_CREATED)
-
-        # except Exception as e:
-        print(e)
-        return Response({
-            'error': str(e),
-            'message': 'Failed to create applicant'
-        }, status=status.HTTP_400_BAD_REQUEST)
-
+    return redirect('https://nexiatech.org/thankyou')
+        
 class ShiftStartTime(APIView):
     def post(self, request):
         email = request.data['email']
