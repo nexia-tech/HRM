@@ -1187,7 +1187,40 @@ def show_schedules_records(request):
     if not request.user.is_superuser:
         messages.error(request,"You don't have permission")
         return redirect('index')
-    records = ApplicantDetails.objects.filter(is_scheduled=True)
+    
+    date_form = request.GET.get('date_form', None)
+    date_to = request.GET.get('date_to', None)
+    date_filter = request.GET.get('date_filter', None)
+
+    # Start with a basic query
+    filters = Q(is_employee=False,status='Scheduled')
+
+    # Filter by date range
+    if date_form and date_to:
+        filters &= Q(created_at__date__gte=date_form, created_at__date__lte=date_to)
+
+    # Apply predefined date filters
+    if date_filter:
+        today = now().date()
+        if date_filter == 'today':
+            filters &= Q(created_at__date=today)
+        elif date_filter == 'yesterday':
+            filters &= Q(created_at__date=today - timedelta(days=1))
+        elif date_filter == 'this_week':
+            start_of_week = today - timedelta(days=today.weekday())
+            filters &= Q(created_at__date__gte=start_of_week)
+        elif date_filter == '15_days':
+            filters &= Q(created_at__date__gte=today - timedelta(days=15))
+        elif date_filter == 'this_month':
+            filters &= Q(created_at__year=today.year, created_at__month=today.month)
+        elif date_filter == 'last_month':
+            first_day_of_current_month = today.replace(day=1)
+            last_month_end = first_day_of_current_month - timedelta(days=1)
+            filters &= Q(created_at__year=last_month_end.year, created_at__month=last_month_end.month)
+
+        
+    records = ApplicantDetails.objects.filter(filters)
+    print(records)
     params = {
         'records':records
     }

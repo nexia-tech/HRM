@@ -27,11 +27,9 @@ def get_client_ip(request):
     return ip
 
 def ip_allowed(ip, request):
-    print(ip)
     """
     Check if the IP and request are allowed.
     """
-    print(request.path)
     # Allow POST requests from any IP for API endpoints
     if request.path.startswith('/hrm/api/') and request.method == "POST":
         return True
