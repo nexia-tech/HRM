@@ -26,12 +26,18 @@ from django.contrib import messages
 from users.services import generate_password
 from django.utils.timezone import now, timedelta
 from django.db.models import Q
+import logging
+
+
 
 BASE_URL = settings.BASE_URL
-
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(levelname)s- %(asctime)s %(message)s', datefmt="%Y-%m-%d %H:%M:%S",filename='log/hrm_apps.log')
 
 @login_required(login_url='login')
 def my_attendance(request):
+
+    
     user = request.user
     # attendances = AttendanceModel.objects.filter(employee=user)
     attendances = SystemAttendanceModel.objects.filter(
@@ -42,7 +48,7 @@ def my_attendance(request):
             attendance.remaining_hours = str(
                 attendance.remaining_hours).split(".")[0]
     except Exception as e:
-        print(e)
+        logging.ERROR(str(e))
     context = {
         'attendances': attendances
     }
@@ -814,6 +820,7 @@ def applicant_detail_form_function(request):
             applicant.save()
         except Exception as e:
             print(e)
+            logging.ERROR(str(e))
 
         return redirect('https://nexiatech.org/thankyou')
     return redirect('https://nexiatech.org/thankyou')

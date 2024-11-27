@@ -13,8 +13,11 @@ import requests, json, pytz
 from users.services import generate_password
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+import logging
 
 BASE_URL = settings.BASE_URL
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(levelname)s- %(asctime)s %(message)s', datefmt="%Y-%m-%d %H:%M:%S",filename='log/users_app.log')
 
 
 @login_required(login_url='login')
@@ -148,7 +151,7 @@ def loginView(request):
                         last_record.shift_date = next_date
 
                 except Exception as e:
-                    pass
+                    logging.ERROR(str(e))
 
 
                 if attendance_obj is None:
@@ -407,6 +410,7 @@ def create_employee_account(request):
                 messages.success(request, 'Employee Account Has Been Created')
                 return redirect('index')
             except Exception as e:
+                logging.ERROR(str(e))
                 print(e)
                 messages.error(request, f"Error: {str(e)}")
                 return redirect('create-employee-account')
@@ -636,6 +640,8 @@ def update_profile(request, id):
             messages.success(request, 'Employee Details Has Been Updated')
             return redirect('index')
         except Exception as e:
+            logging.ERROR(str(e))
+            
             messages.error(request, f"Error: {str(e)}")
             return redirect('update-profile', id=employee.id)
 
@@ -864,6 +870,8 @@ def create_account(request):
             user.set_password(password)  # Set the password properly
             user.save()                  # Save the user object
         except Exception as e:
+            logging.ERROR(str(e))
+            
             print(f"Error for employee {name}: {e}")
         
     return JsonResponse({"message": "Script completed"})
