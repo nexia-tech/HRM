@@ -20,7 +20,7 @@
          {% endif %}
    
          <!-- Form Inputs: Date Fields -->
-         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-x-5 mt-4">
             <!-- Date From -->
             <div class="flex flex-col">
                <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_form">Date From</label>
@@ -37,7 +37,7 @@
             <div class="flex flex-col">
                <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_filter">Date Filter</label>
                <div class="relative">
-                  <select required name="date_filter" class=" w-96 text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 appearance-none cursor-pointer">
+                  <select required name="date_filter" class="w-72 text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 appearance-none cursor-pointer">
                      <option disabled selected>Select Date Filter</option>
                      <option value="today" {% if request.GET.date_filter == 'today' %} selected {% endif %}>Today</option>
                      <option value="yesterday" {% if request.GET.date_filter == 'yesterday' %} selected {% endif %}>Yesterday</option>
@@ -50,49 +50,56 @@
                </div>
                
             </div>
-         </div>
    
          <!-- Status Filter -->
-         <div class="mt-6">
-            <p class="text-base font-semibold text-gray-600 mb-4">Select Status Filter</p>
-            <div class="flex justify-between items-center">
-              <label class="inline-flex items-center">
-                <input type="checkbox" name="status_filter" value="All" class="form-checkbox text-blue-600" {% if 'All' in request.GET.status_filter %} checked {% endif %}>
-                <span class="ml-2 text-[#909090]">All</span>
-              </label>
-              <br/>
-             
-          
-              <label class="inline-flex items-center">
-                  <input type="checkbox" name="status_filter" value="Shortlisted" class="form-checkbox text-blue-600" {% if 'Shortlisted' in request.GET.status_filter %} checked {% endif %}>
-                  <span class="ml-2 text-[#909090]">Shortlisted</span>
-              </label>
-              <br/>
-          
-              <label class="inline-flex items-center">
-                  <input type="checkbox" name="status_filter" value="Follow up" class="form-checkbox text-blue-600" {% if 'Follow up' in request.GET.status_filter %} checked {% endif %}>
-                  <span class="ml-2 text-[#909090]">Follow up</span>
-              </label>
-              <br/>
-          
-              <label class="inline-flex items-center">
-                  <input type="checkbox" name="status_filter" value="Rejected" class="form-checkbox text-blue-600" {% if 'Rejected' in request.GET.status_filter %} checked {% endif %}>
-                  <span class="ml-2 text-[#909090]">Rejected</span>
-              </label>
-              <br/>
-          
-              <label class="inline-flex items-center">
-                  <input type="checkbox" name="status_filter" value="Junk" class="form-checkbox text-blue-600" {% if 'Junk' in request.GET.status_filter %} checked {% endif %}>
-                  <span class="ml-2 text-[#909090]">Junk</span>
-              </label>
-              <br/>
-          
-            
-              
+          <div class="flex flex-col">
+            <label class="block text-sm font-semibold text-gray-600 mb-2 text-start">Select Status Filter</label>
+            <div class="relative inline-block w-64">
+                <!-- Dropdown Trigger -->
+                <button
+                    type="button" 
+                    class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 w-72"
+                    id="dropdownButton"
+                    onclick="toggleDropdown()">
+                    Select Status Filters
+                    <svg class="w-4 h-4 inline float-right" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+        
+                <!-- Dropdown Menu -->
+                <div id="dropdownMenu" class="hidden absolute w-full bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10">
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="All" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">All</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                      <input type="checkbox" name="status_filter" value="In Process" class="form-checkbox text-blue-600">
+                      <span class="ml-2 text-[#909090]">In Process</span>
+                  </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Shortlisted" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Shortlisted</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Follow up" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Follow up</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Rejected" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Rejected</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Junk" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Junk</span>
+                    </label>
+                </div>
             </div>
-         </div>
+          </div>
    
-         <!-- Submit Button -->
+        </div>
+        <!-- Submit Button -->
+        
          <div class="mt-8 text-center">
             <button type="submit" class="bg-blue-600 text-white rounded-full py-2 px-8 hover:bg-blue-700 transition-all">
                Apply Filters
@@ -948,5 +955,20 @@
         }
       }
     }
+
+
+    function toggleDropdown() {
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      dropdownMenu.classList.toggle('hidden');
+  }
+
+  // Close dropdown if clicked outside
+  window.addEventListener('click', function (e) {
+      const dropdownButton = document.getElementById('dropdownButton');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+          dropdownMenu.classList.add('hidden');
+      }
+  });
   </script>
 {% endblock %}
