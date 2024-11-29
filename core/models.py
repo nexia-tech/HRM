@@ -11,7 +11,7 @@ class ConfigurationModel(models.Model):
     
 class Ips(models.Model):
     name = models.CharField(max_length=200)
-    ip = models.CharField(max_length=222)
+    ip = models.CharField(max_length=222,unique=True)
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     

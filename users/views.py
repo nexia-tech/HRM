@@ -8,7 +8,7 @@ from hrm_app.models import AttendanceModel, SystemAttendanceModel
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.conf import settings
-from core.models import ConfigurationModel
+from core.models import ConfigurationModel, Ips
 import requests, json, pytz
 from users.services import generate_password
 from django.views.decorators.csrf import csrf_exempt
@@ -875,3 +875,43 @@ def create_account(request):
             print(f"Error for employee {name}: {e}")
         
     return JsonResponse({"message": "Script completed"})
+
+
+
+@login_required(login_url='login')
+def all_ips(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    if request.method == "POST":
+        name = request.POST.get("name")
+        ip_address = request.POST.get("ip")
+
+        ip_instance = Ips.objects.filter(ip=ip_address).first()
+        if ip_instance:  # Edit action
+            ip_instance.name = name
+            ip_instance.ip = ip_address
+            ip_instance.save()
+            messages.success(request,'Ip Updated successfully')
+        else:  # Add action
+            Ips.objects.create(name=name, ip=ip_address)
+            messages.success(request,'Ip Added successfully')
+        return redirect('all-ips')
+    else:
+        ips = Ips.objects.all().order_by('-created_at')
+        params = {
+            'ips':ips
+        }
+        return render(request, 'ips.html', params)
+    
+
+@login_required(login_url='login')
+def delete_ip(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    if request.method == "DELETE":
+        ip = get_object_or_404(Ips, id=id)
+        ip.delete()
+        messages.success(request, 'IP deleted successfully')
+        return redirect('all-ips')
