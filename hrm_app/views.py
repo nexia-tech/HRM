@@ -26,7 +26,7 @@ from django.contrib import messages
 from users.services import generate_password
 from django.utils.timezone import now, timedelta
 from django.db.models import Q
-import logging
+import logging, json
 
 
 
@@ -765,7 +765,7 @@ def applicant_detail_form_function(request):
         when_join_us = data.get('when_join_us', None)
         emergency_contact_relation = data.get('emergency_contact_relation', None)
         gender = data.get('gender',None)
-        shift_availablity = data.get('shift_availablity', None)
+        shift_availablity = data.getlist('shift_availablity', None)
         matric_details = matric_details
         intermediate_details = intermediate_details
         bachelors_details = bachelors_details
@@ -786,6 +786,8 @@ def applicant_detail_form_function(request):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         # Create an ApplicantDetails object
+        if shift_availablity:
+            shift_availablity = json.dumps(shift_availablity)  # Save as JSON string
 
         applicant = ApplicantDetails.objects.create(
             name=name,
