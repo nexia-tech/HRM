@@ -1247,6 +1247,9 @@ def show_schedules_records(request):
 
 
 def show_applicant_history(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
     applicant = ApplicantDetails.objects.get(id=id)
     history = ApplicantHistory.objects.filter(applicant=applicant)
     print(history)
