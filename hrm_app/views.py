@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace, ApplicantHistory
 from django.utils import timezone
 from rest_framework.views import APIView
 from datetime import timedelta, datetime
@@ -1244,3 +1244,13 @@ def show_schedules_records(request):
     }
     
     return render(request,'scedules-records.html', params)
+
+
+def show_applicant_history(request,id):
+    applicant = ApplicantDetails.objects.get(id=id)
+    history = ApplicantHistory.objects.filter(applicant=applicant)
+    print(history)
+    params = {
+        'records':history
+    }
+    return render(request,'show_applicant_history.html',params)

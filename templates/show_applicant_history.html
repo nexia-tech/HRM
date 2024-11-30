@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Applicant History {% endblock title %}
+{% block body %}
+<section class="bg-gray-50 container mx-auto my-10 py-7">
+ 
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table
+      class="w-full text-sm text-left text-gray-500"
+      id="myTable"
+    >
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+            <th class="px-6 py-3">Change Date</th>
+          <th class="px-6 py-3">Nexia Employee</th>
+          <th class="px-6 py-3">Status</th>
+          <th class="px-6 py-3">Remarks</th>
+          <th class="px-6 py-3">Follow-up/Schedule/Shortlisted Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+        <tr class="bg-white border-b">
+            <td class="px-6 py-4 font-bold">{{ record.change_date|date:'d-M-Y' }}</td>
+            <td class="px-6 py-4">{{ record.user.name }}</td>
+            <td class="px-6 py-4">{{ record.status }}</td>
+            <td class="px-6 py-4">{{ record.comment }}</td>
+            <td class="px-6 py-4">{{ record.date }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+          responsive: false,
+          order: [[0, 'asc']],
+          pageLength: 10, // Set the number of entries per page to 10,
+          lengthMenu: [
+            [10, 25, 50, 75, 100],
+            [10, 25, 50, 75,100]
+          ] //
+        })
+      })
+ 
+</script>
+{% endblock %}
