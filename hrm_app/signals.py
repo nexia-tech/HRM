@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from hrm_app.models import ApplicantDetails
+from hrm_app.models import ApplicantDetails, ApplicantHistory
 from users.models import User
 from datetime import datetime
 from users.services import generate_password
@@ -42,3 +42,14 @@ def create_employee_account(sender,created,instance,*args,**kwargs):
             print("Done")
         except Exception as e:
             print(str(e))
+            
+            
+@receiver(post_save,sender=ApplicantDetails)
+def update_history(sender,created,instance, *args, **kwargs):
+    history = ApplicantHistory()
+    history.comment = instance.remarks or instance.rejected_reason
+    history.status = instance.status
+    history.user = instance.user
+    history.applicant = instance
+    history.date = instance.shortlisted_date or instance.follow_up_date or instance.scheduled_date
+    history.save()

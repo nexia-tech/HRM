@@ -650,8 +650,6 @@ def applicant_detail_form_function(request):
         # try:
         # Get the data from request
         data = request.POST
-        print(data)
-
         # Get files if present (profile picture and resume)
         upload_profile = request.FILES.get('profile_picture')
         resume = request.FILES.get('resume')
@@ -1003,6 +1001,7 @@ def get_csrf_token(request):
 class Mark_as_Employee(APIView):
     
     def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         data = request.data
@@ -1096,6 +1095,7 @@ class Mark_as_Employee(APIView):
             try:
                 record.is_employee = True
                 record.status = "Hired"
+                record.user = changer
                 user_obj.save()
                 record.save()
                 return Response({"message":"Employee Marked Successfully!!","status":True},status=200)
@@ -1111,6 +1111,7 @@ class Mark_as_Employee(APIView):
 class Mark_as_follow(APIView):
     
     def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         follow_up_date = request.data.get('follow_up_date')
@@ -1119,6 +1120,7 @@ class Mark_as_follow(APIView):
             record.follow_up_date = follow_up_date
             record.remarks = remarks
             record.status = 'Follow up'
+            record.user = changer
             record.save()
             messages.success(request, 'Employee Status Updated')
         else:
@@ -1127,6 +1129,7 @@ class Mark_as_follow(APIView):
 
 class Mark_as_Shortlisted(APIView):
      def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         shortlisted_date = request.data.get('shortlisted_date')
@@ -1134,6 +1137,7 @@ class Mark_as_Shortlisted(APIView):
         if not user:
             record.shortlisted_date = shortlisted_date
             record.remarks = remarks
+            record.user = changer
             record.status = "Shortlisted"
             record.save()
             messages.success(request, 'Employee Status Updated')
@@ -1144,6 +1148,7 @@ class Mark_as_Shortlisted(APIView):
 
 class SetSchedule(APIView):
      def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         scheduled_date = request.data.get('scheduled_date')
@@ -1155,6 +1160,7 @@ class SetSchedule(APIView):
             record.remarks = remarks
             record.is_scheduled = True
             record.status = "Scheduled"
+            record.user = changer
             record.save()
             messages.success(request, 'Employee Status Updated')
             return Response(status=200)
@@ -1164,10 +1170,12 @@ class SetSchedule(APIView):
     
 class SetJunks(APIView):
      def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         if not user:
             record.status = "Junk"
+            record.user = changer
             record.save()
             messages.success(request, 'Employee Status Updated')
             return Response(status=200)
@@ -1178,6 +1186,7 @@ class SetJunks(APIView):
 class Mark_as_Rejected(APIView):
     
     def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         rejected = request.data.get('rejected')
@@ -1185,6 +1194,7 @@ class Mark_as_Rejected(APIView):
             record.rejected_reason = rejected
             record.is_rejected = True
             record.status = "Rejected"
+            record.user = changer
             record.save()
             messages.success(request, 'Employee Status Updated')
         else:
@@ -1229,7 +1239,6 @@ def show_schedules_records(request):
 
         
     records = ApplicantDetails.objects.filter(filters)
-    print(records)
     params = {
         'records':records
     }
