@@ -1172,16 +1172,11 @@ class SetJunks(APIView):
      def post(self,request,id):
         changer = request.user
         record = ApplicantDetails.objects.get(id=id)
-        user = User.objects.filter(email=record.email_address).first()
-        if not user:
-            record.status = "Junk"
-            record.user = changer
-            record.save()
-            messages.success(request, 'Employee Status Updated')
-            return Response(status=200)
-        else:
-            messages.error(request, 'Email already exist on the record')
-            return Response(status=500)
+        record.status = "Junk"
+        record.user = changer
+        record.save()
+        messages.success(request, 'Employee Status Updated')
+        return Response(status=200)
     
 class Mark_as_Rejected(APIView):
     

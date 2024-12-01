@@ -814,6 +814,7 @@
 
           } else {
             showModal('Failed to save data')
+            closeModal()
           }
         })
         .catch((error) => showModal(`Error: ${error}`))
