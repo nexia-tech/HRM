@@ -257,24 +257,13 @@
                   <span class="text-red-500 text-sm hidden">Please select any option *</span>
                </div>
                <p class="my-3">Shift Availability *</p>
-               <div class="mb-6 flex space-x-7 float-left">
-                  <input type="checkbox" id="all" name="shift_availablity" value="all"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="selectAll(this)"  />
-                  <label for="all">All</label>
-                  <input type="checkbox" id="afternoon" name="shift_availablity" value="afternoon"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="afternoon">Afternoon</label>
-                  <input type="checkbox" id="evening" checked name="shift_availablity" value="evening"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="evening">Evening</label>
-                  <input type="checkbox" id="night" name="shift_availablity" value="night"
-                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
-                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
-                  <label for="night">Night</label>
-               </div>
+               <select name="shift_availablity" multiple class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+                  <option value="afternoon">Afternoon</option>
+                  <option value="evening">Evening</option>
+                  <option value="night">Night</option>
+               </select>
+               <span class="text-red-500 text-sm hidden">Please select any option *</span>
+            
                <br>
             </div>
             <!-- step two -->
@@ -909,7 +898,7 @@
            }
            try {
                
-               if (z[i].name == 'gender' || z[i].name == 'when_join_us' || z[i].name == 'marital_status') {
+               if (z[i].name == 'gender' || z[i].name == 'when_join_us' || z[i].name == 'marital_status' || z[i].name == 'shift_availablity') {
                    if (z[i].value == '') {
                        z[i].className += ' invalid';
                        try {

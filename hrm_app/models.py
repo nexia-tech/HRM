@@ -75,7 +75,6 @@ class ApplicantDetails(models.Model):
     address = models.TextField(null=True,blank=True)
     contact_number = models.CharField(max_length=200,null=True,blank=True)
     other_mobile_number = models.CharField(max_length=200,null=True,blank=True)
-    
     emergeny_contact_number = models.CharField(max_length=200,null=True,blank=True)
     emergency_contact_relation = models.CharField(max_length=200,null=True,blank=True)
     gender = models.CharField(max_length=200,null=True,blank=True)
@@ -101,6 +100,7 @@ class ApplicantDetails(models.Model):
     is_scheduled = models.BooleanField(default=False)
     scheduled_date = models.DateField(null=True, blank=True)
     scheduled_time = models.TimeField(null=True, blank=True)
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     
     
@@ -163,3 +163,16 @@ class ThumbAttendnace(models.Model):
     created_at = models.DateTimeField(auto_now_add=True,null=True)
     def __str__(self):
         return self.employee.email
+    
+    
+    
+class ApplicantHistory(models.Model):
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    applicant = models.ForeignKey(ApplicantDetails,on_delete=models.SET_NULL,null=True)
+    status = models.CharField(max_length=200,blank=True)
+    comment = models.TextField(blank=True)
+    change_date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.user.email

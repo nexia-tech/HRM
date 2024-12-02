@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace, ApplicantHistory
 from django.utils import timezone
 from rest_framework.views import APIView
 from datetime import timedelta, datetime
@@ -24,13 +24,20 @@ from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token
 from django.contrib import messages
 from users.services import generate_password
+from django.utils.timezone import now, timedelta
+from django.db.models import Q
+import logging, json
+
 
 
 BASE_URL = settings.BASE_URL
-
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(levelname)s- %(asctime)s %(message)s', datefmt="%Y-%m-%d %H:%M:%S",filename='log/hrm_apps.log')
 
 @login_required(login_url='login')
 def my_attendance(request):
+
+    
     user = request.user
     # attendances = AttendanceModel.objects.filter(employee=user)
     attendances = SystemAttendanceModel.objects.filter(
@@ -41,7 +48,7 @@ def my_attendance(request):
             attendance.remaining_hours = str(
                 attendance.remaining_hours).split(".")[0]
     except Exception as e:
-        print(e)
+        logging.ERROR(str(e))
     context = {
         'attendances': attendances
     }
@@ -643,8 +650,6 @@ def applicant_detail_form_function(request):
         # try:
         # Get the data from request
         data = request.POST
-        print(data)
-
         # Get files if present (profile picture and resume)
         upload_profile = request.FILES.get('profile_picture')
         resume = request.FILES.get('resume')
@@ -754,12 +759,11 @@ def applicant_detail_form_function(request):
         expected_salary = data.get('expected_salary', None)
         address = data.get('address', None)
         contact_number = data.get('contact_number', None)
-        emergency_contact_number = data.get(
-            'emergency_contact_number', None)
+        emergency_contact_number = data.get('emergency_contact_number', None)
         when_join_us = data.get('when_join_us', None)
         emergency_contact_relation = data.get('emergency_contact_relation', None)
         gender = data.get('gender',None)
-        shift_availablity = data.get('shift_availablity', None)
+        shift_availablity = data.getlist('shift_availablity', None)
         matric_details = matric_details
         intermediate_details = intermediate_details
         bachelors_details = bachelors_details
@@ -780,6 +784,8 @@ def applicant_detail_form_function(request):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         # Create an ApplicantDetails object
+        if shift_availablity:
+            shift_availablity = json.dumps(shift_availablity)  # Save as JSON string
 
         applicant = ApplicantDetails.objects.create(
             name=name,
@@ -804,31 +810,21 @@ def applicant_detail_form_function(request):
             diploma_details=diploma_details,
             job_experience=job_experience,
             upload_profile=upload_profile,
-            resume=resume,
             other_mobile_number=other_mobile_number,
             declaration=declaration
         )
 
         try:
+            applicant.resume = resume
             applicant.date_of_birth = date_of_birth
             applicant.save()
         except Exception as e:
             print(e)
+            logging.ERROR(str(e))
 
         return redirect('https://nexiatech.org/thankyou')
-        # Return a success response
-        return Response({
-            'message': 'Applicant created successfully!',
-            'applicant_id': applicant.id
-        }, status=status.HTTP_201_CREATED)
-
-        # except Exception as e:
-        print(e)
-        return Response({
-            'error': str(e),
-            'message': 'Failed to create applicant'
-        }, status=status.HTTP_400_BAD_REQUEST)
-
+    return redirect('https://nexiatech.org/thankyou')
+        
 class ShiftStartTime(APIView):
     def post(self, request):
         email = request.data['email']
@@ -926,13 +922,51 @@ def systemAttendance(request, id):
 
 def applicants(request):
     if not request.user.is_superuser:
-        messages.error(request,"You don't have permission")
+        messages.error(request, "You don't have permission")
         return redirect('index')
-    applicant_records = ApplicantDetails.objects.filter(is_employee=False)
+
+    date_form = request.GET.get('date_form', None)
+    date_to = request.GET.get('date_to', None)
+    date_filter = request.GET.get('date_filter', None)
+    status_filter = request.GET.getlist('status_filter', None)
+
+    # Start with a basic query
+    filters = Q(is_employee=False)
+
+    # Filter by date range
+    if date_form and date_to:
+        filters &= Q(created_at__date__gte=date_form, created_at__date__lte=date_to)
+
+    # Apply predefined date filters
+    if date_filter:
+        today = now().date()
+        if date_filter == 'today':
+            filters &= Q(created_at__date=today)
+        elif date_filter == 'yesterday':
+            filters &= Q(created_at__date=today - timedelta(days=1))
+        elif date_filter == 'this_week':
+            start_of_week = today - timedelta(days=today.weekday())
+            filters &= Q(created_at__date__gte=start_of_week)
+        elif date_filter == '15_days':
+            filters &= Q(created_at__date__gte=today - timedelta(days=15))
+        elif date_filter == 'this_month':
+            filters &= Q(created_at__year=today.year, created_at__month=today.month)
+        elif date_filter == 'last_month':
+            first_day_of_current_month = today.replace(day=1)
+            last_month_end = first_day_of_current_month - timedelta(days=1)
+            filters &= Q(created_at__year=last_month_end.year, created_at__month=last_month_end.month)
+
+    # Filter by status
+    if status_filter and 'All' not in status_filter:
+        filters &= Q(status__in=status_filter)
+
+    # Fetch filtered records
+    applicant_records = ApplicantDetails.objects.filter(filters)
     departments = Department.objects.all()
+
     params = {
         'applicant_records': applicant_records,
-        'departments':departments
+        'departments': departments,
     }
     return render(request, 'applicant-records.html', params)
 
@@ -967,6 +1001,7 @@ def get_csrf_token(request):
 class Mark_as_Employee(APIView):
     
     def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         data = request.data
@@ -1060,6 +1095,7 @@ class Mark_as_Employee(APIView):
             try:
                 record.is_employee = True
                 record.status = "Hired"
+                record.user = changer
                 user_obj.save()
                 record.save()
                 return Response({"message":"Employee Marked Successfully!!","status":True},status=200)
@@ -1075,6 +1111,7 @@ class Mark_as_Employee(APIView):
 class Mark_as_follow(APIView):
     
     def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         follow_up_date = request.data.get('follow_up_date')
@@ -1083,6 +1120,7 @@ class Mark_as_follow(APIView):
             record.follow_up_date = follow_up_date
             record.remarks = remarks
             record.status = 'Follow up'
+            record.user = changer
             record.save()
             messages.success(request, 'Employee Status Updated')
         else:
@@ -1091,6 +1129,7 @@ class Mark_as_follow(APIView):
 
 class Mark_as_Shortlisted(APIView):
      def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         shortlisted_date = request.data.get('shortlisted_date')
@@ -1098,6 +1137,7 @@ class Mark_as_Shortlisted(APIView):
         if not user:
             record.shortlisted_date = shortlisted_date
             record.remarks = remarks
+            record.user = changer
             record.status = "Shortlisted"
             record.save()
             messages.success(request, 'Employee Status Updated')
@@ -1108,6 +1148,7 @@ class Mark_as_Shortlisted(APIView):
 
 class SetSchedule(APIView):
      def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         scheduled_date = request.data.get('scheduled_date')
@@ -1119,6 +1160,7 @@ class SetSchedule(APIView):
             record.remarks = remarks
             record.is_scheduled = True
             record.status = "Scheduled"
+            record.user = changer
             record.save()
             messages.success(request, 'Employee Status Updated')
             return Response(status=200)
@@ -1126,10 +1168,20 @@ class SetSchedule(APIView):
             messages.error(request, 'Email already exist on the record')
             return Response(status=500)
     
+class SetJunks(APIView):
+     def post(self,request,id):
+        changer = request.user
+        record = ApplicantDetails.objects.get(id=id)
+        record.status = "Junk"
+        record.user = changer
+        record.save()
+        messages.success(request, 'Employee Status Updated')
+        return Response(status=200)
     
 class Mark_as_Rejected(APIView):
     
     def post(self,request,id):
+        changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
         rejected = request.data.get('rejected')
@@ -1137,6 +1189,7 @@ class Mark_as_Rejected(APIView):
             record.rejected_reason = rejected
             record.is_rejected = True
             record.status = "Rejected"
+            record.user = changer
             record.save()
             messages.success(request, 'Employee Status Updated')
         else:
@@ -1148,9 +1201,54 @@ def show_schedules_records(request):
     if not request.user.is_superuser:
         messages.error(request,"You don't have permission")
         return redirect('index')
-    records = ApplicantDetails.objects.filter(is_scheduled=True)
+    
+    date_form = request.GET.get('date_form', None)
+    date_to = request.GET.get('date_to', None)
+    date_filter = request.GET.get('date_filter', None)
+
+    # Start with a basic query
+    filters = Q(is_employee=False,status='Scheduled')
+
+    # Filter by date range
+    if date_form and date_to:
+        filters &= Q(created_at__date__gte=date_form, created_at__date__lte=date_to)
+
+    # Apply predefined date filters
+    if date_filter:
+        today = now().date()
+        if date_filter == 'today':
+            filters &= Q(created_at__date=today)
+        elif date_filter == 'yesterday':
+            filters &= Q(created_at__date=today - timedelta(days=1))
+        elif date_filter == 'this_week':
+            start_of_week = today - timedelta(days=today.weekday())
+            filters &= Q(created_at__date__gte=start_of_week)
+        elif date_filter == '15_days':
+            filters &= Q(created_at__date__gte=today - timedelta(days=15))
+        elif date_filter == 'this_month':
+            filters &= Q(created_at__year=today.year, created_at__month=today.month)
+        elif date_filter == 'last_month':
+            first_day_of_current_month = today.replace(day=1)
+            last_month_end = first_day_of_current_month - timedelta(days=1)
+            filters &= Q(created_at__year=last_month_end.year, created_at__month=last_month_end.month)
+
+        
+    records = ApplicantDetails.objects.filter(filters)
     params = {
         'records':records
     }
     
     return render(request,'scedules-records.html', params)
+
+
+def show_applicant_history(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    applicant = ApplicantDetails.objects.get(id=id)
+    history = ApplicantHistory.objects.filter(applicant=applicant)
+    print(history)
+    params = {
+        'records':history
+    }
+    return render(request,'show_applicant_history.html',params)

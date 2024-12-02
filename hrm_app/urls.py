@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted, systemAttendance, SetSchedule, show_schedules_records
+from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted, systemAttendance, SetSchedule, show_schedules_records, SetJunks, show_applicant_history
 
 
 urlpatterns = [
@@ -31,7 +31,9 @@ urlpatterns = [
     path('mark-as-rejected/<int:id>/', Mark_as_Rejected.as_view(), name='mark-as-rejected'),
     path('mark-as-shortlisted/<int:id>/', Mark_as_Shortlisted.as_view(), name='mark-as-shortlisted'),
     path('set-schedule/<int:id>/', SetSchedule.as_view(), name='set-schedule'),
-    path('see-schedules-records/', show_schedules_records, name='see-schedules-records'),
+    path('set-junk-status/<int:id>/', SetJunks.as_view(), name='set-junk-status'),
+    path('schedules-records/', show_schedules_records, name='schedules-records'),
+    path('applicant-history/<int:id>/', show_applicant_history, name='applicant-history')
     
     
 

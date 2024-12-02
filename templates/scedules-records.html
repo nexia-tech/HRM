@@ -5,13 +5,74 @@
 
 {% block body %}
   <section class="bg-gray-50 container mx-auto my-10 py-7">
+
+   
+      <form class="w-[80em] mx-auto" method="GET" action="{% url "schedules-records" %}">
+         <!-- Error Display -->
+         {% if error %}
+         <div class="mb-4 text-red-500 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 mr-2">
+               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"></path>
+            </svg> 
+            <span>{{ error }}</span>
+         </div>
+         {% endif %}
+   
+         <!-- Form Inputs: Date Fields -->
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+            <!-- Date From -->
+            <div class="flex flex-col">
+               <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_form">Date From</label>
+               <input name="date_form" class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300" id="date_from" type="date" value="{{ request.GET.date_form }}">
+            </div>
+            
+            <!-- Date To -->
+            <div class="flex flex-col">
+               <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_to">Date To</label>
+               <input name="date_to" class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300" id="date_to" type="date" value="{{ request.GET.date_to }}">
+            </div>
+   
+            <!-- Date Filter -->
+            <div class="flex flex-col">
+               <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_filter">Date Filter</label>
+               <div class="relative">
+                  <select required name="date_filter" class="w-96  text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 appearance-none cursor-pointer">
+                     <option disabled selected>Select Date Filter</option>
+                     <option value="today" {% if request.GET.date_filter == 'today' %} selected {% endif %}>Today</option>
+                     <option value="yesterday" {% if request.GET.date_filter == 'yesterday' %} selected {% endif %}>Yesterday</option>
+                     <option value="this_week" {% if request.GET.date_filter == 'this_week' %} selected {% endif %}>This Week</option>
+                     <option value="15_days" {% if request.GET.date_filter == '15_days' %} selected {% endif %}>15 Days</option>
+                     <option value="this_month" {% if request.GET.date_filter == 'this_month' %} selected {% endif %}>This Month</option>
+                     <option value="last_month" {% if request.GET.date_filter == 'last_month' %} selected {% endif %}>Last Month</option>
+                  </select>
+                 
+               </div>
+               
+            </div>
+         </div>
+   
+         
+         <!-- Submit Button -->
+         <div class="mt-8 text-center">
+            <button type="submit" class="bg-blue-600 text-white rounded-full py-3 px-8 hover:bg-blue-700 transition-all">
+               Apply Filters
+            </button>
+            <a href="{% url "schedules-records" %}" class="bg-blue-600 text-white rounded-full py-3 px-8 hover:bg-blue-700 transition-all">
+              Reset Filters
+           </a>
+         </div>
+      </form>
+      <hr class="my-5">
+    
+
     <div class="md:h-[80vh] px-6 mx-auto lg:py-0">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
             <tr>
               <th scope="col" class="px-6 py-3 capitalize">Profile Picture</th>
-              <th scope="col" class="px-6 py-3 capitalize">Date</th>
+              <th scope="col" class="px-6 py-3 capitalize">Slot Date</th>
+              <th scope="col" class="px-6 py-3 capitalize">Slot Time</th>
               <th scope="col" class="px-6 py-3 capitalize">Name</th>
               <th scope="col" class="px-6 py-3 capitalize">Position Applied For</th>
               <th scope="col" class="px-6 py-3 capitalize">Phone</th>
@@ -32,7 +93,8 @@
                     <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-14 text-center h-14" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
                   {% endif %}
                 </td>
-                <td class="px-6 py-4">{{ record.created_at|date:'d-M-Y' }}</td>
+                <td class="px-6 py-4">{{ record.scheduled_date|date:'d-M-Y' }}</td>
+                <td class="px-6 py-4">{{ record.scheduled_time }}</td>
                 <td class="px-6 py-4">{{ record.name }}</td>
                 <td class="px-6 py-4">{{ record.position_applied_for }}</td>
                 <td class="px-6 py-4">{{ record.contact_number }}</td>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace
+from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace, ApplicantHistory
 from import_export.admin import ImportExportModelAdmin
 
 class AttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
@@ -25,7 +25,7 @@ admin.site.register(ScreenShotRecords)
 class ApplicantDetailsAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['name','email_address','cnic','marital_status','is_employee','is_rejected','is_scheduled','created_at']
     search_fields = ['name','email_address','cnic']
-    list_filter = ['marital_status','declaration','position_applied_for','is_employee','is_rejected','is_scheduled']
+    list_filter = ['marital_status','declaration','position_applied_for','is_employee','is_rejected','is_scheduled','status']
 
 admin.site.register(ApplicantDetails,ApplicantDetailsAdmin)
 
@@ -45,3 +45,12 @@ class ThumbAttendnaceAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     
     
 admin.site.register(ThumbAttendnace,ThumbAttendnaceAdmin)
+
+
+class ApplicantHistoryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ['user','status','comment','change_date']
+    search_fields = ['user__email','applicant__email_address','status','comment']
+    list_filter = ['change_date']
+    autocomplete_fields = ['user','applicant']
+    
+admin.site.register(ApplicantHistory,ApplicantHistoryAdmin)

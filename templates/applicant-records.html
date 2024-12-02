@@ -5,6 +5,111 @@
 
 {% block body %}
   <section class="bg-gray-50 container mx-auto my-10 py-7">
+
+        
+
+      <form class="w-[80em] mx-auto" method="GET" action="{% url "applicants" %}">
+         <!-- Error Display -->
+         {% if error %}
+         <div class="mb-4 text-red-500 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 mr-2">
+               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"></path>
+            </svg> 
+            <span>{{ error }}</span>
+         </div>
+         {% endif %}
+   
+         <!-- Form Inputs: Date Fields -->
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-x-5 mt-4">
+            <!-- Date From -->
+            <div class="flex flex-col">
+               <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_form">Date From</label>
+               <input name="date_form" class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300" id="date_from" type="date" value="{{ request.GET.date_form }}">
+            </div>
+            
+            <!-- Date To -->
+            <div class="flex flex-col">
+               <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_to">Date To</label>
+               <input name="date_to" class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300" id="date_to" type="date" value="{{ request.GET.date_to }}">
+            </div>
+   
+            <!-- Date Filter -->
+            <div class="flex flex-col">
+               <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_filter">Date Filter</label>
+               <div class="relative">
+                  <select required name="date_filter" class="w-72 text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 appearance-none cursor-pointer">
+                     <option disabled selected>Select Date Filter</option>
+                     <option value="today" {% if request.GET.date_filter == 'today' %} selected {% endif %}>Today</option>
+                     <option value="yesterday" {% if request.GET.date_filter == 'yesterday' %} selected {% endif %}>Yesterday</option>
+                     <option value="this_week" {% if request.GET.date_filter == 'this_week' %} selected {% endif %}>This Week</option>
+                     <option value="15_days" {% if request.GET.date_filter == '15_days' %} selected {% endif %}>15 Days</option>
+                     <option value="this_month" {% if request.GET.date_filter == 'this_month' %} selected {% endif %}>This Month</option>
+                     <option value="last_month" {% if request.GET.date_filter == 'last_month' %} selected {% endif %}>Last Month</option>
+                  </select>
+                 
+               </div>
+               
+            </div>
+   
+         <!-- Status Filter -->
+          <div class="flex flex-col">
+            <label class="block text-sm font-semibold text-gray-600 mb-2 text-start">Select Status Filter</label>
+            <div class="relative inline-block w-64">
+                <!-- Dropdown Trigger -->
+                <button
+                    type="button" 
+                    class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 w-72"
+                    id="dropdownButton"
+                    onclick="toggleDropdown()">
+                    Select Status Filters
+                    <svg class="w-4 h-4 inline float-right" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+        
+                <!-- Dropdown Menu -->
+                <div id="dropdownMenu" class="hidden absolute w-full bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10">
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="All" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">All</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                      <input type="checkbox" name="status_filter" value="In Process" class="form-checkbox text-blue-600">
+                      <span class="ml-2 text-[#909090]">In Process</span>
+                  </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Shortlisted" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Shortlisted</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Follow up" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Follow up</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Rejected" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Rejected</span>
+                    </label>
+                    <label class="block px-4 py-2">
+                        <input type="checkbox" name="status_filter" value="Junk" class="form-checkbox text-blue-600">
+                        <span class="ml-2 text-[#909090]">Junk</span>
+                    </label>
+                </div>
+            </div>
+          </div>
+   
+        </div>
+        <!-- Submit Button -->
+        
+         <div class="mt-8 text-center">
+            <button type="submit" class="bg-blue-600 text-white rounded-full py-2 px-8 hover:bg-blue-700 transition-all">
+               Apply Filters
+            </button>
+          <a href="{% url "applicants" %}" class="bg-blue-600 text-white rounded-full py-3 px-8 hover:bg-blue-700 transition-all">
+             Reset Filters
+          </a>
+       </div>
+      </form>
+    <hr class="my-5">
     <div class="md:h-[80vh] px-6 mx-auto lg:py-0">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
@@ -82,6 +187,7 @@
               <option value="option3">Follow up</option>
               <option value="option4">Shortlisted</option>
               <option value="option5">Schedule</option>
+              <option value="option6">Junk</option>
             </select>
           </div>
 
@@ -332,7 +438,11 @@
             <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
           </div>
 
-
+          <div class="mb-5 hidden" id="junk">
+         
+            <button onclick="setJunks()" class="bg-[#D65656] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#D65656] hover:outline-[#D65656] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer">Submit</button>
+            <input type="button" value="Close" class="mx-7 bg-[#4A58EC] text-white rounded-2xl text-center py-2 px-6 capitalize hover:bg-white hover:text-[#4A58EC] hover:outline-[#4A58EC] outline outline-offset-0 outline-blue-50 outline-none cursor-pointer" onclick="closeModal()" />
+          </div>
 
         </div>
       </div>
@@ -687,6 +797,29 @@
         .catch((error) => showModal(`Error: ${error}`))
     }
 
+    function setJunks() {
+      fetch(`{{BASE_URL}}hrm/set-junk-status/${record_id}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+      })
+        .then((response) => {
+          console.log(response.json());
+          if (response.ok) {
+            showModal('Employee status updated successfully')
+            closeModal()
+            window.location.reload()
+
+          } else {
+            showModal('Failed to save data')
+            closeModal()
+          }
+        })
+        .catch((error) => showModal(`Error: ${error}`))
+    }
+
     function sendRejectedReason() {
       const rejected_reason = document.getElementById('rejected_reason_input').value
       if (!rejected_reason) {
@@ -752,28 +885,33 @@
       let hired = document.getElementById('hired')
       let shortlisted = document.getElementById('shortlisted')
       let schedule = document.getElementById('schedule')
+      let junk = document.getElementById('junk')
       if (e == 'option1') {
         hired.classList.remove('hidden')
         follow_up_date.classList.add('hidden')
         shortlisted.classList.add('hidden')
+        junk.classList.add('hidden')
         schedule.classList.add('hidden')
         rejected_reason.classList.add('hidden')
       } else if (e == 'option2') {
         rejected_reason.classList.remove('hidden')
         schedule.classList.add('hidden')
         follow_up_date.classList.add('hidden')
+        junk.classList.add('hidden')
         shortlisted.classList.add('hidden')
         hired.classList.add('hidden')
       } else if (e == 'option3') {
         follow_up_date.classList.remove('hidden')
         rejected_reason.classList.add('hidden')
         shortlisted.classList.add('hidden')
+        junk.classList.add('hidden')
         schedule.classList.add('hidden')
         hired.classList.add('hidden')
       } else if (e == 'option4') {
         follow_up_date.classList.add('hidden')
         rejected_reason.classList.add('hidden')
         schedule.classList.add('hidden')
+        junk.classList.add('hidden')
         hired.classList.add('hidden')
         shortlisted.classList.remove('hidden')
       }
@@ -782,6 +920,15 @@
         rejected_reason.classList.add('hidden')
         follow_up_date.classList.add('hidden')
         hired.classList.add('hidden')
+        junk.classList.add('hidden')
+        shortlisted.classList.add('hidden')
+      }
+      else if (e == 'option6') {
+        junk.classList.remove('hidden')
+        rejected_reason.classList.add('hidden')
+        follow_up_date.classList.add('hidden')
+        hired.classList.add('hidden')
+        schedule.classList.add('hidden')
         shortlisted.classList.add('hidden')
       }
        else {
@@ -809,5 +956,20 @@
         }
       }
     }
+
+
+    function toggleDropdown() {
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      dropdownMenu.classList.toggle('hidden');
+  }
+
+  // Close dropdown if clicked outside
+  window.addEventListener('click', function (e) {
+      const dropdownButton = document.getElementById('dropdownButton');
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+          dropdownMenu.classList.add('hidden');
+      }
+  });
   </script>
 {% endblock %}

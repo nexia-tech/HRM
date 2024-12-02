@@ -1,5 +1,5 @@
 from django.urls import path
-from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete, view_profile, update_profile, create_account, update_user, update_education, update_resume, education_certification, offer_letter, identity_proof, utility_bills, professional_certifications
+from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete, view_profile, update_profile, create_account, update_user, update_education, update_resume, education_certification, offer_letter, identity_proof, utility_bills, professional_certifications, all_ips, delete_ip
 
 
 urlpatterns = [
@@ -22,8 +22,9 @@ urlpatterns = [
     path("offer-letter/<int:id>/",offer_letter,name='offer-letter'),
     path("identity-proof/<int:id>/",identity_proof,name='identity-proof'),
     path("utility-bills/<int:id>/",utility_bills,name='utility-bills'),
-    path("professional-certifications/<int:id>/",professional_certifications,name='professional-certifications')
-    
+    path("professional-certifications/<int:id>/",professional_certifications,name='professional-certifications'),
+    path("all-ips/",all_ips,name='all-ips'),
+    path("delete-ips/<int:id>/",delete_ip,name='delete-ips'),
 
 ]
 
