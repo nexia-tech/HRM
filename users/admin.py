@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.models import User, Department
+from users.models import User, Department, Role
 from django.contrib.auth.models import Group
 from import_export.admin import ImportExportModelAdmin
 from django.contrib.admin import AdminSite
@@ -29,5 +29,10 @@ class DepartmentAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 admin.site.register(Department,DepartmentAdmin)
 
+admin.site.register(Role)
+
+
+
 hrm_admin.register(User,UserAdmin)
 hrm_admin.register(Department,DepartmentAdmin)
+hrm_admin.register(Role)

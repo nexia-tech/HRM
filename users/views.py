@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from users.models import User, Department
+from users.models import User, Department, Role
 from django.contrib.auth.decorators import login_required
 from hrm_app.models import AttendanceModel, SystemAttendanceModel
 from django.utils import timezone
@@ -915,3 +915,41 @@ def delete_ip(request,id):
         ip.delete()
         messages.success(request, 'IP deleted successfully')
         return redirect('all-ips')
+    
+    
+@login_required(login_url='login')
+def view_roles(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    roles = Role.objects.all()
+    
+    params = {'roles':roles}
+    return render(request, 'roles.html',params)
+    
+    
+
+@login_required(login_url='login')
+def delete_role(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    if request.method == "DELETE":
+        role = get_object_or_404(Role, id=id)
+        role.delete()
+        messages.success(request, 'Role deleted successfully')
+        return redirect('view-roles')    
+
+
+
+
+@login_required(login_url='login')
+def create_role(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    if request.method == "POST":
+        name = request.POST.get("name")
+        return redirect('view-role')
+    else:
+        return render(request, 'create-role.html')

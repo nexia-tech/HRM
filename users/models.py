@@ -74,6 +74,7 @@ class User(AbstractUser):
     linkedin_profile = models.CharField(max_length=250,null=True,blank=True)
     professional_references = models.CharField(max_length=250,null=True,blank=True)
 
+    roles = models.ManyToManyField('Role', blank=True)
 
 
 
@@ -82,3 +83,28 @@ class User(AbstractUser):
         return self.email
     
 
+
+class Role(models.Model):
+    name = models.CharField(max_length=250)
+    description = models.TextField(null=True, blank=True)
+    employee_view_access = models.BooleanField(default=False)
+    employee_edit_access = models.BooleanField(default=False)
+    employee_delete_access = models.BooleanField(default=False)
+    employee_edit_access_delete = models.BooleanField(default=False)
+    ip_view_access = models.BooleanField(default=False)
+    ip_edit_access = models.BooleanField(default=False)
+    ip_delete_access = models.BooleanField(default=False)
+    ip_edit_access_delete = models.BooleanField(default=False)
+    role_view_access = models.BooleanField(default=False)
+    role_edit_access = models.BooleanField(default=False)
+    role_delete_access = models.BooleanField(default=False)
+    role_edit_access_delete = models.BooleanField(default=False)
+    applicant_view_access = models.BooleanField(default=False)
+    applicant_edit_access = models.BooleanField(default=False)
+    applicant_delete_access = models.BooleanField(default=False)
+    applicant_edit_access_delete = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
+    
