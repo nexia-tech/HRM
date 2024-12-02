@@ -38,5 +38,7 @@ def ip_allowed(ip, request):
     # Allow POST requests from any IP for API endpoints
     if request.path.startswith('/hrm/api/') and request.method == "POST":
         return True
+    
+    print(ALLOWED_IPS)
     # Restrict other routes to allowed IPs
     return ip in ALLOWED_IPS
