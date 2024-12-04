@@ -20,6 +20,7 @@ class UserAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     filter_horizontal = ['user_permissions']
     list_filter = ['department','gender','doj','dob']
     search_fields = ['name','email','username','phone','employee_id','company_email','company_phone_number','emergency_contact_name','emergency_contact_number','emergency_contact_relationship']
+    filter_horizontal = ['roles']
 
 admin.site.register(User,UserAdmin)
 

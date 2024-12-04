@@ -923,8 +923,8 @@ def view_roles(request):
         messages.error(request,"You don't have permission")
         return redirect('index')
     roles = Role.objects.all()
-    
-    params = {'roles':roles}
+    employees = User.objects.all()
+    params = {'roles':roles,'employees':employees}
     return render(request, 'roles.html',params)
     
     
@@ -985,3 +985,18 @@ def create_role(request):
     messages.error(request,"You don't have andy role base permission")
     return redirect('index')
     
+    
+def add_permission(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    
+    if request.method == "POST":
+        emails = request.POST.getlist('emails')
+        role = Role.objects.get(id=2)
+        for email in emails:
+            user = User.objects.filter(email=email).first()
+            user.roles.add(role)
+            user.save()
+        messages.success(request, 'Permissions added successfully')
+        return redirect('view-roles')

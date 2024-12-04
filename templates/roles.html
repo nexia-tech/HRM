@@ -32,6 +32,7 @@
           <td class="px-6 py-4">{{ role.name }}</td>
           <td class="px-6 py-4">{{ role.created_at|date:'d-M-Y' }}</td>
           <td>
+            <button type="button" onclick="openModal('add', {{ role.id }})" class="text-blue-700">Add Employees </button><span class="mx-6">|</span> 
             <button type="button" onclick="openModal('delete', {{ role.id }})" class="text-red-700">Delete</button>
           </td>
         </tr>
@@ -43,32 +44,39 @@
 
 <!-- Modal -->
 <div
-  id="ipModal"
+  id="employeeAddModal"
   class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
 >
   <div class="bg-white rounded-lg p-6 w-full max-w-md">
-    <h2 id="modalTitle" class="text-lg font-bold mb-4">Add/Edit IP</h2>
-    <form id="ipForm" method="POST" action="{% url "view-roles" %}">
+    <h2 id="modalTitle" class="text-lg font-bold mb-4">Add Employees</h2>
+    <form id="AddEmployeeForm" method="POST" action="{% url "add-permission" %}">
       {% csrf_token %}
       <div class="mb-4">
-        <label for="name" class="block text-sm font-medium">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          class="w-full px-4 py-2 border rounded-md"
-          required
-        />
+        <div class="relative inline-block w-64">
+          <!-- Dropdown Trigger -->
+          <button
+              type="button" 
+              class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 w-72"
+              id="dropdownButton"
+              onclick="toggleDropdown()">
+              Select Employees
+              <svg class="w-4 h-4 inline float-right" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+          </button>
+  
+          <!-- Dropdown Menu -->
+          <div id="dropdownMenu" class="hidden absolute w-[440px] overflow-y-scroll h-96 bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10">
+            
+            {% for employee in employees %}
+              <label class="block px-4 py-2">
+                  <input type="checkbox" name="emails" value="{{employee.email}}" class="form-checkbox text-blue-600">
+                  <span class="ml-2 text-[#909090]">{{employee.email}}</span>
+              </label>
+              {% endfor %}
+
+          </div>
       </div>
-      <div class="mb-4">
-        <label for="ip" class="block text-sm font-medium">IP Address</label>
-        <input
-          type="text"
-          id="ip"
-          name="ip"
-          class="w-full px-4 py-2 border rounded-md"
-          required
-        />
       </div>
       <div class="flex justify-end gap-4">
         <button
@@ -106,14 +114,13 @@
       })
  
       function openModal(action, id = null) {
-        const modal = document.getElementById("ipModal");
+        const modal = document.getElementById("employeeAddModal");
         const title = document.getElementById("modalTitle");
-        const form = document.getElementById("ipForm");
+        const form = document.getElementById("AddEmployeeForm");
         const nameField = document.getElementById("name");
-        const ipField = document.getElementById("ip");
     
         if (action === "add") {
-            title.innerText = "Add IP";
+            title.innerText = "Give Permission to the Employees";
             form.reset();
             modal.classList.remove("hidden");
         } else if (action === "delete") {
@@ -133,12 +140,12 @@
                         alert("Role deleted successfully!");
                         location.reload(); // Reload the page to update the table
                     } else {
-                        alert("Failed to delete the IP.");
+                        alert("Failed to delete the Role.");
                     }
                 })
                 .catch((error) => {
                     console.error("Error:", error);
-                    alert("An error occurred while deleting the IP.");
+                    alert("An error occurred while deleting the Role.");
                 });
             }
         }
@@ -162,8 +169,22 @@
     
   // Close Modal
   function closeModal() {
-    const modal = document.getElementById("ipModal");
+    const modal = document.getElementById("employeeAddModal");
     modal.classList.add("hidden");
   }
+
+  function toggleDropdown() {
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    dropdownMenu.classList.toggle('hidden');
+}
+
+// Close dropdown if clicked outside
+window.addEventListener('click', function (e) {
+    const dropdownButton = document.getElementById('dropdownButton');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownMenu.classList.add('hidden');
+    }
+});
 </script>
 {% endblock %}
