@@ -982,8 +982,6 @@ def create_role(request):
 
     params = {'fieldnames':fieldnames}
     return render(request, 'create-role.html',params)
-    messages.error(request,"You don't have andy role base permission")
-    return redirect('index')
     
     
 def add_permission(request,id):
@@ -1000,3 +998,13 @@ def add_permission(request,id):
             user.save()
         messages.success(request, 'Permissions added successfully')
         return redirect('view-roles')
+    
+    
+def view_group_employees(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    
+    employees = User.objects.filter(roles__id=id)
+    params = {'employees':employees}
+    return render(request,'view-group-employees.html',params)

@@ -34,6 +34,8 @@
           <td>
             <button type="button" onclick="openModal({{ role.id }})" class="text-blue-700">Add Employees</button>
             <span class="mx-6">|</span>
+            <a type="button" href="{% url "view-group-employees" role.id %}" class="text-blue-700 cursor-pointer">View Group Employees</a>
+            <span class="mx-6">|</span>
             <button type="button" onclick="openModal({{ role.id }})" class="text-red-700">Delete</button>
           </td>
         </tr>
