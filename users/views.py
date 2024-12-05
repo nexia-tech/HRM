@@ -986,14 +986,14 @@ def create_role(request):
     return redirect('index')
     
     
-def add_permission(request):
+def add_permission(request,id):
     if not request.user.is_superuser:
         messages.error(request,"You don't have permission")
         return redirect('index')
     
     if request.method == "POST":
         emails = request.POST.getlist('emails')
-        role = Role.objects.get(id=2)
+        role = Role.objects.get(id=id)
         for email in emails:
             user = User.objects.filter(email=email).first()
             user.roles.add(role)

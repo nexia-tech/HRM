@@ -28,7 +28,7 @@ urlpatterns = [
     path("view-roles/",view_roles,name='view-roles'),
     path("delete-role/<int:id>/",delete_role,name='delete-role'),
     path("create-role/",create_role,name='create-role'),
-    path("add-permission/",add_permission,name='add-permission'),
+    path("add-permission/<int:id>/",add_permission,name='add-permission'),
 
 ]
 

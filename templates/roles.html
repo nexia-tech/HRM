@@ -4,19 +4,19 @@
 {% block body %}
 <section class="bg-gray-50 container mx-auto my-10 py-7">
   <!-- Add Button -->
-  <div class="flex justify-end mb-4">
+  <div class="flex justify-end mb-4 mx-4">
     <a
       type="button"
       class="bg-blue-500 text-white px-4 py-2 rounded-md"
-      href="{% url "create-role" %}"
+      href="{% url 'create-role' %}"
     >
       Add Role
     </a>
   </div>
 
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-6">
     <table
-      class="w-full text-sm text-left text-gray-500"
+      class="w-full text-sm text-left text-gray-500 "
       id="myTable"
     >
       <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -32,70 +32,87 @@
           <td class="px-6 py-4">{{ role.name }}</td>
           <td class="px-6 py-4">{{ role.created_at|date:'d-M-Y' }}</td>
           <td>
-            <button type="button" onclick="openModal('add', {{ role.id }})" class="text-blue-700">Add Employees </button><span class="mx-6">|</span> 
-            <button type="button" onclick="openModal('delete', {{ role.id }})" class="text-red-700">Delete</button>
+            <button type="button" onclick="openModal({{ role.id }})" class="text-blue-700">Add Employees</button>
+            <span class="mx-6">|</span>
+            <button type="button" onclick="openModal({{ role.id }})" class="text-red-700">Delete</button>
           </td>
         </tr>
+
+        <!-- Modal for each role -->
+        <div
+          id="employeeAddModal-{{ role.id }}"
+          class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <h2 id="modalTitle" class="text-lg font-bold mb-4">Add Employees for {{ role.name }}</h2>
+            <form id="AddEmployeeForm" method="POST" action="{% url 'add-permission' role.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="role_id" value="{{ role.id }}">
+              <div class="mb-4">
+                <div class="relative inline-block w-64">
+                  <!-- Dropdown Trigger -->
+                  <button
+                    type="button"
+                    class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 w-96"
+                    id="dropdownButton-{{ role.id }}"
+                    onclick="toggleDropdown({{ role.id }})"
+                  >
+                    Select Employees
+                    <svg
+                      class="w-4 h-4 inline float-right"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  <!-- Dropdown Menu -->
+                  <div
+                    id="dropdownMenu-{{ role.id }}"
+                    class="hidden absolute w-[440px] overflow-y-scroll h-96 bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10"
+                  >
+                    {% for employee in employees %}
+                    <label class="block px-4 py-2">
+                      <input type="checkbox" name="emails" value="{{ employee.email }}" class="form-checkbox text-blue-600">
+                      <span class="ml-2 text-[#909090]">{{ employee.email }}</span>
+                    </label>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end gap-4">
+                <button
+                  type="button"
+                  class="bg-gray-500 text-white px-4 py-2 rounded-md"
+                  onclick="closeModal({{ role.id }})"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="bg-blue-500 text-white px-4 py-2 rounded-md"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
         {% endfor %}
       </tbody>
     </table>
   </div>
 </section>
 
-<!-- Modal -->
-<div
-  id="employeeAddModal"
-  class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
->
-  <div class="bg-white rounded-lg p-6 w-full max-w-md">
-    <h2 id="modalTitle" class="text-lg font-bold mb-4">Add Employees</h2>
-    <form id="AddEmployeeForm" method="POST" action="{% url "add-permission" %}">
-      {% csrf_token %}
-      <div class="mb-4">
-        <div class="relative inline-block w-64">
-          <!-- Dropdown Trigger -->
-          <button
-              type="button" 
-              class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 w-72"
-              id="dropdownButton"
-              onclick="toggleDropdown()">
-              Select Employees
-              <svg class="w-4 h-4 inline float-right" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-          </button>
-  
-          <!-- Dropdown Menu -->
-          <div id="dropdownMenu" class="hidden absolute w-[440px] overflow-y-scroll h-96 bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10">
-            
-            {% for employee in employees %}
-              <label class="block px-4 py-2">
-                  <input type="checkbox" name="emails" value="{{employee.email}}" class="form-checkbox text-blue-600">
-                  <span class="ml-2 text-[#909090]">{{employee.email}}</span>
-              </label>
-              {% endfor %}
 
-          </div>
-      </div>
-      </div>
-      <div class="flex justify-end gap-4">
-        <button
-          type="button"
-          class="bg-gray-500 text-white px-4 py-2 rounded-md"
-          onclick="closeModal()"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="bg-blue-500 text-white px-4 py-2 rounded-md"
-        >
-          Save
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
 
 {% endblock %}
 
@@ -173,18 +190,35 @@
     modal.classList.add("hidden");
   }
 
-  function toggleDropdown() {
-    const dropdownMenu = document.getElementById('dropdownMenu');
+  function toggleDropdown(id) {
+    const dropdownMenu = document.getElementById(`dropdownMenu-${id}`);
     dropdownMenu.classList.toggle('hidden');
 }
 
 // Close dropdown if clicked outside
-window.addEventListener('click', function (e) {
+/*window.addEventListener('click', function (e) {
     const dropdownButton = document.getElementById('dropdownButton');
     const dropdownMenu = document.getElementById('dropdownMenu');
     if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
         dropdownMenu.classList.add('hidden');
     }
 });
+*/
+function openModal(roleId) {
+  const modal = document.getElementById(`employeeAddModal-${roleId}`);
+  if (modal) {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  }
+}
+
+function closeModal(roleId) {
+  const modal = document.getElementById(`employeeAddModal-${roleId}`);
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  }
+}
+
 </script>
 {% endblock %}
