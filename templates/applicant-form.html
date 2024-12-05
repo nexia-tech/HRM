@@ -131,7 +131,7 @@
       <div class="my-20">
          <form id="signUpForm" method="POST"
             class="p-12 shadow-md rounded-2xl bg-white mx-auto border-solid border-2 border-gray-100 mb-8"
-            action="https://hrm.nexiatech.org/hrm/api/applicant-form/" enctype="multipart/form-data">
+            action="http://127.0.0.1:8000/hrm/api/applicant-form/" enctype="multipart/form-data">
             <!-- start step indicators -->
             <div class="form-header flex gap-3 mb-4 text-xs text-center">
                <span class="stepIndicator flex-1 pb-8 relative">Personal Information</span>
@@ -257,12 +257,24 @@
                   <span class="text-red-500 text-sm hidden">Please select any option *</span>
                </div>
                <p class="my-3">Shift Availability *</p>
-               <select name="shift_availablity" multiple class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
-                  <option value="afternoon">Afternoon</option>
-                  <option value="evening">Evening</option>
-                  <option value="night">Night</option>
-               </select>
-               <span class="text-red-500 text-sm hidden">Please select any option *</span>
+               <div class="mb-6 flex space-x-7 float-left">
+                  <input type="checkbox" id="all" name="shift_availablity" value="all"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                     oninput="selectAll(this)"  />
+                  <label for="all">All</label>
+                  <input type="checkbox" id="afternoon" name="shift_availablity" value="afternoon"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                  <label for="afternoon">Afternoon</label>
+                  <input type="checkbox" id="evening" name="shift_availablity" value="evening"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                  <label for="evening">Evening</label>
+                  <input type="checkbox" id="night" name="shift_availablity" value="night"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                     oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                  <label for="night">Night</label>
+               </div>
             
                <br>
             </div>
@@ -898,7 +910,7 @@
            }
            try {
                
-               if (z[i].name == 'gender' || z[i].name == 'when_join_us' || z[i].name == 'marital_status' || z[i].name == 'shift_availablity') {
+               if (z[i].name == 'gender' || z[i].name == 'when_join_us' || z[i].name == 'marital_status') {
                    if (z[i].value == '') {
                        z[i].className += ' invalid';
                        try {

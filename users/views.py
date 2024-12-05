@@ -976,12 +976,12 @@ def create_role(request):
         messages.success(request, 'Role created successfully')
         
         return redirect('view-roles')
-    for role in request.user.roles.all():
-        if role.role_add_access or role.role_view_access:
-            fieldnames = [{'Employee':['employee_view_access','employee_add_access','employee_delete_access','employee_edit_access']},{'IP':['ip_view_access','ip_add_access','ip_delete_access','ip_edit_access']},{'role':['role_view_access','role_add_access','role_delete_access','role_edit_access']},{'Applicant':['applicant_view_access','applicant_add_access','applicant_delete_access','applicant_edit_access']}]
+    # for role in request.user.roles.all():
+    #     if role.role_add_access or role.role_view_access:
+    fieldnames = [{'Employee':['employee_view_access','employee_add_access','employee_delete_access','employee_edit_access']},{'IP':['ip_view_access','ip_add_access','ip_delete_access','ip_edit_access']},{'role':['role_view_access','role_add_access','role_delete_access','role_edit_access']},{'Applicant':['applicant_view_access','applicant_add_access','applicant_delete_access','applicant_edit_access']}]
 
-            params = {'fieldnames':fieldnames}
-            return render(request, 'create-role.html',params)
+    params = {'fieldnames':fieldnames}
+    return render(request, 'create-role.html',params)
     messages.error(request,"You don't have andy role base permission")
     return redirect('index')
     
