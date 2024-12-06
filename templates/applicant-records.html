@@ -154,9 +154,13 @@
                   </td>
                 {% endif %}
                 <td>
-                  <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> |
+                  <a href="{% url 'applicant' applicant_record.id %}" class="text-blue-700">View</a> 
+                  {% if applicant_edit_access %}
+                  |
                   <button onclick="openModal('{{ applicant_record.id }}')" class="text-blue-700">Mark Status</button>
+                  {% endif %}
                 </td>
+
               </tr>
             {% endfor %}
           </tbody>

@@ -427,8 +427,17 @@ def employees(request):
         return redirect('index')
     employees = User.objects.all()
     context = {
-        'employees': employees
+        'employees': employees,
+        'employee_edit_access':False
     }
+    for role in request.user.roles.all():
+        if role and not role.employee_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.employee_edit_access:
+                context['employee_edit_access'] = True
+                
     return render(request, 'employees.html', context)
 
 
@@ -462,8 +471,18 @@ def update_profile(request, id):
     )
     context = {
         'user1': user,
-        "any_field_empty":any_field_empty
+        "any_field_empty":any_field_empty,
+        'employee_edit_access':False
     }
+    
+    for role in request.user.roles.all():
+        if role and not role.employee_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.employee_edit_access:
+                context['employee_edit_access'] = True
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         employee_id = request.POST.get('employee_id')

@@ -967,7 +967,17 @@ def applicants(request):
     params = {
         'applicant_records': applicant_records,
         'departments': departments,
+        'applicant_edit_access':False
     }
+    
+    for role in request.user.roles.all():
+        if role and not role.applicant_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.applicant_edit_access:
+                params['applicant_edit_access'] = True
+                
     return render(request, 'applicant-records.html', params)
 
 
@@ -987,8 +997,18 @@ def applicant_detail(request, id):
   
     params = {
         'any_field_empty': any_field_empty,
-        'applicant_record': applicant_record
+        'applicant_record': applicant_record,
+        "applicant_edit_access":False
     }
+    
+    for role in request.user.roles.all():
+        if role and not role.applicant_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.applicant_edit_access:
+                params['applicant_edit_access'] = True
+                
     return render(request, 'applicant-profile.html', params)
 
 
@@ -1235,9 +1255,17 @@ def show_schedules_records(request):
         
     records = ApplicantDetails.objects.filter(filters)
     params = {
-        'records':records
+        'records':records,
+        'applicant_edit_access':False
     }
-    
+    for role in request.user.roles.all():
+        if role and not role.applicant_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.applicant_edit_access:
+                params['applicant_edit_access'] = True
+                
     return render(request,'scedules-records.html', params)
 
 

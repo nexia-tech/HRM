@@ -32,11 +32,11 @@
           <td class="px-6 py-4">{{ role.name }}</td>
           <td class="px-6 py-4">{{ role.created_at|date:'d-M-Y' }}</td>
           <td>
-            <button type="button" onclick="openModal({{ role.id }})" class="text-blue-700">Add Employees</button>
+            <button type="button" onclick="openModal('add',{{ role.id }})" class="text-blue-700">Add Employees</button>
             <span class="mx-6">|</span>
             <a type="button" href="{% url "view-group-employees" role.id %}" class="text-blue-700 cursor-pointer">View Group Employees</a>
             <span class="mx-6">|</span>
-            <button type="button" onclick="openModal({{ role.id }})" class="text-red-700">Delete</button>
+            <button type="button" onclick="openModal('delete',{{ role.id }})" class="text-red-700">Delete</button>
           </td>
         </tr>
 
@@ -186,11 +186,7 @@
         return cookieValue;
     }
     
-  // Close Modal
-  function closeModal() {
-    const modal = document.getElementById("employeeAddModal");
-    modal.classList.add("hidden");
-  }
+
 
   function toggleDropdown(id) {
     const dropdownMenu = document.getElementById(`dropdownMenu-${id}`);
@@ -206,12 +202,43 @@
     }
 });
 */
-function openModal(roleId) {
+function openModal(action,roleId) {
   const modal = document.getElementById(`employeeAddModal-${roleId}`);
-  if (modal) {
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
-  }
+  const title = document.getElementById("modalTitle");
+        const form = document.getElementById("AddEmployeeForm");
+        const nameField = document.getElementById("name");
+    
+        if (action === "add") {
+          modal.classList.remove("hidden");
+          modal.classList.add("flex");
+        } else if (action === "delete") {
+            
+            const confirmation = confirm("Are you sure you want to delete this Role?");
+            if (confirmation) {
+                const url = `/delete-role/${roleId}/`; // Adjust URL as needed
+                fetch(url, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken"), // Include CSRF token
+                    },
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        alert("Role deleted successfully!");
+                        location.reload(); // Reload the page to update the table
+                    } else {
+                        alert("Failed to delete the Role.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("An error occurred while deleting the Role.");
+                });
+            }
+        }
+
+
 }
 
 function closeModal(roleId) {
