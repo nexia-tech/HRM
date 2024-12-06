@@ -3,6 +3,8 @@
 {% block title %}Show IPs{% endblock title %}
 {% block body %}
 <section class="bg-gray-50 container mx-auto my-10 py-7">
+  {% if ip_add_access %}
+
   <!-- Add Button -->
   <div class="flex justify-end mb-4">
     <button
@@ -13,6 +15,7 @@
       Add IP Address
     </button>
   </div>
+  {% endif %}
 
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table
@@ -23,18 +26,21 @@
         <tr>
           <th class="px-6 py-3">Name</th>
           <th class="px-6 py-3">IP</th>
+          {% if ip_delete_access %}
           <th class="px-6 py-3">Action</th>
+          {% endif %}
         </tr>
-      </thead>
+        </thead>
       <tbody>
         {% for ip in ips %}
         <tr class="bg-white border-b">
           <td class="px-6 py-4">{{ ip.name }}</td>
           <td class="px-6 py-4">{{ ip.ip }}</td>
+          {% if ip_delete_access %}
           <td>
             <a href="#" onclick="openModal('delete', {{ ip.id }})" class="text-red-700">Delete</a>
-
           </td>
+          {% endif %}
         </tr>
         {% endfor %}
       </tbody>

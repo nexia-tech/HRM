@@ -916,12 +916,22 @@ def all_ips(request):
             Ips.objects.create(name=name, ip=ip_address)
             messages.success(request,'Ip Added successfully')
         return redirect('all-ips')
-    else:
-        ips = Ips.objects.all().order_by('-created_at')
-        params = {
-            'ips':ips
-        }
-        return render(request, 'ips.html', params)
+    ips = Ips.objects.all().order_by('-created_at')
+    params = {
+        'ips':ips,
+        'ip_add_access':False,
+        'ip_delete_access':False
+    }
+    
+    for role in request.user.roles.all():
+        if role and not role.ip_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            params['ip_add_access'] = role.ip_add_access
+            params['ip_delete_access'] = role.ip_delete_access
+            
+    return render(request, 'ips.html', params)
     
 
 @login_required(login_url='login')
