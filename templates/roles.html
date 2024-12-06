@@ -3,6 +3,8 @@
 {% block title %}All Roles {% endblock title %}
 {% block body %}
 <section class="bg-gray-50 container mx-auto my-10 py-7">
+
+  {% if role_add_access %}
   <!-- Add Button -->
   <div class="flex justify-end mb-4 mx-4">
     <a
@@ -13,7 +15,7 @@
       Add Role
     </a>
   </div>
-
+  {% endif %}
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg mx-6">
     <table
       class="w-full text-sm text-left text-gray-500 "
@@ -32,11 +34,15 @@
           <td class="px-6 py-4">{{ role.name }}</td>
           <td class="px-6 py-4">{{ role.created_at|date:'d-M-Y' }}</td>
           <td>
+            {% if role_edit_access %}
             <button type="button" onclick="openModal('add',{{ role.id }})" class="text-blue-700">Add Employees</button>
             <span class="mx-6">|</span>
+            {% endif %}
             <a type="button" href="{% url "view-group-employees" role.id %}" class="text-blue-700 cursor-pointer">View Group Employees</a>
-            <span class="mx-6">|</span>
-            <button type="button" onclick="openModal('delete',{{ role.id }})" class="text-red-700">Delete</button>
+            {% if role_delete_access %}
+              <span class="mx-6">|</span>
+              <button type="button" onclick="openModal('delete',{{ role.id }})" class="text-red-700">Delete</button>
+            {% endif %}
           </td>
         </tr>
 

@@ -954,6 +954,16 @@ def view_roles(request):
     roles = Role.objects.all()
     employees = User.objects.all()
     params = {'roles':roles,'employees':employees}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            params['role_edit_access'] = role.role_edit_access
+            params['role_delete_access'] = role.role_delete_access
+            params['role_add_access'] = role.role_add_access
+            
     return render(request, 'roles.html',params)
     
     
@@ -1036,4 +1046,15 @@ def view_group_employees(request,id):
     
     employees = User.objects.filter(roles__id=id)
     params = {'employees':employees}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            params['role_edit_access'] = role.role_edit_access
+            params['role_delete_access'] = role.role_delete_access
+            params['role_add_access'] = role.role_add_access
+            
+            
     return render(request,'view-group-employees.html',params)
