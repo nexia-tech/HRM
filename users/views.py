@@ -1015,11 +1015,18 @@ def create_role(request):
         messages.success(request, 'Role created successfully')
         
         return redirect('view-roles')
-    # for role in request.user.roles.all():
-    #     if role.role_add_access or role.role_view_access:
     fieldnames = [{'Employee':['employee_view_access','employee_add_access','employee_delete_access','employee_edit_access']},{'IP':['ip_view_access','ip_add_access','ip_delete_access','ip_edit_access']},{'role':['role_view_access','role_add_access','role_delete_access','role_edit_access']},{'Applicant':['applicant_view_access','applicant_add_access','applicant_delete_access','applicant_edit_access']}]
 
-    params = {'fieldnames':fieldnames}
+    params = {'fieldnames':fieldnames,'role_add_access':False}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.role_add_access:
+                params['role_add_access'] = True
+                
     return render(request, 'create-role.html',params)
     
     
@@ -1058,3 +1065,52 @@ def view_group_employees(request,id):
             
             
     return render(request,'view-group-employees.html',params)
+
+
+
+def update_role(request,id):
+    role = Role.objects.filter(id=id)
+    
+    
+    if request.method == "POST":
+        name = request.POST.get('role_name')
+        employee_view_access = True if request.POST.get("employee_view_access") == 'on' else False
+        employee_add_access = True if request.POST.get("employee_add_access") == 'on'  else False
+        employee_delete_access = True if request.POST.get("employee_delete_access") == 'on'  else False
+        employee_edit_access = True if request.POST.get("employee_edit_access") == 'on'  else False
+        ip_view_access = True if request.POST.get("ip_view_access") == 'on'  else False
+        ip_add_access = True if request.POST.get("ip_add_access") == 'on'  else False
+        ip_delete_access = True if request.POST.get("ip_delete_access") == 'on'  else False
+        ip_edit_access = True if request.POST.get("ip_edit_access") == 'on'  else False
+        role_view_access = True if request.POST.get("role_view_access") == 'on'  else False
+        role_add_access = True if request.POST.get("role_add_access") == 'on'  else False
+        role_delete_access = True if request.POST.get("role_delete_access") == 'on'  else False
+        role_edit_access = True if request.POST.get("role_edit_access") == 'on'  else False
+        applicant_view_access = True if request.POST.get("applicant_view_access") == 'on'  else False
+        applicant_add_access = True if request.POST.get("applicant_add_access") == 'on'  else False
+        applicant_delete_access = True if request.POST.get("applicant_delete_access") == 'on'  else False
+        applicant_edit_access = True if request.POST.get("applicant_edit_access") == 'on'  else False
+        
+        
+        role.update(
+            id=id,
+        name=name,employee_view_access=employee_view_access,employee_add_access=employee_add_access,employee_delete_access=employee_delete_access,employee_edit_access=employee_edit_access,ip_view_access=ip_view_access,ip_add_access=ip_add_access,ip_delete_access=ip_delete_access,ip_edit_access=ip_edit_access,role_view_access=role_view_access,
+        role_add_access=role_add_access,role_edit_access=role_edit_access,role_delete_access=role_delete_access,applicant_view_access=applicant_view_access,applicant_add_access=applicant_add_access,applicant_delete_access=applicant_delete_access,applicant_edit_access=applicant_edit_access)
+        messages.success(request, 'Role permission updated successfully')
+        
+        return redirect('view-roles')
+
+    fieldnames = [{'Employee':['employee_view_access','employee_add_access','employee_delete_access','employee_edit_access']},{'IP':['ip_view_access','ip_add_access','ip_delete_access','ip_edit_access']},{'role':['role_view_access','role_add_access','role_delete_access','role_edit_access']},{'Applicant':['applicant_view_access','applicant_add_access','applicant_delete_access','applicant_edit_access']}]
+    params = {'fieldnames':fieldnames,'role':role.first(),'role_edit_access':False}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.role_edit_access:
+                params['role_edit_access'] = True
+
+
+    return render(request,'update-role.html',params)
+    

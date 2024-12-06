@@ -37,6 +37,8 @@
             {% if role_edit_access %}
             <button type="button" onclick="openModal('add',{{ role.id }})" class="text-blue-700">Add Employees</button>
             <span class="mx-6">|</span>
+            <a type="button" href="{% url "update-role" role.id %}" class="text-blue-700 cursor-pointer">Update Role Permission</a>
+            <span class="mx-6">|</span>
             {% endif %}
             <a type="button" href="{% url "view-group-employees" role.id %}" class="text-blue-700 cursor-pointer">View Group Employees</a>
             {% if role_delete_access %}
