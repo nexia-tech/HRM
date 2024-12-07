@@ -438,7 +438,9 @@ def employees(request):
             if role.employee_edit_access:
                 context['employee_edit_access'] = True
                 
-    return render(request, 'employees.html', context)
+        return render(request, 'employees.html', context)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 
 @login_required(login_url='login')
@@ -931,8 +933,9 @@ def all_ips(request):
             params['ip_add_access'] = role.ip_add_access
             params['ip_delete_access'] = role.ip_delete_access
             
-    return render(request, 'ips.html', params)
-    
+        return render(request, 'ips.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 @login_required(login_url='login')
 def delete_ip(request,id):
@@ -964,8 +967,9 @@ def view_roles(request):
             params['role_delete_access'] = role.role_delete_access
             params['role_add_access'] = role.role_add_access
             
-    return render(request, 'roles.html',params)
-    
+        return render(request, 'roles.html',params)
+    messages.error(request, "You don't have permission")
+    return redirect('index') 
     
 
 @login_required(login_url='login')
@@ -1064,8 +1068,9 @@ def view_group_employees(request,id):
             params['role_add_access'] = role.role_add_access
             
             
-    return render(request,'view-group-employees.html',params)
-
+        return render(request,'view-group-employees.html',params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 
 def update_role(request,id):

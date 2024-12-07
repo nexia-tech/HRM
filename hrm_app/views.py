@@ -978,8 +978,9 @@ def applicants(request):
             if role.applicant_edit_access:
                 params['applicant_edit_access'] = True
                 
-    return render(request, 'applicant-records.html', params)
-
+        return render(request, 'applicant-records.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 def applicant_detail(request, id):
     if not request.user.is_superuser:
@@ -992,8 +993,6 @@ def applicant_detail(request, id):
         getattr(applicant_record, field.name) in [None, '']  # Check for None or empty string
         for field in applicant_record._meta.fields
     )
-    print(any_field_empty)
-    
   
     params = {
         'any_field_empty': any_field_empty,
@@ -1009,8 +1008,9 @@ def applicant_detail(request, id):
             if role.applicant_edit_access:
                 params['applicant_edit_access'] = True
                 
-    return render(request, 'applicant-profile.html', params)
-
+        return render(request, 'applicant-profile.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 def get_csrf_token(request):
     # Return the CSRF token as a JSON response
@@ -1266,8 +1266,9 @@ def show_schedules_records(request):
             if role.applicant_edit_access:
                 params['applicant_edit_access'] = True
                 
-    return render(request,'scedules-records.html', params)
-
+        return render(request,'scedules-records.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 def show_applicant_history(request,id):
     if not request.user.is_superuser:
@@ -1275,7 +1276,6 @@ def show_applicant_history(request,id):
         return redirect('index')
     applicant = ApplicantDetails.objects.get(id=id)
     history = ApplicantHistory.objects.filter(applicant=applicant)
-    print(history)
     params = {
         'records':history
     }
