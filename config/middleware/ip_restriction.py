@@ -3,11 +3,8 @@ from core.models import Ips
 
 
 # Define allowed IPs
-ips = list(Ips.objects.filter(active=True).values('ip'))
-ALLOWED_IPS = []
-for i in ips:
-    ALLOWED_IPS.append(i['ip'])
-    
+# ALLOWED_IPS = list(Ips.objects.filter(active=True).values_list('ip', flat=True))
+ALLOWED_IPS = ['127.0.0.1']
 def ip_restriction_middleware(get_response):
     def middleware(request):
         # Get client IP
@@ -38,5 +35,6 @@ def ip_allowed(ip, request):
     # Allow POST requests from any IP for API endpoints
     if request.path.startswith('/hrm/api/') and request.method == "POST":
         return True
+    
     # Restrict other routes to allowed IPs
     return ip in ALLOWED_IPS

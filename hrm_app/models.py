@@ -169,8 +169,8 @@ class ThumbAttendnace(models.Model):
 class ApplicantHistory(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     applicant = models.ForeignKey(ApplicantDetails,on_delete=models.SET_NULL,null=True)
-    status = models.CharField(max_length=200,blank=True)
-    comment = models.TextField(blank=True)
+    status = models.CharField(max_length=200,blank=True,null=True)
+    comment = models.TextField(blank=True,null=True)
     change_date = models.DateTimeField(auto_now_add=True)
     date = models.DateField(null=True, blank=True)
     

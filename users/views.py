@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from users.models import User, Department
+from users.models import User, Department, Role
 from django.contrib.auth.decorators import login_required
 from hrm_app.models import AttendanceModel, SystemAttendanceModel
 from django.utils import timezone
@@ -427,9 +427,20 @@ def employees(request):
         return redirect('index')
     employees = User.objects.all()
     context = {
-        'employees': employees
+        'employees': employees,
+        'employee_edit_access':False
     }
-    return render(request, 'employees.html', context)
+    for role in request.user.roles.all():
+        if role and not role.employee_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.employee_edit_access:
+                context['employee_edit_access'] = True
+                
+        return render(request, 'employees.html', context)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 
 @login_required(login_url='login')
@@ -462,8 +473,18 @@ def update_profile(request, id):
     )
     context = {
         'user1': user,
-        "any_field_empty":any_field_empty
+        "any_field_empty":any_field_empty,
+        'employee_edit_access':False
     }
+    
+    for role in request.user.roles.all():
+        if role and not role.employee_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.employee_edit_access:
+                context['employee_edit_access'] = True
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         employee_id = request.POST.get('employee_id')
@@ -897,13 +918,24 @@ def all_ips(request):
             Ips.objects.create(name=name, ip=ip_address)
             messages.success(request,'Ip Added successfully')
         return redirect('all-ips')
-    else:
-        ips = Ips.objects.all().order_by('-created_at')
-        params = {
-            'ips':ips
-        }
-        return render(request, 'ips.html', params)
+    ips = Ips.objects.all().order_by('-created_at')
+    params = {
+        'ips':ips,
+        'ip_add_access':False,
+        'ip_delete_access':False
+    }
     
+    for role in request.user.roles.all():
+        if role and not role.ip_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            params['ip_add_access'] = role.ip_add_access
+            params['ip_delete_access'] = role.ip_delete_access
+            
+        return render(request, 'ips.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 @login_required(login_url='login')
 def delete_ip(request,id):
@@ -915,3 +947,175 @@ def delete_ip(request,id):
         ip.delete()
         messages.success(request, 'IP deleted successfully')
         return redirect('all-ips')
+    
+    
+@login_required(login_url='login')
+def view_roles(request):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    roles = Role.objects.all()
+    employees = User.objects.all()
+    params = {'roles':roles,'employees':employees}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            params['role_edit_access'] = role.role_edit_access
+            params['role_delete_access'] = role.role_delete_access
+            params['role_add_access'] = role.role_add_access
+            
+        return render(request, 'roles.html',params)
+    messages.error(request, "You don't have permission")
+    return redirect('index') 
+    
+
+@login_required(login_url='login')
+def delete_role(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    if request.method == "DELETE":
+        role = get_object_or_404(Role, id=id)
+        role.delete()
+        messages.success(request, 'Role deleted successfully')
+        return redirect('view-roles')    
+
+
+
+
+@login_required(login_url='login')
+def create_role(request):
+    
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    
+    if request.method == "POST":
+        name = request.POST.get('role_name')
+        employee_view_access = True if request.POST.get("employee_view_access") == 'on' else False
+        employee_add_access = True if request.POST.get("employee_add_access") == 'on'  else False
+        employee_delete_access = True if request.POST.get("employee_delete_access") == 'on'  else False
+        employee_edit_access = True if request.POST.get("employee_edit_access") == 'on'  else False
+        ip_view_access = True if request.POST.get("ip_view_access") == 'on'  else False
+        ip_add_access = True if request.POST.get("ip_add_access") == 'on'  else False
+        ip_delete_access = True if request.POST.get("ip_delete_access") == 'on'  else False
+        ip_edit_access = True if request.POST.get("ip_edit_access") == 'on'  else False
+        role_view_access = True if request.POST.get("role_view_access") == 'on'  else False
+        role_add_access = True if request.POST.get("role_add_access") == 'on'  else False
+        role_delete_access = True if request.POST.get("role_delete_access") == 'on'  else False
+        role_edit_access = True if request.POST.get("role_edit_access") == 'on'  else False
+        applicant_view_access = True if request.POST.get("applicant_view_access") == 'on'  else False
+        applicant_add_access = True if request.POST.get("applicant_add_access") == 'on'  else False
+        applicant_delete_access = True if request.POST.get("applicant_delete_access") == 'on'  else False
+        applicant_edit_access = True if request.POST.get("applicant_edit_access") == 'on'  else False
+        
+        Role.objects.create(
+         name=name,employee_view_access=employee_view_access,employee_add_access=employee_add_access,employee_delete_access=employee_delete_access,employee_edit_access=employee_edit_access,ip_view_access=ip_view_access,ip_add_access=ip_add_access,ip_delete_access=ip_delete_access,ip_edit_access=ip_edit_access,role_view_access=role_view_access,
+        role_add_access=role_add_access,role_edit_access=role_edit_access,role_delete_access=role_delete_access,applicant_view_access=applicant_view_access,applicant_add_access=applicant_add_access,applicant_delete_access=applicant_delete_access,applicant_edit_access=applicant_edit_access
+        )
+        messages.success(request, 'Role created successfully')
+        
+        return redirect('view-roles')
+    fieldnames = [{'Employee':['employee_view_access','employee_add_access','employee_delete_access','employee_edit_access']},{'IP':['ip_view_access','ip_add_access','ip_delete_access','ip_edit_access']},{'role':['role_view_access','role_add_access','role_delete_access','role_edit_access']},{'Applicant':['applicant_view_access','applicant_add_access','applicant_delete_access','applicant_edit_access']}]
+
+    params = {'fieldnames':fieldnames,'role_add_access':False}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.role_add_access:
+                params['role_add_access'] = True
+                
+    return render(request, 'create-role.html',params)
+    
+    
+def add_permission(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    
+    if request.method == "POST":
+        emails = request.POST.getlist('emails')
+        role = Role.objects.get(id=id)
+        for email in emails:
+            user = User.objects.filter(email=email).first()
+            user.roles.add(role)
+            user.save()
+        messages.success(request, 'Permissions added successfully')
+        return redirect('view-roles')
+    
+    
+def view_group_employees(request,id):
+    if not request.user.is_superuser:
+        messages.error(request,"You don't have permission")
+        return redirect('index')
+    
+    employees = User.objects.filter(roles__id=id)
+    params = {'employees':employees}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            params['role_edit_access'] = role.role_edit_access
+            params['role_delete_access'] = role.role_delete_access
+            params['role_add_access'] = role.role_add_access
+            
+            
+        return render(request,'view-group-employees.html',params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
+
+
+def update_role(request,id):
+    role = Role.objects.filter(id=id)
+    
+    
+    if request.method == "POST":
+        name = request.POST.get('role_name')
+        employee_view_access = True if request.POST.get("employee_view_access") == 'on' else False
+        employee_add_access = True if request.POST.get("employee_add_access") == 'on'  else False
+        employee_delete_access = True if request.POST.get("employee_delete_access") == 'on'  else False
+        employee_edit_access = True if request.POST.get("employee_edit_access") == 'on'  else False
+        ip_view_access = True if request.POST.get("ip_view_access") == 'on'  else False
+        ip_add_access = True if request.POST.get("ip_add_access") == 'on'  else False
+        ip_delete_access = True if request.POST.get("ip_delete_access") == 'on'  else False
+        ip_edit_access = True if request.POST.get("ip_edit_access") == 'on'  else False
+        role_view_access = True if request.POST.get("role_view_access") == 'on'  else False
+        role_add_access = True if request.POST.get("role_add_access") == 'on'  else False
+        role_delete_access = True if request.POST.get("role_delete_access") == 'on'  else False
+        role_edit_access = True if request.POST.get("role_edit_access") == 'on'  else False
+        applicant_view_access = True if request.POST.get("applicant_view_access") == 'on'  else False
+        applicant_add_access = True if request.POST.get("applicant_add_access") == 'on'  else False
+        applicant_delete_access = True if request.POST.get("applicant_delete_access") == 'on'  else False
+        applicant_edit_access = True if request.POST.get("applicant_edit_access") == 'on'  else False
+        
+        
+        role.update(
+            id=id,
+        name=name,employee_view_access=employee_view_access,employee_add_access=employee_add_access,employee_delete_access=employee_delete_access,employee_edit_access=employee_edit_access,ip_view_access=ip_view_access,ip_add_access=ip_add_access,ip_delete_access=ip_delete_access,ip_edit_access=ip_edit_access,role_view_access=role_view_access,
+        role_add_access=role_add_access,role_edit_access=role_edit_access,role_delete_access=role_delete_access,applicant_view_access=applicant_view_access,applicant_add_access=applicant_add_access,applicant_delete_access=applicant_delete_access,applicant_edit_access=applicant_edit_access)
+        messages.success(request, 'Role permission updated successfully')
+        
+        return redirect('view-roles')
+
+    fieldnames = [{'Employee':['employee_view_access','employee_add_access','employee_delete_access','employee_edit_access']},{'IP':['ip_view_access','ip_add_access','ip_delete_access','ip_edit_access']},{'role':['role_view_access','role_add_access','role_delete_access','role_edit_access']},{'Applicant':['applicant_view_access','applicant_add_access','applicant_delete_access','applicant_edit_access']}]
+    params = {'fieldnames':fieldnames,'role':role.first(),'role_edit_access':False}
+    
+    for role in request.user.roles.all():
+        if role and not role.role_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.role_edit_access:
+                params['role_edit_access'] = True
+
+
+    return render(request,'update-role.html',params)
+    

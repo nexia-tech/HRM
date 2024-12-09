@@ -38,7 +38,7 @@
             {% for attendance in attendances %}
             <tr class="bg-white border-b 800 700 ">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                    {{attendance.shift_date}}
+                    {{attendance.shift_date|date:'d-M-Y'}}
                 </th>
                 <td class="px-6 py-4">
                     {{attendance.shift_start_time}}
@@ -82,6 +82,7 @@
     $(document).ready(function() {
         $('#myTable').DataTable({
             responsive: false,
+            order: [[0, 'des']],
             pageLength: 25, // Set the number of entries per page to 10
             lengthMenu: [ [10, 25, 50, 100], [10, 25, 50, 100] ] //
 

@@ -967,9 +967,20 @@ def applicants(request):
     params = {
         'applicant_records': applicant_records,
         'departments': departments,
+        'applicant_edit_access':False
     }
-    return render(request, 'applicant-records.html', params)
-
+    
+    for role in request.user.roles.all():
+        if role and not role.applicant_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.applicant_edit_access:
+                params['applicant_edit_access'] = True
+                
+        return render(request, 'applicant-records.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 def applicant_detail(request, id):
     if not request.user.is_superuser:
@@ -982,15 +993,24 @@ def applicant_detail(request, id):
         getattr(applicant_record, field.name) in [None, '']  # Check for None or empty string
         for field in applicant_record._meta.fields
     )
-    print(any_field_empty)
-    
   
     params = {
         'any_field_empty': any_field_empty,
-        'applicant_record': applicant_record
+        'applicant_record': applicant_record,
+        "applicant_edit_access":False
     }
-    return render(request, 'applicant-profile.html', params)
-
+    
+    for role in request.user.roles.all():
+        if role and not role.applicant_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.applicant_edit_access:
+                params['applicant_edit_access'] = True
+                
+        return render(request, 'applicant-profile.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 def get_csrf_token(request):
     # Return the CSRF token as a JSON response
@@ -1235,11 +1255,20 @@ def show_schedules_records(request):
         
     records = ApplicantDetails.objects.filter(filters)
     params = {
-        'records':records
+        'records':records,
+        'applicant_edit_access':False
     }
-    
-    return render(request,'scedules-records.html', params)
-
+    for role in request.user.roles.all():
+        if role and not role.applicant_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.applicant_edit_access:
+                params['applicant_edit_access'] = True
+                
+        return render(request,'scedules-records.html', params)
+    messages.error(request, "You don't have permission")
+    return redirect('index')
 
 def show_applicant_history(request,id):
     if not request.user.is_superuser:
@@ -1247,7 +1276,6 @@ def show_applicant_history(request,id):
         return redirect('index')
     applicant = ApplicantDetails.objects.get(id=id)
     history = ApplicantHistory.objects.filter(applicant=applicant)
-    print(history)
     params = {
         'records':history
     }
