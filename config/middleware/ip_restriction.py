@@ -3,8 +3,8 @@ from core.models import Ips
 
 
 # Define allowed IPs
-# ALLOWED_IPS = list(Ips.objects.filter(active=True).values_list('ip', flat=True))
-ALLOWED_IPS = ['127.0.0.1']
+ALLOWED_IPS = list(Ips.objects.filter(active=True).values_list('ip', flat=True))
+# ALLOWED_IPS = ['127.0.0.1']
 def ip_restriction_middleware(get_response):
     def middleware(request):
         # Get client IP
