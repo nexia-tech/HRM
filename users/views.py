@@ -414,7 +414,11 @@ def create_employee_account(request):
                 print(e)
                 messages.error(request, f"Error: {str(e)}")
                 return redirect('create-employee-account')
-
+        
+        for role in request.user.roles.all():
+            if role and not role.employee_view_access and not role.employee_add_access:
+                messages.error(request, "You don't have permission")
+                return redirect('index')
         return render(request, 'create-employee-account.html', context)
     else:
         return redirect('index')
