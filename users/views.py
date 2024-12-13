@@ -230,94 +230,98 @@ def create_employee_account(request):
             'departments': departments
         }
         if request.method == 'POST':
-            email = request.POST.get('email')
-            employee_id = request.POST.get('employee_id')
-            name = request.POST.get('name')
-            phone = request.POST.get('phone')
-            department = request.POST.get('department')
-            password = request.POST.get('password')
-            dob = request.POST.get('dob')
-            gender = request.POST.get('gender')
-            marital_status = request.POST.get('marital_status')
-            nic = request.POST.get('nic')
-            address = request.POST.get('address')
-            company_email = request.POST.get('company_email')
-            company_phone = request.POST.get('company_phone')
-            emergency_contact_person_name = request.POST.get(
-                'emergency_contact_person_name')
-            emergency_contact_person_phone = request.POST.get(
-                'emergency_contact_person_phone')
-            realtionship_emergency_person = request.POST.get(
-                'realtionship_emergency_person')
+            data = request.POST
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            designation = data.get('designation')
+            father_name = data.get('father_name')
+            email = data.get('email_address')
+            company_email = data.get('company_email_address')
+            nic = data.get('cnic')
+            dob = data.get('date_of_birth')
+            gender = data.get('gender')
+            marital_status = data.get('marital_status')
+            address = data.get('address')
+            phone = data.get('phone')
+            other_mobile_number = data.get('other_mobile_number')
+            emergency_contact_person_phone = data.get('emergency_contact_number')
+            supervisor_name = data.get('supervisor_name')
+            professional_references = data.get('references')
+            skills = data.get('skills')
+            languages = data.get('languages')
+            shift_timing = data.get('shift_timing')
+            shift_end_timing = data.get('shift_end_timing')
+            department = data.get('department')
+            
+           
+            matric_details = {}
+            intermediate_details = {}
+            bachelors_details = {}
+            masters_details = {}
+            phd_details = {}
+            diploma_details = {}
 
-            designation = request.POST.get('designation')
-            doj = request.POST.get('doj')
-            shift_timing = request.POST.get('shift_timing')
-            working_hours = request.POST.get('working_hours')
-            employment_status = request.POST.get('employment_status')
-            supervisor_name = request.POST.get('supervisor_name')
-            job_description = request.POST.get('job_description')
+            matric_details['institute'] = data.get('matric_institute', None)
+            matric_details['degree'] = data.get('matric_degree', None)
+            matric_details['percentage'] = data.get('matric_grade', None)
+            matric_details['year_passing'] = data.get(
+                'matric_passing_year', None)
 
-            school_name = request.POST.get('school_name')
-            school_city = request.POST.get('school_city')
-            school_year_graduation = request.POST.get('school_year_graduation')
-            school_major_subject = request.POST.get('school_major_subject')
-            school_grade = request.POST.get('school_grade')
+            intermediate_details['institute'] = data.get(
+                'intermediate_institute', None)
+            intermediate_details['degree'] = data.get(
+                'intermediate_degree', None)
+            intermediate_details['percentage'] = data.get(
+                'intermediate_grade', None)
+            intermediate_details['year_passing'] = data.get(
+                'intermediate_passing_year', None)
 
-            college_name = request.POST.get('college_name')
-            college_city = request.POST.get('college_city')
-            college_year_graduation = request.POST.get(
-                'college_year_graduation')
-            college_major_subject = request.POST.get('college_major_subject')
-            college_grade = request.POST.get('college_grade')
+            bachelors_details['institute'] = data.get(
+                'bachelors_institute', None)
+            bachelors_details['degree'] = data.get('bachelors_degree', None)
+            bachelors_details['percentage'] = data.get('bachelors_grade', None)
+            bachelors_details['year_passing'] = data.get(
+                'bachelors_year_passing', None)
 
-            undergraduate_name = request.POST.get('undergraduate_name')
-            undergraduate_city = request.POST.get('undergraduate_city')
-            undergraduate_degree = request.POST.get('undergraduate_degree')
-            undergraduate_major_subject = request.POST.get(
-                'undergraduate_major_subject')
-            undergraduate_graduation_year = request.POST.get(
-                'undergraduate_graduation_year')
-            undergraduate_grade = request.POST.get('undergraduate_grade')
+            masters_details['institute'] = data.get('masters_institute', None)
+            masters_details['degree'] = data.get('masters_degree', None)
+            masters_details['percentage'] = data.get('masters_grade', None)
+            masters_details['year_passing'] = data.get(
+                'masters_year_passing', None)
 
-            master_name = request.POST.get('master_name')
-            master_city = request.POST.get('master_city')
-            master_graduation_year = request.POST.get('master_graduation_year')
-            master_major_subject = request.POST.get('master_major_subject')
-            master_grade = request.POST.get('master_grade')
-            master_degree = request.POST.get('master_degree')
+            phd_details['institute'] = data.get(
+                'phsign-up-report/d_institute', None)
+            phd_details['degree'] = data.get('phd_degree', None)
+            phd_details['percentage'] = data.get('phd_grade', None)
+            phd_details['year_passing'] = data.get('phd_year_passing', None)
 
-            phd_name = request.POST.get('phd_name')
-            phd_city = request.POST.get('phd_city')
-            phd_degree = request.POST.get('phd_degree')
-            phd_major_subject = request.POST.get('phd_major_subject')
-            phd_graduation_year = request.POST.get('phd_graduation_year')
-            phd_dissertation = request.POST.get('phd_dissertation')
-            phd_supervisor = request.POST.get('phd_supervisor')
+            diploma_details['institute'] = data.get('diploma_institute', None)
+            diploma_details['degree'] = data.get('diploma_degree', None)
+            diploma_details['percentage'] = data.get('diploma_grade', None)
+            diploma_details['year_passing'] = data.get(
+                'diploma_year_passing', None)
 
-            basic_salary = request.POST.get('basic_salary')
+            current_salary = request.POST.get('current_salary')
             fuel_allowance = request.POST.get('fuel_allowance')
             other_allowance = request.POST.get('other_allowance')
             bank_name = request.POST.get('bank_name')
+            
+            password = request.POST.get('password')
+          
+
 
             profile_picture = request.FILES.get('profile_picture')
             resume = request.FILES.get('resume')
-            educational_certificates = request.FILES.get(
-                'educational_certificates')
-            professional_certifications = request.FILES.get(
-                'professional_certifications')
+            educational_certificates = request.FILES.get('educational_certificates')
+            professional_certifications = request.FILES.get('professional_certifications')
             offer_letter = request.FILES.get('offer_letter')
             identity_proof = request.FILES.get('identity_proof')
             utility_bills = request.FILES.get('utility_bills')
 
             work_experience = request.POST.get('work_experience')
-            skills = request.POST.get('skills')
-            languages = request.POST.get('languages')
             hobbies = request.POST.get('hobbies')
             linkedin_profile = request.POST.get('linkedin_profile')
-            professional_references = request.POST.get(
-                'professional_references')
-
+            name = f"{first_name} {last_name}"
             depart = Department.objects.filter(name=department).first()
             user = User()
             user.username = email
@@ -336,7 +340,6 @@ def create_employee_account(request):
                 user.dob = dob
             if doj != '':
                 user.doj = doj
-            user.employee_id = employee_id
             user.gender = gender
             user.martial_status = marital_status
             user.cnic = nic
@@ -357,7 +360,7 @@ def create_employee_account(request):
             
 
             user.bank_name = bank_name
-            user.basic_salary = basic_salary
+            user.basic_salary = current_salary
             user.fuel_allowance = fuel_allowance
             user.other_allowance = other_allowance
 

@@ -233,28 +233,21 @@ Create an employee account
       <div class="flex gap-3">
         <div class="mb-6 w-1/2">
           <label class="text-black my-7 text-base" for="supervisor_name">Supervisor Name *</label>
-          <input type="text" required placeholder="supervisor Name *"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="supervisor_name" />
+          <input type="text" required placeholder="supervisor Name *" name="supervisor_name"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="supervisor_name" />
          <span class="text-red-500 text-sm hidden">Please enter required field *</span>
         </div>
+        
         <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="references">Professional References *</label>
-          <input type="text" required placeholder="Professional References *"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="references" />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-        </div>
-      </div>
-
-      <div class="flex gap-3">
-        <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="skills">Skills *</label>
-          <input type="text" required placeholder="Skills *"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="skills" required/>
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-        </div>
-
-        <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="language">Languages *</label>
-          <input type="text" required placeholder="Languages *"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="language" required/>
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
+         <label for="department" class="my-7 text-base text-black">Department *</label>
+         <select name="department" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)" id="department">
+           <option value="" disabled selected>Select Department *</option>
+           {% for department in departments %}
+             <option value="{{ department.name }}">{{ department.name }}</option>
+           {% endfor %}
+         </select>
+         <span class="text-red-500 text-sm hidden">Please select any option *</span>
+ 
+       </div>
       </div>
 
       
@@ -272,17 +265,28 @@ Create an employee account
          </div>
       </div>
 
-      <div class="mb-6">
-        <label for="department" class="my-7 text-base text-black">Department *</label>
-        <select name="department" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)" id="department">
-          <option value="" disabled selected>Select Department *</option>
-          {% for department in departments %}
-            <option value="{{ department.name }}">{{ department.name }}</option>
-          {% endfor %}
-        </select>
-        <span class="text-red-500 text-sm hidden">Please select any option *</span>
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+           <label class="text-black my-7 text-base" for="date_of_joing">Date of joining *</label>
+           <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_timing" oninput="checkDateAndTime(this)" id="shift_timing" />
+           <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+          </div>
+          <div class="mb-6 w-1/2">
+            <label for="" class="my-7 text-base text-black">Shift Duration Hours *</label>
+            <select name="shift_duration" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required id="shift_duration">
+              <option value="" disabled selected>Select Shift Duration Hours *</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+          </div>
 
-      </div>
+      
    </div>
    <!-- step two -->
    <div class="step my-10">
@@ -563,8 +567,11 @@ Create an employee account
       <div class="mb-6">
         <input type="text" placeholder="List of key skills and competencies separated by comma" name="skills" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Languages the employee can speak and/or write separated by comma" name="languages" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+
+      <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="language">Languages *</label>
+         <input type="text" required placeholder="Languages *"  name="languages" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="language" required/>
+        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
       </div>
       <div class="mb-6">
         <input type="text" placeholder="Personal interests or hobbies" name="hobbies" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
