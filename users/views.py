@@ -151,8 +151,7 @@ def loginView(request):
                                     ).first()
                                     if attendance_object:
                                         attendance_object.is_present=False
-                                        
-                                    attendance_object.save()
+                                        attendance_object.save()
                                 except Exception as e:
                                     logging.ERROR(str(e))
                             last_record.shift_date = next_date
