@@ -132,26 +132,30 @@ def loginView(request):
                     shift_date=current_date).first()
                 last_record = attendance_records.filter(
                     is_time_out_marked=True).last()
-                try:
-                    while last_record.shift_date < current_date:
-                        next_date = last_record.shift_date + timedelta(days=1)
-                        if next_date != current_date:
-                            attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
-                                employee=user,
-                                shift_date=next_date,
-                                shift_time=None,
-                                remaining_hours=shift_duration_timedelta,
-                                is_present=False,
-                                is_time_out_marked=True
-                            )
-                            if not isNotexist:
-                                attendance_object.is_present=False
-                                
-                            attendance_object.save()
-                        last_record.shift_date = next_date
+                
+                if last_record:
+                    print("Last record shift_date:", last_record.shift_date)
+                    print("Type of shift_date:", type(last_record.shift_date))
+                    try:
+                        while last_record.shift_date < current_date:
+                            next_date = last_record.shift_date + timedelta(days=1)
+                            if next_date != current_date:
+                                attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
+                                    employee=user,
+                                    shift_date=next_date,
+                                    shift_time=None,
+                                    remaining_hours=shift_duration_timedelta,
+                                    is_present=False,
+                                    is_time_out_marked=True
+                                )
+                                if not isNotexist:
+                                    attendance_object.is_present=False
+                                    
+                                attendance_object.save()
+                            last_record.shift_date = next_date
 
-                except Exception as e:
-                    logging.ERROR(str(e))
+                    except Exception as e:
+                        logging.ERROR(str(e))
 
 
                 if attendance_obj is None:
@@ -350,39 +354,7 @@ def create_employee_account(request):
             user.supervisor_name = supervisor_name
             user.job_description = job_description
 
-            user.schoool_name = school_name
-            user.school_city = school_city
-            user.school_grade = school_grade
-            user.school_major_subject = school_major_subject
-            user.school_year_graduation = school_year_graduation
-
-            user.college_name = college_name
-            user.college_city = college_city
-            user.college_year_graduation = college_year_graduation
-            user.college_grade = college_grade
-            user.college_major_subject = college_major_subject
-
-            user.undergraduate_name = undergraduate_name
-            user.undergraduate_city = undergraduate_city
-            user.undergraduate_degree = undergraduate_degree
-            user.undergraduate_grade = undergraduate_grade
-            user.undergraduate_graduation_year = undergraduate_graduation_year
-            user.undergraduate_major_subject = undergraduate_major_subject
-
-            user.master_name = master_name
-            user.master_city = master_city
-            user.master_degree = master_degree
-            user.master_grade = master_grade
-            user.master_graduation_year = master_graduation_year
-            user.master_major_subject = master_major_subject
-
-            user.phd_name = phd_name
-            user.phd_city = phd_city
-            user.phd_degree = phd_degree
-            user.phd_dissertation = phd_dissertation
-            user.phd_graduation_year = phd_graduation_year
-            user.phd_major_subject = phd_major_subject
-            user.phd_supervisor = phd_supervisor
+            
 
             user.bank_name = bank_name
             user.basic_salary = basic_salary
