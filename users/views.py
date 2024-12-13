@@ -141,15 +141,15 @@ def loginView(request):
                             next_date = last_record.shift_date + timedelta(days=1)
                             if next_date != current_date:
                                 try:
-                                    attendance_object,isNotexist= AttendanceModel.objects.get_or_create(
+                                    attendance_object= AttendanceModel.objects.filter(
                                         employee=user,
                                         shift_date=next_date,
                                         shift_time=None,
                                         remaining_hours=shift_duration_timedelta,
                                         is_present=False,
                                         is_time_out_marked=True
-                                    )
-                                    if not isNotexist:
+                                    ).first()
+                                    if attendance_object:
                                         attendance_object.is_present=False
                                         
                                     attendance_object.save()
