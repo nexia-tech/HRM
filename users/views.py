@@ -269,30 +269,22 @@ def create_employee_account(request):
             matric_details['year_passing'] = data.get(
                 'matric_passing_year', None)
 
-            intermediate_details['institute'] = data.get(
-                'intermediate_institute', None)
-            intermediate_details['degree'] = data.get(
-                'intermediate_degree', None)
-            intermediate_details['percentage'] = data.get(
-                'intermediate_grade', None)
-            intermediate_details['year_passing'] = data.get(
-                'intermediate_passing_year', None)
+            intermediate_details['institute'] = data.get('intermediate_institute', None)
+            intermediate_details['degree'] = data.get('intermediate_degree', None)
+            intermediate_details['percentage'] = data.get('intermediate_grade', None)
+            intermediate_details['year_passing'] = data.get('intermediate_passing_year', None)
 
-            bachelors_details['institute'] = data.get(
-                'bachelors_institute', None)
+            bachelors_details['institute'] = data.get('bachelors_institute', None)
             bachelors_details['degree'] = data.get('bachelors_degree', None)
             bachelors_details['percentage'] = data.get('bachelors_grade', None)
-            bachelors_details['year_passing'] = data.get(
-                'bachelors_year_passing', None)
+            bachelors_details['year_passing'] = data.get('bachelors_year_passing', None)
 
             masters_details['institute'] = data.get('masters_institute', None)
             masters_details['degree'] = data.get('masters_degree', None)
             masters_details['percentage'] = data.get('masters_grade', None)
-            masters_details['year_passing'] = data.get(
-                'masters_year_passing', None)
+            masters_details['year_passing'] = data.get('masters_year_passing', None)
 
-            phd_details['institute'] = data.get(
-                'phsign-up-report/d_institute', None)
+            phd_details['institute'] = data.get('phsign-up-report/d_institute', None)
             phd_details['degree'] = data.get('phd_degree', None)
             phd_details['percentage'] = data.get('phd_grade', None)
             phd_details['year_passing'] = data.get('phd_year_passing', None)
@@ -300,15 +292,14 @@ def create_employee_account(request):
             diploma_details['institute'] = data.get('diploma_institute', None)
             diploma_details['degree'] = data.get('diploma_degree', None)
             diploma_details['percentage'] = data.get('diploma_grade', None)
-            diploma_details['year_passing'] = data.get(
-                'diploma_year_passing', None)
+            diploma_details['year_passing'] = data.get('diploma_year_passing', None)
 
             current_salary = request.POST.get('current_salary')
             fuel_allowance = request.POST.get('fuel_allowance')
             other_allowance = request.POST.get('other_allowance')
             bank_name = request.POST.get('bank_name')
             
-            password = request.POST.get('password')
+            password = generate_password()
           
 
 
@@ -323,6 +314,9 @@ def create_employee_account(request):
             work_experience = request.POST.get('work_experience')
             hobbies = request.POST.get('hobbies')
             linkedin_profile = request.POST.get('linkedin_profile')
+            working_hours = request.POST.get('shift_duration')
+            doj = request.POST.get('date_of_joining')
+            
             name = f"{first_name} {last_name}"
             depart = Department.objects.filter(name=department).first()
             user = User()
@@ -332,6 +326,15 @@ def create_employee_account(request):
             user.name = name
             user.designation = designation
             user.department = depart
+            user.matric_details = matric_details
+            user.intermediate_details = intermediate_details
+            user.masters_details == masters_details
+            user.bachelors_details = bachelors_details
+            user.masters_details = masters_details
+            user.phd_details = phd_details
+            user.diploma_details = diploma_details
+            
+            user.shift_end_timing = shift_end_timing
             user.active_password = password
 
             if working_hours != '':
@@ -348,19 +351,15 @@ def create_employee_account(request):
             user.address = address
 
             user.company_email = company_email
-            user.company_phone_number = company_phone
 
-            user.emergency_contact_name = emergency_contact_person_name
+            user.emergency_contact_name = emergency_contact_person_phone
             user.emergency_contact_number = emergency_contact_person_phone
-            user.emergency_contact_relationship = realtionship_emergency_person
+
             if shift_timing != '':
                 user.shift_timings = shift_timing
-            user.employment_status = employment_status
+
             user.supervisor_name = supervisor_name
-            user.job_description = job_description
-
             
-
             user.bank_name = bank_name
             user.basic_salary = current_salary
             user.fuel_allowance = fuel_allowance
@@ -380,7 +379,6 @@ def create_employee_account(request):
             user.hobbies = hobbies
             user.linkedin_profile = linkedin_profile
             user.professional_references = professional_references
-
             user.set_password(password)
             try:
                 user.save()

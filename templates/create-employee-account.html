@@ -102,189 +102,191 @@ Create an employee account
     <div class="step my-10">
       <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Personal Information</p>
       <div class="flex gap-3">
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="first_name">First Name *</label>
-         
-        <input type="text" required placeholder="First Name *" name="first_name" pattern="/[^a-zA-Z\s]/g" title="Only alphabets are allowed" 
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
-            oninput="CharacterValidation(this)"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="last_name">Last Name *</label>
-        <input type="text" required placeholder="Last Name *" name="last_name" pattern="/[^a-zA-Z\s]/g"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-    </div>
-    <div class="flex gap-3">
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="designation">Designation *</label>
-        <input type="text" placeholder="Designation  *" name="designation" pattern="/[^a-zA-Z\s]/g"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="father_name">Father Name *</label>
-        <input type="text" placeholder="Father's Name  *" name="father_name" pattern="/[^a-zA-Z\s]/g"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-    </div>
-
-    <div class="flex gap-3">
-        <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="email_address">Email Address *</label>
-          <input type="email" required placeholder="Email *" name="email_address"
-              class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkEmail(this)"
-              />
-          <span id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address *.</span>
-        </div>
-        <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="company_email_address">Company Email Address *</label>
-          <input type="email" required placeholder="Company Email Address *" name="company_email_address"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkEmail(this)"
-            />
-          <span id="companyEmailError" class="text-red-500 text-sm hidden">Please enter company email address *.</span>
-      </div>
-    </div>
-
-    <div class="flex gap-3">
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="cnic">CNIC *</label>
-        <input type="text" id="cnic" placeholder="CNIC (xxxxx-xxxxxxx-x) *" name="cnic"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
-            maxlength="15" title="Format: xxxxx-xxxxxxx-x" required 
-            oninput="formatCNIC(this)" />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-      <div class="mb-6 w-1/2">
-         <label for="date_of_birth">Date of Birth  *</label>
-         <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDateAndTime(this)" name="date_of_birth"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-    </div>
-
-    <div class="flex gap-3">
-      <div class="mb-6 w-1/2">
-         <label for="gender">Gender *</label>
-         <select name="gender" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
-            <option value="" disabled selected>Select your gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-         </select>
-         <span class="text-red-500 text-sm hidden">Please select any option *</span>
-      </div>
-      <div class="mb-6 w-1/2">
-         <label for="marital_status">Marital Status *</label>
-         <select name="marital_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
-            <option value="" disabled selected>Select Marital Status *</option>
-            <option value="signle" id="single">Single</option>
-            <option value="married" id="married">Married</option>
-            <option value="divorced" id="divorced">Divorced</option>
-         </select>
-         <span class="text-red-500 text-sm hidden">Please select any option *</span>
-        
-      </div>
-    </div>
-      
-    <div class="flex gap-3">
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="address">Street Address *</label>
-        <input type="text" oninput="checkFormData(this)" placeholder="Street Address *" name="address"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="contact_number">Contact Number *</label>
-        <input type="text" pattern="\+[0-9]{9,30}" placeholder="Mobile number *" name="contact_number"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-    </div>
-
-    <div class="flex gap-3">
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="other_mobile_number">Other phone number *</label>
-         <input type="text" pattern="\+[0-9]{9,30}" placeholder="Other phone number" name="other_mobile_number"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
-            />
-      </div>
-      <div class="mb-6 w-1/2">
-        <label class="text-black my-7 text-base" for="emergency_contact_number">Emergency Contact Number *</label>
-        <input type="text" pattern="\+[0-9]{9,30}" placeholder="Emergency Contact Number *"
-            name="emergency_contact_number"
-            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
-            />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-      </div>
-    </div>
-
-
-
-      <div class="flex gap-3">
-        <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="supervisor_name">Supervisor Name *</label>
-          <input type="text" required placeholder="supervisor Name *" name="supervisor_name"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="supervisor_name" />
-         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-        </div>
-        
-        <div class="mb-6 w-1/2">
-         <label for="department" class="my-7 text-base text-black">Department *</label>
-         <select name="department" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)" id="department">
-           <option value="" disabled selected>Select Department *</option>
-           {% for department in departments %}
-             <option value="{{ department.name }}">{{ department.name }}</option>
-           {% endfor %}
-         </select>
-         <span class="text-red-500 text-sm hidden">Please select any option *</span>
- 
-       </div>
-      </div>
-
-      
-
-      <div class="flex gap-3">
-        <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="shift_start_timing">Shift Start timing *</label>
-          <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_timing" oninput="checkDateAndTime(this)" id="shift_timing" />
-          <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="first_name">First Name *</label>
+            
+         <input type="text" required placeholder="First Name *" name="first_name" pattern="/[^a-zA-Z\s]/g" title="Only alphabets are allowed" 
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+               oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
          </div>
-        <div class="mb-6 w-1/2">
-          <label class="text-black my-7 text-base" for="shift_end_timing">Shift end timing *</label>
-          <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_end_timing" oninput="checkDateAndTime(this)" id="shift_end_timing" />
-          <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="last_name">Last Name *</label>
+         <input type="text" required placeholder="Last Name *" name="last_name" pattern="/[^a-zA-Z\s]/g"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+      </div>
+    
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="designation">Designation *</label>
+         <input type="text" placeholder="Designation  *" name="designation" pattern="/[^a-zA-Z\s]/g"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="father_name">Father Name *</label>
+         <input type="text" placeholder="Father's Name  *" name="father_name" pattern="/[^a-zA-Z\s]/g"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
          </div>
       </div>
 
       <div class="flex gap-3">
          <div class="mb-6 w-1/2">
-           <label class="text-black my-7 text-base" for="date_of_joing">Date of joining *</label>
-           <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_timing" oninput="checkDateAndTime(this)" id="shift_timing" />
-           <span class="text-red-500 text-sm hidden">Please enter required field *</span>
-          </div>
-          <div class="mb-6 w-1/2">
-            <label for="" class="my-7 text-base text-black">Shift Duration Hours *</label>
-            <select name="shift_duration" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required id="shift_duration">
-              <option value="" disabled selected>Select Shift Duration Hours *</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
+            <label class="text-black my-7 text-base" for="email_address">Email Address *</label>
+            <input type="email" required placeholder="Email *" name="email_address"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkEmail(this)"
+               />
+            <span id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address *.</span>
+         </div>
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="company_email_address">Company Email Address *</label>
+            <input type="email" required placeholder="Company Email Address *" name="company_email_address"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkEmail(this)"
+               />
+            <span id="companyEmailError" class="text-red-500 text-sm hidden">Please enter company email address *.</span>
+         </div>
+      </div>
+
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="cnic">CNIC *</label>
+         <input type="text" id="cnic" placeholder="CNIC (xxxxx-xxxxxxx-x) *" name="cnic"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+               maxlength="15" title="Format: xxxxx-xxxxxxx-x" required 
+               oninput="formatCNIC(this)" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+            <label for="date_of_birth">Date of Birth  *</label>
+            <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDateAndTime(this)" name="date_of_birth"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+      </div>
+
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+            <label for="gender">Gender *</label>
+            <select name="gender" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+               <option value="" disabled selected>Select your gender</option>
+               <option value="male">Male</option>
+               <option value="female">Female</option>
             </select>
-          </div>
+            <span class="text-red-500 text-sm hidden">Please select any option *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+            <label for="marital_status">Marital Status *</label>
+            <select name="marital_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+               <option value="" disabled selected>Select Marital Status *</option>
+               <option value="signle" id="single">Single</option>
+               <option value="married" id="married">Married</option>
+               <option value="divorced" id="divorced">Divorced</option>
+            </select>
+            <span class="text-red-500 text-sm hidden">Please select any option *</span>
+         
+         </div>
+      </div>
+         
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="address">Street Address *</label>
+         <input type="text" oninput="checkFormData(this)" placeholder="Street Address *" name="address"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="contact_number">Contact Number *</label>
+         <input type="text" pattern="\+[0-9]{9,30}" placeholder="Mobile number *" name="contact_number"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+      </div>
+
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="other_mobile_number">Other phone number *</label>
+            <input type="text" pattern="\+[0-9]{9,30}" placeholder="Other phone number" name="other_mobile_number"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+               />
+         </div>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="emergency_contact_number">Emergency Contact Number *</label>
+         <input type="text" pattern="\+[0-9]{9,30}" placeholder="Emergency Contact Number *"
+               name="emergency_contact_number"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+      </div>
+
+
+
+         <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="supervisor_name">Supervisor Name *</label>
+            <input type="text" required placeholder="supervisor Name *" name="supervisor_name"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="supervisor_name" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         
+         <div class="mb-6 w-1/2">
+            <label for="department" class="my-7 text-base text-black">Department *</label>
+            <select name="department" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)" id="department">
+            <option value="" disabled selected>Select Department *</option>
+            {% for department in departments %}
+               <option value="{{ department.name }}">{{ department.name }}</option>
+            {% endfor %}
+            </select>
+            <span class="text-red-500 text-sm hidden">Please select any option *</span>
+   
+         </div>
+         </div>
+
+         
+
+         <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="shift_start_timing">Shift Start timing *</label>
+            <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_timing" oninput="checkDateAndTime(this)" id="shift_timing" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="shift_end_timing">Shift end timing *</label>
+            <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_end_timing" oninput="checkDateAndTime(this)" id="shift_end_timing" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+         </div>
+
+         <div class="flex gap-3">
+            <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="date_of_joining">Date of joining *</label>
+            <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="date_of_joining" oninput="checkDateAndTime(this)" id="date_of_joining" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+            <div class="mb-6 w-1/2">
+               <label for="shift_duration" class="my-7 text-base text-black">Shift Duration Hours *</label>
+               <select name="shift_duration" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required id="shift_duration">
+               <option value="" disabled selected>Select Shift Duration Hours *</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+               <option value="5">5</option>
+               <option value="6">6</option>
+               <option value="7">7</option>
+               <option value="8">8</option>
+               <option value="9">9</option>
+               <option value="10">10</option>
+               </select>
+            </div>
+         </div>
 
       
    </div>
@@ -488,7 +490,7 @@ Create an employee account
     <div class="step my-10">
       <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Financial Information</p>
       <div class="mb-6">
-        <input type="text" placeholder="Current Salary *" name="current_salary"
+        <input type="text" placeholder="Current Salary" name="current_salary"
            class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
            />
         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
@@ -519,40 +521,40 @@ Create an employee account
       <div class="mb-6">
         <label for="" class="my-7 text-base font-bold">Resume/CV: Most recent resume or CV</label>
         <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="resume">
-        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
        
       </div>
       <div class="mb-6">
         <label for="" class="my-7 text-base font-bold">Educational Certificates: Copies of degrees or diplomas</label>
-        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="educational_certificates">
-        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="educational_certificates">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
       </div>
       <div class="mb-6">
         <label for="" class="my-7 text-base font-bold">Professional Certifications: Any relevant certifications</label>
-        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="professional_certifications">
-        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="professional_certifications">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
       </div>
       <div class="mb-6">
         <label for="" class="my-7 text-base font-bold">Offer Letter: Copy of the offer letter provided by the company</label>
-        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="offer_letter">
-        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="offer_letter">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
   
       </div>
       <div class="mb-6">
         <label for="" class="my-7 text-base font-bold">Identity Proof: Copy of CNIC or passport</label>
-        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="identity_proof">
-        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="identity_proof">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
 
       </div>
       <div class="mb-6">
         <label for="" class="my-7 text-base font-bold">Address Proof: Utility bill or other document proving address</label>
-        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="utility_bills">
-        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="utility_bills">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
  
       </div>
@@ -568,8 +570,7 @@ Create an employee account
         <input type="text" placeholder="List of key skills and competencies separated by comma" name="skills" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
 
-      <div class="mb-6 w-1/2">
-         <label class="text-black my-7 text-base" for="language">Languages *</label>
+      <div class="mb-6">
          <input type="text" required placeholder="Languages *"  name="languages" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="language" required/>
         <span class="text-red-500 text-sm hidden">Please enter required field *</span>
       </div>
@@ -652,6 +653,7 @@ Create an employee account
                    // Display error message if invalid characters are detected
                    y[i].className += ' invalid';
                    //alert('Please enter alphabets only in the field.');
+                   console.log("failed on line number 655")
                    valid = false;
                }
            } else if (y[i].type === "text" && y[i].name === "cnic") { // Ensure this is the CNIC field
@@ -659,10 +661,13 @@ Create an employee account
                    // Display error message if invalid characters are detected
                    y[i].className += ' invalid';
                    //alert('Please enter alphabets only in the CNIC field.');
+                   console.log("failed on line number 655")
                    valid = false;
                }
            } else if (y[i].type === "email" && y[i].value == '') {
                y[i].className += ' invalid';
+               console.log("failed on line number 668")
+
                valid = false;
            }
            /*else if (y[i].className.includes("qualification") && y[i].value == '') { 
@@ -684,7 +689,6 @@ Create an employee account
            
            if (y[i].name != 'other_mobile_number') {
             if (currentTab == 0){
-
             
                if (y[i].value == '') {
                    y[i].className += ' invalid';
@@ -693,6 +697,8 @@ Create an employee account
                    } catch (err) {
                        console.log(err);
                    }
+               console.log(`=============================================y[i].value: ${y[i].value}=============================================`)
+               console.log("failed on line number 700")
                    valid = false;
                }
             }
@@ -772,56 +778,12 @@ Create an employee account
                   valid = true;
                }
            }
-           else if (currentTab == 2) {
-            const workingExperience = document.getElementById("working-experience");
-            const experienceContainer = document.getElementById("experience-container");
-            
-            if (workingExperience.value === "experience-container") {
-                const experienceSections = document.querySelectorAll(".experience-section");
-                let allFieldsValid = true;
-        
-                experienceSections.forEach((section) => {
-                    const inputs = section.querySelectorAll("input");
-                    const textareas = section.querySelectorAll("textarea");
-                    inputs.forEach((input) => {
-                        if (!input.value.trim()) {
-                            input.classList.add("invalid");
-                            allFieldsValid = false;
-                        } else {
-                            input.classList.remove("invalid");
-
-                        }
-                    });
-
-                    textareas.forEach((textarea) => {
-                     if (!textarea.value.trim()) {
-                         textarea.classList.add("text_area_invalid");
-                         allFieldsValid = false;
-                        } else {
-                         textarea.classList.remove("text_area_invalid");
-
-                     }
-                 });
-                });
-        
-                // If any field is invalid, prevent navigation
-                if (!allFieldsValid) {
-                    valid = false;
-                }
-            } else if (workingExperience.value === "No") {
-                // Allow navigation if "No" is selected
-                valid = true;
-            } else {
-                // If no option is selected, prevent navigation
-                valid = false;
-            }
-        }
-        
+         
            
             else if(currentTab == 3)
             {
                // Check if the input is of type "file" and if it's empty
-               if ((y[i].name === "profile_picture" || y[i].name =='resume') && y[i].value) {
+               if ((y[i].name === "profile_picture" || y[i].name =='resume' || y[i].name == 'educational_certificates' || y[i].name == 'professional_certifications' || y[i].name == 'offer_letter' || y[i].name == 'identity_proof' || y[i].name == 'utility_bills') && y[i].value) {
                   y[i].classList.remove('invalid')
                   valid = true; // Set the validation status to false
                }else{
@@ -836,9 +798,10 @@ Create an employee account
                valid = true;
             }
            }
+           if (currentTab == 1){
            try {
                
-               if (z[i].name == 'gender' || z[i].name == 'when_join_us' || z[i].name == 'marital_status' || z[i].name == 'department') {
+               if (z[i].name == 'gender' || z[i].name == 'marital_status' || z[i].name == 'department') {
                    if (z[i].value == '') {
                        z[i].className += ' invalid';
                        try {
@@ -846,33 +809,36 @@ Create an employee account
                        } catch (err) {
                            console.log(err);
                        }
+               console.log("failed on line number 854")
                        valid = false;
                    }
                }
            } catch (err) {
                console.log("Error: ", err);
            }
+         }
 
            try{
-            if (z[i].name == 'diploma-certification') {
-               let diploma_container =  document.getElementById('diploma-container')
-               if(z[i].value == 'diploma-container') {
-                  for(let v = 0; v < diploma_container.children.length; v++) {
-                     let diploma = diploma_container.children[v]
-                     diploma.setAttribute(oninput,'CharacterValidation(this)')
-                     diploma.setAttribute(pattern,'[^a-zA-Z\s]/g')
+               if (z[i].name == 'diploma-certification') {
+                  let diploma_container =  document.getElementById('diploma-container')
+                  if(z[i].value == 'diploma-container') {
+                     for(let v = 0; v < diploma_container.children.length; v++) {
+                        let diploma = diploma_container.children[v]
+                        diploma.setAttribute(oninput,'CharacterValidation(this)')
+                        diploma.setAttribute(pattern,'[^a-zA-Z\s]/g')
+                     }
+                  }
+                     z[i].className += ' invalid';
+                     try {
+                        
+                        z[i].nextElementSibling.classList.remove('hidden');
+                     } catch (err) {
+                        console.log(err);
+                     }
+                  console.log("failed on line number 879")
+                     valid = false;
                   }
                }
-                  z[i].className += ' invalid';
-                  try {
-                     
-                     z[i].nextElementSibling.classList.remove('hidden');
-                  } catch (err) {
-                     console.log(err);
-                  }
-                  valid = false;
-               }
-           }
            catch (err) {
                console.log("Error: ", err);
            }
