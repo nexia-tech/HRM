@@ -23,7 +23,7 @@
 
         </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center space-x-6">
-          {% if user.is_superuser %}
+          {% if user.is_superuser or user.roles.all.first.applicant_view_access %}
           <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class=" flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Applicants <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
             </svg>
@@ -43,24 +43,33 @@
           </div>
 
           <a href="#"  class="mr-5 text-white hover:text-blue-700 cursor-pointer">Apply Leave</a>
+          
+          {% if user.roles.all.first.employee_view_access %}
           <button id="dropdownNavbarLink" data-dropdown-toggle="employeesNavbar" class=" flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Employees <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
             </svg>
           </button>
+
+          {% endif %}
+
           <div id="employeesNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
               <li>
-              <a href="{% url "employees" %}"  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Employee Records</a>
+              <a href="{% url "employees" %}"  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
               </li>
               <li>
-                <a href="{% url "schedules-records" %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Create Employee Account</a>
+                <a href="{% url "create-employee-account" %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Create</a>
               </li>
               
             </ul>
            
         </div>
-          <a href="{% url "all-ips" %}" class="mr-5 text-white hover:text-blue-700 cursor-pointer">IPs</a>
-            <a href="{% url "view-roles" %}" class="mr-5 text-white hover:text-blue-700 cursor-pointer">Roles</a>
+        {% if user.roles.all.first.ip_view_access %}
+        <a href="{% url "all-ips" %}" class="mr-5 text-white hover:text-blue-700 cursor-pointer">IPs</a>
+        {% endif %}
+        {% if user.roles.all.first.role_view_access %}
+        <a href="{% url "view-roles" %}" class="mr-5 text-white hover:text-blue-700 cursor-pointer">Roles</a>
+        {% endif %}
           {% else %}
             <a href="#"  class="mr-5 text-white hover:text-blue-700 cursor-pointer">Apply Leave</a>
             {% comment %} <a href="{% url "edit-profile" %}" class="mr-5 text-white hover:text-blue-700 cursor-pointer">Edit Profile</a> {% endcomment %}

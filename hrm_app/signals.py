@@ -7,7 +7,7 @@ from users.services import generate_password
 
 @receiver(post_save,sender=ApplicantDetails)
 def create_employee_account(sender,created,instance,*args,**kwargs):
-    return
+    # return
     if instance.is_employee:
         print("working")
         last_employee = User.objects.all().order_by('-employee_id').first()
@@ -53,3 +53,4 @@ def update_history(sender,created,instance, *args, **kwargs):
     history.applicant = instance
     history.date = instance.shortlisted_date or instance.follow_up_date or instance.scheduled_date
     history.save()
+    

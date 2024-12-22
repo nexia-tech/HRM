@@ -91,230 +91,410 @@ Create an employee account
     <!-- start step indicators -->
     <div class="form-header flex gap-3 mb-4 text-xs text-center">
       <span class="stepIndicator flex-1 pb-8 relative">Personal Information</span>
-      <span class="stepIndicator flex-1 pb-8 relative">Contact Information</span>
-      <span class="stepIndicator flex-1 pb-8 relative">Job Information</span>
-      <span class="stepIndicator flex-1 pb-8 relative">Educational Background</span>
+      <span class="stepIndicator flex-1 pb-8 relative">Education Information</span>
       <span class="stepIndicator flex-1 pb-8 relative">Financial Information</span>
       <span class="stepIndicator flex-1 pb-8 relative">Documents</span>
       <span class="stepIndicator flex-1 pb-8 relative">Miscellaneous Information</span>
     </div>
     <!-- end step indicators -->
-      <!-- step one -->
+    
+    <!-- step one -->
     <div class="step my-10">
-      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Personal Information</p>
-      <div class="mb-6">
-        <input type="text" required placeholder="Full name of the employee" name="name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Personal Information</p>
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="first_name">First Name *</label>
+            
+         <input type="text" required placeholder="First Name *" name="first_name" pattern="/[^a-zA-Z\s]/g" title="Only alphabets are allowed" 
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+               oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="last_name">Last Name *</label>
+         <input type="text" required placeholder="Last Name *" name="last_name" pattern="/[^a-zA-Z\s]/g"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
       </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Unique identifier for the employee" name="employee_id" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <label for="" class="my-7">Date of Birth</label>
-
-        <input type="date" placeholder="Employee’s birthdate" name="dob" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6 flex space-x-7 float-left">
-        <input type="radio" checked id="male" name="gender" value="male" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
-        <label for="male">Male</label>
-        <input type="radio" id="female" name="gender" value="female" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
-        <label for="female">Female</label>
-        <input type="radio" id="other" name="gender" value="other" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 mx-3'" />
-        <label for="other">Other</label>
-      </div>
-
-      <div class="mb-6">
-        <input type="text" placeholder="Single, Married, etc" name="marital_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="text" placeholder="National identification number" name="nic" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="email" placeholder="Personal email address" name="email" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Primary personal contact number" name="phone" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="password" placeholder="Enter Password" name="password" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <textarea placeholder="Residential address" name="address" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'"></textarea>
-      </div>
-    </div>
-    <!-- step two -->
-    <div class="step my-10">
-      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Contact Information</p>
-      <div class="mb-6">
-        <input type="email" placeholder="Company-provided email address" name="company_email" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Company-provided phone number" name="company_phone" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Name of emergency contact person" name="emergency_contact_person_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+    
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="designation">Designation *</label>
+         <input type="text" placeholder="Designation  *" name="designation" pattern="/[^a-zA-Z\s]/g"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="father_name">Father Name *</label>
+         <input type="text" placeholder="Father's Name  *" name="father_name" pattern="/[^a-zA-Z\s]/g"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
       </div>
 
-      <div class="mb-6">
-        <input type="text" placeholder="Phone number of emergency contact" name="emergency_contact_person_phone" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="email_address">Email Address *</label>
+            <input type="email" required placeholder="Email *" name="email_address"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkEmail(this)"
+               />
+            <span id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address *.</span>
+         </div>
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="company_email_address">Company Email Address *</label>
+            <input type="email" required placeholder="Company Email Address *" name="company_email_address"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="checkEmail(this)"
+               />
+            <span id="companyEmailError" class="text-red-500 text-sm hidden">Please enter company email address *.</span>
+         </div>
       </div>
 
-      <div class="mb-6">
-        <input type="text" placeholder="Relationship to emergency contact person" name="realtionship_emergency_person" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-    </div>
-    <!-- step three -->
-    <div class="step my-10">
-      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Job Information</p>
-      <div class="mb-6">
-        <input type="text" placeholder="Job title or role within the company" name="designation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Department the employee is assigned to" name="department" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="date" placeholder="Date the employee started working" name="doj" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <input type="time" placeholder="Work shift hours (e.g., 9 AM - 5 PM)" name="shift_timing" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="cnic">CNIC *</label>
+         <input type="text" id="cnic" placeholder="CNIC (xxxxx-xxxxxxx-x) *" name="cnic"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+               maxlength="15" title="Format: xxxxx-xxxxxxx-x" required 
+               oninput="formatCNIC(this)" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+            <label for="date_of_birth">Date of Birth  *</label>
+            <input type="date" placeholder="Date of Birth *" max="2019-12-31" oninput="checkDateAndTime(this)" name="date_of_birth"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
       </div>
 
-      <div class="mb-6">
-        <input type="number" required pattern="[1-9]" placeholder="Working Hours" name="working_hours" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+            <label for="gender">Gender *</label>
+            <select name="gender" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+               <option value="" disabled selected>Select your gender</option>
+               <option value="male">Male</option>
+               <option value="female">Female</option>
+            </select>
+            <span class="text-red-500 text-sm hidden">Please select any option *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+            <label for="marital_status">Marital Status *</label>
+            <select name="marital_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)">
+               <option value="" disabled selected>Select Marital Status *</option>
+               <option value="signle" id="single">Single</option>
+               <option value="married" id="married">Married</option>
+               <option value="divorced" id="divorced">Divorced</option>
+            </select>
+            <span class="text-red-500 text-sm hidden">Please select any option *</span>
+         
+         </div>
       </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Full-time, Part-time, Contract, etc" name="employment_status" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+         
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="address">Street Address *</label>
+         <input type="text" oninput="checkFormData(this)" placeholder="Street Address *" name="address"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="contact_number">Contact Number *</label>
+         <input type="text" pattern="\+[0-9]{9,30}" placeholder="Mobile number *" name="contact_number"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
       </div>
-      <div class="mb-6">
-        <input type="text" placeholder="Name of the immediate supervisor or manager" name="supervisor_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+
+      <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="other_mobile_number">Other phone number *</label>
+            <input type="text" pattern="\+[0-9]{9,30}" placeholder="Other phone number" name="other_mobile_number"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+               />
+         </div>
+         <div class="mb-6 w-1/2">
+         <label class="text-black my-7 text-base" for="emergency_contact_number">Emergency Contact Number *</label>
+         <input type="text" pattern="\+[0-9]{9,30}" placeholder="Emergency Contact Number *"
+               name="emergency_contact_number"
+               class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+               />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
       </div>
+
+
+
+         <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="supervisor_name">Supervisor Name *</label>
+            <input type="text" required placeholder="supervisor Name *" name="supervisor_name"  title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="supervisor_name" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+         </div>
+         
+         <div class="mb-6 w-1/2">
+            <label for="department" class="my-7 text-base text-black">Department *</label>
+            <select name="department" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required onchange="checkSelectOptions(this)" id="department">
+            <option value="" disabled selected>Select Department *</option>
+            {% for department in departments %}
+               <option value="{{ department.name }}">{{ department.name }}</option>
+            {% endfor %}
+            </select>
+            <span class="text-red-500 text-sm hidden">Please select any option *</span>
+   
+         </div>
+         </div>
+
+         
+
+         <div class="flex gap-3">
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="shift_start_timing">Shift Start timing *</label>
+            <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_timing" oninput="checkDateAndTime(this)" id="shift_timing" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+         <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="shift_end_timing">Shift end timing *</label>
+            <input type="time" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="shift_end_timing" oninput="checkDateAndTime(this)" id="shift_end_timing" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+         </div>
+
+         <div class="flex gap-3">
+            <div class="mb-6 w-1/2">
+            <label class="text-black my-7 text-base" for="date_of_joining">Date of joining *</label>
+            <input type="date" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" name="date_of_joining" oninput="checkDateAndTime(this)" id="date_of_joining" />
+            <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+            <div class="mb-6 w-1/2">
+               <label for="shift_duration" class="my-7 text-base text-black">Shift Duration Hours *</label>
+               <select name="shift_duration" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" required id="shift_duration">
+               <option value="" disabled selected>Select Shift Duration Hours *</option>
+               <option value="3">3</option>
+               <option value="4">4</option>
+               <option value="5">5</option>
+               <option value="6">6</option>
+               <option value="7">7</option>
+               <option value="8">8</option>
+               <option value="9">9</option>
+               <option value="10">10</option>
+               </select>
+            </div>
+         </div>
+
+      
+   </div>
+   <!-- step two -->
+   <div class="step my-10">
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Education Information</p>
+      <p class="text-md font-bold text-gray-700 leading-tight text-start mt-8 mb-5 text-xl">What is the last qualification?</p>
       <div class="mb-6">
-        <textarea placeholder="Brief description of job responsibilities" name="job_description" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'"></textarea>
+         <select id="qualification" name="qualification" onchange="showQualificationFields(this.value)" class="w-full px-4 py-2 rounded-md border border-gray-200">
+            <option value="" selected disabled>Select Qualification</option>
+            <option value="matric">Matriculation/O-Level</option>
+            <option value="inter">Intermediate/A-Level</option>
+            <option value="bachelor">Bachelors/Graduation</option>
+            <option value="master">Masters</option>
+            <option value="phd">PhD</option>
+         </select>
       </div>
-    </div>
-
-    <!-- step four -->
-    <div class="step my-10">
-      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Educational Background</p>
-      <fieldset>
-        <legend>School</legend>
-
-        <div class="mb-6">
-          <input type="text" placeholder="Name of the high school attended" name="school_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="City and country of the high school" name="school_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="number" min="2000" placeholder="Year of high school graduation" name="school_year_graduation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Major or focus, if applicable" name="school_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Grade Point Average or equivalent" name="school_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>College</legend>
-
-        <div class="mb-6">
-          <input type="text" placeholder="Name of the high school attended" name="college_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="City and country of the high school" name="college_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="number" min="2000" placeholder="Year of high school graduation" name="college_year_graduation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Major or focus, if applicable" name="college_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Grade Point Average or equivalent" name="college_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Undergraduate</legend>
-
-        <div class="mb-6">
-          <input type="text" placeholder="Name of the university attended" name="undergraduate_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="City and country of the university" name="undergraduate_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Bachelor’s degree obtained" name="undergraduate_degree" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Fields of study (major and minor)" name="undergraduate_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="number" min="2000" placeholder="Year of undergraduate graduation" name="undergraduate_graduation_year" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Grade Point Average or equivalent" name="undergraduate_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Postgraduate (Master’s)</legend>
-
-        <div class="mb-6">
-          <input type="text" placeholder="Name of the university attended" name="master_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="City and country of the university" name="master_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Master’s degree obtained" name="master_degree" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Fields of study" name="master_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="number" min="2000" placeholder="Year of postgraduate graduation" name="master_graduation_year" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Grade Point Average or equivalent" name="master_grade" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Doctorate (PhD)</legend>
-
-        <div class="mb-6">
-          <input type="text" placeholder="Name of the university attended" name="phd_name" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="City and country of the university" name="phd_city" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input placeholder="Doctorate degree obtained" name="phd_degree" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Specific field of research" name="phd_major_subject" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="number" min="2000" placeholder="Year of doctoral graduation" name="phd_graduation_year" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-        <div class="mb-6">
-          <input type="text" placeholder="Title of the dissertation" name="phd_dissertation" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-
-        <div class="mb-6">
-          <input type="text" placeholder="Name of the PhD supervisor" name="phd_supervisor" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-        </div>
-      </fieldset>
-    </div>
+      <br>
+      <div id="matric-section" class="qualification-section" style="display: none;">
+         <p class="font-bold my-3 text-2xl">Matriculation/O-Level</p>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Institute Name *" name="matric_institute"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                  />
+               <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Subject *" name="matric_degree"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                  />
+               <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+            </div>
+         </div>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Percentage/CGPA/Grade *" name="matric_grade"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Year of Passing *" name="matric_passing_year"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
+                  oninput="validateYear(this)" />
+            </div>
+         </div>
+      </div>
+      <div id="inter-section" class="qualification-section" style="display: none;">
+         <p class="font-bold my-3 text-2xl">Intermediate/A-Level</p>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Institute Name *" name="intermediate_institute"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Subject *" name="intermediate_degree"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="CharacterValidation(this)"
+                  />
+            </div>
+         </div>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Percentage/CGPA/Grade *" name="intermediate_grade"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Year of Passing *" name="intermediate_passing_year"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
+                  />
+            </div>
+         </div>
+      </div>
+      <div id="bachelor-section" class="qualification-section" style="display: none;">
+         <p class="font-bold my-3 text-2xl">Bachelors/Graduation</p>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Institute Name *" name="bachelors_institute"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Degree" name="bachelors_degree"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                  />
+            </div>
+         </div>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Percentage/CGPA/Grade *" name="bachelors_grade"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Year of Passing *" name="bachelors_year_passing"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
+                  />
+            </div>
+         </div>
+      </div>
+      <div id="master-section" class="qualification-section" style="display: none;">
+         <p class="font-bold my-3 text-2xl">Masters</p>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Institute Name *" name="masters_institute"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Degree" name="masters_degree"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                  />
+            </div>
+         </div>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Percentage/CGPA/Grade *" name="masters_grade"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Year of Passing *" name="masters_year_passing"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
+                  />
+            </div>
+         </div>
+      </div>
+      <div id="phd-section" class="qualification-section" style="display: none;">
+         <p class="font-bold my-3 text-2xl">PhD</p>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Institute Name *" name="phd_institute"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Degree" name="phd_degree"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                  />
+            </div>
+         </div>
+         <div class="flex space-x-10">
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Percentage/CGPA/Grade *" name="phd_grade"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification"
+                  />
+            </div>
+            <div class="mb-6 w-full">
+               <input type="text" placeholder="Year of Passing *" name="phd_year_passing"
+                  class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize qualification" oninput="validateYear(this)"
+                  />
+            </div>
+         </div>
+      </div>
+      <p class="text-md font-bold text-gray-700 leading-tight text-start mt-8 mb-5 text-xl">Do they have any diploma and Certificate?</p>
+      <div class="mb-6">
+         <select id="diploma-certification" name="diploma-certification" onchange="showCertificationOptions(this.value)" class="w-full px-4 py-2 rounded-md border border-gray-200">
+            <option value="" selected disabled>Select Options</option>
+            <option value="diploma-container">Yes</option>
+            <option value="No">No</option>
+         </select>
+      </div>
+      <div id="diploma-container" style="display: none;">
+         <div class="diploma-section" id="diploma1">
+            <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
+            <div class="flex space-x-10">
+               <div class="mb-6 w-full">
+                  <input type="text" placeholder="Institute Name *" name="diploma_institute1"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                     />
+               </div>
+               <div class="mb-6 w-full">
+                  <input type="text" placeholder="Subject *" name="diploma_degree1"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                     /> 
+               </div>
+            </div>
+            <div class="flex space-x-10">
+               <div class="mb-6 w-full">
+                  <input type="text" placeholder="Percentage/CGPA/Grade *" name="diploma_grade1"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                     />
+               </div>
+               <div class="mb-6 w-full">
+                  <input type="text" placeholder="Year of Passing *" name="diploma_year_passing1"
+                     class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
+                     />
+               </div>
+            </div>
+         </div>
+      </div>
+      <div id="add-diploma" style="display: none;">
+         <button type="button" onclick="addDiploma()" class="bg-blue-500 hover:bg-blue-700 text-white p-2 py-0">+</button>
+         <button type="button" onclick="removeDiploma()" class="bg-red-500 hover:bg-red-700 text-white p-2 py-0">-</button>
+      </div>
+   </div>
+ 
 
     <!-- step five -->
     <div class="step my-10">
-      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Financial Information</p>
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Financial Information</p>
       <div class="mb-6">
-        <input type="number" value=0 placeholder="Base salary of the employee" name="basic_salary" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
+        <input type="text" placeholder="Current Salary" name="current_salary"
+           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+           />
+        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+     </div>
       <div class="mb-6">
         <input type="text" placeholder="Fuel allowance details, if applicable" name="fuel_allowance" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
@@ -329,54 +509,70 @@ Create an employee account
 
     <!-- step six -->
     <div class="step my-10">
-      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Documents</p>
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Documents</p>
 
       <div class="mb-6">
-        <label for="" class="my-7">Profile Picture</label>
-        <input type="file" title="Most recent resume or CV" name="profile_picture" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+        <label for="" class="my-7 text-base font-bold">Profile Picture</label>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="profile_picture">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .jpg, .png, or .webp formats.</p>
+        
+        
       </div>
       <div class="mb-6">
-        <label for="" class="my-7">Resume/CV: Most recent resume or CV</label>
-        <input type="file" title="Most recent resume or CV" name="resume" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
-      </div>
-      <div class="mb-6">
-        <label for="" class="my-7">Educational Certificates: Copies of degrees or diplomas</label>
+        <label for="" class="my-7 text-base font-bold">Resume/CV: Most recent resume or CV</label>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".jpg, .png, .webp, .jpeg" name="resume">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
-        <input type="file" name="educational_certificates" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+       
       </div>
       <div class="mb-6">
-        <label for="" class="my-7">Professional Certifications: Any relevant certifications</label>
+        <label for="" class="my-7 text-base font-bold">Educational Certificates: Copies of degrees or diplomas</label>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="educational_certificates">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
-        <input type="file" name="professional_certifications" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
       <div class="mb-6">
-        <label for="" class="my-7">Offer Letter: Copy of the offer letter provided by the company</label>
+        <label for="" class="my-7 text-base font-bold">Professional Certifications: Any relevant certifications</label>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="professional_certifications">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
-        <input type="file" name="offer_letter" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
       <div class="mb-6">
-        <label for="" class="my-7">Identity Proof: Copy of CNIC or passport</label>
+        <label for="" class="my-7 text-base font-bold">Offer Letter: Copy of the offer letter provided by the company</label>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="offer_letter">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
-        <input type="file" name="identity_proof" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+  
       </div>
       <div class="mb-6">
-        <label for="" class="my-7">Address Proof: Utility bill or other document proving address</label>
+        <label for="" class="my-7 text-base font-bold">Identity Proof: Copy of CNIC or passport</label>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="identity_proof">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
 
-        <input type="file" name="utility_bills" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+
+      </div>
+      <div class="mb-6">
+        <label for="" class="my-7 text-base font-bold">Address Proof: Utility bill or other document proving address</label>
+        <input type="file" class="my-3 p-1 w-full text-slate-500 text-sm rounded-full leading-6 file:bg-violet-200 file:text-violet-700 file:font-semibold file:border-none file:px-4 file:py-1 file:mr-6 file:rounded-full hover:file:bg-violet-100 border border-gray-300" title="Please attach a clear Passport size picture." accept=".pdf, .jpg, .png, .webp, .jpeg" name="utility_bills">
+        <p for="" class="text-red-600 text-sm"><span class="font-bold">Note: </span> Please use .pdf, .jpg, .png, or .webp formats.</p>
+
+ 
       </div>
     </div>
 
     <!-- step seven -->
     <div class="step my-10">
-      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5">Miscellaneous Information</p>
+      <p class="text-md text-gray-700 leading-tight text-center mt-8 mb-5 text-3xl">Miscellaneous Information</p>
       <div class="mb-6">
         <textarea placeholder="Work Experience: Details of previous employment, if any" name="work_experience" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'"></textarea>
       </div>
       <div class="mb-6">
         <input type="text" placeholder="List of key skills and competencies separated by comma" name="skills" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
       </div>
+
       <div class="mb-6">
-        <input type="text" placeholder="Languages the employee can speak and/or write separated by comma" name="languages" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
+         <input type="text" required placeholder="Languages *"  name="languages" title="Only alphabets are allowed" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)" id="language" required/>
+        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
       </div>
       <div class="mb-6">
         <input type="text" placeholder="Personal interests or hobbies" name="hobbies" class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200" oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200'" />
@@ -396,85 +592,722 @@ Create an employee account
     </div>
     <!-- end previous / next buttons -->
   </form>
+
+  <div id="customModal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-14 text-xl capitalize  rounded-lg w-full max-w-sm shadow-lg relative">
+       <span class="close-btn absolute top-2 right-2 text-gray-500 text-2xl cursor-pointer">&times;</span>
+       <p id="modalMessage" class="text-red-800 font-bold text-center"></p>
+    </div>
+ </div>
 {% endblock %}
 
 {% block script %}
-  <script>
-    var currentTab = 0 // Current tab is set to be the first tab (0)
-    showTab(currentTab) // Display the current tab
-    
-    function showTab(n) {
-      // This function will display the specified tab of the form...
-      var x = document.getElementsByClassName('step')
-      x[n].style.display = 'block'
-      //... and fix the Previous/Next buttons:
-      if (n == 0) {
-        document.getElementById('prevBtn').style.display = 'none'
-      } else {
-        document.getElementById('prevBtn').style.display = 'inline'
+<script>
+   var afternoon = document.getElementById('afternoon')
+   var evening = document.getElementById('evening')
+   var night = document.getElementById('night')
+   var x, y, i, valid = true;
+   
+   
+   var currentTab = 0// Current tab is set to be the first tab (0)
+   showTab(currentTab) // Display the current tab
+   
+   
+   
+   function showTab(n) {
+       // This function will display the specified tab of the form...
+       var x = document.getElementsByClassName('step')
+       x[n].style.display = 'block'
+       //... and fix the Previous/Next buttons:
+       if (n == 0) {
+           document.getElementById('prevBtn')
+               .style.display = 'none'
+       } else {
+           document.getElementById('prevBtn')
+               .style.display = 'inline'
+       }
+       if (n == x.length - 1) {
+           document.getElementById('nextBtn')
+               .innerHTML = 'Submit'
+       } else {
+           document.getElementById('nextBtn')
+               .innerHTML = 'Next'
+       }
+       //... and run a function that will display the correct step indicator:
+       fixStepIndicator(n)
+   }
+   
+   function validateForm() {
+       x = document.getElementsByClassName('step');
+       y = x[currentTab].getElementsByTagName('input');
+       z = x[currentTab].getElementsByTagName('select');
+       // Loop to check each input field in the current tab
+       for (i = 0; i < y.length; i++) {
+           const alphabetPattern = /^[A-Za-z]+$/;
+           const cnicPattern = /^\d{5}-\d{7}-\d{1}$/;
+           const expected_salary = /^[0-9]+$/
+           
+           // Check for alphabetic input in fields with the name 'first_name' or others you want to restrict
+           if (y[i].pattern === '[A-Za-z]+') {
+               if (!alphabetPattern.test(y[i].value)) {
+                   // Display error message if invalid characters are detected
+                   y[i].className += ' invalid';
+                   //alert('Please enter alphabets only in the field.');
+                   console.log("failed on line number 655")
+                   valid = false;
+               }
+           } else if (y[i].type === "text" && y[i].name === "cnic") { // Ensure this is the CNIC field
+               if (!cnicPattern.test(y[i].value)) {
+                   // Display error message if invalid characters are detected
+                   y[i].className += ' invalid';
+                   //alert('Please enter alphabets only in the CNIC field.');
+                   console.log("failed on line number 655")
+                   valid = false;
+               }
+           } else if (y[i].type === "email" && y[i].value == '') {
+               y[i].className += ' invalid';
+               console.log("failed on line number 668")
+
+               valid = false;
+           }
+           /*else if (y[i].className.includes("qualification") && y[i].value == '') { 
+               y[i].className += ' invalid';
+               valid = false;
+           }*/
+           // Check if the field is empty
+           
+           if (y[i].name == 'date_of_birth' || y[i].name == 'shift_timing' || y[i].name == 'shift_end_timing') {
+            console.table("y[i].name: ", y[i].name)
+            console.table("y[i].value.length: ",y[i].value.length)
+               if (y[i].value.length > 2) {
+                   y[i].nextElementSibling.classList.add('hidden');
+                   y[i].classList.remove('invalid')
+               }
+           }
+
+           
+           
+           if (y[i].name != 'other_mobile_number') {
+            if (currentTab == 0){
+            
+               if (y[i].value == '') {
+                   y[i].className += ' invalid';
+                   try {
+                       y[i].nextElementSibling.classList.remove('hidden');
+                   } catch (err) {
+                       console.log(err);
+                   }
+               console.log(`=============================================y[i].value: ${y[i].value}=============================================`)
+               console.log("failed on line number 700")
+                   valid = false;
+               }
+            }
+            else if (currentTab == 1) {
+               let valid_diploma, valid_education;
+               // Check if diploma/certificate is selected
+               const diplomaSelect = document.getElementById("diploma-certification");
+               if (diplomaSelect.value === "diploma-container") {
+                  // Get all diploma sections dynamically
+                  const diplomaSections = document.querySelectorAll(".diploma-section");
+
+                  diplomaSections.forEach((section, index) => {
+                        const inputs = section.querySelectorAll("input");
+                        inputs.forEach(input => {
+                           if (!input.value.trim()) {
+                              input.classList.add("invalid");
+                              valid_diploma = false;
+                              valid = false;
+                           } else {
+                              input.classList.remove("invalid");
+                              valid_diploma = true;
+                        }
+                        });
+                  });
+               }else if(diplomaSelect.value == 'No'){
+                  valid_diploma = true;
+
+               }
+           
+               const qualification = document.getElementById('qualification').value;
+           
+               // Mapping qualification levels and their required fields
+               const requiredFields = {
+                   matric: ['matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year'],
+                   inter: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year'
+                   ],
+                   bachelor: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year',
+                       'bachelors_institute', 'bachelors_degree', 'bachelors_grade', 'bachelors_year_passing'
+                   ],
+                   master: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year',
+                       'bachelors_institute', 'bachelors_degree', 'bachelors_grade', 'bachelors_year_passing',
+                       'masters_institute', 'masters_degree', 'masters_grade', 'masters_year_passing'
+                   ],
+                   phd: [
+                       'matric_institute', 'matric_degree', 'matric_grade', 'matric_passing_year',
+                       'intermediate_institute', 'intermediate_degree', 'intermediate_grade', 'intermediate_passing_year',
+                       'bachelors_institute', 'bachelors_degree', 'bachelors_grade', 'bachelors_year_passing',
+                       'masters_institute', 'masters_degree', 'masters_grade', 'masters_year_passing',
+                       'phd_institute', 'phd_degree', 'phd_grade', 'phd_year_passing'
+                   ],
+               };
+           
+               // Get the fields to validate based on the selected qualification
+               const fieldsToValidate = requiredFields[qualification] || [];
+           
+               for (let i = 0; i < y.length; i++) {
+                   if (fieldsToValidate.includes(y[i].name)) {
+                       if (!y[i].value.trim()) {
+                           y[i].className += ' invalid'; // Highlight the invalid field
+                           valid_education = false;
+                           valid = false;
+                       } else {
+                           y[i].classList.remove('invalid'); // Remove the highlight if valid
+                           valid_education = true;
+                       }
+                   }
+               }
+
+               if (valid_diploma && valid_education)
+               {
+                  valid = true;
+               }
+           }
+         
+           
+            else if(currentTab == 3)
+            {
+               // Check if the input is of type "file" and if it's empty
+               if ((y[i].name === "profile_picture" || y[i].name =='resume' || y[i].name == 'educational_certificates' || y[i].name == 'professional_certifications' || y[i].name == 'offer_letter' || y[i].name == 'identity_proof' || y[i].name == 'utility_bills') && y[i].value) {
+                  y[i].classList.remove('invalid')
+                  valid = true; // Set the validation status to false
+               }else{
+                  if(y[i].name != 'declaration') {
+                  y[i].className += ' invalid'; // Add 'invalid' class to highlight the field
+                  valid = false;
+                  }
+               }
+               
+            }
+            else{
+               valid = true;
+            }
+           }
+           if (currentTab == 1){
+           try {
+               
+               if (z[i].name == 'gender' || z[i].name == 'marital_status' || z[i].name == 'department') {
+                   if (z[i].value == '') {
+                       z[i].className += ' invalid';
+                       try {
+                           z[i].nextElementSibling.classList.remove('hidden');
+                       } catch (err) {
+                           console.log(err);
+                       }
+               console.log("failed on line number 854")
+                       valid = false;
+                   }
+               }
+           } catch (err) {
+               console.log("Error: ", err);
+           }
+         }
+
+           try{
+               if (z[i].name == 'diploma-certification') {
+                  let diploma_container =  document.getElementById('diploma-container')
+                  if(z[i].value == 'diploma-container') {
+                     for(let v = 0; v < diploma_container.children.length; v++) {
+                        let diploma = diploma_container.children[v]
+                        diploma.setAttribute(oninput,'CharacterValidation(this)')
+                        diploma.setAttribute(pattern,'[^a-zA-Z\s]/g')
+                     }
+                  }
+                     z[i].className += ' invalid';
+                     try {
+                        
+                        z[i].nextElementSibling.classList.remove('hidden');
+                     } catch (err) {
+                        console.log(err);
+                     }
+                  console.log("failed on line number 879")
+                     valid = false;
+                  }
+               }
+           catch (err) {
+               console.log("Error: ", err);
+           }
+            
+       }
+       
+       if (!valid) {
+           showModal("Please fill out the form completely");
+       }
+       
+       
+       
+       // If valid, mark the step as finished
+       if (valid) {
+           document.getElementsByClassName('stepIndicator')[currentTab].className += ' finish';
+       }
+       
+       return valid; // Return validation status
+   }
+   
+   function nextPrev(n) {
+       var x = document.getElementsByClassName('step');
+       
+       // Only proceed if validation passes
+       if (n == 1 && !validateForm()) return false;
+       
+       // Hide the current tab and update the currentTab index
+       x[currentTab].style.display = 'none';
+       currentTab += n;
+       
+       // Submit if on the last tab, otherwise show the next tab
+       if (currentTab >= x.length) {
+           document.getElementById('signUpForm')
+               .submit();
+           return false;
+       }
+       
+       showTab(currentTab);
+   }
+   
+   const checkFormData = (input) => {
+       // Get the list of classes
+       let classList = input.className.split(" ");
+       input.nextElementSibling.classList.add('hidden')
+       
+       // Remove the last class from the array
+       let lastClassName = classList.pop();
+       // Join the classes back into a string and update the input's class attribute
+       if (input.value == '') {
+           valid = false
+       } else {
+           if (lastClassName == 'invalid') {
+               valid = true
+               input.className = classList.join(" ");
+               
+           }
+       }
+       
+   }
+   
+   function checkEmail(input) {
+       
+       const emailError = document.getElementById('emailError');
+       const companyEmailError = document.getElementById('companyEmailError');
+       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+       
+       if (emailRegex.test(input.value)) {
+           emailError.classList.add('hidden'); // Hide error message if valid
+           input.classList.remove('invalid')
+       } else {
+           emailError.classList.remove('hidden'); // Show error message if invalid
+           input.classList.add('invalid')
+       }
+
+       if (emailRegex.test(input.value)) {
+         companyEmailError.classList.add('hidden'); // Hide error message if valid
+         input.classList.remove('invalid')
+     } else {
+         companyEmailError.classList.remove('hidden'); // Show error message if invalid
+         input.classList.add('invalid')
+     }
+   }
+   
+
+
+   function fixStepIndicator(n) {
+       // This function removes the "active" class of all steps...
+       var i
+           , x = document.getElementsByClassName('stepIndicator')
+       for (i = 0; i < x.length; i++) {
+           x[i].className = x[i].className.replace(' active', '')
+       }
+       //... and adds the "active" class on the current step:
+       x[n].className += ' active'
+   }
+   
+   function formatCNIC(input) {
+       let value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
+       
+       if (value.length > 5) {
+           // Add first dash after five digits
+           value = value.slice(0, 5) + '-' + value.slice(5);
+       }
+       
+       if (value.length > 13) {
+           // Add second dash after the next seven digits
+           value = value.slice(0, 13) + '-' + value.slice(13, 14);
+       }
+       input.value = value;
+       
+       // Get the list of classes
+       let classList = input.className.split(" ");
+       
+       // Remove the last class from the array
+       let lastClassName = classList.pop();
+       // Join the classes back into a string and update the input's class attribute
+       if (input.value == '') {
+           valid = false
+       } else {
+           if (lastClassName == 'invalid') {
+               valid = true
+               input.className = classList.join(" ");
+               input.nextElementSibling.classList.add('hidden')
+               
+           }
+       }
+   }
+   
+   function CharacterValidation(input) {
+       // Remove any characters that are not letters or spaces
+       let value = input.value.replace(/[^a-zA-Z\s]/g, '');
+       input.value = value;
+       // Check if the input is empty
+       input.nextElementSibling.classList.add('hidden')
+       if (input.value.trim() === '') {
+           // Add the 'invalid' class if not already present
+           if (!input.classList.contains('invalid')) {
+               input.classList.add('invalid');
+               
+           }
+       } else {
+           // Remove the 'invalid' class if present
+           input.classList.remove('invalid');
+       }
+   }
+
+   function TextAreaValidation(t){
+      t.classList.remove('text_area_invalid')
+      
+   }
+   
+   function checkDateAndTime(input){
+      let date = input.value;
+      if (date){
+       input.nextElementSibling.classList.add('hidden')
+       input.classList.remove('invalid');
+
       }
-      if (n == x.length - 1) {
-        document.getElementById('nextBtn').innerHTML = 'Submit'
-      } else {
-        document.getElementById('nextBtn').innerHTML = 'Next'
-      }
-      //... and run a function that will display the correct step indicator:
-      fixStepIndicator(n)
-    }
-    
-    function nextPrev(n) {
-      // This function will figure out which tab to display
-      var x = document.getElementsByClassName('step')
-      // Exit the function if any field in the current tab is invalid:
-      if (n == 1 && !validateForm()) return false
-      // Hide the current tab:
-      x[currentTab].style.display = 'none'
-      // Increase or decrease the current tab by 1:
-      currentTab = currentTab + n
-      // if you have reached the end of the form...
-      if (currentTab >= x.length) {
-        // ... the form gets submitted:
-        document.getElementById('signUpForm').submit()
-        return false
-      }
-      // Otherwise, display the correct tab:
-      showTab(currentTab)
-    }
-    
-    function validateForm() {
-      // This function deals with validation of the form fields
-      var x,
-        y,
-        i,
-        valid = true
-      x = document.getElementsByClassName('step')
-      y = x[currentTab].getElementsByTagName('input')
-      // A loop that checks every input field in the current tab:
-      for (i = 0; i < y.length; i++) {
-        // If a field is empty...
-        if (y[i].value == '') {
-          // add an "invalid" class to the field:
-          y[i].className += ' invalid'
-          // and set the current valid status to false
-          valid = true
-        }
-      }
-      // If the valid status is true, mark the step as finished and valid:
-      if (valid) {
-        document.getElementsByClassName('stepIndicator')[currentTab].className += ' finish'
-      }
-      return valid // return the valid status
-    }
-    
-    function fixStepIndicator(n) {
-      // This function removes the "active" class of all steps...
-      var i,
-        x = document.getElementsByClassName('stepIndicator')
-      for (i = 0; i < x.length; i++) {
-        x[i].className = x[i].className.replace(' active', '')
-      }
-      //... and adds the "active" class on the current step:
-      x[n].className += ' active'
-    }
-  </script>
+   }
+   
+   function NumberValidation(input) {
+       let value = input.value.replace(/\D/g, '');
+       input.value = value;
+       // Get the list of classes
+       let classList = input.className.split(" ");
+       try{
+          input.nextElementSibling.classList.add('hidden')
+
+       }
+       catch(error){
+         console.log("Error 956: ", error);
+       }
+
+       
+       // Remove the last class from the array
+       let lastClassName = classList.pop();
+       // Join the classes back into a string and update the input's class attribute
+       if (input.value == '') {
+           valid = false
+       } else {
+           if (lastClassName == 'invalid') {
+               valid = true
+               input.className = classList.join(" ");
+               
+           }
+       }
+   }
+   
+   function validateYear(input) {
+       let value = input.value.replace(/\D/g, '');
+       input.value = value;
+       const year = parseInt(input.value, 10);
+       const maxYear = 2024;
+       
+       // Allow only numbers and ensure it’s 4 digits
+       if (!/^\d{0,4}$/.test(input.value)) {
+           input.value = input.value.slice(0, -1); // Remove the last character if not a number
+           return;
+       }
+       
+       // If year is greater than the max year, reset to max year
+       if (year > maxYear) {
+           input.value = maxYear;
+       }
+   }
+   
+   
+   function selectAll(input) {
+       if (input.checked) {
+           afternoon.checked = true
+           night.checked = true
+           evening.checked = true
+           afternoon.setAttribute('disabled', 'disabled')
+           evening.setAttribute('disabled', 'disabled')
+           night.setAttribute('disabled', 'disabled')
+       } else {
+           afternoon.checked = false
+           night.checked = false
+           evening.checked = false
+           afternoon.removeAttribute('disabled', 'disabled')
+           evening.removeAttribute('disabled', 'disabled')
+           night.removeAttribute('disabled', 'disabled')
+       }
+   }
+   
+   function showQualificationFields(level) {
+       const levels = ["phd", "master", "bachelor", "inter", "matric"];
+       let show = false;
+       
+       levels.forEach((lvl) => {
+           const section = document.getElementById(`${lvl}-section`);
+           if (lvl === level) {
+               show = true;
+           }
+           section.style.display = show ? "block" : "none";
+           
+       });
+   }
+   
+   function showCertificationOptions(level) {
+       const levels = ["diploma-container"];
+       let show = false;
+       
+       levels.forEach((lvl) => {
+           const section = document.getElementById(`${lvl}`);
+           const add_more_btn = document.getElementById('add-diploma')
+           
+           if (lvl === level) {
+               show = true;
+           }
+           section.style.display = show ? "block" : "none";
+           add_more_btn.style.display = show ? "block" : "none";
+           
+       });
+   }
+   
+   function showWorkingExperience(experience) {
+       const experience_container = ["experience-container"];
+       let show = false;
+       
+       experience_container.forEach((lvl) => {
+           const section = document.getElementById(`${lvl}`);
+           const add_more_btn = document.getElementById('add-more')
+           if (lvl === experience) {
+               show = true;
+           }
+           section.style.display = show ? "block" : "none";
+           add_more_btn.style.display = show ? "block" : "none";
+           
+       });
+   }
+   
+   
+   
+   let experienceCount = 1;
+   let DiplomaCount = 1;
+   const maxExperienceCount = 3;
+   const maxDiplomaCount = 3
+   
+   
+   // ADD MORE EXPERIENCE 
+   function addExperience() {
+       if (experienceCount >= maxExperienceCount) {
+           alert("You can only add up to 3 experiences.");
+           return;
+       }
+       
+       experienceCount++;
+       const experienceContainer = document.getElementById("experience-container");
+       
+       const newExperience = document.createElement("div");
+       newExperience.classList.add("experience-section");
+       newExperience.setAttribute("id", `experience${experienceCount}`);
+       newExperience.innerHTML = `
+         <p class="font-bold my-3 text-2xl">Last Work Experience ${experienceCount}</p>
+                  <div class="flex space-x-10">
+                     <div class="mb-6 w-full">
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Name of Company *" name="job${experienceCount}_company_name"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
+                     <div class="mb-6 w-full">
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Department *" name="job${experienceCount}_department"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
+                  </div>
+                  <div class="flex space-x-10">
+                     <div class="mb-6 w-full">
+                        <input type="text" pattern="/[^a-zA-Z\s]/g" placeholder="Position/Designation *" name="job${experienceCount}_designation"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="CharacterValidation(this)"
+                           />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
+                     <div class="mb-6 w-full">
+                        <input type="text" placeholder="Salary *" name="job${experienceCount}_salary"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="NumberValidation(this)"
+                           />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
+                  </div>
+                  <div class="mb-6 w-full flex space-x-10">
+                     <div class="w-1/2">
+                        <label for="">Start Date *</label>
+                        <input type="date" oninput="checkDateAndTime(this)" placeholder="Joing" name="job${experienceCount}_joining_date"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+                           />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
+                     <div class="w-1/2">
+                        <label for="">End Date *</label>
+                        <input type="date" oninput="checkDateAndTime(this)" placeholder="Joing" name="job${experienceCount}_end_date"
+                           class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200"
+                           />
+                        <span class="text-red-500 text-sm hidden">Please enter required field *</span>
+                     </div>
+                  </div>
+                  <p class="my-3">Experience Letter *</p>
+                  <div class="mb-6 flex space-x-7 float-left">
+                     <input type="radio" id="yes" name="job${experienceCount}_experience_letter" value="Yes"
+                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                        oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                     <label for="yes">Yes</label>
+                     <input type="radio" id="no" name="job${experienceCount}_experience_letter" value="No"
+                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid mx-3 border-2 border-gray-200"
+                        oninput="this.className = 'w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize mx-3'" />
+                     <label for="no">No</label>
+                  </div>
+                  <div class="mb-6">
+                     <textarea oninput='TextAreaValidation(this)' placeholder="Reason For Leaving Job" name="job${experienceCount}_reason"
+                        class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                        ></textarea>
+                  </div>
+      `;
+       experienceContainer.appendChild(newExperience);
+   }
+   
+   
+   // REMOVE EXPERIENCE
+   function removeExperience() {
+       if (experienceCount <= 1) {
+           alert("At least one work experience is required.");
+           return;
+       }
+       
+       const experienceToRemove = document.getElementById(`experience${experienceCount}`);
+       experienceToRemove.remove();
+       experienceCount--;
+   }
+   
+   
+   // ADD DIPLOMA SECTIONS
+   function addDiploma() {
+       if (DiplomaCount >= maxDiplomaCount) {
+           alert("You can only add up to 3 diploma/certificates.");
+           return;
+       }
+       
+       DiplomaCount++;
+       const diploma_container = document.getElementById("diploma-container");
+       
+       const newDiploma = document.createElement("div");
+       newDiploma.classList.add("diploma-section");
+       newDiploma.setAttribute("id", `diploma${DiplomaCount}`);
+       newDiploma.innerHTML = `
+         <p class="font-bold my-3 text-3xl">Diploma/Certificate</p>
+                        <div class="flex space-x-10">
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Institute Name *" name="diploma_institute${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                                 />
+                           </div>
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Subject *" name="diploma_degree${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" pattern="/[^a-zA-Z\s]/g" oninput="CharacterValidation(this)"
+                                 /> 
+                           </div>
+                        </div>
+                        <div class="flex space-x-10">
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Percentage/CGPA/Grade *" name="diploma_grade${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize"
+                                 />
+                           </div>
+                           <div class="mb-6 w-full">
+                              <input type="text" placeholder="Year of Passing *" name="diploma_year_passing${DiplomaCount}"
+                                 class="w-full px-4 py-3 rounded-md text-gray-700 font-medium border-solid border-2 border-gray-200 capitalize" oninput="validateYear(this)"
+                                 />
+                           </div>
+                        </div>
+      `;
+       diploma_container.appendChild(newDiploma);
+   }
+   
+   function removeDiploma() {
+       if (DiplomaCount <= 1) {
+           alert("At least one work diploma/Certificate is required.");
+           return;
+       }
+       
+       const diplomaToRemove = document.getElementById(`diploma${DiplomaCount}`);
+       diplomaToRemove.remove();
+       DiplomaCount--;
+   }
+   
+   
+   // check select options
+   
+   function checkSelectOptions(select) {
+       // Check if the input is empty
+       select.nextElementSibling.classList.add('hidden')
+       if (select.value.trim() === '') {
+           // Add the 'invalid' class if not already present
+           if (!select.classList.contains('invalid')) {
+               select.classList.add('invalid');
+               
+           }
+       } else {
+           // Remove the 'invalid' class if present
+           select.classList.remove('invalid');
+       }
+       
+   }
+   
+   function closeModal() {
+       const modal = document.getElementById('customModal')
+       modal.classList.add('hidden')
+   }
+   
+   // Function to show the modal with a custom message
+   function showModal(message) {
+       const modal = document.getElementById('customModal')
+       const modalMessage = document.getElementById('modalMessage')
+       
+       modalMessage.textContent = message
+       modal.classList.remove('hidden')
+   }
+   
+   // Close the modal when the close button is clicked
+   document.querySelector('.close-btn')
+       .onclick = function () {
+           document.getElementById('customModal')
+               .classList.add('hidden')
+           
+       }
+   
+</script>
+
+
 {% endblock %}
