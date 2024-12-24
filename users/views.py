@@ -321,7 +321,7 @@ def create_employee_account(request):
             depart = Department.objects.filter(name=department).first()
             user = User()
             user.username = email
-            user.email = email
+            user.personal_email = email
             user.phone = phone
             user.name = name
             user.designation = designation
@@ -824,6 +824,8 @@ def utility_bills(request,id):
 import pandas as pd
 from django.http import JsonResponse
 
+from datetime import datetime
+
 def create_account(request):
     file = pd.read_excel('file.xlsx')
     records = list(file['name'])
@@ -835,23 +837,80 @@ def create_account(request):
             
             employee_code = row['employee_id']
             phone = row['phone']
+            name = row['name']
+            first_name = row['first_name']
+            last_name = row['last_name']
+            father_name = row['father_name']
+            martial_status = row['martial_status']
+            father_name = row['father_name']
+            father_name = row['father_name']
+            father_name = row['father_name']
+            
+            
+            joining_designation = row['joining_designation']
             designation = row['designation']
+            joining_time_salary = row['joining_time_salary']
+            
             department = row['department']
-            personal_email = row['personal_email']
-            official_email = row['official_email']
-            Emergencyno = row['Emergencyno']
-            Address = row['Address']
-            doj = row['DOJ']
-            cnic = row['CNIC']
-            Basic_Salary = row['Basic_Salary']
-            Fuel_Allowance = row['Fuel_Allowance']
-            Bank_Details = row['Bank_Details']
+            personal_email = row['email']
+            company_email = row['company_email'].lower()
+            Emergencyno = row['emergency_contact_number']
+            Address = row['address']
+            doj = row['doj']
+            dob = row['dob']
+            
+            print(f"Doj: {doj}")
+            print(f"dob: {dob}")
+            
+            try:
+                if isinstance(doj, str):
+                    date_object = datetime.strptime(doj, '%m/%d/%Y')
+                elif isinstance(doj, datetime):
+                    date_object = doj
+                else:
+                    raise ValueError("Invalid type for doj")
+                
+                doj = date_object.strftime('%Y-%m-%d')
+                
+            except Exception as e:
+                print(e)
+                try:
+                    date_object = datetime.strptime(doj, '%Y-%m-%d %H:%M:%S')
+                    doj = date_object.strftime('%Y-%m-%d')
+                except Exception as e:
+                    print(e)
+                
+            try:
+                if isinstance(dob, str):
+                    date_object = datetime.strptime(dob, '%m/%d/%Y')
+                elif isinstance(dob, datetime):
+                    date_object = dob
+                else:
+                    raise ValueError("Invalid type for dob")
+                
+                dob = date_object.strftime('%Y-%m-%d')
+                
+            except Exception as e:
+                print(e)
+                try:
+                    date_object = datetime.strptime(dob, '%Y-%m-%d %H:%M:%S')
+                    dob = date_object.strftime('%Y-%m-%d')
+                except Exception as e:
+                    print(e)
+            
+            cnic = row['cnic']
+            Basic_Salary = row['basic_salary']
+            Fuel_Allowance = row['fuel_allowance']
+            other_allowance = row['other_allowance']
+            
+            Bank_Details = row['bank_details']
 
             department = Department.objects.filter(name=department).first()
             user = User()  # Make sure you have imported User model
             password = generate_password()
-            user.email = personal_email
-            user.username = personal_email
+            user.email = company_email
+            user.personal_email = personal_email
+            user.username = company_email
             user.name = name
             user.employee_id = employee_code
             user.active_password = password
@@ -860,15 +919,27 @@ def create_account(request):
             user.department = department
             user.cnic = cnic
             user.doj = doj
+            user.other_allowance = other_allowance
+            user.dob = dob
+            user.joining_designation = joining_designation
+            user.father_name = father_name
+            user.first_name = first_name
+            user.last_name = last_name
+            user.martial_status = martial_status
+            user.joining_time_salary = joining_time_salary
             user.basic_salary = Basic_Salary
             user.fuel_allowance = Fuel_Allowance
             user.bank_name = Bank_Details
             user.address = Address
             user.emergency_contact_number = Emergencyno
-            user.company_email = official_email
+            user.company_email = company_email
             
-            user.set_password(password)  # Set the password properly
-            user.save()                  # Save the user object
+            user.set_password(password)
+            try:
+                # Set the password properly
+                user.save()
+            except Exception as e:
+                print(f"Errror: {e}")# Save the user object
         except Exception as e:
             logging.ERROR(str(e))
             
