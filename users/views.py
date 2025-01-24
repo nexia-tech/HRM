@@ -842,9 +842,6 @@ def create_account(request):
             last_name = row['last_name']
             father_name = row['father_name']
             martial_status = row['martial_status']
-            father_name = row['father_name']
-            father_name = row['father_name']
-            father_name = row['father_name']
             
             
             joining_designation = row['joining_designation']
