@@ -38,13 +38,13 @@ def submit_form(request):
 
             # Email configuration
             subject = "New Form Submission"
-            recipient_email = "sameer.akbar@alnafi.com"  # Change this
+            recipient_email = data['input_32']  # Change this
 
             # Create email with attachment
             email = EmailMessage(
                 subject,
                 "Please find the attached form submission PDF.",
-                "muhammadsameer.css@gmail.com",  # Replace with your email
+                "pawtenant@gmail.com",  # Replace with your email
                 [recipient_email],
             )
 
