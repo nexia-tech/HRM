@@ -170,3 +170,6 @@ screenshots
 *.csv
 *.xlsx
 *.xlsx#
+
+form.html
+form.pdf
