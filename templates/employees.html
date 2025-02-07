@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}
-  Employee Records
+  Employee Attendance
 {% endblock %}
 
 {% block body %}
+  <!-- Alert Messages -->
   {% if messages %}
     {% for message in messages %}
       {% if message.tags == 'success' %}
@@ -36,55 +37,60 @@
     {% endfor %}
   {% endif %}
 
-  <section class="bg-gray-50 900 container mx-auto my-10 py-7">
-    <div class="md:h-screen px-6 mx-auto lg:py-0 ">
+  <section class="bg-gray-50 container mx-auto my-10 py-7">
+    
+
+    <div class="px-6 mx-auto">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 400" id="myTable">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 700 400">
+        <table class="w-full text-sm text-left text-gray-500" id="myTable">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
-              <th scope="col" class="px-6 py-3 capitalize text-base">Profile Picture</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">Employee ID</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">name</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">company email</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">professional email</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">department</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">designation</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">Working Status</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">Employment Status</th>
-              <th scope="col" class="px-6 py-3 capitalize text-base">Actions</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Profile Picture</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Employee ID</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Name</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Company Email</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Professional Email</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Department</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Designation</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Working Status</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Employment Status</th>
+              <th scope="col" class="px-6 py-4 font-medium text-base">Actions</th>
             </tr>
           </thead>
           <tbody>
             {% for employee in employees %}
-              <tr class="bg-white border-b 800 700">
+              <tr class="bg-white border-b hover:bg-gray-50">
                 <td class="px-6 py-4 flex justify-center items-center">
                   {% if employee.profile_picture %}
-                  <img
-                  class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto"
-                  src="{{employee.profile_picture.url}}"
-                  alt="image of myself"
-                  />
+                    <img
+                      class="border border-gray-200 rounded-full w-14 h-14 object-cover"
+                      src="{{employee.profile_picture.url}}"
+                      alt="Profile picture of {{employee.name}}"
+                    />
                   {% else %}
-                  <img alt="profile-pic" class="border-black min-w-12 border rounded-full w-14 text-center h-auto md:h-auto" src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" />
-                  
+                    <img 
+                      class="border border-gray-200 rounded-full w-14 h-14 object-cover"
+                      src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
+                      alt="Default profile picture"
+                    />
                   {% endif %}
                 </td>
                 <td class="px-6 py-4 text-base">{{ employee.employee_id }}</td>
-                <td class="px-6 py-4 text-base">{{ employee.name }}</td>
+                <td class="px-6 py-4 text-base font-medium text-gray-900">{{ employee.name }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.company_email }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.email }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.department }}</td>
                 <td class="px-6 py-4 text-base">{{ employee.designation }}</td>
-
-                <td class="px-6 py-4 text-base">{{ employee.working_status }}</td>
+                <td class="px-6 py-4 text-base">
+                  <span class="px-2 py-1 rounded-full text-sm {% if employee.working_status == 'Active' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                    {{ employee.working_status }}
+                  </span>
+                </td>
                 <td class="px-6 py-4 text-base">{{ employee.employment_status }}</td>
-
-                <td>
-                  <a href="{% url 'update-profile' employee.id %}" class="text-blue-700">View</a>
+                <td class="px-6 py-4">
+                  <a href="{% url 'update-profile' employee.id %}" class="text-blue-600 hover:text-blue-800 font-medium">View</a>
                 </td>
               </tr>
-
-              
             {% endfor %}
           </tbody>
         </table>
@@ -95,15 +101,17 @@
 
 {% block script %}
   <script>
+  
+
     $(document).ready(function () {
       $('#myTable').DataTable({
         responsive: false,
         order: [[1, 'asc']],
-        pageLength: 10, // Set the number of entries per page to 10,
+        pageLength: 10,
         lengthMenu: [
           [10, 25, 50, 75, 100],
-          [10, 25, 50, 75,100]
-        ] //
+          [10, 25, 50, 75, 100]
+        ]
       })
     })
   </script>

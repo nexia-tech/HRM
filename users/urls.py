@@ -1,5 +1,5 @@
 from django.urls import path
-from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete, view_profile, update_profile, create_account, update_user, update_education, update_resume, education_certification, offer_letter, identity_proof, utility_bills, professional_certifications, all_ips, delete_ip, view_roles, delete_role, create_role, add_permission, view_group_employees, update_role
+from users.views import loginView, index, logout_view, edit_profile, create_employee_account, employees, employee_delete, view_profile, update_profile, create_account, update_user, update_education, update_resume, education_certification, offer_letter, identity_proof, utility_bills, professional_certifications, all_ips, delete_ip, view_roles, delete_role, create_role, add_permission, view_group_employees, update_role, create_department
 
 
 urlpatterns = [
@@ -31,6 +31,7 @@ urlpatterns = [
     path("create-role/",create_role,name='create-role'),
     path("add-permission/<int:id>/",add_permission,name='add-permission'),
     path("view-group-employees/<int:id>/",view_group_employees,name='view-group-employees'),
+    path('create-department/', create_department, name='create-department'),
     
 
 ]

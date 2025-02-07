@@ -1,4 +1,6 @@
-from django.shortcuts import render, HttpResponseRedirect, redirect
+import base64
+from django.http import JsonResponse
+from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.urls import reverse
 from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace, ApplicantHistory
 from django.utils import timezone
@@ -16,7 +18,7 @@ import requests
 from pynput import mouse, keyboard
 from django.conf import settings
 # from playsound import playsound
-from hrm_app.services import take_screenshot
+from hrm_app.services import take_screenshot, get_hikvision_machine_attendance
 import random
 from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
@@ -26,18 +28,18 @@ from django.contrib import messages
 from users.services import generate_password
 from django.utils.timezone import now, timedelta
 from django.db.models import Q
-import logging, json
-
+import logging
+import json
 
 
 BASE_URL = settings.BASE_URL
 logging.basicConfig(level=logging.DEBUG,
-                    format='%(levelname)s- %(asctime)s %(message)s', datefmt="%Y-%m-%d %H:%M:%S",filename='log/hrm_apps.log')
+                    format='%(levelname)s- %(asctime)s %(message)s', datefmt="%Y-%m-%d %H:%M:%S", filename='log/hrm_apps.log')
+
 
 @login_required(login_url='login')
 def my_attendance(request):
 
-    
     user = request.user
     # attendances = AttendanceModel.objects.filter(employee=user)
     attendances = SystemAttendanceModel.objects.filter(
@@ -552,11 +554,11 @@ class ApplicantDetailsAPI(APIView):
             'job3_reason', None)
 
         job_experience = [{
-            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job,"job_experience_1_end_date":job_experience_1_end_date
+            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job, "job_experience_1_end_date": job_experience_1_end_date
         }, {
-            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job,"job_experience_2_end_date":job_experience_2_end_date
+            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job, "job_experience_2_end_date": job_experience_2_end_date
         }, {
-            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job,"job_experience_3_end_date":job_experience_3_end_date
+            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job, "job_experience_3_end_date": job_experience_3_end_date
         }]
 
         # Extract the fields from the POST data
@@ -643,6 +645,7 @@ class ApplicantDetailsAPI(APIView):
             'error': str(e),
             'message': 'Failed to create applicant'
         }, status=status.HTTP_400_BAD_REQUEST)
+
 
 @csrf_exempt
 def applicant_detail_form_function(request):
@@ -738,17 +741,17 @@ def applicant_detail_form_function(request):
             'job3_reason', None)
 
         job_experience = [{
-            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job,"end_date":job_experience_1_end_date
+            "company_name": job_experience_1_name_of_company, "position": job_experience_1_position, "department": job_experience_1_department, "joining_date": job_experience_1_joinig_date, "salary": job_experience_1_salary, "experience_letter": job_experience_1_experience_letter, "reason_leaving": job_experience_1_reason_for_leaving_job, "end_date": job_experience_1_end_date
         }, {
-            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job,"end_date":job_experience_2_end_date
+            "company_name": job_experience_2_name_of_company, "position": job_experience_2_position, "department": job_experience_2_department, "joining_date": job_experience_2_joinig_date, "salary": job_experience_2_salary, "experience_letter": job_experience_2_experience_letter, "reason_leaving": job_experience_2_reason_for_leaving_job, "end_date": job_experience_2_end_date
         }, {
-            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job,"end_date":job_experience_3_end_date
+            "company_name": job_experience_3_name_of_company, "position": job_experience_3_position, "department": job_experience_3_department, "joining_date": job_experience_3_joinig_date, "salary": job_experience_3_salary, "experience_letter": job_experience_3_experience_letter, "reason_leaving": job_experience_3_reason_for_leaving_job, "end_date": job_experience_3_end_date
         }]
 
         # Extract the fields from the POST data
         first_name = data.get('first_name', None)
         last_name = data.get('last_name', None)
-        name = first_name + " "+ last_name
+        name = first_name + " " + last_name
         position_applied_for = data.get('position_applied_for', None)
         father_name = data.get('father_name', None)
         email_address = data.get('email_address', None)
@@ -761,8 +764,9 @@ def applicant_detail_form_function(request):
         contact_number = data.get('contact_number', None)
         emergency_contact_number = data.get('emergency_contact_number', None)
         when_join_us = data.get('when_join_us', None)
-        emergency_contact_relation = data.get('emergency_contact_relation', None)
-        gender = data.get('gender',None)
+        emergency_contact_relation = data.get(
+            'emergency_contact_relation', None)
+        gender = data.get('gender', None)
         shift_availablity = data.getlist('shift_availablity', None)
         matric_details = matric_details
         intermediate_details = intermediate_details
@@ -785,7 +789,8 @@ def applicant_detail_form_function(request):
 
         # Create an ApplicantDetails object
         if shift_availablity:
-            shift_availablity = json.dumps(shift_availablity)  # Save as JSON string
+            shift_availablity = json.dumps(
+                shift_availablity)  # Save as JSON string
 
         applicant = ApplicantDetails.objects.create(
             name=name,
@@ -824,7 +829,8 @@ def applicant_detail_form_function(request):
 
         return redirect('https://nexiatech.org/thankyou')
     return redirect('https://nexiatech.org/thankyou')
-        
+
+
 class ShiftStartTime(APIView):
     def post(self, request):
         email = request.data['email']
@@ -885,12 +891,10 @@ class ShiftEndTime(APIView):
             shift_start_time = karachi_time.replace(
                 hour=attendance.shift_start_time.hour, minute=attendance.shift_start_time.minute, second=attendance.shift_start_time.second, microsecond=0)
 
-
             # If shift_start_time is after karachi_time, adjust the date
             if shift_start_time > karachi_time:
                 shift_start_time -= timedelta(days=1)
-                
-                
+
            # Calculate time passed since shift start
             time_passed = karachi_time - shift_start_time
 
@@ -912,6 +916,7 @@ def thumbAttendance(request, id):
     user = User.objects.get(id=id)
     params = {'attendances': attendances}
     return render(request, 'thumb-attedance.html', params)
+
 
 def systemAttendance(request, id):
     attendances = SystemAttendanceModel.objects.filter(employee__id=id)
@@ -935,7 +940,8 @@ def applicants(request):
 
     # Filter by date range
     if date_form and date_to:
-        filters &= Q(created_at__date__gte=date_form, created_at__date__lte=date_to)
+        filters &= Q(created_at__date__gte=date_form,
+                     created_at__date__lte=date_to)
 
     # Apply predefined date filters
     if date_filter:
@@ -950,11 +956,13 @@ def applicants(request):
         elif date_filter == '15_days':
             filters &= Q(created_at__date__gte=today - timedelta(days=15))
         elif date_filter == 'this_month':
-            filters &= Q(created_at__year=today.year, created_at__month=today.month)
+            filters &= Q(created_at__year=today.year,
+                         created_at__month=today.month)
         elif date_filter == 'last_month':
             first_day_of_current_month = today.replace(day=1)
             last_month_end = first_day_of_current_month - timedelta(days=1)
-            filters &= Q(created_at__year=last_month_end.year, created_at__month=last_month_end.month)
+            filters &= Q(created_at__year=last_month_end.year,
+                         created_at__month=last_month_end.month)
 
     # Filter by status
     if status_filter and 'All' not in status_filter:
@@ -967,9 +975,9 @@ def applicants(request):
     params = {
         'applicant_records': applicant_records,
         'departments': departments,
-        'applicant_edit_access':False
+        'applicant_edit_access': False
     }
-    
+
     for role in request.user.roles.all():
         if role and not role.applicant_view_access:
             messages.error(request, "You don't have permission")
@@ -977,29 +985,31 @@ def applicants(request):
         else:
             if role.applicant_edit_access:
                 params['applicant_edit_access'] = True
-                
+
         return render(request, 'applicant-records.html', params)
     messages.error(request, "You don't have permission")
     return redirect('index')
 
+
 def applicant_detail(request, id):
     if not request.user.is_superuser:
-        messages.error(request,"You don't have permission")
+        messages.error(request, "You don't have permission")
         return redirect('index')
     applicant_record = ApplicantDetails.objects.get(id=id)
 
     # Check if any field is None or an empty string
     any_field_empty = any(
-        getattr(applicant_record, field.name) in [None, '']  # Check for None or empty string
+        getattr(applicant_record, field.name) in [
+            None, '']  # Check for None or empty string
         for field in applicant_record._meta.fields
     )
-  
+
     params = {
         'any_field_empty': any_field_empty,
         'applicant_record': applicant_record,
-        "applicant_edit_access":False
+        "applicant_edit_access": False
     }
-    
+
     for role in request.user.roles.all():
         if role and not role.applicant_view_access:
             messages.error(request, "You don't have permission")
@@ -1007,10 +1017,11 @@ def applicant_detail(request, id):
         else:
             if role.applicant_edit_access:
                 params['applicant_edit_access'] = True
-                
+
         return render(request, 'applicant-profile.html', params)
     messages.error(request, "You don't have permission")
     return redirect('index')
+
 
 def get_csrf_token(request):
     # Return the CSRF token as a JSON response
@@ -1019,8 +1030,8 @@ def get_csrf_token(request):
 
 
 class Mark_as_Employee(APIView):
-    
-    def post(self,request,id):
+
+    def post(self, request, id):
         changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
@@ -1033,7 +1044,7 @@ class Mark_as_Employee(APIView):
         doj = data.get('doj')
         shift_timing = data.get('shift_timing')
         shift_end_timing = data.get('shift_end_timing')
-        
+
         working_status = data.get('working_status')
         supervisor_name = data.get('supervisor_name')
         references = data.get('references')
@@ -1042,7 +1053,8 @@ class Mark_as_Employee(APIView):
         other_allowance = data.get('other_allowance')
         bank_name = data.get('bank_name')
         education_certification = request.FILES.get('education_certification')
-        professional_certification = request.FILES.get('professional_certification')
+        professional_certification = request.FILES.get(
+            'professional_certification')
         offer_letter = request.FILES.get('offer_letter')
         identity_proof = request.FILES.get('identity_proof')
         utility_bills = request.FILES.get('utility_bills')
@@ -1052,7 +1064,7 @@ class Mark_as_Employee(APIView):
         hobbies = data.get('hobbies')
         linkedin_link = data.get('linkedin_link')
         job_description = data.get('job_description')
-        
+
         if not user:
             last_employee = User.objects.all().order_by('-employee_id').first()
             employee_id = int(last_employee.employee_id.split("-")[1]) + 1
@@ -1060,7 +1072,7 @@ class Mark_as_Employee(APIView):
                 employee_id = f"NX-0{str(employee_id)}"
             else:
                 employee_id = f"NX-{str(employee_id)}"
-            
+
             department = Department.objects.filter(name=department).first()
             user_obj = User()
             user_obj.name = record.name
@@ -1069,7 +1081,7 @@ class Mark_as_Employee(APIView):
             user_obj.cnic = record.cnic
             user_obj.address = record.address
             user_obj.doj = datetime.now().date()
-            user_obj.resume  = record.resume
+            user_obj.resume = record.resume
             user_obj.profile_picture = record.upload_profile
             user_obj.employee_id = employee_id
             password = generate_password()
@@ -1086,7 +1098,7 @@ class Mark_as_Employee(APIView):
             user_obj.designation = designation
             user_obj.doj = doj
             user_obj.shift_timings = shift_timing
-            user_obj.shift_end_timing=shift_end_timing
+            user_obj.shift_end_timing = shift_end_timing
             user_obj.working_status = working_status
             user_obj.supervisor_name = supervisor_name
             user_obj.professional_references = references
@@ -1105,32 +1117,32 @@ class Mark_as_Employee(APIView):
             user_obj.hobbies = hobbies
             user_obj.linkedin_profile = linkedin_link
             user_obj.job_description = job_description
-            user_obj.matric_details = record.matric_details 
-            user_obj.intermediate_details = record.intermediate_details 
-            user_obj.bachelors_details = record.bachelors_details 
-            user_obj.masters_details = record.masters_details 
-            user_obj.phd_details = record.phd_details 
-            user_obj.diploma_details = record.diploma_details 
-            user_obj.job_experience = record.job_experience 
+            user_obj.matric_details = record.matric_details
+            user_obj.intermediate_details = record.intermediate_details
+            user_obj.bachelors_details = record.bachelors_details
+            user_obj.masters_details = record.masters_details
+            user_obj.phd_details = record.phd_details
+            user_obj.diploma_details = record.diploma_details
+            user_obj.job_experience = record.job_experience
             try:
                 record.is_employee = True
                 record.status = "Hired"
                 record.user = changer
                 user_obj.save()
                 record.save()
-                return Response({"message":"Employee Marked Successfully!!","status":True},status=200)
+                return Response({"message": "Employee Marked Successfully!!", "status": True}, status=200)
             except Exception as e:
                 print(str(e))
-                return Response({"message":f'Something went wrong {str(e)}', "status":False},status=400)
-            
+                return Response({"message": f'Something went wrong {str(e)}', "status": False}, status=400)
+
         else:
             messages.error(request, 'Email already exist on the record')
-            return Response({"message":f'Email already exist on the record',"status":False},status=400)
+            return Response({"message": f'Email already exist on the record', "status": False}, status=400)
 
 
 class Mark_as_follow(APIView):
-    
-    def post(self,request,id):
+
+    def post(self, request, id):
         changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
@@ -1147,8 +1159,9 @@ class Mark_as_follow(APIView):
             messages.error(request, 'Email already exist on the record')
         return redirect('applicants')
 
+
 class Mark_as_Shortlisted(APIView):
-     def post(self,request,id):
+    def post(self, request, id):
         changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
@@ -1167,7 +1180,7 @@ class Mark_as_Shortlisted(APIView):
 
 
 class SetSchedule(APIView):
-     def post(self,request,id):
+    def post(self, request, id):
         changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
@@ -1187,9 +1200,10 @@ class SetSchedule(APIView):
         else:
             messages.error(request, 'Email already exist on the record')
             return Response(status=500)
-    
+
+
 class SetJunks(APIView):
-     def post(self,request,id):
+    def post(self, request, id):
         changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         record.status = "Junk"
@@ -1197,10 +1211,11 @@ class SetJunks(APIView):
         record.save()
         messages.success(request, 'Employee Status Updated')
         return Response(status=200)
-    
+
+
 class Mark_as_Rejected(APIView):
-    
-    def post(self,request,id):
+
+    def post(self, request, id):
         changer = request.user
         record = ApplicantDetails.objects.get(id=id)
         user = User.objects.filter(email=record.email_address).first()
@@ -1219,19 +1234,20 @@ class Mark_as_Rejected(APIView):
 
 def show_schedules_records(request):
     if not request.user.is_superuser:
-        messages.error(request,"You don't have permission")
+        messages.error(request, "You don't have permission")
         return redirect('index')
-    
+
     date_form = request.GET.get('date_form', None)
     date_to = request.GET.get('date_to', None)
     date_filter = request.GET.get('date_filter', None)
 
     # Start with a basic query
-    filters = Q(is_employee=False,status='Scheduled')
+    filters = Q(is_employee=False, status='Scheduled')
 
     # Filter by date range
     if date_form and date_to:
-        filters &= Q(created_at__date__gte=date_form, created_at__date__lte=date_to)
+        filters &= Q(created_at__date__gte=date_form,
+                     created_at__date__lte=date_to)
 
     # Apply predefined date filters
     if date_filter:
@@ -1246,17 +1262,18 @@ def show_schedules_records(request):
         elif date_filter == '15_days':
             filters &= Q(created_at__date__gte=today - timedelta(days=15))
         elif date_filter == 'this_month':
-            filters &= Q(created_at__year=today.year, created_at__month=today.month)
+            filters &= Q(created_at__year=today.year,
+                         created_at__month=today.month)
         elif date_filter == 'last_month':
             first_day_of_current_month = today.replace(day=1)
             last_month_end = first_day_of_current_month - timedelta(days=1)
-            filters &= Q(created_at__year=last_month_end.year, created_at__month=last_month_end.month)
+            filters &= Q(created_at__year=last_month_end.year,
+                         created_at__month=last_month_end.month)
 
-        
     records = ApplicantDetails.objects.filter(filters)
     params = {
-        'records':records,
-        'applicant_edit_access':False
+        'records': records,
+        'applicant_edit_access': False
     }
     for role in request.user.roles.all():
         if role and not role.applicant_view_access:
@@ -1265,18 +1282,121 @@ def show_schedules_records(request):
         else:
             if role.applicant_edit_access:
                 params['applicant_edit_access'] = True
-                
-        return render(request,'scedules-records.html', params)
+
+        return render(request, 'scedules-records.html', params)
     messages.error(request, "You don't have permission")
     return redirect('index')
 
-def show_applicant_history(request,id):
+
+def show_applicant_history(request, id):
     if not request.user.is_superuser:
-        messages.error(request,"You don't have permission")
+        messages.error(request, "You don't have permission")
         return redirect('index')
     applicant = ApplicantDetails.objects.get(id=id)
     history = ApplicantHistory.objects.filter(applicant=applicant)
     params = {
-        'records':history
+        'records': history
     }
-    return render(request,'show_applicant_history.html',params)
+    return render(request, 'show_applicant_history.html', params)
+
+
+DEVICE_IP = "192.168.100.59"  # Update with your Hikvision device IP
+DEVICE_IP = "isgp.hik-connect.com"  # Update with your Hikvision device IP
+# Update with your Hikvision device IP
+DEVICE_IP = "isgp-team.hikcentralconnect.com"
+
+# USERNAME = "nexia.co@gmail.com"
+USERNAME = "admin"
+PASSWORD = "N3x!@2025NeXia"
+PASSWORD = "Nexia13!@#"
+
+
+def get_hikvision_attendance(request):
+    credentials = f"{USERNAME}:{PASSWORD}"
+    encoded_credentials = base64.b64encode(credentials.encode()).decode()
+
+    url = "https://isgp-team.hikcentralconnect.com/hcc/hccattendance/report/v1/list"
+
+    payload = {
+        "page": 1,
+        "pageSize": 100,
+        "language": "en",
+        "reportTypeId": 2,
+        "columnIdList": [],
+        "filterList": [
+            {
+                "columnName": "fullName",
+                "operation": "LIKE",
+                "value": ""
+            },
+            {
+                "columnName": "personCode",
+                "operation": "LIKE",
+                "value": ""
+            },
+            {
+                "columnName": "groupId",
+                "operation": "IN",
+                "value": ""
+            },
+            {
+                "columnName": "date",
+                "operation": "BETWEEN",
+                "value": "2025-02-07T00:00:00+05:00,2025-02-07T23:59:59+05:00"
+            }
+        ]
+    }
+    headers = {
+        "authority": "isgp-team.hikcentralconnect.com",
+        "method": "POST",
+        "path": "/hcc/hccattendance/report/v1/list",
+        "scheme": "https",
+        "accept": "application/json, text/plain, */*",
+        "accept-encoding": "gzip, deflate, br, zstd",
+        "accept-language": "en-US,en;q=0.9,ru;q=0.8,ar;q=0.7",
+        "content-length": "363",
+        "content-type": "application/json",
+        "cookie": "JSESSIONID=c799a3c1-dd4c-49c9-afae-b0530faa78c8",
+        "origin": "https://isgp-team.hikcentralconnect.com",
+        "priority": "u=1, i",
+        "referer": "https://isgp-team.hikcentralconnect.com/team/index.html?lang=en&t=1738955475886&origin=https://isgp.hik-connect.com",
+        "sec-ch-ua": "\"Not A(Brand\";v=\"8\", \"Chromium\";v=\"132\", \"Google Chrome\";v=\"132\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Linux\"",
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+        "x-gray-version": "20241114003"
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+    print(response.text)
+
+    return JsonResponse(response.json(), safe=False)
+
+
+def machine_attendance(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You don't have permission")
+        return redirect('index')
+    attendance = get_hikvision_machine_attendance()
+    if 'data' in attendance:
+        data =attendance['data']['reportDataList']
+    else:
+        data = None
+        
+    context = {
+        'data': data
+    }
+    for role in request.user.roles.all():
+        if role and not role.employee_view_access:
+            messages.error(request, "You don't have permission")
+            return redirect('index')
+        else:
+            if role.employee_edit_access:
+                context['employee_edit_access'] = True
+
+        return render(request, 'hikvision/machine-attendance.html', context)
+    messages.error(request, "You don't have permission")
+    return redirect('index')

@@ -69,6 +69,7 @@
         {% endif %}
         {% if user.roles.all.first.role_view_access %}
         <a href="{% url "view-roles" %}" class="mr-5 text-white hover:text-blue-700 cursor-pointer">Roles</a>
+          <a href="{% url "machine-attendance" %}" class="mr-5 text-white hover:text-blue-700 cursor-pointer">Machine Attendance</a>
         {% endif %}
           {% else %}
             <a href="#"  class="mr-5 text-white hover:text-blue-700 cursor-pointer">Apply Leave</a>

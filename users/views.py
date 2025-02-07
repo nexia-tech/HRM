@@ -827,7 +827,7 @@ from django.http import JsonResponse
 from datetime import datetime
 
 def create_account(request):
-    file = pd.read_excel('file.xlsx')
+    file = pd.read_excel('Employees.xlsx')
     records = list(file['name'])
     
     for index, name in enumerate(records):
@@ -849,58 +849,60 @@ def create_account(request):
             joining_time_salary = row['joining_time_salary']
             
             department = row['department']
-            personal_email = row['email']
+            personal_email = row['personal_email']
             company_email = row['company_email'].lower()
-            Emergencyno = row['emergency_contact_number']
-            Address = row['address']
-            doj = row['doj']
+            Emergencyno = row['Emergencyno']
+            Address = row['Address']
+            doj = row['DOJ']
             dob = row['dob']
             
             print(f"Doj: {doj}")
             print(f"dob: {dob}")
             
-            try:
-                if isinstance(doj, str):
-                    date_object = datetime.strptime(doj, '%m/%d/%Y')
-                elif isinstance(doj, datetime):
-                    date_object = doj
-                else:
-                    raise ValueError("Invalid type for doj")
-                
-                doj = date_object.strftime('%Y-%m-%d')
-                
-            except Exception as e:
-                print(e)
+            if doj != 'nan' and doj != 'NaT':
                 try:
-                    date_object = datetime.strptime(doj, '%Y-%m-%d %H:%M:%S')
+                    if isinstance(doj, str):
+                        date_object = datetime.strptime(doj, '%m/%d/%Y')
+                    elif isinstance(doj, datetime):
+                        date_object = doj
+                    else:
+                        raise ValueError("Invalid type for doj")
+                    
                     doj = date_object.strftime('%Y-%m-%d')
+                    
                 except Exception as e:
                     print(e)
+                    try:
+                        date_object = datetime.strptime(doj, '%Y-%m-%d %H:%M:%S')
+                        doj = date_object.strftime('%Y-%m-%d')
+                    except Exception as e:
+                        print(e)
                 
-            try:
-                if isinstance(dob, str):
-                    date_object = datetime.strptime(dob, '%m/%d/%Y')
-                elif isinstance(dob, datetime):
-                    date_object = dob
-                else:
-                    raise ValueError("Invalid type for dob")
-                
-                dob = date_object.strftime('%Y-%m-%d')
-                
-            except Exception as e:
-                print(e)
+            if dob != 'nan' and dob != 'NaT':
                 try:
-                    date_object = datetime.strptime(dob, '%Y-%m-%d %H:%M:%S')
+                    if isinstance(dob, str):
+                        date_object = datetime.strptime(dob, '%m/%d/%Y')
+                    elif isinstance(dob, datetime):
+                        date_object = dob
+                    else:
+                        raise ValueError("Invalid type for dob")
+                    
                     dob = date_object.strftime('%Y-%m-%d')
+                    
                 except Exception as e:
                     print(e)
-            
+                    try:
+                        date_object = datetime.strptime(dob, '%Y-%m-%d %H:%M:%S')
+                        dob = date_object.strftime('%Y-%m-%d')
+                    except Exception as e:
+                        print(e)
+                
             cnic = row['cnic']
             Basic_Salary = row['basic_salary']
             Fuel_Allowance = row['fuel_allowance']
-            other_allowance = row['other_allowance']
+            # other_allowance = row['other_allowance']
             
-            Bank_Details = row['bank_details']
+            Bank_Details = row['Bank_Details']
 
             department = Department.objects.filter(name=department).first()
             user = User()  # Make sure you have imported User model
@@ -915,9 +917,7 @@ def create_account(request):
             user.designation = designation
             user.department = department
             user.cnic = cnic
-            user.doj = doj
-            user.other_allowance = other_allowance
-            user.dob = dob
+            
             user.joining_designation = joining_designation
             user.father_name = father_name
             user.first_name = first_name
@@ -932,9 +932,15 @@ def create_account(request):
             user.company_email = company_email
             
             user.set_password(password)
+            user.save()
+            print("Saved")
             try:
-                # Set the password properly
+                user.doj = doj
+                # user.other_allowance = other_allowance
+                user.dob = dob
                 user.save()
+                print("Saved 2")
+                # Set the password properly
             except Exception as e:
                 print(f"Errror: {e}")# Save the user object
         except Exception as e:
@@ -945,6 +951,20 @@ def create_account(request):
     return JsonResponse({"message": "Script completed"})
 
 
+
+def create_department(request):
+    file = pd.read_excel('department.xlsx')
+    records = list(file['name'])
+    
+    for index, name in enumerate(records):
+        print(f"Processing {name}")
+        row = file.iloc[index]
+            
+        name = row['name']
+        print(name)
+        Department.objects.create(name=name)
+
+    return JsonResponse({"message": "Script completed"})
 
 @login_required(login_url='login')
 def all_ips(request):
