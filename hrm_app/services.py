@@ -115,7 +115,7 @@ def get_hikvision_machine_attendance():
         "accept-language": "en-US,en;q=0.9,ru;q=0.8,ar;q=0.7",
         "content-length": "363",
         "content-type": "application/json",
-        "cookie": "JSESSIONID=ec81f05b-b937-486e-b81d-442c017db136",
+        "cookie": "JSESSIONID=d891384c-930e-467c-96d0-4e9c64ec9d37",
         "origin": "https://isgp-team.hikcentralconnect.com",
         "priority": "u=1, i",
         "referer": "https://isgp-team.hikcentralconnect.com/team/index.html?lang=en&t=1738957122113&origin=https://isgp.hik-connect.com",
