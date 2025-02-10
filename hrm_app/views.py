@@ -1323,6 +1323,7 @@ def get_hikvision_attendance(request):
     total_inserted = 0  # Track inserted records
 
     while next_page_exists:
+        print(f"Page number: {page}")
         payload = {
             "page": page,
             "pageSize": page_size,
