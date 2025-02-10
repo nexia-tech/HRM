@@ -176,3 +176,38 @@ class ApplicantHistory(models.Model):
     
     def __str__(self):
         return self.user.email
+    
+    
+    
+class MachineAttendance(models.Model):
+    employee_id = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    department = models.CharField(max_length=100)
+    date = models.DateField()
+    weekday = models.CharField(max_length=20)
+    timetable = models.CharField(max_length=100)
+    
+    clock_in_date = models.DateField(null=True, blank=True)
+    clock_in_time = models.TimeField(null=True, blank=True)
+    clock_in_source = models.CharField(max_length=100, null=True, blank=True)
+
+    clock_out_date = models.DateField(null=True, blank=True)
+    clock_out_time = models.TimeField(null=True, blank=True)
+    clock_out_source = models.CharField(max_length=100, null=True, blank=True)
+
+    attendance_status = models.CharField(max_length=50,null=True, blank=True)
+    
+    worked_hours = models.DurationField(null=True, blank=True)
+    absent_duration = models.DurationField(null=True, blank=True)
+    late_duration = models.DurationField(null=True, blank=True)
+    early_leave_duration = models.DurationField(null=True, blank=True)
+    break_duration = models.DurationField(null=True, blank=True)
+    leave_duration = models.DurationField(null=True, blank=True)
+    overtime_duration = models.DurationField(null=True, blank=True)
+    workday_overtime_duration = models.DurationField(null=True, blank=True)
+    weekend_overtime_duration = models.DurationField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True,null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.date}"

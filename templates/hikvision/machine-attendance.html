@@ -84,31 +84,31 @@
             </tr>
           </thead>
           <tbody>
-            {% for d in data %}
+            {% for atten in attendance %}
               
-                <td class="px-6 py-4 text-base">{{ d.personCode }}</td>
-                <td class="px-6 py-4 text-base">{{ d.firstName }}</td>
-                <td class="px-6 py-4 text-base">{{ d.lastName }}</td>
-                <td class="px-6 py-4 text-base">{{ d.fullPath }}</td>
-                <td class="px-6 py-4 text-base">{{ d.date }}</td>
-                <td class="px-6 py-4 text-base">{{ d.week }}</td>
-                <td class="px-6 py-4 text-base">{{ d.timetableName }}</td>
-                <td class="px-6 py-4 text-base">{{ d.checkInDate }}</td>
-                <td class="px-6 py-4 text-base">{{ d.checkInTime }}</td>
-                <td class="px-6 py-4 text-base">{{ d.clockInSource }}</td>
-                <td class="px-6 py-4 text-base">{{ d.checkOutDate }}</td>
-                <td class="px-6 py-4 text-base">{{ d.checkOutTime }}</td>
-                <td class="px-6 py-4 text-base">{{ d.clockOutSource }}</td>
-                <td class="px-6 py-4 text-base">{{ d.attendanceStatus }}</td>
-                <td class="px-6 py-4 text-base">{{ d.workDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.absenceDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.lateDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.earlyDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.breakDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.leaveDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.overtimeDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.workdayOvertimeDuration }}</td>
-                <td class="px-6 py-4 text-base">{{ d.weekendOvertimeDuration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.employee_id }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.first_name }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.last_name }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.department }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.date }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.weekday }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.timetable }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.clock_in_date }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.clock_in_time}}</td>
+                <td class="px-6 py-4 text-base">{{ atten.clock_in_source }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.clock_out_date }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.clock_out_time }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.clock_out_source }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.attendance_status }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.worked_hours }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.absent_duration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.late_duration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.early_leave_duration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.break_duration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.leave_duration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.overtime_duration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.workday_overtime_duration }}</td>
+                <td class="px-6 py-4 text-base">{{ atten.weekend_overtime_duration }}</td>
                 
                 
               </tr>

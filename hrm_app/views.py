@@ -2,7 +2,7 @@ import base64
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace, ApplicantHistory
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace, ApplicantHistory, MachineAttendance
 from django.utils import timezone
 from rest_framework.views import APIView
 from datetime import timedelta, datetime
@@ -18,7 +18,7 @@ import requests
 from pynput import mouse, keyboard
 from django.conf import settings
 # from playsound import playsound
-from hrm_app.services import take_screenshot, get_hikvision_machine_attendance
+from hrm_app.services import take_screenshot, parse_date, parse_time, parse_duration
 import random
 from django.http.response import JsonResponse
 from django.utils.decorators import method_decorator
@@ -1317,77 +1317,127 @@ def get_hikvision_attendance(request):
 
     url = "https://isgp-team.hikcentralconnect.com/hcc/hccattendance/report/v1/list"
 
-    payload = {
-        "page": 1,
-        "pageSize": 100,
-        "language": "en",
-        "reportTypeId": 2,
-        "columnIdList": [],
-        "filterList": [
-            {
-                "columnName": "fullName",
-                "operation": "LIKE",
-                "value": ""
-            },
-            {
-                "columnName": "personCode",
-                "operation": "LIKE",
-                "value": ""
-            },
-            {
-                "columnName": "groupId",
-                "operation": "IN",
-                "value": ""
-            },
-            {
-                "columnName": "date",
-                "operation": "BETWEEN",
-                "value": "2025-02-07T00:00:00+05:00,2025-02-07T23:59:59+05:00"
-            }
-        ]
-    }
-    headers = {
-        "authority": "isgp-team.hikcentralconnect.com",
-        "method": "POST",
-        "path": "/hcc/hccattendance/report/v1/list",
-        "scheme": "https",
-        "accept": "application/json, text/plain, */*",
-        "accept-encoding": "gzip, deflate, br, zstd",
-        "accept-language": "en-US,en;q=0.9,ru;q=0.8,ar;q=0.7",
-        "content-length": "363",
-        "content-type": "application/json",
-        "cookie": "JSESSIONID=c799a3c1-dd4c-49c9-afae-b0530faa78c8",
-        "origin": "https://isgp-team.hikcentralconnect.com",
-        "priority": "u=1, i",
-        "referer": "https://isgp-team.hikcentralconnect.com/team/index.html?lang=en&t=1738955475886&origin=https://isgp.hik-connect.com",
-        "sec-ch-ua": "\"Not A(Brand\";v=\"8\", \"Chromium\";v=\"132\", \"Google Chrome\";v=\"132\"",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\"Linux\"",
-        "sec-fetch-dest": "empty",
-        "sec-fetch-mode": "cors",
-        "sec-fetch-site": "same-origin",
-        "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
-        "x-gray-version": "20241114003"
-    }
+    page = 1
+    page_size = 100
+    next_page_exists = True
+    total_inserted = 0  # Track inserted records
 
-    response = requests.post(url, headers=headers, json=payload)
-    print(response.text)
+    while next_page_exists:
+        payload = {
+            "page": page,
+            "pageSize": page_size,
+            "language": "en",
+            "reportTypeId": 2,
+            "columnIdList": [],
+            "filterList": [
+                {
+                    "columnName": "fullName",
+                    "operation": "LIKE",
+                    "value": ""
+                },
+                {
+                    "columnName": "personCode",
+                    "operation": "LIKE",
+                    "value": ""
+                },
+                {
+                    "columnName": "groupId",
+                    "operation": "IN",
+                    "value": ""
+                },
+                {
+                    "columnName": "date",
+                    "operation": "BETWEEN",
+                    "value": "2024-02-11T00:00:00+05:00,2025-02-10T23:59:59+05:00"
+                }
+            ]
+        }
 
-    return JsonResponse(response.json(), safe=False)
+        headers = {
+            "cookie": "JSESSIONID=d891384c-930e-467c-96d0-4e9c64ec9d37",
+        }
+
+
+        response = requests.post(url, headers=headers, json=payload)
+        data = response.json()
+
+        if "data" not in data or "reportDataList" not in data["data"]:
+            return JsonResponse({"error": "Invalid response from API"}, status=400)
+
+        report_data = data["data"]["reportDataList"]
+        next_page_exists = data["data"].get("nextPageExists", False)
+
+        for record in report_data:
+            employee_id = record.get("personCode", "")
+            first_name = record.get("firstName", "")
+            last_name = record.get("lastName", "")
+            department = record.get("fullPath", "")
+            date = parse_date(record.get("date", ""))
+            weekday = record.get("week", "")
+            timetable = record.get("timetableName", "")
+
+            clock_in_date = parse_date(record.get("clockInDate", ""))
+            clock_in_time = parse_time(record.get("clockInTime", ""))
+            clock_in_source = record.get("clockInSource", "")
+
+            clock_out_date = parse_date(record.get("clockOutDate", ""))
+            clock_out_time = parse_time(record.get("clockOutTime", ""))
+            clock_out_source = record.get("clockOutSource", "")
+
+            attendance_status = record.get("attendanceStatus", "")
+            worked_hours = parse_duration(record.get("workDuration", ""))
+            absent_duration = parse_duration(record.get("absenceDuration", ""))
+            late_duration = parse_duration(record.get("lateDuration", ""))
+            early_leave_duration = parse_duration(record.get("earlyDuration", ""))
+            break_duration = parse_duration(record.get("breakDuration", ""))
+            leave_duration = parse_duration(record.get("leaveDuration", ""))
+            overtime_duration = parse_duration(record.get("overtimeDuration", ""))
+            workday_overtime_duration = parse_duration(record.get("workdayOvertimeDuration", ""))
+            weekend_overtime_duration = parse_duration(record.get("weekendOvertimeDuration", ""))
+
+            MachineAttendance.objects.update_or_create(
+                employee_id=employee_id,
+                date=date,
+                defaults={
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "department": department,
+                    "weekday": weekday,
+                    "timetable": timetable,
+                    "clock_in_date": clock_in_date,
+                    "clock_in_time": clock_in_time,
+                    "clock_in_source": clock_in_source,
+                    "clock_out_date": clock_out_date,
+                    "clock_out_time": clock_out_time,
+                    "clock_out_source": clock_out_source,
+                    "attendance_status": attendance_status,
+                    "worked_hours": worked_hours,
+                    "absent_duration": absent_duration,
+                    "late_duration": late_duration,
+                    "early_leave_duration": early_leave_duration,
+                    "break_duration": break_duration,
+                    "leave_duration": leave_duration,
+                    "overtime_duration": overtime_duration,
+                    "workday_overtime_duration": workday_overtime_duration,
+                    "weekend_overtime_duration": weekend_overtime_duration,
+                }
+            )
+            total_inserted += 1
+
+        page += 1  # Move to next page
+
+    return JsonResponse({"message": "Attendance data synced", "total_records": total_inserted}, safe=False)
+    
 
 
 def machine_attendance(request):
     if not request.user.is_authenticated:
         messages.error(request, "You don't have permission")
         return redirect('index')
-    attendance = get_hikvision_machine_attendance()
-    if 'data' in attendance:
-        data =attendance['data']['reportDataList']
-    else:
-        data = None
+    attendance = MachineAttendance.objects.all()
         
     context = {
-        'data': data
+        'attendance': attendance
     }
     for role in request.user.roles.all():
         if role and not role.employee_view_access:

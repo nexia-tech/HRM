@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace, ApplicantHistory
+from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace, ApplicantHistory, MachineAttendance
 from import_export.admin import ImportExportModelAdmin
 
 class AttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
@@ -54,3 +54,11 @@ class ApplicantHistoryAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     autocomplete_fields = ['user','applicant']
     
 admin.site.register(ApplicantHistory,ApplicantHistoryAdmin)
+
+
+class MachineAttendanceAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ['employee_id','first_name','last_name','department','date','created_at']
+    search_fields = ['first_name','last_name','department','date','auto_assign','on_duty']
+    list_filter = ['attendance_status','date','created_at']
+    
+admin.site.register(MachineAttendance,MachineAttendanceAdmin)
