@@ -38,6 +38,8 @@
   {% endif %}
 
   <section class="bg-gray-50 container mx-auto my-10 py-7">
+
+    
     <!-- Header with Refresh Button -->
     <div class="flex justify-between items-center px-6 mb-6">
       <h2 class="text-2xl font-bold text-gray-800">Hik Vision Attendance</h2>
@@ -53,6 +55,108 @@
       </button>
     </div>
 
+    <form class="w-[80em] mx-auto" method="GET" action="{% url "machine-attendance" %}">
+      <!-- Error Display -->
+      {% if error %}
+      <div class="mb-4 text-red-500 flex items-center">
+         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 mr-2">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"></path>
+         </svg> 
+         <span>{{ error }}</span>
+      </div>
+      {% endif %}
+
+      <!-- Form Inputs: Date Fields -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-x-5 mt-4">
+         <!-- Date From -->
+         <div class="flex flex-col">
+            <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_form">Date From</label>
+            <input name="date_form" class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300" id="date_from" type="date" value="{{ request.GET.date_form }}">
+         </div>
+         
+         <!-- Date To -->
+         <div class="flex flex-col">
+            <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_to">Date To</label>
+            <input name="date_to" class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300" id="date_to" type="date" value="{{ request.GET.date_to }}">
+         </div>
+
+         <!-- Date Filter -->
+         <div class="flex flex-col">
+            <label class="block text-sm font-semibold text-gray-600 mb-2" for="date_filter">Date Filter</label>
+            <div class="relative">
+               <select required name="date_filter" class="w-72 text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 appearance-none cursor-pointer">
+                  <option disabled selected>Select Date Filter</option>
+                  <option value="today" {% if request.GET.date_filter == 'today' %} selected {% endif %}>Today</option>
+                  <option value="yesterday" {% if request.GET.date_filter == 'yesterday' %} selected {% endif %}>Yesterday</option>
+                  <option value="this_week" {% if request.GET.date_filter == 'this_week' %} selected {% endif %}>This Week</option>
+                  <option value="15_days" {% if request.GET.date_filter == '15_days' %} selected {% endif %}>15 Days</option>
+                  <option value="this_month" {% if request.GET.date_filter == 'this_month' %} selected {% endif %}>This Month</option>
+                  <option value="last_month" {% if request.GET.date_filter == 'last_month' %} selected {% endif %}>Last Month</option>
+               </select>
+              
+            </div>
+            
+         </div>
+
+      <!-- Status Filter -->
+       <div class="flex flex-col">
+         <label class="block text-sm font-semibold text-gray-600 mb-2 text-start">Select Status Filter</label>
+         <div class="relative inline-block w-64">
+             <!-- Dropdown Trigger -->
+             <button
+                 type="button" 
+                 class="text-base bg-gray-50 border border-gray-300 rounded-lg py-3 px-4 focus:outline-none focus:ring focus:border-blue-300 w-72"
+                 id="dropdownButton"
+                 onclick="toggleDropdown()">
+                 Select Status Filters
+                 <svg class="w-4 h-4 inline float-right" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                 </svg>
+             </button>
+     
+             <!-- Dropdown Menu -->
+             <div id="dropdownMenu" class="hidden absolute w-full bg-white border border-gray-300 rounded-lg mt-2 shadow-lg z-10">
+                 <label class="block px-4 py-2">
+                     <input type="checkbox" name="status_filter" value="All" class="form-checkbox text-blue-600">
+                     <span class="ml-2 text-[#909090]">All</span>
+                 </label>
+                 <label class="block px-4 py-2">
+                   <input type="checkbox" name="status_filter" value="In Process" class="form-checkbox text-blue-600">
+                   <span class="ml-2 text-[#909090]">In Process</span>
+               </label>
+                 <label class="block px-4 py-2">
+                     <input type="checkbox" name="status_filter" value="Shortlisted" class="form-checkbox text-blue-600">
+                     <span class="ml-2 text-[#909090]">Shortlisted</span>
+                 </label>
+                 <label class="block px-4 py-2">
+                     <input type="checkbox" name="status_filter" value="Follow up" class="form-checkbox text-blue-600">
+                     <span class="ml-2 text-[#909090]">Follow up</span>
+                 </label>
+                 <label class="block px-4 py-2">
+                     <input type="checkbox" name="status_filter" value="Rejected" class="form-checkbox text-blue-600">
+                     <span class="ml-2 text-[#909090]">Rejected</span>
+                 </label>
+                 <label class="block px-4 py-2">
+                     <input type="checkbox" name="status_filter" value="Junk" class="form-checkbox text-blue-600">
+                     <span class="ml-2 text-[#909090]">Junk</span>
+                 </label>
+             </div>
+         </div>
+       </div>
+
+     </div>
+     <!-- Submit Button -->
+     
+      <div class="mt-8 text-center">
+         <button type="submit" class="bg-blue-600 text-white rounded-full py-2 px-8 hover:bg-blue-700 transition-all">
+            Apply Filters
+         </button>
+       <a href="{% url "applicants" %}" class="bg-blue-600 text-white rounded-full py-3 px-8 hover:bg-blue-700 transition-all">
+          Reset Filters
+       </a>
+    </div>
+   </form>
+ <hr class="my-5">
     <div class="px-6 mx-auto">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500" id="myTable">

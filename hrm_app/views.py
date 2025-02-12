@@ -1355,7 +1355,7 @@ def get_hikvision_attendance(request):
         }
 
         headers = {
-            "cookie": "JSESSIONID=535cf71d-b2a1-4ff1-b8fe-c0bffeeb3bd9",
+            "cookie": "JSESSIONID=1deb1634-9ab3-4f92-8147-131801ea0467",
         }
 
 
@@ -1435,6 +1435,64 @@ def machine_attendance(request):
     if not request.user.is_authenticated:
         messages.error(request, "You don't have permission")
         return redirect('index')
+    
+    if request.method == 'POST':
+        date_form = request.GET.get('date_form', None)
+        date_to = request.GET.get('date_to', None)
+        date_filter = request.GET.get('date_filter', None)
+        status_filter = request.GET.getlist('status_filter', None)
+
+        # Start with a basic query
+        filters = Q(is_employee=False)
+
+        # Filter by date range
+        if date_form and date_to:
+            filters &= Q(date__gte=date_form,
+                        date__lte=date_to)
+
+        # Apply predefined date filters
+        if date_filter:
+            today = now().date()
+            if date_filter == 'today':
+                filters &= Q(date=today)
+            elif date_filter == 'yesterday':
+                filters &= Q(date=today - timedelta(days=1))
+            elif date_filter == 'this_week':
+                start_of_week = today - timedelta(days=today.weekday())
+                filters &= Q(date__gte=start_of_week)
+            elif date_filter == '15_days':
+                filters &= Q(date__gte=today - timedelta(days=15))
+            elif date_filter == 'this_month':
+                filters &= Q(created_at__year=today.year,
+                            created_at__month=today.month)
+            elif date_filter == 'last_month':
+                first_day_of_current_month = today.replace(day=1)
+                last_month_end = first_day_of_current_month - timedelta(days=1)
+                filters &= Q(created_at__year=last_month_end.year,
+                            created_at__month=last_month_end.month)
+
+        # Filter by status
+        if status_filter and 'All' not in status_filter:
+            filters &= Q(status__in=status_filter)
+            
+        attendance = MachineAttendance.objects.filter(filters)
+        
+        context = {
+            'attendance': attendance
+        }
+        for role in request.user.roles.all():
+            if role and not role.employee_view_access:
+                messages.error(request, "You don't have permission")
+                return redirect('index')
+            else:
+                if role.employee_edit_access:
+                    context['employee_edit_access'] = True
+
+            return render(request, 'hikvision/machine-attendance.html', context)
+        messages.error(request, "You don't have permission")
+        return redirect('index')
+            
+            
     attendance = MachineAttendance.objects.all()
         
     context = {
@@ -1451,3 +1509,5 @@ def machine_attendance(request):
         return render(request, 'hikvision/machine-attendance.html', context)
     messages.error(request, "You don't have permission")
     return redirect('index')
+
+    
