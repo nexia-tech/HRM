@@ -1349,13 +1349,13 @@ def get_hikvision_attendance(request):
                 {
                     "columnName": "date",
                     "operation": "BETWEEN",
-                    "value": "2024-02-11T00:00:00+05:00,2025-02-10T23:59:59+05:00"
+                    "value": "2024-02-11T00:00:00+05:00,2025-02-12T23:59:59+05:00"
                 }
             ]
         }
 
         headers = {
-            "cookie": "JSESSIONID=d891384c-930e-467c-96d0-4e9c64ec9d37",
+            "cookie": "JSESSIONID=535cf71d-b2a1-4ff1-b8fe-c0bffeeb3bd9",
         }
 
 
