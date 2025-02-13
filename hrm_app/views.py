@@ -38,10 +38,8 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 @login_required(login_url='login')
-def my_attendance(request):
-
+def my_system_attendance(request):
     user = request.user
-    # attendances = AttendanceModel.objects.filter(employee=user)
     attendances = SystemAttendanceModel.objects.filter(
         employee=user).order_by('-shift_date').order_by('-shift_start_time')
 
@@ -54,9 +52,22 @@ def my_attendance(request):
     context = {
         'attendances': attendances
     }
+    
 
     return render(request, 'attendance-report.html', context)
 
+@login_required(login_url='login')
+def my_machine_attendance(request):
+    user = request.user
+    attendances = MachineAttendance.objects.filter(employee_id=user.employee_id)
+    context = {
+        'attendances': attendances
+    }
+
+    return render(request, 'hikvision/machine-attendance.html', context)
+    
+    
+    
 
 @login_required(login_url='login')
 def break_time_stamp(request, id):
@@ -1474,10 +1485,10 @@ def machine_attendance(request):
     if status_filter and 'All' not in status_filter:
         filters &= Q(attendance_status__in=status_filter)
         
-    attendance = MachineAttendance.objects.filter(filters)
+    attendances = MachineAttendance.objects.filter(filters)
     
     context = {
-        'attendance': attendance
+        'attendances': attendances
     }
     for role in request.user.roles.all():
         if role and not role.employee_view_access:

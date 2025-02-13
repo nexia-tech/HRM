@@ -1,11 +1,12 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted, systemAttendance, SetSchedule, show_schedules_records, SetJunks, show_applicant_history, get_hikvision_attendance, machine_attendance
+from hrm_app.views import UpdateTimeRecords, my_system_attendance,my_machine_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted, systemAttendance, SetSchedule, show_schedules_records, SetJunks, show_applicant_history, get_hikvision_attendance, machine_attendance
 
 
 urlpatterns = [
     path('update-time-record/', UpdateTimeRecords.as_view(),
          name='update-time-record'),
-    path('my-attendance/', my_attendance, name='my-attendance'),
+    path('my-system-attendance/', my_system_attendance, name='my-system-attendance'),
+    path('my-machine-attendance/', my_machine_attendance, name='my-machine-attendance'),
     path('break-time-record/', BreakTimeCalculate.as_view(),
          name='break-time-record'),
     path('break-time-stamp/<int:id>/', break_time_stamp, name='break-time-stamp'),
