@@ -2,7 +2,7 @@ import base64
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from django.urls import reverse
-from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace, ApplicantHistory, MachineAttendance
+from hrm_app.models import AttendanceModel, EmployeeBreakRecords, ApplicantDetails, SystemAttendanceModel, ThumbAttendnace, ApplicantHistory, MachineAttendance, GoogleLeads
 from django.utils import timezone
 from rest_framework.views import APIView
 from datetime import timedelta, datetime
@@ -1360,13 +1360,13 @@ def get_hikvision_attendance(request):
                 {
                     "columnName": "date",
                     "operation": "BETWEEN",
-                    "value": "2024-02-12T00:00:00+05:00,2025-02-13T23:59:59+05:00"
+                    "value": "2024-02-12T00:00:00+05:00,2025-02-15T23:59:59+05:00"
                 }
             ]
         }
 
         headers = {
-            "cookie": "JSESSIONID=4b336cf1-b6d3-45b2-b429-84a73a215878",
+            "cookie": "JSESSIONID=7ab6eefd-ccc1-4942-a8d7-23a5db502cc5",
         }
 
 
@@ -1504,3 +1504,19 @@ def machine_attendance(request):
             
 
     
+class GoogleLeadsApi(APIView):
+    def post(self,request):
+        name = request.data.get('name',"")
+        email = request.data.get('email',"")
+        phone = request.data.get('phone',"")
+        
+        
+        try:
+            GoogleLeads.objects.create(name=name,email=email,phone=phone)
+            return Response({
+                "message": "Data submitted successfully"
+            }, status=200)  
+        except Exception as e:
+            return Response({
+                "message": str(e)
+            },status=status.HTTP_400_BAD_REQUEST)

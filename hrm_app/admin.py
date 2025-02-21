@@ -1,5 +1,5 @@
 from django.contrib import admin
-from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace, ApplicantHistory, MachineAttendance
+from hrm_app.models import AttendanceModel, LeavesModel, EmployeeBreakRecords, ScreenShotRecords, ApplicantDetails, SystemAttendanceModel,ThumbAttendnace, ApplicantHistory, MachineAttendance, GoogleLeads
 from import_export.admin import ImportExportModelAdmin
 
 class AttendanceModelAdmin(ImportExportModelAdmin,admin.ModelAdmin):
@@ -62,3 +62,11 @@ class MachineAttendanceAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_filter = ['attendance_status','date','created_at']
     
 admin.site.register(MachineAttendance,MachineAttendanceAdmin)
+
+
+class GoogleLeadsAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ['name','email','phone','created_at']
+    search_fields = ['name','email','phone']
+    
+
+admin.site.register(GoogleLeads, GoogleLeadsAdmin)
