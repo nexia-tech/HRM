@@ -1506,13 +1506,14 @@ def machine_attendance(request):
     
 class GoogleLeadsApi(APIView):
     def post(self,request):
-        name = request.data.get('name',"")
-        email = request.data.get('email',"")
-        phone = request.data.get('phone',"")
+        user_column_data = request.data.get("user_column_data")
+        name = user_column_data[0]['string_value']
+        email = user_column_data[1]['string_value']
+        phone = user_column_data[2]['string_value']
         
         
         try:
-            GoogleLeads.objects.create(name=name,email=email,phone=phone)
+            GoogleLeads.objects.create(name=name,email=email,phone=phone,temp_data=request.data)
             return Response({
                 "message": "Data submitted successfully"
             }, status=200)  
