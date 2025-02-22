@@ -30,12 +30,26 @@ from django.utils.timezone import now, timedelta
 from django.db.models import Q
 import logging
 import json
+import csv
 
 
 BASE_URL = settings.BASE_URL
 logging.basicConfig(level=logging.DEBUG,
                     format='%(levelname)s- %(asctime)s %(message)s', datefmt="%Y-%m-%d %H:%M:%S", filename='log/hrm_apps.log')
 
+
+def export_google_leads(request):
+    leads = GoogleLeads.objects.all()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="google_leads.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['S.No', 'Name', 'Email', 'Phone', 'Created Date'])
+
+    for index, lead in enumerate(leads, start=1):
+        writer.writerow([index, lead.name, lead.email, lead.phone, lead.created_at])
+
+    return response
 
 @login_required(login_url='login')
 def my_system_attendance(request):
@@ -1521,3 +1535,11 @@ class GoogleLeadsApi(APIView):
             return Response({
                 "message": str(e)
             },status=status.HTTP_400_BAD_REQUEST)
+            
+            
+    def get(self,request):
+        leads = GoogleLeads.objects.all()
+        context = {
+            'leads': leads
+        }
+        return render(request,'leads/google-leads.html',context)

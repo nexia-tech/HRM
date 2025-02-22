@@ -1,5 +1,5 @@
 from django.urls import path
-from hrm_app.views import UpdateTimeRecords, my_system_attendance,my_machine_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted, systemAttendance, SetSchedule, show_schedules_records, SetJunks, show_applicant_history, get_hikvision_attendance, machine_attendance, GoogleLeadsApi
+from hrm_app.views import UpdateTimeRecords, my_system_attendance,my_machine_attendance, BreakTimeCalculate, break_time_stamp, TimeOut, StartThreadView, StopThreadView, employees_report, ApplicantDetailsAPI, ShiftStartTime, ShiftEndTime, thumbAttendance, applicants, applicant_detail, get_csrf_token, applicant_detail_form_function, Mark_as_Employee, Mark_as_follow, Mark_as_Rejected, Mark_as_Shortlisted, systemAttendance, SetSchedule, show_schedules_records, SetJunks, show_applicant_history, get_hikvision_attendance, machine_attendance, GoogleLeadsApi, export_google_leads
 
 
 
@@ -46,5 +46,6 @@ urlpatterns = [
     
     
     path("machine-attendance/", machine_attendance, name='machine-attendance'),
-    path("google-leads/", GoogleLeadsApi.as_view(), name='google-leads')
+    path("google-leads/", GoogleLeadsApi.as_view(), name='google-leads'),
+    path("export_google_leads/", export_google_leads, name='export_google_leads')
 ]
