@@ -1,0 +1,72 @@
+[
+    {
+        "name": "HC_sessionId",
+        "value": "eyJhbGciOiJIUzM4NCJ9.eyJhdWQiOiJhZDYzMjgyY2E2YTM0NjBkOTk5NWRiNzVkNTBjNTYyZiIsImlzcyI6InlzYXV0aCIsImV4cCI6MTczOTczMjkzOCwiaWF0IjoxNzM5NjQ2NTM4LCJzdWIiOiJzIiwiY3QiOiI0OCIsInRkIjoxNzM5NjQ2NTk4NTI1LCJzIjoiNDIyODZiZWU3NWZlZTAwOGJlNGY3MmJjZmFiMGVmNTEiLCJjbiI6IndlYiJ9.QBn36tGxGzN3juztmRBRFJXQOoBcnrZeM0x3OxNK0ySmqjHhEuP3thwO3Qx3BscR",
+        "domain": "isgp.hik-connect.com",
+        "path": "/",
+        "expires": 1739732938,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_gid",
+        "value": "GA1.2.1660634760.1739646539",
+        "domain": ".hik-connect.com",
+        "path": "/",
+        "expires": 1739732938,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_gat_gtag_UA_153689847_3",
+        "value": "1",
+        "domain": ".hik-connect.com",
+        "path": "/",
+        "expires": 1739646598,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_ga",
+        "value": "GA1.1.1288595217.1739646539",
+        "domain": ".hik-connect.com",
+        "path": "/",
+        "expires": 1774206538.943748,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "_ga_08N4NGSDWG",
+        "value": "GS1.1.1739646538.1.0.1739646539.0.0.0",
+        "domain": ".hik-connect.com",
+        "path": "/",
+        "expires": 1774206539.243686,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "jumpCountry",
+        "value": "205",
+        "domain": ".hik-connect.com",
+        "path": "/",
+        "expires": 1739732939,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "Lax"
+    },
+    {
+        "name": "JSESSIONID",
+        "value": "5179d6ab-fb6b-483d-b140-dab29fb66c29",
+        "domain": "isgp-team.hikcentralconnect.com",
+        "path": "/",
+        "expires": -1,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "None"
+    }
+]
