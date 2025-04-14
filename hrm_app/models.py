@@ -100,7 +100,7 @@ class ApplicantDetails(models.Model):
     is_scheduled = models.BooleanField(default=False)
     scheduled_date = models.DateField(null=True, blank=True)
     scheduled_time = models.TimeField(null=True, blank=True)
-    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)    
     
     
