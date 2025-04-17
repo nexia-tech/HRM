@@ -240,6 +240,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000000000000000000000
 
 
 # Looking to send emails in production? Check out our Email API/SMTP product!
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER = '2310145d5a108a'
 EMAIL_HOST_PASSWORD = '287f07e69fee70'
