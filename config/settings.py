@@ -181,7 +181,9 @@ CORS_ALLOWED_ORIGINS = [
     'https://nexiatech.org',
     'http://hrm.nexiatech.org',
     'https://hrm.nexiatech.org',
-    "http://127.0.0.1:5500"
+    "http://127.0.0.1:5500",
+    "https://pawtenant.com",
+    "http://pawtenant.com"
 
 ]
 CORS_ALLOW_ALL_ORIGINS = True
@@ -221,6 +223,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://hrm.nexiatech.org',
     'https://hrm.nexiatech.org',
     "http://127.0.0.1:5500",
+    "https://pawtenant.com",
+    "http://pawtenant.com"
     
 
 
