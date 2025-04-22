@@ -103,7 +103,7 @@ def send_data_to_new_hrm(sender, instance: ApplicantDetails, created, **kwargs):
             "scheduled_date": instance.scheduled_date,
             "scheduled_time": instance.scheduled_time,
             "recruitment_id": 1,
-            # "job_position_id": None,
+            "job_position_name": instance.position_applied_for,
             # "stage_id": None,
             "start_onboard": False,
             "hired": False,
