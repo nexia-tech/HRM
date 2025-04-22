@@ -1543,3 +1543,12 @@ class GoogleLeadsApi(APIView):
             'leads': leads
         }
         return render(request,'leads/google-leads.html',context)
+    
+    
+def save_candidates(request):
+    
+    applications = ApplicantDetails.objects.all()
+    for apps in applications:
+        apps.save()
+        
+    return JsonResponse({"message": "Candidates Saved Successfully"}, status=200)

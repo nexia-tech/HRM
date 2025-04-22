@@ -9,6 +9,8 @@ from django.conf import settings
 
 @receiver(post_save,sender=ApplicantDetails)
 def create_employee_account(sender,created,instance,*args,**kwargs):
+    if settings.DEBUG:
+        return
     # return
     if instance.is_employee:
         last_employee = User.objects.all().order_by('-employee_id').first()
@@ -56,6 +58,8 @@ def update_history(sender,created,instance, *args, **kwargs):
 @receiver(post_save, sender=ApplicantDetails)
 def send_data_to_new_hrm(sender, instance: ApplicantDetails, created, **kwargs):
     # if not created:
+    #     return
+    # if settings.DEBUG:
     #     return
     print(instance.matric_details)
     try:
